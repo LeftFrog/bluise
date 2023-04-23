@@ -1,0 +1,5 @@
+GameName {
+    workingDirectory = "path"
+    executable = "path"
+    savePath = "path"
+}
