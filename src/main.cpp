@@ -29,9 +29,12 @@ void add_game() {
     string working_directory;
     string executable;
     string save_path;
-    
+
+    std::cin.ignore();
+
     std::cout << "Enter the name of the game: \n";
-    std::cin >> name;
+
+    std::getline(std::cin, name);
     try {
         std::cout << "Enter the working directory of the game: \n";
         std::getline(std::cin, working_directory);
@@ -69,7 +72,8 @@ void print_help() {
 void delete_game() {
     std::cout << "Enter the name of the game: \n";
     string name;
-    std::cin >> name;
+    std::cin.ignore();
+    std::getline(std::cin, name);
     if(games.size()==1) {
         games.clear();
         std::cout << "The game successfully deleted.\n";
