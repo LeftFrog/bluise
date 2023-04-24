@@ -94,12 +94,7 @@ void run_game() {
     std::cout << "The game is running. \n";
 }
 
-void show_game_info() {
-    std::cout << "Enter the name of the game or its id: ";
-    string input;
-    cin.ignore();
-    std::getline(std::cin, input);
-    vector<Game>::iterator game = find_game(input);
+void show_game_info(const vector<Game>::iterator& game) {
     std::cout   << splitter << endl << "Name: " + game->name  << endl \
                 << "Working directory: " + game->working_directory  << endl\
                 << "Executable: " + game->executable << endl \
@@ -107,8 +102,42 @@ void show_game_info() {
                 << splitter << endl;
 }
 
-void edit_game() {
+void show_info() {
+    std::cout << "Enter the name of the game or its id: \n";
+    string input;
+    cin.ignore();
+    std::getline(std::cin, input);
+    vector<Game>::iterator game = find_game(input);
+    show_game_info(game);
+}
 
+void edit_game() {
+    string name;
+    std::cin.ignore();
+    std::getline(std::cin, name);
+    vector<Game>::iterator game = find_game(name);
+    show_game_info(game);
+    std::cout   << "Choose option to edit: \n" \
+                << "name, working_directory, executable, save_path. \n";
+    string var;
+    std::cin.ignore();
+    std::getline(std::cin, var);
+    if(var=="name") {
+        std::cin.ignore();
+        std::getline(std::cin, game->name);
+    }
+    else if(var=="working_directory") {
+        std::cin.ignore();
+        std::getline(std::cin, game->working_directory);
+    }
+    else if(var=="executable") {
+        std::cin.ignore();
+        std::getline(std::cin, game->executable);
+    }
+    else if(var=="save_path") {
+        std::cin.ignore();
+        std::getline(std::cin, game->save_path);
+    }
 }
 
 void process_commands() {
@@ -135,7 +164,7 @@ void process_commands() {
             run_game();
         }
         else if(command=="show_info") {
-            show_game_info();
+            show_info();
         }
         else if(command=="edit") {
             edit_game();
