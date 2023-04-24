@@ -86,7 +86,8 @@ void delete_game() {
 void run_game() {
     std::cout << "Enter the name of the game: ";
     string name;
-    std::cin >> name;
+    std::cin.ignore();
+    std::getline(std::cin, name);
     string exec = find_game(name)->executable;
     std::string command = "nohup "+ exec + " &";
     std::system(command.c_str());
@@ -96,13 +97,18 @@ void run_game() {
 void show_game_info() {
     std::cout << "Enter the name of the game or its id: ";
     string input;
-    std::cin >> input;
+    cin.ignore();
+    std::getline(std::cin, input);
     vector<Game>::iterator game = find_game(input);
     std::cout   << splitter << endl << "Name: " + game->name  << endl \
                 << "Working directory: " + game->working_directory  << endl\
                 << "Executable: " + game->executable << endl \
                 << "Save path: " + game->save_path << endl \
                 << splitter << endl;
+}
+
+void edit_game() {
+
 }
 
 void process_commands() {
@@ -130,6 +136,9 @@ void process_commands() {
         }
         else if(command=="show_info") {
             show_game_info();
+        }
+        else if(command=="edit") {
+            edit_game();
         }
         else {
             std::cout << "Unknown command. Enter help to get list of the commands. \n";
