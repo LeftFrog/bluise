@@ -88,9 +88,7 @@ void run_game() {
     string name;
     std::cin.ignore();
     std::getline(std::cin, name);
-    string exec = find_game(name)->executable;
-    std::string command = "nohup "+ exec + " &";
-    std::system(command.c_str());
+    find_game(name)->execute();
     std::cout << "The game is running. \n";
 }
 
@@ -177,6 +175,8 @@ void process_commands() {
 }
 
 int main(int argc, char** argv) {
+    string exe = "blablablablalbabla.exe";
+    cout << exe.substr(exe.size()-4, 4) << endl;
     process_commands();
     return 0;
 }
