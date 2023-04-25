@@ -54,9 +54,10 @@ void print_help() {
               <<    "\nCommands: \n" \
               <<    "add - add a game to the data base\n"  \
               <<    "list - print names of all games\n" \
-              <<    "delete - delete a game from db\n " \
+              <<    "delete - delete a game from db\n" \
               <<    "help - print list of commands\n" \
               <<    "run - run a game\n" \
+              <<    "edit - edit exist game\n" \
               <<    "show_info - shows info about a game\n" \
               <<    "exit - exit the program\n" \
               <<    splitter << endl;
@@ -102,34 +103,49 @@ void run_game() {
     std::cout << "The game is running. \n";
 }
 
-// void edit_game() {
-//     string name;
-//     std::cin.ignore();
-//     std::getline(std::cin, name);
-//     vector<Game>::iterator game = find_game(name);
-//     show_game_info(game);
-//     std::cout   << "Choose option to edit: \n" \
-//                 << "name, working_directory, executable, save_path. \n";
-//     string var;
-//     std::cin.ignore();
-//     std::getline(std::cin, var);
-//     if(var=="name") {
-//         std::cin.ignore();
-//         std::getline(std::cin, game->name);
-//     }
-//     else if(var=="working_directory") {
-//         std::cin.ignore();
-//         std::getline(std::cin, game->working_directory);
-//     }
-//     else if(var=="executable") {
-//         std::cin.ignore();
-//         std::getline(std::cin, game->executable);
-//     }
-//     else if(var=="save_path") {
-//         std::cin.ignore();
-//         std::getline(std::cin, game->save_path);
-//     }
-// }
+void edit_game() {
+    std::cout << "Enter the name of the game or its id: \n";
+    string name;
+    std::cin.ignore();
+    std::getline(std::cin, name);
+    vector<Game>::iterator game = find_game(name);
+    show_game_info(game);
+
+    std::cout   << "Choose option to edit(name, working_directory, executable, save_path): \n";
+    string var;
+    std::cin >> var;
+    std::cout << "Enter value of the variable: \n";
+
+    try {
+        if(var=="name") {
+            std::cin.ignore();
+            string name;
+            std::getline(std::cin, name);
+            game->set_name(name);
+        }
+        else if(var=="working_directory") {
+            std::cin.ignore();
+            string working_directory;
+            std::getline(std::cin, working_directory);
+            game->set_working_directory(working_directory);
+        }
+        else if(var=="executable") {
+            std::cin.ignore();
+            string executable;
+            std::getline(std::cin, executable);
+            game->set_executable(executable);
+        }
+        else if(var=="save_path") {
+            std::cin.ignore();
+            string save_path;
+            std::getline(std::cin, save_path);
+            game->set_save_path(save_path);
+        }
+    }
+    catch (const invalid_path& err) {
+        cerr << err.what();
+    }
+}
 
 void process_commands() {
     string enter_command_prompt = "Enter command: \n";
@@ -157,9 +173,9 @@ void process_commands() {
         else if(command=="show_info") {
             show_info();
         }
-        // else if(commagames.push_back(Game("Minecraft", "/home/leftfrog/.minecraft/", "/usr/bin/tlauncher", "/home/leftfrog/.minecraft/"));nd=="edit") {
-        //     edit_game();
-        // }
+        else if(command=="edit") {
+            edit_game();
+        }
         else {
             std::cout << "Unknown command. Enter help to get list of the commands. \n";
         }
@@ -174,6 +190,7 @@ int main(int argc, char** argv) {
     catch (const invalid_path& err) {
         cerr << err.what();
     }
+    
     process_commands();
     return 0;
 }

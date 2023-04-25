@@ -12,12 +12,20 @@ class Game
     string save_path;
     exec_type type;
 public:
-    string get_name() { return name; }
-    string get_working_directory() { return working_directory; }
-    string get_executable() { return executable; }
-    string get_save_path() { return save_path; }
-    Game(string n, string wd, string e, string sp);
+    inline string get_name() const { return name; }
+    inline string get_working_directory() const { return working_directory; }
+    inline string get_executable() const { return executable; }
+    inline string get_save_path() const { return save_path; }
+
+    void set_name(const string& n) { name = n; } ;
+    void set_working_directory(const string& wd);
+    void set_executable(const string& e);
+    void set_save_path(const string& sp);
+
+    Game(const string& n, const string& wd, const string& e, const string& sp);
+
     void execute();
+
     bool operator==(Game& other);
     bool operator==(string& other);
 };
