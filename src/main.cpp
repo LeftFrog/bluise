@@ -34,6 +34,10 @@ void add_game() {
     std::cout << "Enter the name of the game: \n";
 
     std::getline(std::cin, name);
+    if(!(find_game(name)==vector<Game>::iterator())) {
+        std::cout << "There is a game with the same name!\n";
+        return;
+    }
     try {
         std::cout << "Enter the working directory of the game: \n";
         std::getline(std::cin, working_directory);
