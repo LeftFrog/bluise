@@ -32,7 +32,7 @@ void add_game() {
 void print_help() {
     std::cout <<    splitter \
               <<    "\nCommands: \n" \
-              <<    "add - add game to the data base\n"  \
+              <<    "add - add game to the command base\n"  \
               <<    "list - print names of all games\n" \
               <<    splitter << endl;
 }

@@ -92,7 +92,7 @@ void show_game_info(const vector<Game>::iterator& game) {
 }
 
 void show_info() {
-    std::cout << "Enter the name of the game or its id: \n";
+    std::cout << "Enter the name of the game: \n";
     string input;
     cin.ignore();
     std::getline(std::cin, input);
@@ -101,7 +101,7 @@ void show_info() {
 }
 
 void run_game() {
-    std::cout << "Enter the name of the game or its id: \n";
+    std::cout << "Enter the name of the game: \n";
     string name;
     std::cin.ignore();
     std::getline(std::cin, name);
@@ -110,7 +110,7 @@ void run_game() {
 }
 
 void edit_game() {
-    std::cout << "Enter the name of the game or its id: \n";
+    std::cout << "Enter the name of the game: \n";
     string name;
     std::cin.ignore();
     std::getline(std::cin, name);
