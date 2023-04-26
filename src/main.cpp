@@ -1,8 +1,10 @@
 #include <iostream>
-#include "Game.h"
+#include <cctype>
+#include <algorithm>
 #include <vector>
 #include <filesystem>
 #include "invalid_path.h"
+#include "Game.h"
 
 vector<Game> games{};
 string splitter = "<------------------------------->";
@@ -156,6 +158,7 @@ void process_commands() {
     string command;
     std::cout << enter_command_prompt;
     while(std::cin>>command) {
+        std::transform(command.begin(), command.end(), command.begin(), [](unsigned char c){ return std::tolower(c); });
         if(command=="add") {
             add_game();
         }
