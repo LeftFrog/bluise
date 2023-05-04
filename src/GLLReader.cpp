@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Game.h"
 #include <vector>
+#include "gll_syntax_error"
 
 namespace {
     istream& operator>>(istream& is, vector<Game>& games) {
@@ -16,43 +17,43 @@ namespace {
             }
             short pos = line.find('{');
             if(pos==string::npos) {
-                std::cout << "Error1";
+                throw gll_syntax_error("Syntax Error!\nThere isnt \"{\"!");
             }
             name = line.substr(0, line.length() - 2);
             string var;
             is >> var;
             if(var!="working_directory") {
-                std::cout << "Error2";
+                throw gll_syntax_error("Syntax Error!\nThere isnt \"working_directory\"!");
             }
             is >> var;
             if(var!="=") {
-                std::cout << "Error3";
+                throw gll_syntax_error("Syntax Error!\nThere isnt \"=\"!");
             }
             std::getline(is, working_directory);
             working_directory = working_directory.substr(1, working_directory.length());
             is >> var;
             if(var!="executable") {
-                std::cout << "Error4";
+                throw gll_syntax_error("Syntax Error!\nThere isnt \"executable\"!");
             }
             is >> var;
             if(var!="=") {
-                std::cout << "Error5";
+                throw gll_syntax_error("Syntax Error!\nThere isnt \"=\"!");
             }
             std::getline(is, executable);
             executable = executable.substr(1, executable.length());
             is >> var;
             if(var!="save_path") {
-                std::cout << "Error6";
+                throw gll_syntax_error("Syntax Error!\nThere isnt \"save_path\"!");
             }
             is >> var;
             if(var!="=") {
-                std::cout << "Error7";
+                throw gll_syntax_error("Syntax Error!\nThere isnt \"=\"!");
             }
             std::getline(is, save_path);
             save_path = save_path.substr(1, save_path.length());
             is >> var;
             if(var!="}") {
-                std::cout << "Error8";
+                throw gll_syntax_error("Syntax Error!\nThere isnt \"}\"!");
             }
             games.push_back(Game(name, working_directory, executable, save_path));
         }
