@@ -1,5 +1,5 @@
 GameName {
-    workingDirectory = "path"
-    executable = "path"
-    savePath = "path"
+    working_directory = /home/leftfrog/.minecraft/
+    executable = /home/leftfrog/.minecraft/
+    save_path = /home/leftfrog/.minecraft/
 }

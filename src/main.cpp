@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <cctype>
 #include <algorithm>
 #include <vector>
@@ -13,7 +14,7 @@ void print_game_vector() {
     std::cout << splitter << endl;
     for(int i = 0; i < games.size(); ++i) {
         std::cout << i+1 << " | " << games[i].get_name() << endl;
-    }
+    }std::cout << "GA";
     std::cout << splitter << endl;
 }
 
@@ -190,14 +191,72 @@ void process_commands() {
     }
 }
 
+istream& operator>>(istream& is, Game& game) {
+    string line;
+    string name;
+    string working_directory;
+    string executable;
+    string save_path;
+    std::getline(is, line);
+    short pos = line.find('{');
+    if(pos==string::npos) {
+        return is;
+    }
+    name = line.substr(0, line.length() - 2);
+    string var;
+    is >> var;
+    if(var!="working_directory") {
+        return is;
+    }
+    is >> var;
+    if(var!="=") {
+        return is;
+    }
+    std::getline(is, working_directory);
+    working_directory = working_directory.substr(1, working_directory.length());
+    is >> var;
+    if(var!="executable") {
+        return is;
+    }
+    is >> var;
+    if(var!="=") {
+        return is;
+    }
+    std::getline(is, executable);
+    executable = executable.substr(1, executable.length());
+    is >> var;
+    if(var!="save_path") {
+        return is;
+    }
+    is >> var;
+    if(var!="=") {
+        return is;
+    }
+    std::getline(is, save_path);
+    save_path = save_path.substr(1, save_path.length());
+    is >> var;
+    if(var!="}") {
+        return is;
+    }
+    game.set_executable(executable);
+    game.set_name(name);
+    game.set_working_directory(working_directory);
+    game.set_save_path(save_path);
+    return is;
+}
+
 int main(int argc, char** argv) {
+    Game g;    
+    ifstream ist("/home/leftfrog/Projects/GameLauncher/res/ExampleGameList.gll");
     try {
         games.push_back(Game("Minecraft", "/home/leftfrog/.minecraft/", "/usr/bin/tlauncher", "/home/leftfrog/.minecraft/"));
+        ist >> g;
     }
     catch (const invalid_path& err) {
         cerr << err.what();
     }
-    
+
     process_commands();
+
     return 0;
 }

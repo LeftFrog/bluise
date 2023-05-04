@@ -22,6 +22,7 @@ public:
     void set_executable(const string& e);
     void set_save_path(const string& sp);
 
+    Game() {}
     Game(const string& n, const string& wd, const string& e, const string& sp);
 
     void execute();
