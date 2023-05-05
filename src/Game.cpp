@@ -2,32 +2,28 @@
 #include <filesystem>
 #include "invalid_path.h"
 
-void Game::set_working_directory(const string &wd)
-{
+void Game::set_working_directory(const string &wd) {
     if(!std::filesystem::exists(wd)) {
         throw invalid_path("Invalid working directory!");
     }
     working_directory = wd;
 }
 
-void Game::set_executable(const string &e)
-{
-    if(!std::filesystem::exists(e)) {
+void Game::set_executable(const string &e) {
+    if(!std::filesystem::is_regular_file(e)) {
         throw invalid_path("Invalid executable!");
     }
     executable = e;
 }
 
-void Game::set_save_path(const string &sp)
-{
+void Game::set_save_path(const string &sp) {
     if(!std::filesystem::exists(sp)) {
             throw invalid_path("Invalid save path!");
     }
     save_path = sp;
 }
 
-Game::Game(const string &n, const string &wd, const string &e, const string &sp) : name(n)
-{
+Game::Game(const string &n, const string &wd, const string &e, const string &sp) : name(n) {
     set_working_directory(wd);
     set_executable(e);
     set_save_path(sp);
@@ -36,8 +32,7 @@ Game::Game(const string &n, const string &wd, const string &e, const string &sp)
     else { type = linux_exe; }
 }
 
-void Game::execute()
-{
+void Game::execute() const {
     if(type==linux_exe) { 
         string command = "nohup "+ executable + " &";
         system(command.c_str());
@@ -48,11 +43,10 @@ void Game::execute()
     }
 }
 
-bool Game::operator==(Game &other)
-{
+bool Game::operator==(Game &other) const {
     return (this->name==other.name) ? true : false;
 }
 
-bool Game::operator==(string& other) {
+bool Game::operator==(string& other) const{
     return (this->name==other) ? true : false;
 }

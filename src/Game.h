@@ -24,8 +24,8 @@ public:
 
     Game(const string& n, const string& wd, const string& e, const string& sp);
 
-    void execute();
+    void execute() const;
 
-    bool operator==(Game& other);
-    bool operator==(string& other);
+    bool operator==(Game& other) const;
+    bool operator==(string& other) const;
 };
