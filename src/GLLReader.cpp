@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Game.h"
 #include <vector>
-#include "gll_syntax_error"
+#include "gll_syntax_error.h"
 
 namespace {
     istream& operator>>(istream& is, vector<Game>& games) {
@@ -12,8 +12,11 @@ namespace {
             string executable;
             string save_path;
             std::getline(is, line);
-            if(line.empty()) {
+            while(line.empty()&&(!is.eof())){
                 std::getline(is, line);
+            }
+            if(is.eof()) {
+                return is;
             }
             short pos = line.find('{');
             if(pos==string::npos) {
