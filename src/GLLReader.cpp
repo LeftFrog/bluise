@@ -4,6 +4,17 @@
 #include "gll_syntax_error.h"
 
 namespace {
+    ostream& operator<<(ostream& os, vector<Game>& games) {
+        for(auto game : games) {
+            os << (game.get_name() + " {\n");
+            os << ("working_directory = " + game.get_working_directory() + '\n');
+            os << ("executable = " + game.get_executable() + '\n');
+            os << ("save_path = " + game.get_save_path() + '\n');
+            os << "}\n";
+        }
+        return os;
+    }
+
     istream& operator>>(istream& is, vector<Game>& games) {
         while(!is.eof()) {
             string line;

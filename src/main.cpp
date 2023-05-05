@@ -5,6 +5,7 @@
 #include <vector>
 #include <filesystem>
 #include "invalid_path.h"
+#include "gll_syntax_error.h"
 #include "Game.h"
 #include "GLLReader.cpp"
 
@@ -185,6 +186,11 @@ void process_commands() {
         else if(command=="edit") {
             edit_game();
         }
+        else if(command=="save") {
+            ofstream oft("/home/leftfrog/Projects/GameLauncher/res/Games.gll", std::ofstream::trunc);
+            oft << games;
+            oft.close();
+        }
         else {
             std::cout << "Unknown command. Enter help to get list of the commands. \n";
         }
@@ -200,6 +206,11 @@ int main(int argc, char** argv) {
     catch (const invalid_path& err) {
         cerr << err.what();
     }
+    catch (const gll_syntax_error& err) {
+        cerr << err.what();
+    }
+ 
+    ist.close();
 
     process_commands();
 

@@ -39,7 +39,7 @@ Game::Game(const string &n, const string &wd, const string &e, const string &sp)
 void Game::execute()
 {
     if(type==linux_exe) { 
-        string command = "nohup "+ executable + " &";
+        string command = "nohup \""+ executable + "\" &";
         system(command.c_str());
     }
     else if(type==windows_exe) {
