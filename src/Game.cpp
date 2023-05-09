@@ -48,11 +48,15 @@ void Game::execute()
     }
 }
 
-bool Game::operator==(Game &other)
+bool Game::operator==(const Game &other)
 {
     return (this->name==other.name) ? true : false;
 }
 
-bool Game::operator==(string& other) {
+bool Game::operator==(const string& other) {
     return (this->name==other) ? true : false;
+}
+
+bool Game::operator<(const Game& other) {
+    return (this->name<other.name) ? true : false;
 }

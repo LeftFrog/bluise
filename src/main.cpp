@@ -187,6 +187,7 @@ void process_commands() {
             edit_game();
         }
         else if(command=="save") {
+            sort(games.begin(), games.end());
             ofstream oft("/home/leftfrog/Projects/GameLauncher/res/Games.gll", std::ofstream::trunc);
             oft << games;
             oft.close();

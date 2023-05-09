@@ -27,6 +27,7 @@ public:
 
     void execute();
 
-    bool operator==(Game& other);
-    bool operator==(string& other);
+    bool operator<(const Game& other);
+    bool operator==(const Game& other);
+    bool operator==(const string& other);
 };
