@@ -36,7 +36,7 @@ void add_game() {
     string save_path;
 
     std::cin.ignore();
-    std::cout << "Enter the name of the game: \n";
+    std::cout << "Enter a name of a game: \n";
 
     std::getline(std::cin, name);
     if(!(find_game(name)==vector<Game>::iterator())) {
@@ -73,16 +73,22 @@ void print_help() {
 }
 
 void delete_game() {
-    std::cout << "Enter the name of the game: \n";
+    std::cout << "Enter a name of a game: \n";
     string name;
     std::cin.ignore();
     std::getline(std::cin, name);
+    auto game = find_game(name);
+    if(game==vector<Game>::iterator()) {
+        std::cout << "Incorrect name of a game\n";
+        return;
+    }
     if(games.size()==1) {
         games.clear();
         std::cout << "The game successfully deleted.\n";
         return;
     }
-    games.erase(find_game(name));
+    games.erase(game);
+
     std::cout << "The game successfully deleted.\n";
 }
 
@@ -95,29 +101,42 @@ void show_game_info(const vector<Game>::iterator& game) {
 }
 
 void show_info() {
-    std::cout << "Enter the name of the game: \n";
+    std::cout << "Enter a name of a game: \n";
     string input;
     cin.ignore();
     std::getline(std::cin, input);
     vector<Game>::iterator game = find_game(input);
+    if(game==vector<Game>::iterator()) {
+        std::cout << "Incorrect name of a game\n";
+        return;
+    }
     show_game_info(game);
 }
 
 void run_game() {
-    std::cout << "Enter the name of the game: \n";
+    std::cout << "Enter a name of a game: \n";
     string name;
     std::cin.ignore();
     std::getline(std::cin, name);
-    find_game(name)->execute();
+    auto game = find_game(name);
+    if(game==vector<Game>::iterator()) {
+        std::cout << "Incorrect name of a game\n";
+        return;
+    }
     std::cout << "The game is running. \n";
 }
 
 void edit_game() {
-    std::cout << "Enter the name of the game: \n";
+    std::cout << "Enter a name of a game: \n";
     string name;
     std::cin.ignore();
     std::getline(std::cin, name);
     vector<Game>::iterator game = find_game(name);
+    if(game==vector<Game>::iterator()) {
+        std::cout << "Incorrect name of a game\n";
+        return;
+    }
+
     show_game_info(game);
 
     std::cout   << "Choose option to edit(name, working_directory, executable, save_path): \n";
@@ -157,7 +176,7 @@ void edit_game() {
 }
 
 void process_commands() {
-    string enter_command_prompt = "Enter command: \n";
+    string enter_command_prompt = "Enter a command: \n";
     string command;
     std::cout << enter_command_prompt;
     while(std::cin>>command) {

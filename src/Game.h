@@ -25,7 +25,7 @@ public:
     Game() {}
     Game(const string& n, const string& wd, const string& e, const string& sp);
 
-    void execute();
+    void execute() const;
 
     bool operator<(const Game& other);
     bool operator==(const Game& other);
