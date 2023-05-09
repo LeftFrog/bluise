@@ -219,7 +219,7 @@ void process_commands() {
 }
 
 int main(int argc, char** argv) {  
-    ifstream ist("/home/leftfrog/Projects/GameLauncher/res/Games.gll");
+    ifstream ist("/home/leftfrog/Documents/Redten/Games.gll");
     try {
         ist >> games;
     }
