@@ -14,6 +14,20 @@ namespace {
         }
         return os;
     }
+    
+    inline string get_var(const string& var_name, istream& is) {
+        string var;
+        is >> var;
+        if(var!=var_name) {
+            throw gll_syntax_error("Syntax Error!\nThere isnt \""+var_name+"\"!");
+        }
+        is >> var;
+        if(var!="=") {
+            throw gll_syntax_error("Syntax Error!\nThere isnt \"=\"!");
+        }
+        std::getline(is, var);
+        return var.substr(1, var.length());
+    }
 
     istream& operator>>(istream& is, vector<Game>& games) {
         while(!is.eof()) {
@@ -34,37 +48,10 @@ namespace {
                 throw gll_syntax_error("Syntax Error!\nThere isnt \"{\"!");
             }
             name = line.substr(0, line.length() - 2);
+            working_directory = get_var("working_directory", is);
+            executable = get_var("executable", is);
+            save_path = get_var("save_path", is);
             string var;
-            is >> var;
-            if(var!="working_directory") {
-                throw gll_syntax_error("Syntax Error!\nThere isnt \"working_directory\"!");
-            }
-            is >> var;
-            if(var!="=") {
-                throw gll_syntax_error("Syntax Error!\nThere isnt \"=\"!");
-            }
-            std::getline(is, working_directory);
-            working_directory = working_directory.substr(1, working_directory.length());
-            is >> var;
-            if(var!="executable") {
-                throw gll_syntax_error("Syntax Error!\nThere isnt \"executable\"!");
-            }
-            is >> var;
-            if(var!="=") {
-                throw gll_syntax_error("Syntax Error!\nThere isnt \"=\"!");
-            }
-            std::getline(is, executable);
-            executable = executable.substr(1, executable.length());
-            is >> var;
-            if(var!="save_path") {
-                throw gll_syntax_error("Syntax Error!\nThere isnt \"save_path\"!");
-            }
-            is >> var;
-            if(var!="=") {
-                throw gll_syntax_error("Syntax Error!\nThere isnt \"=\"!");
-            }
-            std::getline(is, save_path);
-            save_path = save_path.substr(1, save_path.length());
             is >> var;
             if(var!="}") {
                 throw gll_syntax_error("Syntax Error!\nThere isnt \"}\"!");
@@ -73,4 +60,6 @@ namespace {
         }
         return is;
     }
+
+    
 }
