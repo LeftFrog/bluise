@@ -45,12 +45,13 @@ namespace {
                 throw gll_syntax_error("Syntax Error!\nThere isnt \"{\"!");
             }
             name = line.substr(0, line.length() - 2);
+            Game g(name, get_var("working_directory", is), get_var("executable", is), get_var("save_path", is));
             string var;
             is >> var;
             if(var!="}") {
                 throw gll_syntax_error("Syntax Error!\nThere isnt \"}\"!");
             }
-            games.push_back(Game(name, get_var("working_directory", is), get_var("executable", is), get_var("save_path", is)));
+            games.push_back(g);
         }
         return is;
     }

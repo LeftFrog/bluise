@@ -6,11 +6,14 @@ using namespace std;
 class Game
 {
     enum exec_type{linux_exe, windows_exe};
+
     string name;
     string working_directory;
     string executable;
     string save_path;
+    
     exec_type type;
+
 public:
     inline string get_name() const { return name; }
     inline string get_working_directory() const { return working_directory; }

@@ -12,21 +12,28 @@
 vector<Game> games{};
 string splitter = "<------------------------------->";
 
+inline void readGLL() {
+
+    ifstream ist("/home/leftfrog/Documents/Redten/Games.gll");
+    try {
+        ist >> games;
+    }
+    catch (const invalid_path& err) {
+        cerr << err.what();
+    }
+    catch (const gll_syntax_error& err) {
+        cerr << err.what();
+    }
+ 
+    ist.close();
+}
+
 void print_game_vector() {
     std::cout << splitter << endl;
     for(int i = 0; i < games.size(); ++i) {
         std::cout << i+1 << " | " << games[i].get_name() << endl;
     }
     std::cout << splitter << endl;
-}
-
-vector<Game>::iterator find_game(const string& name) {
-    for(vector<Game>::iterator it = games.begin(); it != games.end(); ++it) {
-        if(it->get_name() == name) {
-            return it;
-        }
-    }
-    return vector<Game>::iterator();
 }
 
 void add_game() {
@@ -39,7 +46,7 @@ void add_game() {
     std::cout << "Enter a name of a game: \n";
 
     std::getline(std::cin, name);
-    if(!(find_game(name)==vector<Game>::iterator())) {
+    if(!(find(games.begin(), games.end(), name)==vector<Game>::iterator())) {
         std::cout << "There is a game with the same name!\n";
         return;
     }
@@ -77,7 +84,7 @@ void delete_game() {
     string name;
     std::cin.ignore();
     std::getline(std::cin, name);
-    auto game = find_game(name);
+    auto game = find(games.begin(), games.end(), name);
     if(game==vector<Game>::iterator()) {
         std::cout << "Incorrect name of a game\n";
         return;
@@ -105,7 +112,7 @@ void show_info() {
     string input;
     cin.ignore();
     std::getline(std::cin, input);
-    vector<Game>::iterator game = find_game(input);
+    auto game = find(games.begin(), games.end(), input);
     if(game==vector<Game>::iterator()) {
         std::cout << "Incorrect name of a game\n";
         return;
@@ -118,7 +125,7 @@ void run_game() {
     string name;
     std::cin.ignore();
     std::getline(std::cin, name);
-    auto game = find_game(name);
+    auto game = find(games.begin(), games.end(), name);
     if(game==vector<Game>::iterator()) {
         std::cout << "Incorrect name of a game\n";
         return;
@@ -131,7 +138,7 @@ void edit_game() {
     string name;
     std::cin.ignore();
     std::getline(std::cin, name);
-    vector<Game>::iterator game = find_game(name);
+    vector<Game>::iterator game = find(games.begin(), games.end(), name);
     if(game==vector<Game>::iterator()) {
         std::cout << "Incorrect name of a game\n";
         return;
@@ -205,6 +212,9 @@ void process_commands() {
         else if(command=="edit") {
             edit_game();
         }
+        else if(command=="load") {
+            readGLL();
+        }
         else if(command=="save") {
             sort(games.begin(), games.end());
             ofstream oft("/home/leftfrog/Projects/GameLauncher/res/Games.gll", std::ofstream::trunc);
@@ -219,19 +229,8 @@ void process_commands() {
 }
 
 int main(int argc, char** argv) {  
-    ifstream ist("/home/leftfrog/Documents/Redten/Games.gll");
-    try {
-        ist >> games;
-    }
-    catch (const invalid_path& err) {
-        cerr << err.what();
-    }
-    catch (const gll_syntax_error& err) {
-        cerr << err.what();
-    }
- 
-    ist.close();
 
+    readGLL();
     process_commands();
 
     return 0;
