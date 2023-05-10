@@ -12,6 +12,13 @@
 vector<Game> games{};
 string splitter = "<------------------------------->";
 
+inline void saveGLL() {
+    sort(games.begin(), games.end());
+    ofstream oft("/home/leftfrog/Projects/GameLauncher/res/Games.gll", std::ofstream::trunc);
+    oft << games;
+    oft.close();
+}
+
 inline void readGLL() {
 
     ifstream ist("/home/leftfrog/Documents/Redten/Games.gll");
@@ -216,10 +223,7 @@ void process_commands() {
             readGLL();
         }
         else if(command=="save") {
-            sort(games.begin(), games.end());
-            ofstream oft("/home/leftfrog/Projects/GameLauncher/res/Games.gll", std::ofstream::trunc);
-            oft << games;
-            oft.close();
+            saveGLL();
         }
         else {
             std::cout << "Unknown command. Enter help to get list of the commands. \n";
