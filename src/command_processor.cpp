@@ -112,6 +112,7 @@ void print_help() {
               <<    "show_info - shows info about a game\n" \
               <<    "save - saves your games list to file\n" \
               <<    "load - loads your games list from file\n" \
+              <<    "back - makes backup of saves of your game\n" \
               <<    "exit - exit the program\n" \
               <<    splitter << endl;
 }
