@@ -66,9 +66,29 @@ void back() {
             return;
         }
     }
-    //fs::copy(game->get_save_path(), back_path, fs::copy_options::recursive);
     std::system(string("cp -R "+game->get_save_path()+" "+back_path).c_str());
     std::cout << "Successfully made backup of your saves.\n";
+}
+
+void recover() {
+    string name;
+    std::cin.ignore();
+    std::cout << "Enter a name of a game: \n";
+    std::getline(std::cin, name);
+
+    auto game = find(games.begin(), games.end(), name);
+
+    if(game==vector<Game>::iterator()) {
+        std::cout << "There isn't this game!\n";
+        return;
+    }
+
+    string back_path = HOME+"/Documents/Redten/backs/"+name+"/";
+    if(!fs::exists(back_path)) {
+        std::cout << "There isn't backups of saves of your game\n!";
+    }
+    std::system(string("cp -R "+back_path+" "+game->get_save_path()).c_str());
+    std::cout << "Successfully recovered your saves.\n";
 }
 
 void add_game() {
@@ -262,6 +282,9 @@ void process_commands() {
         }
         else if(command=="back") {
             back();
+        }
+        else if(command=="recover") {
+            recover();
         }
         else {
             std::cout << "Unknown command. Enter help to get list of the commands. \n";
