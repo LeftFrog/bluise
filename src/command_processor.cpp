@@ -228,6 +228,9 @@ void process_commands() {
         else if(command=="save") {
             saveGLL();
         }
+        else if(command=="sync") {
+            std::cout << "Now this func is not available, but you can use syncthing to sync your saves!\n";
+        }
         else {
             std::cout << "Unknown command. Enter help to get list of the commands. \n";
         }
