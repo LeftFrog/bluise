@@ -82,6 +82,8 @@ void print_help() {
               <<    "run - run a game\n" \
               <<    "edit - edit exist game\n" \
               <<    "show_info - shows info about a game\n" \
+              <<    "save - saves your games list to file\n" \
+              <<    "load - loads your games list from file\n" \
               <<    "exit - exit the program\n" \
               <<    splitter << endl;
 }
