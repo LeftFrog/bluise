@@ -9,19 +9,22 @@
 #include "Game.h"
 #include "GLLReader.cpp"
 
+namespace fs = std::filesystem;
+const string HOME = getenv("HOME");
+
 vector<Game> games{};
 string splitter = "<------------------------------->";
 
 inline void saveGLL() {
     sort(games.begin(), games.end());
-    ofstream oft("/home/leftfrog/Projects/GameLauncher/res/Games.gll", std::ofstream::trunc);
+    ofstream oft(HOME+"/Documents/ReWdten/Games.gll", std::ofstream::trunc);
     oft << games;
     oft.close();
 }
 
 inline void readGLL() {
 
-    ifstream ist("/home/leftfrog/Documents/Redten/Games.gll");
+    ifstream ist(HOME+"/Documents/Redten/Games.gll");
     try {
         ist >> games;
     }
@@ -41,6 +44,31 @@ void print_game_vector() {
         std::cout << i+1 << " | " << games[i].get_name() << endl;
     }
     std::cout << splitter << endl;
+}
+
+void back() {
+    string name;
+    std::cin.ignore();
+    std::cout << "Enter a name of a game: \n";
+    std::getline(std::cin, name);
+
+    auto game = find(games.begin(), games.end(), name);
+
+    if(game==vector<Game>::iterator()) {
+        std::cout << "There isn't this game!\n";
+        return;
+    }
+
+    string back_path = HOME+"/Documents/Redten/backs/"+name+"/";
+    if(!fs::exists(back_path)) {
+        if(!fs::create_directory(back_path)) {
+            std::cout << "Can't create directory!\n";
+            return;
+        }
+    }
+    //fs::copy(game->get_save_path(), back_path, fs::copy_options::recursive);
+    std::system(string("cp -R "+game->get_save_path()+" "+back_path).c_str());
+    std::cout << "Successfully made backup of your saves.\n";
 }
 
 void add_game() {
@@ -230,6 +258,9 @@ void process_commands() {
         }
         else if(command=="sync") {
             std::cout << "Now this func is not available, but you can use syncthing to sync your saves!\n";
+        }
+        else if(command=="back") {
+            back();
         }
         else {
             std::cout << "Unknown command. Enter help to get list of the commands. \n";
