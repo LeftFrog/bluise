@@ -66,7 +66,7 @@ void back() {
             return;
         }
     }
-    std::system(string("cp -R "+game->get_save_path()+" "+back_path).c_str());
+    std::system(string("cp -r "+game->get_save_path()+". "+back_path).c_str());
     std::cout << "Successfully made backup of your saves.\n";
 }
 
@@ -87,7 +87,7 @@ void recover() {
     if(!fs::exists(back_path)) {
         std::cout << "There isn't backups of saves of your game\n!";
     }
-    std::system(string("cp -R "+back_path+" "+game->get_save_path()).c_str());
+    std::system(string("cp -r "+back_path+". "+game->get_save_path()).c_str());
     std::cout << "Successfully recovered your saves.\n";
 }
 
@@ -101,7 +101,7 @@ void add_game() {
     std::cout << "Enter a name of a game: \n";
 
     std::getline(std::cin, name);
-    if(!(find(games.begin(), games.end(), name)==vector<Game>::iterator())) {
+    if(find(games.begin(), games.end(), name)==vector<Game>::iterator()) {
         std::cout << "There is a game with the same name!\n";
         return;
     }
