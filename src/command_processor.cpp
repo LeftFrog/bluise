@@ -17,14 +17,14 @@ string splitter = "<------------------------------->";
 
 inline void saveGLL() {
     sort(games.begin(), games.end());
-    ofstream oft(HOME+"/Documents/ReWdten/Games.gll", std::ofstream::trunc);
+    ofstream oft(HOME+"/Documents/Bluise/Games.gll", std::ofstream::trunc);
     oft << games;
     oft.close();
 }
 
 inline void readGLL() {
 
-    ifstream ist(HOME+"/Documents/Redten/Games.gll");
+    ifstream ist(HOME+"/Documents/Bluise/Games.gll");
     try {
         ist >> games;
     }
@@ -59,7 +59,7 @@ void back() {
         return;
     }
 
-    string back_path = HOME+"/Documents/Redten/backs/"+name+"/";
+    string back_path = HOME+"/Documents/Bluise/backs/"+name+"/";
     if(!fs::exists(back_path)) {
         if(!fs::create_directory(back_path)) {
             std::cout << "Can't create directory!\n";
@@ -83,7 +83,7 @@ void recover() {
         return;
     }
 
-    string back_path = HOME+"/Documents/Redten/backs/"+name+"/";
+    string back_path = HOME+"/Documents/Bluise/backs/"+name+"/";
     if(!fs::exists(back_path)) {
         std::cout << "There isn't backups of saves of your game\n!";
     }
@@ -97,11 +97,10 @@ void add_game() {
     string executable;
     string save_path;
 
-    std::cin.ignore();
     std::cout << "Enter a name of a game: \n";
 
     std::getline(std::cin, name);
-    if(!(find(games.begin(), games.end(), name)==vector<Game>::iterator())) {
+    if((find(games.begin(), games.end(), name)==vector<Game>::iterator())) {
         std::cout << "There is a game with the same name!\n";
         return;
     }
@@ -255,6 +254,7 @@ void process_commands() {
     while(std::cin>>command) {
         std::transform(command.begin(), command.end(), command.begin(), [](unsigned char c){ return std::tolower(c); });
         if(command=="add") {
+            std::cin.ignore();
             add_game();
         }
         else if(command=="list") {
