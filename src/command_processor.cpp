@@ -15,6 +15,14 @@ const string HOME = getenv("HOME");
 vector<Game> games{};
 string splitter = "<------------------------------->";
 
+inline string get_game_name() {
+    std::cout << "Enter a name of a game: \n";
+    string name;
+    std::cin.ignore();
+    std::getline(std::cin, name);
+    return name;
+}
+
 inline void saveGLL() {
     sort(games.begin(), games.end());
     ofstream oft(HOME+"/Documents/Bluise/Games.gll", std::ofstream::trunc);
@@ -122,7 +130,10 @@ void add_game() {
 void print_help_console() {
     std::cout <<    splitter \
               <<    "\nCommands: \n" \
-              <<    "help - shows this list of the commands\n" \
+              <<    "--help or -h - shows this list of the commands\n" \
+              <<    "--list or -l - shows the list of games\n" \
+              <<    "--add or -a - adds a game to the list\n" \
+              <<    "--run or -r {name of a game} - runs game\n" \
               <<    splitter << endl;
 }
 
@@ -184,11 +195,7 @@ void show_info() {
     show_game_info(game);
 }
 
-void run_game() {
-    std::cout << "Enter a name of a game: \n";
-    string name;
-    std::cin.ignore();
-    std::getline(std::cin, name);
+void run_game(string name) {
     auto game = find(games.begin(), games.end(), name);
     if(game==vector<Game>::iterator()) {
         std::cout << "Incorrect name of a game\n";
@@ -270,7 +277,7 @@ void process_commands() {
             return;
         }
         else if(command=="run") {
-            run_game();
+            run_game(get_game_name());
         }
         else if(command=="show_info") {
             show_info();
