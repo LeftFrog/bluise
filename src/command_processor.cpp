@@ -120,6 +120,13 @@ void add_game() {
     }
 }
 
+void print_help_console() {
+    std::cout <<    splitter \
+              <<    "\nCommands: \n" \
+              <<    "help - shows this list of the commands\n" \
+              <<    splitter << endl;
+}
+
 void print_help() {
     std::cout <<    splitter \
               <<    "\nCommands: \n" \
@@ -260,7 +267,7 @@ void process_commands() {
             delete_game();
         }
         else if(command=="exit") {
-            exit(0);
+            return;
         }
         else if(command=="run") {
             run_game();
