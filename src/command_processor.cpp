@@ -62,7 +62,7 @@ void back() {
 
     auto game = find(games.begin(), games.end(), name);
 
-    if(game==vector<Game>::iterator()) {
+    if(game==games.end()) {
         std::cout << "There isn't this game!\n";
         return;
     }
@@ -86,7 +86,7 @@ void recover() {
 
     auto game = find(games.begin(), games.end(), name);
 
-    if(game==vector<Game>::iterator()) {
+    if((game==games.end())) {
         std::cout << "There isn't this game!\n";
         return;
     }
@@ -106,19 +106,21 @@ void add_game() {
     string save_path;
 
     std::cout << "Enter a name of a game: \n";
-
     std::getline(std::cin, name);
-    if((find(games.begin(), games.end(), name)==vector<Game>::iterator())) {
+
+    if(!(find(games.begin(), games.end(), name)==games.end())) {
         std::cout << "There is a game with the same name!\n";
         return;
     }
+
+    std::cout << "Enter the working directory of the game: \n";
+    std::getline(std::cin, working_directory);
+    std::cout << "Enter the path to the executable of the game: \n";
+    std::getline(std::cin, executable);
+    std::cout << "Enter the save path of the game: \n";
+    std::getline(std::cin, save_path);
+
     try {
-        std::cout << "Enter the working directory of the game: \n";
-        std::getline(std::cin, working_directory);
-        std::cout << "Enter the path to the executable of the game: \n";
-        std::getline(std::cin, executable);
-        std::cout << "Enter the save path of the game: \n";
-        std::getline(std::cin, save_path);
         games.push_back(Game(name, working_directory, executable, save_path));
         std::cout << "The game successfully added.\n";
     }
@@ -160,7 +162,7 @@ void delete_game() {
     std::cin.ignore();
     std::getline(std::cin, name);
     auto game = find(games.begin(), games.end(), name);
-    if(game==vector<Game>::iterator()) {
+    if(game==games.end()) {
         std::cout << "Incorrect name of a game\n";
         return;
     }
@@ -188,7 +190,7 @@ void show_info() {
     cin.ignore();
     std::getline(std::cin, input);
     auto game = find(games.begin(), games.end(), input);
-    if(game==vector<Game>::iterator()) {
+    if(game==games.end()) {
         std::cout << "Incorrect name of a game\n";
         return;
     }
@@ -197,7 +199,7 @@ void show_info() {
 
 void run_game(string name) {
     auto game = find(games.begin(), games.end(), name);
-    if(game==vector<Game>::iterator()) {
+    if(game==games.end()) {
         std::cout << "Incorrect name of a game\n";
         return;
     }
@@ -211,7 +213,7 @@ void edit_game() {
     std::cin.ignore();
     std::getline(std::cin, name);
     vector<Game>::iterator game = find(games.begin(), games.end(), name);
-    if(game==vector<Game>::iterator()) {
+    if(game==games.end()) {
         std::cout << "Incorrect name of a game\n";
         return;
     }

@@ -16,8 +16,11 @@ int main(int argc, char** argv) {
         else if(string(argv[1])=="--list" || string(argv[1])=="-l") {
             print_game_vector();
         }
-        else if((string(argv[1])=="--run" || string(argv[1])=="-r") && argc = 3) {
+        else if((string(argv[1])=="--run" || string(argv[1])=="-r") && argc == 3) {
             run_game(string(argv[2]));
+        }
+        else if((string(argv[1])=="--back" || string(argv[1])=="-b") && argc == 3) {
+            //back(string(argv[2]))
         }
         else {
             std::cout << "Unknown command, plese type \"bluise -h\" to show help! \n";
