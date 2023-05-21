@@ -34,6 +34,7 @@ inline void readGLL() {
 
     ifstream ist(HOME+"/Documents/Bluise/Games.gll");
     try {
+        games.clear();
         ist >> games;
     }
     catch (const invalid_path& err) {
@@ -54,12 +55,7 @@ void print_game_vector() {
     std::cout << splitter << endl;
 }
 
-void back() {
-    string name;
-    std::cin.ignore();
-    std::cout << "Enter a name of a game: \n";
-    std::getline(std::cin, name);
-
+void back(const string& name) {
     auto game = find(games.begin(), games.end(), name);
 
     if(game==games.end()) {
@@ -74,16 +70,11 @@ void back() {
             return;
         }
     }
-    std::system(string("cp -R "+game->get_save_path()+" "+back_path).c_str());
+    std::system(string("cp -R \""+game->get_save_path()+".\" \""+back_path+"\"").c_str());
     std::cout << "Successfully made backup of your saves.\n";
 }
 
-void recover() {
-    string name;
-    std::cin.ignore();
-    std::cout << "Enter a name of a game: \n";
-    std::getline(std::cin, name);
-
+void recover(const string& name) {
     auto game = find(games.begin(), games.end(), name);
 
     if((game==games.end())) {
@@ -95,7 +86,7 @@ void recover() {
     if(!fs::exists(back_path)) {
         std::cout << "There isn't backups of saves of your game\n!";
     }
-    std::system(string("cp -R "+back_path+" "+game->get_save_path()).c_str());
+    std::system(string("cp -R \""+back_path+".\" \""+game->get_save_path()+"\"").c_str());
     std::cout << "Successfully recovered your saves.\n";
 }
 
@@ -156,11 +147,7 @@ void print_help() {
               <<    splitter << endl;
 }
 
-void delete_game() {
-    std::cout << "Enter a name of a game: \n";
-    string name;
-    std::cin.ignore();
-    std::getline(std::cin, name);
+void delete_game(const string& name) {
     auto game = find(games.begin(), games.end(), name);
     if(game==games.end()) {
         std::cout << "Incorrect name of a game\n";
@@ -184,12 +171,8 @@ void show_game_info(const vector<Game>::iterator& game) {
                 << splitter << endl;
 }
 
-void show_info() {
-    std::cout << "Enter a name of a game: \n";
-    string input;
-    cin.ignore();
-    std::getline(std::cin, input);
-    auto game = find(games.begin(), games.end(), input);
+void show_info(const string& name) {
+    auto game = find(games.begin(), games.end(), name);
     if(game==games.end()) {
         std::cout << "Incorrect name of a game\n";
         return;
@@ -197,7 +180,7 @@ void show_info() {
     show_game_info(game);
 }
 
-void run_game(string name) {
+void run_game(const string& name) {
     auto game = find(games.begin(), games.end(), name);
     if(game==games.end()) {
         std::cout << "Incorrect name of a game\n";
@@ -207,11 +190,7 @@ void run_game(string name) {
     std::cout << "The game is running. \n";
 }
 
-void edit_game() {
-    std::cout << "Enter a name of a game: \n";
-    string name;
-    std::cin.ignore();
-    std::getline(std::cin, name);
+void edit_game(string name) {
     vector<Game>::iterator game = find(games.begin(), games.end(), name);
     if(game==games.end()) {
         std::cout << "Incorrect name of a game\n";
@@ -228,7 +207,6 @@ void edit_game() {
     try {
         if(var=="name") {
             std::cin.ignore();
-            string name;
             std::getline(std::cin, name);
             game->set_name(name);
         }
@@ -273,7 +251,7 @@ void process_commands() {
             print_help();
         }
         else if(command=="delete") {
-            delete_game();
+            delete_game(get_game_name());
         }
         else if(command=="exit") {
             return;
@@ -282,10 +260,10 @@ void process_commands() {
             run_game(get_game_name());
         }
         else if(command=="show_info") {
-            show_info();
+            show_info(get_game_name());
         }
         else if(command=="edit") {
-            edit_game();
+            edit_game(get_game_name());
         }
         else if(command=="load") {
             readGLL();
@@ -297,10 +275,10 @@ void process_commands() {
             std::cout << "Now this func is not available, but you can use syncthing to sync your saves!\n";
         }
         else if(command=="back") {
-            back();
+            back(get_game_name());
         }
         else if(command=="recover") {
-            recover();
+            recover(get_game_name());
         }
         else {
             std::cout << "Unknown command. Enter help to get list of the commands. \n";
@@ -309,7 +287,7 @@ void process_commands() {
     }
 }
 
-void process_command_line(int argc, char** argv) {
+void process_command_line(int& argc, char** argv) {
     if(string(argv[1])=="--help" || string(argv[1])=="-h") {
         print_help_console();
     }
@@ -323,7 +301,7 @@ void process_command_line(int argc, char** argv) {
         run_game(string(argv[2]));
     }
     else if((string(argv[1])=="--back" || string(argv[1])=="-b") && argc == 3) {
-        //back(string(argv[2]))
+        back(string(argv[2]));
     }
     else {
         std::cout << "Unknown command, plese type \"bluise -h\" to show help! \n";

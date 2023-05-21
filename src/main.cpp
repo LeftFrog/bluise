@@ -7,7 +7,7 @@ int main(int argc, char** argv) {
         process_commands();
     }
     else {
-        process_command_line(&argc, argv);
+        process_command_line(argc, argv);
     }
 
     return 0;
