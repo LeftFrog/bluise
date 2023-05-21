@@ -15,12 +15,11 @@ const string HOME = getenv("HOME");
 vector<Game> games{};
 string splitter = "<------------------------------->";
 
-inline string get_game_name() {
-    std::cout << "Enter a name of a game: \n";
-    string name;
-    std::cin.ignore();
-    std::getline(std::cin, name);
-    return name;
+inline string get_game_var(const string& var_name) {
+    std::cout << "Enter a "+var_name+" of a game: \n";
+    string var;
+    std::getline(std::cin, var);
+    return var;
 }
 
 inline void saveGLL() {
@@ -91,25 +90,16 @@ void recover(const string& name) {
 }
 
 void add_game() {
-    string name;
-    string working_directory;
-    string executable;
-    string save_path;
-
-    std::cout << "Enter a name of a game: \n";
-    std::getline(std::cin, name);
+    string name = get_game_var("name");
 
     if(!(find(games.begin(), games.end(), name)==games.end())) {
         std::cout << "There is a game with the same name!\n";
         return;
     }
 
-    std::cout << "Enter the working directory of the game: \n";
-    std::getline(std::cin, working_directory);
-    std::cout << "Enter the path to the executable of the game: \n";
-    std::getline(std::cin, executable);
-    std::cout << "Enter the save path of the game: \n";
-    std::getline(std::cin, save_path);
+    string working_directory = get_game_var("working_directory");
+    string executable = get_game_var("executable");
+    string save_path = get_game_var("save_path");
 
     try {
         games.push_back(Game(name, working_directory, executable, save_path));
@@ -193,7 +183,7 @@ void run_game(const string& name) {
 void edit_game(string name) {
     vector<Game>::iterator game = find(games.begin(), games.end(), name);
     if(game==games.end()) {
-        std::cout << "Incorrect name of a game\n";
+        std::cout << "There isn't this game\n";
         return;
     }
 
@@ -206,27 +196,20 @@ void edit_game(string name) {
 
     try {
         if(var=="name") {
-            std::cin.ignore();
-            std::getline(std::cin, name);
-            game->set_name(name);
+            game->set_name(get_game_var("name"));
         }
         else if(var=="working_directory") {
-            std::cin.ignore();
-            string working_directory;
-            std::getline(std::cin, working_directory);
-            game->set_working_directory(working_directory);
+            game->set_working_directory(get_game_var("working_directory"));
         }
         else if(var=="executable") {
-            std::cin.ignore();
-            string executable;
-            std::getline(std::cin, executable);
-            game->set_executable(executable);
+            game->set_executable(get_game_var("executable"));
         }
         else if(var=="save_path") {
-            std::cin.ignore();
-            string save_path;
-            std::getline(std::cin, save_path);
-            game->set_save_path(save_path);
+            game->set_save_path(get_game_var("save_path"));
+        }
+        else {
+            std::cout << "Unknown variable!\n";
+            return;
         }
     }
     catch (const invalid_path& err) {
@@ -251,19 +234,19 @@ void process_commands() {
             print_help();
         }
         else if(command=="delete") {
-            delete_game(get_game_name());
+            delete_game(get_game_var("name"));
         }
         else if(command=="exit") {
             return;
         }
         else if(command=="run") {
-            run_game(get_game_name());
+            run_game(get_game_var("name"));
         }
         else if(command=="show_info") {
-            show_info(get_game_name());
+            show_info(get_game_var("name"));
         }
         else if(command=="edit") {
-            edit_game(get_game_name());
+            edit_game(get_game_var("name"));
         }
         else if(command=="load") {
             readGLL();
@@ -275,10 +258,10 @@ void process_commands() {
             std::cout << "Now this func is not available, but you can use syncthing to sync your saves!\n";
         }
         else if(command=="back") {
-            back(get_game_name());
+            back(get_game_var("name"));
         }
         else if(command=="recover") {
-            recover(get_game_name());
+            recover(get_game_var("name"));
         }
         else {
             std::cout << "Unknown command. Enter help to get list of the commands. \n";
@@ -306,4 +289,5 @@ void process_command_line(int& argc, char** argv) {
     else {
         std::cout << "Unknown command, plese type \"bluise -h\" to show help! \n";
     }
+    saveGLL();
 }
