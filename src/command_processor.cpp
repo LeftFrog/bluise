@@ -144,7 +144,7 @@ void print_help() {
 void delete_game(const string& name) {
     auto game = find(games.begin(), games.end(), name);
     if(game==games.end()) {
-        std::cout << "Incorrect name of a game\n";
+        std::cout << "There isn't this game\n";
         return;
     }
     if(games.size()==1) {
@@ -168,7 +168,7 @@ void show_game_info(const vector<Game>::iterator& game) {
 void show_info(const string& name) {
     auto game = find(games.begin(), games.end(), name);
     if(game==games.end()) {
-        std::cout << "Incorrect name of a game\n";
+        std::cout << "There isn't this game\n";
         return;
     }
     show_game_info(game);
@@ -177,7 +177,7 @@ void show_info(const string& name) {
 void run_game(const string& name) {
     auto game = find(games.begin(), games.end(), name);
     if(game==games.end()) {
-        std::cout << "Incorrect name of a game\n";
+        std::cout << "There isn't this game\n";
         return;
     }
     game->execute();
@@ -295,6 +295,9 @@ void process_command_line(int& argc, char** argv) {
     }
     else if((string(argv[1])=="--show-info" || string(argv[1])=="-s") && argc == 3) {
         show_info(string(argv[2]));
+    }
+    else if((string(argv[1])=="--delete" || string(argv[1])=="-d") && argc == 3) {
+        delete_game(string(argv[2]));
     }
     else {
         std::cout << "Unknown command, plese type \"bluise -h\" to show help! \n";
