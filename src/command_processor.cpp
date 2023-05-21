@@ -133,6 +133,7 @@ void print_help() {
               <<    "save - saves your games list to file\n" \
               <<    "load - loads your games list from file\n" \
               <<    "back - makes backup of saves of your game\n" \
+              <<    "recover - recover your saves\n" \
               <<    "exit - exit the program\n" \
               <<    splitter << endl;
 }
