@@ -308,3 +308,24 @@ void process_commands() {
         std::cout << enter_command_prompt;
     }
 }
+
+void process_command_line(int argc, char** argv) {
+    if(string(argv[1])=="--help" || string(argv[1])=="-h") {
+        print_help_console();
+    }
+    else if(string(argv[1])=="--add" || string(argv[1])=="-a") {
+        add_game();
+    }
+    else if(string(argv[1])=="--list" || string(argv[1])=="-l") {
+        print_game_vector();
+    }
+    else if((string(argv[1])=="--run" || string(argv[1])=="-r") && argc == 3) {
+        run_game(string(argv[2]));
+    }
+    else if((string(argv[1])=="--back" || string(argv[1])=="-b") && argc == 3) {
+        //back(string(argv[2]))
+    }
+    else {
+        std::cout << "Unknown command, plese type \"bluise -h\" to show help! \n";
+    }
+}
