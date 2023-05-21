@@ -117,6 +117,8 @@ void print_help_console() {
               <<    "--list or -l - shows the list of games\n" \
               <<    "--add or -a - adds a game to the list\n" \
               <<    "--run or -r {name of a game} - runs game\n" \
+              <<    "--back or -b {name of a game} - makes backup of your saves\n" \
+              <<    "--recover or -R {name of a game} - recover your saves\n" \
               <<    splitter << endl;
 }
 
@@ -286,6 +288,9 @@ void process_command_line(int& argc, char** argv) {
     }
     else if((string(argv[1])=="--back" || string(argv[1])=="-b") && argc == 3) {
         back(string(argv[2]));
+    }
+    else if((string(argv[1])=="--recover" || string(argv[1])=="-R") && argc == 3) {
+        recover(string(argv[2]));
     }
     else {
         std::cout << "Unknown command, plese type \"bluise -h\" to show help! \n";
