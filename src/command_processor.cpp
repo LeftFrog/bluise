@@ -18,6 +18,7 @@ string splitter = "<------------------------------->";
 inline string get_game_var(const string& var_name) {
     std::cout << "Enter a "+var_name+" of a game: \n";
     string var;
+    std::cin.ignore();
     std::getline(std::cin, var);
     return var;
 }
@@ -120,6 +121,7 @@ void print_help_console() {
               <<    "--back or -b {name of a game} - makes backup of your saves\n" \
               <<    "--recover or -R {name of a game} - recover syour saves\n" \
               <<    "--show-info or -s {name of a game} - shows info about a game\n" \
+              <<    "--delete or -d {name of a game} - deletes game from list\n" \
               <<    "--edit or -e {name of a game} - edits your game\n" \
               <<    splitter << endl;
 }
@@ -148,6 +150,15 @@ void delete_game(const string& name) {
         std::cout << "There isn't this game\n";
         return;
     }
+
+    std::cout << "Are you sure that you want delete " + game->get_name() + "? (y/n): ";
+    char answer;
+    std::cin >> answer;
+    if(!(answer=='y')) {
+        return;
+    }
+    std::cout << endl;  
+
     if(games.size()==1) {
         games.clear();
         std::cout << "The game successfully deleted.\n";
@@ -185,6 +196,13 @@ void run_game(const string& name) {
     std::cout << "The game is running. \n";
 }
 
+inline bool sure_change(const string& var, const string& val) {
+    std::cout << "Are you sure that you want change " + var + " to " + val + "? (y/n): ";
+    char answer;
+    std::cin >> answer;
+    return answer=='y' ? true : false; 
+}
+
 void edit_game(string name) {
     vector<Game>::iterator game = find(games.begin(), games.end(), name);
     if(game==games.end()) {
@@ -198,19 +216,28 @@ void edit_game(string name) {
     string var;
     std::cin >> var;
     std::cin.ignore();
+    string val;
 
     try {
         if(var=="name") {
-            game->set_name(get_game_var("name"));
+            val = get_game_var(var);
+            sure_change(var, val);    
+            game->set_name(val);
         }
         else if(var=="working_directory") {
-            game->set_working_directory(get_game_var("working_directory"));
+            val = get_game_var(var);
+            sure_change(var, val); 
+            game->set_working_directory(val);
         }
         else if(var=="executable") {
-            game->set_executable(get_game_var("executable"));
+            val = get_game_var(var);
+            sure_change(var, val); 
+            game->set_executable(val);
         }
         else if(var=="save_path") {
-            game->set_save_path(get_game_var("save_path"));
+            val = get_game_var(var);
+            sure_change(var, val); 
+            game->set_save_path(val);
         }
         else {
             std::cout << "Unknown variable!\n";
