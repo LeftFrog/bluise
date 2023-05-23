@@ -118,26 +118,27 @@ void print_help_console() {
               <<    "--add or -a - adds a game to the list\n" \
               <<    "--run or -r {name of a game} - runs game\n" \
               <<    "--back or -b {name of a game} - makes backup of your saves\n" \
-              <<    "--recover or -R {name of a game} - recover your saves\n" \
-              <<    "--show-info or -s {name of a game} - show info about a game\n" \
+              <<    "--recover or -R {name of a game} - recover syour saves\n" \
+              <<    "--show-info or -s {name of a game} - shows info about a game\n" \
+              <<    "--edit or -e {name of a game} - edits your game\n" \
               <<    splitter << endl;
 }
 
 void print_help() {
     std::cout <<    splitter \
               <<    "\nCommands: \n" \
-              <<    "add - add a game to the data base\n"  \
-              <<    "list - print names of all games\n" \
-              <<    "delete - delete a game from db\n" \
-              <<    "help - print list of commands\n" \
-              <<    "run - run a game\n" \
-              <<    "edit - edit exist game\n" \
+              <<    "add - adds a game to the data base\n"  \
+              <<    "list - prints names of all games\n" \
+              <<    "delete - deletes a game from db\n" \
+              <<    "help - prints list of commands\n" \
+              <<    "run - runs a game\n" \
+              <<    "edit - edits exist game\n" \
               <<    "show_info - shows info about a game\n" \
               <<    "save - saves your games list to file\n" \
               <<    "load - loads your games list from file\n" \
               <<    "back - makes backup of saves of your game\n" \
-              <<    "recover - recover your saves\n" \
-              <<    "exit - exit the program\n" \
+              <<    "recover - recovers your saves\n" \
+              <<    "exit - exits the program\n" \
               <<    splitter << endl;
 }
 
@@ -196,7 +197,7 @@ void edit_game(string name) {
     std::cout   << "Choose option to edit(name, working_directory, executable, save_path): \n";
     string var;
     std::cin >> var;
-    std::cout << "Enter value of the variable: \n";
+    std::cin.ignore();
 
     try {
         if(var=="name") {
@@ -298,6 +299,9 @@ void process_command_line(int& argc, char** argv) {
     }
     else if((string(argv[1])=="--delete" || string(argv[1])=="-d") && argc == 3) {
         delete_game(string(argv[2]));
+    }
+    else if((string(argv[1])=="--edit" || string(argv[1])=="-e") && argc == 3) {
+        edit_game(string(argv[2]));
     }
     else {
         std::cout << "Unknown command, plese type \"bluise -h\" to show help! \n";
