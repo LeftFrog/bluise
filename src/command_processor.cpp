@@ -18,7 +18,6 @@ string splitter = "<------------------------------->";
 inline string get_game_var(const string& var_name) {
     std::cout << "Enter a "+var_name+" of a game: \n";
     string var;
-    std::cin.ignore();
     std::getline(std::cin, var);
     return var;
 }
@@ -150,7 +149,6 @@ void delete_game(const string& name) {
         std::cout << "There isn't this game\n";
         return;
     }
-
     std::cout << "Are you sure that you want delete " + game->get_name() + "? (y/n): ";
     char answer;
     std::cin >> answer;
@@ -266,6 +264,7 @@ void process_commands() {
             print_help();
         }
         else if(command=="delete") {
+            std::cin.ignore();
             delete_game(get_game_var("name"));
         }
         else if(command=="exit") {
