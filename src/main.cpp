@@ -3,7 +3,12 @@
 int main(int argc, char** argv) {  
 
     readGLL();
-    process_commands();
+    if(argc==1) {
+        process_commands();
+    }
+    else {
+        process_command_line(argc, argv);
+    }
 
     return 0;
 }
