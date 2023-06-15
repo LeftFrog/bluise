@@ -1,10 +1,10 @@
-#include "command_processor.cpp"
+#include "ncurses_ui.cpp"
 
 int main(int argc, char** argv) {  
 
     readGLL();
     if(argc==1) {
-        process_commands();
+        print_ui();
     }
     else {
         process_command_line(argc, argv);
