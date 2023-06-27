@@ -1,4 +1,4 @@
-#include "command_processor.cpp"
+#include "../command_line/command_processor.cpp"
 #include "GameLine.h"
 
 namespace {

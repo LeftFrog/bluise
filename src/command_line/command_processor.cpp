@@ -2,17 +2,12 @@
 #include <fstream>
 #include <cctype>
 #include <algorithm>
-#include <vector>
 #include <filesystem>
-#include "invalid_path.h"
-#include "gll_syntax_error.h"
-#include "Game.h"
-#include "GLLReader.cpp"
+#include "../main/bluise.h"
 
 namespace fs = std::filesystem;
 const string HOME = getenv("HOME");
 
-vector<Game> games{};
 string splitter = "<------------------------------->";
 
 inline string get_game_var(const string& var_name) {
@@ -20,30 +15,6 @@ inline string get_game_var(const string& var_name) {
     string var;
     std::getline(std::cin, var);
     return var;
-}
-
-inline void saveGLL() {
-    sort(games.begin(), games.end());
-    ofstream oft(HOME+"/Documents/Bluise/Games.gll", std::ofstream::trunc);
-    oft << games;
-    oft.close();
-}
-
-inline void readGLL() {
-
-    ifstream ist(HOME+"/Documents/Bluise/Games.gll");
-    try {
-        games.clear();
-        ist >> games;
-    }
-    catch (const invalid_path& err) {
-        cerr << err.what();
-    }
-    catch (const gll_syntax_error& err) {
-        cerr << err.what();
-    }
- 
-    ist.close();
 }
 
 void print_game_vector() {

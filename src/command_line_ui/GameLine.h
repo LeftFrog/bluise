@@ -1,6 +1,6 @@
 #pragma once
 #include "ncurses.h"
-#include "Game.h"
+#include "../main/Game.h"
 #include "string"
 #include "Menu.h"
 
