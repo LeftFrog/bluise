@@ -218,59 +218,6 @@ void edit_game(string name) {
     }
 }
 
-void process_commands() {
-    string enter_command_prompt = "Enter a command: \n";
-    string command;
-    std::cout << enter_command_prompt;
-    while(std::cin>>command) {
-        std::transform(command.begin(), command.end(), command.begin(), [](unsigned char c){ return std::tolower(c); });
-        if(command=="add") {
-            std::cin.ignore();
-            add_game();
-        }
-        else if(command=="list") {
-            print_game_vector();
-        }
-        else if(command=="help") {
-            print_help();
-        }
-        else if(command=="delete") {
-            std::cin.ignore();
-            delete_game(get_game_var("name"));
-        }
-        else if(command=="exit") {
-            return;
-        }
-        else if(command=="run") {
-            run_game(get_game_var("name"));
-        }
-        else if(command=="show_info") {
-            show_info(get_game_var("name"));
-        }
-        else if(command=="edit") {
-            edit_game(get_game_var("name"));
-        }
-        else if(command=="load") {
-            readGLL();
-        }
-        else if(command=="save") {
-            saveGLL();
-        }
-        else if(command=="sync") {
-            std::cout << "Now this func is not available, but you can use syncthing to sync your saves!\n";
-        }
-        else if(command=="back") {
-            back(get_game_var("name"));
-        }
-        else if(command=="recover") {
-            recover(get_game_var("name"));
-        }
-        else {
-            std::cout << "Unknown command. Enter help to get list of the commands. \n";
-        }
-        std::cout << enter_command_prompt;
-    }
-}
 
 void process_command_line(int& argc, char** argv) {
     if(string(argv[1])=="--help" || string(argv[1])=="-h") {
