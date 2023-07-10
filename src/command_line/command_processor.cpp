@@ -96,24 +96,6 @@ void print_help_console() {
               <<    splitter << endl;
 }
 
-void print_help() {
-    std::cout <<    splitter \
-              <<    "\nCommands: \n" \
-              <<    "add - adds a game to the data base\n"  \
-              <<    "list - prints names of all games\n" \
-              <<    "delete - deletes a game from db\n" \
-              <<    "help - prints list of commands\n" \
-              <<    "run - runs a game\n" \
-              <<    "edit - edits exist game\n" \
-              <<    "show_info - shows info about a game\n" \
-              <<    "save - saves your games list to file\n" \
-              <<    "load - loads your games list from file\n" \
-              <<    "back - makes backup of saves of your game\n" \
-              <<    "recover - recovers your saves\n" \
-              <<    "exit - exits the program\n" \
-              <<    splitter << endl;
-}
-
 void delete_game(const string& name) {
     auto game = find(games.begin(), games.end(), name);
     if(game==games.end()) {
