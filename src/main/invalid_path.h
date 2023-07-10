@@ -1,11 +1,7 @@
 #pragma once
+#include "bluise_error.h"
 
-#include <string>
-using std::string;
-
-class invalid_path {
-    string message;
+class invalid_path : public bluise_error {
 public:
-    invalid_path(string msg) : message(msg) {}
-    string what() const { return message; }
+    invalid_path(const string& _msg) : bluise_error(_msg) {}
 };

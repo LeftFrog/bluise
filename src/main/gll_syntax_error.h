@@ -1,11 +1,7 @@
 #pragma once
+#include "bluise_error.h"
 
-#include <string>
-using std::string;
-
-class gll_syntax_error {
-    string message;
+class gll_syntax_error : public bluise_error {
 public:
-    gll_syntax_error(string msg) : message(msg) {}
-    string what() const { return message; }
+    gll_syntax_error(string _msg) : bluise_error(_msg) {}
 };

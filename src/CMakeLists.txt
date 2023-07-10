@@ -20,6 +20,6 @@ link_directories(${CMAKE_SOURCE_DIR}/lib)
 
 set(CMAKE_CXX_COMPILER clang++)
 
-add_executable(bluise main/bluise.cpp main/bluise.h main/GLLReader.cpp main/Game.h main/Game.cpp  main/invalid_path.h command_line_ui/GameLine.h command_line_ui/GameLine.cpp command_line_ui/Menu.h command_line_ui/Menu.cpp)
+add_executable(bluise main/bluise_error.h main/bluise.cpp main/bluise.h main/GLLReader.cpp main/Game.h main/Game.cpp  main/invalid_path.h command_line_ui/GameLine.h command_line_ui/GameLine.cpp command_line_ui/Menu.h command_line_ui/Menu.cpp)
 
 target_link_libraries(bluise ncurses)
