@@ -5,8 +5,7 @@
 #include <filesystem>
 #include "../main/bluise.h"
 
-namespace fs = std::filesystem;
-const string HOME = getenv("HOME");
+using bluise_core::games;
 
 string splitter = "<------------------------------->";
 
@@ -26,57 +25,34 @@ void print_game_vector() {
 }
 
 void back(const string& name) {
-    auto game = find(games.begin(), games.end(), name);
-
-    if(game==games.end()) {
-        std::cout << "There isn't this game!\n";
-        return;
+    try {
+        bluise_core::back(name);
+        std::cout << "Successfully made backup of your saves.\n";
+    } catch(const bluise_error& err) {
+        cerr << err.what() << endl;
     }
-
-    string back_path = HOME+"/Documents/Bluise/backs/"+name+"/";
-    if(!fs::exists(back_path)) {
-        if(!fs::create_directory(back_path)) {
-            std::cout << "Can't create directory!\n";
-            return;
-        }
-    }
-    std::system(string("cp -R \""+game->get_save_path()+".\" \""+back_path+"\"").c_str());
-    std::cout << "Successfully made backup of your saves.\n";
 }
 
 void recover(const string& name) {
-    auto game = find(games.begin(), games.end(), name);
-
-    if((game==games.end())) {
-        std::cout << "There isn't this game!\n";
-        return;
+    try {
+        bluise_core::recover(name);
+        std::cout << "Successfully recovered your saves.\n";
+    } catch(const bluise_error& err) {
+        cerr << err.what() << endl;
     }
-
-    string back_path = HOME+"/Documents/Bluise/backs/"+name+"/";
-    if(!fs::exists(back_path)) {
-        std::cout << "There isn't backups of saves of your game\n!";
-    }
-    std::system(string("cp -R \""+back_path+".\" \""+game->get_save_path()+"\"").c_str());
-    std::cout << "Successfully recovered your saves.\n";
 }
 
 void add_game() {
     string name = get_game_var("name");
-
-    if(!(find(games.begin(), games.end(), name)==games.end())) {
-        std::cout << "There is a game with the same name!\n";
-        return;
-    }
-
     string working_directory = get_game_var("working_directory");
     string executable = get_game_var("executable");
     string save_path = get_game_var("save_path");
 
     try {
-        games.push_back(Game(name, working_directory, executable, save_path));
+        bluise_core::add(name, working_directory, executable, save_path);
         std::cout << "The game successfully added.\n";
     }
-    catch(const invalid_path& err) {
+    catch(const bluise_error& err) {
         cerr << err.what() << endl;
     }
 }
@@ -97,27 +73,20 @@ void print_help_console() {
 }
 
 void delete_game(const string& name) {
-    auto game = find(games.begin(), games.end(), name);
-    if(game==games.end()) {
-        std::cout << "There isn't this game\n";
-        return;
-    }
-    std::cout << "Are you sure that you want delete " + game->get_name() + "? (y/n): ";
+    std::cout << "Are you sure that you want delete " + name + "? (y/n): ";
     char answer;
     std::cin >> answer;
     if(!(answer=='y')) {
         return;
     }
     std::cout << endl;  
-
-    if(games.size()==1) {
-        games.clear();
+    try {
+        bluise_core::delete_game(name);
         std::cout << "The game successfully deleted.\n";
-        return;
     }
-    games.erase(game);
-
-    std::cout << "The game successfully deleted.\n";
+    catch(const bluise_error& err) {
+        cerr << err.what() << endl;
+    }
 }
 
 void show_game_info(const vector<Game>::iterator& game) {
@@ -138,13 +107,12 @@ void show_info(const string& name) {
 }
 
 void run_game(const string& name) {
-    auto game = find(games.begin(), games.end(), name);
-    if(game==games.end()) {
-        std::cout << "There isn't this game\n";
-        return;
+    try {
+    bluise_core::run(name);
+    std::cout << "Successfully ran the game.\n";
+    } catch(const bluise_error& err) {
+        cerr << err.what() << endl;
     }
-    game->execute();
-    std::cout << "The game is running. \n";
 }
 
 inline bool sure_change(const string& var, const string& val) {
@@ -167,35 +135,12 @@ void edit_game(string name) {
     string var;
     std::cin >> var;
     std::cin.ignore();
-    string val;
+    string val = get_game_var(var);
 
     try {
-        if(var=="name") {
-            val = get_game_var(var);
-            sure_change(var, val);    
-            game->set_name(val);
-        }
-        else if(var=="working_directory") {
-            val = get_game_var(var);
-            sure_change(var, val); 
-            game->set_working_directory(val);
-        }
-        else if(var=="executable") {
-            val = get_game_var(var);
-            sure_change(var, val); 
-            game->set_executable(val);
-        }
-        else if(var=="save_path") {
-            val = get_game_var(var);
-            sure_change(var, val); 
-            game->set_save_path(val);
-        }
-        else {
-            std::cout << "Unknown variable!\n";
-            return;
-        }
+        bluise_core::edit(var, val, name);
     }
-    catch (const invalid_path& err) {
+    catch (const bluise_error& err) {
         cerr << err.what();
     }
 }
@@ -232,5 +177,5 @@ void process_command_line(int& argc, char** argv) {
     else {
         std::cout << "Unknown command, plese type \"bluise -h\" to show help! \n";
     }
-    saveGLL();
+    bluise_core::saveGLL();
 }

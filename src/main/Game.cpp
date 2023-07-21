@@ -16,9 +16,12 @@ void Game::set_executable(const string &e) {
     executable = e;
 }
 
-void Game::set_save_path(const string &sp) {
+void Game::set_save_path(string sp) {
     if(!std::filesystem::exists(sp)) {
             throw invalid_path("Invalid save path!");
+    }
+    if(sp[sp.size()-1] != '/') {
+        sp += '/';
     }
     save_path = sp;
 }
@@ -34,11 +37,11 @@ Game::Game(const string &n, const string &wd, const string &e, const string &sp)
 
 void Game::execute() const {
     if(type==linux_exe) { 
-        string command = "\""+ executable + "\" &";
+        string command = "nohup \""+ executable + "\" &";
         system(command.c_str());
     }
     else if(type==windows_exe) {
-        string command = "portproton \"" + executable + "\" &";
+        string command = "nohup portproton \"" + executable + "\" &";
         system(command.c_str());
     }
 }

@@ -23,7 +23,7 @@ public:
     void set_name(const string& n) { name = n; } ;
     void set_working_directory(const string& wd);
     void set_executable(const string& e);
-    void set_save_path(const string& sp);
+    void set_save_path(string sp);
 
     Game() {}
     Game(const string& n, const string& wd, const string& e, const string& sp);
