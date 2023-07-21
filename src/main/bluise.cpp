@@ -111,7 +111,6 @@ void delete_game(const string &name)
 }
 
 int main(int argc, char** argv) {  
-
     bluise_core::readGLL();
     if(argc==1) {
         print_ui();

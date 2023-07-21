@@ -2,12 +2,33 @@
 #include <fstream>
 #include <cctype>
 #include <algorithm>
-#include <filesystem>
+#include <map>
 #include "../main/bluise.h"
 
 using bluise_core::games;
+map<string, string> aliases;
 
 string splitter = "<------------------------------->";
+
+ostream& operator<<(ostream& os, map<string, string>& al) {
+    for(auto pair : al) {
+        os << pair.first << " = " << pair.second << '\n';
+    }
+        return os;
+}
+
+istream& operator>>(istream& is, map<string, string>& al) {
+    string line;
+    while(!is.eof()) {
+        getline(is, line);
+        int pos = line.find('=');
+        if(pos==string::npos) {
+            return is;
+        }
+        al[line.substr(0, pos-1)] = line.substr(pos+2, line.length()-1);
+    }
+    return is;
+}
 
 inline string get_game_var(const string& var_name) {
     std::cout << "Enter a "+var_name+" of a game: \n";
@@ -145,6 +166,27 @@ void edit_game(string name) {
     }
 }
 
+void create_alias(const string& name, const string& alias) {
+    aliases[alias] = name;
+    ofstream oft(bluise_core::HOME+"/Documents/Bluise/aliases.txt", std::ofstream::trunc);
+    oft << aliases;
+}
+
+const string alias_of(const string& alias) {
+    ifstream ist(bluise_core::HOME+"/Documents/Bluise/aliases.txt");
+    ist >> aliases;
+    string name;
+    try {
+    name = aliases.at(alias);
+    } catch(out_of_range error) {
+        return alias;
+    }
+    return name;
+}
+
+void delete_alias(const string& alias) {
+    aliases.erase(alias);
+}
 
 void process_command_line(int& argc, char** argv) {
     if(string(argv[1])=="--help" || string(argv[1])=="-h") {
@@ -157,22 +199,25 @@ void process_command_line(int& argc, char** argv) {
         print_game_vector();
     }
     else if((string(argv[1])=="--run" || string(argv[1])=="-r") && argc == 3) {
-        run_game(string(argv[2]));
+        run_game(alias_of(string(argv[2])));
     }
     else if((string(argv[1])=="--back" || string(argv[1])=="-b") && argc == 3) {
-        back(string(argv[2]));
+        back(alias_of(string(argv[2])));
     }
     else if((string(argv[1])=="--recover" || string(argv[1])=="-R") && argc == 3) {
-        recover(string(argv[2]));
+        recover(alias_of(string(argv[2])));
     }
     else if((string(argv[1])=="--show-info" || string(argv[1])=="-s") && argc == 3) {
-        show_info(string(argv[2]));
+        show_info(alias_of(string(argv[2])));
     }
     else if((string(argv[1])=="--delete" || string(argv[1])=="-d") && argc == 3) {
-        delete_game(string(argv[2]));
+        delete_game(alias_of(string(argv[2])));
     }
     else if((string(argv[1])=="--edit" || string(argv[1])=="-e") && argc == 3) {
-        edit_game(string(argv[2]));
+        edit_game(alias_of(string(argv[2])));
+    }
+    else if((string(argv[1])=="--alias" || string(argv[1])=="-A") && argc == 4) {
+        create_alias(string(argv[2]), string(argv[3]));
     }
     else {
         std::cout << "Unknown command, plese type \"bluise -h\" to show help! \n";
