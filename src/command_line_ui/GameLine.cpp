@@ -24,7 +24,9 @@ void GameLine::previous()
     menu.previous();
 }
 
-void GameLine::enter(WINDOW* subwin)
+void GameLine::enter()
 {
-    mvwprintw(subwin, 2, 4, "HELLP");
+    if(menu.button()==Menu::RUN) {
+        game->execute();
+    }
 }

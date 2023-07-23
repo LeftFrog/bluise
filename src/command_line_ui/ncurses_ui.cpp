@@ -93,10 +93,7 @@ void print_ui() {
             mvwprintw(bluise, 0, 1, "Add");
             break;
         case 10:
-            WINDOW* subwin = newwin(getmaxy(bluise) - 3, getmaxx(bluise)/2, 4, getmaxx(bluise)/2);
-            game_lines[current_index].enter(subwin);
-            wrefresh(subwin);
-            break;
+            game_lines[current_index].enter();
         }
     }  
 

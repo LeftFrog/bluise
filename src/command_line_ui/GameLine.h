@@ -17,6 +17,6 @@ public:
     void clear_menu();
     void next();
     void previous();
-    void enter(WINDOW* subwin);
+    void enter();
     GameLine(WINDOW* _win, Game* _game, const int& _y, const int& _x) : win(_win), game(_game), x(_x), y(_y) { menu = Menu(x+game->get_name().length()+1, y); }
 };

@@ -37,11 +37,11 @@ Game::Game(const string &n, const string &wd, const string &e, const string &sp)
 
 void Game::execute() const {
     if(type==linux_exe) { 
-        string command = "nohup \""+ executable + "\" &";
+        string command = "nohup \""+ executable + "\" &> /dev/null &";
         system(command.c_str());
     }
     else if(type==windows_exe) {
-        string command = "nohup portproton \"" + executable + "\" &";
+        string command = "nohup portproton \"" + executable + "\" &> /dev/null &";
         system(command.c_str());
     }
 }
