@@ -41,7 +41,7 @@ void print_ui() {
 
     wrefresh(bluise);
     char ch;
-    while(ch = wgetch(bluise)) {
+    while((ch = wgetch(bluise))) {
         switch (ch)
         {
         case 'x':

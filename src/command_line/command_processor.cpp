@@ -90,6 +90,8 @@ void print_help_console() {
               <<    "--show-info or -s {name of a game} - shows info about a game\n" \
               <<    "--delete or -d {name of a game} - deletes game from list\n" \
               <<    "--edit or -e {name of a game} - edits your game\n" \
+              <<    "--alias or -a {alias} {name of a game} - adds alias to game\n" \
+              <<    "--delete-alias or -D {alias} - deletes alias of a game\n" \
               <<    splitter << endl;
 }
 
@@ -166,15 +168,34 @@ void edit_game(string name) {
     }
 }
 
-void create_alias(const string& name, const string& alias) {
-    aliases[alias] = name;
+inline void load_aliases() {
+    ifstream ist(bluise_core::HOME+"/Documents/Bluise/aliases.txt");
+    ist >> aliases;
+}
+
+inline void save_aliases() {
     ofstream oft(bluise_core::HOME+"/Documents/Bluise/aliases.txt", std::ofstream::trunc);
     oft << aliases;
 }
 
+void create_alias(const string& alias, const string& name) {
+    load_aliases();
+    for(auto al : aliases) {
+        if(al.first==alias) {
+            cerr << "There is already this alias!\n";
+            return;
+        }
+    }
+    if(find(games.begin(), games.end(), name)==games.end()) {
+        cerr << "There isn't this game!\n";
+        return;
+    }
+    aliases[alias] = name;
+    save_aliases();
+}
+
 const string alias_of(const string& alias) {
-    ifstream ist(bluise_core::HOME+"/Documents/Bluise/aliases.txt");
-    ist >> aliases;
+    load_aliases();
     string name;
     try {
     name = aliases.at(alias);
@@ -185,7 +206,9 @@ const string alias_of(const string& alias) {
 }
 
 void delete_alias(const string& alias) {
+    load_aliases();
     aliases.erase(alias);
+    save_aliases();
 }
 
 void process_command_line(int& argc, char** argv) {
@@ -218,6 +241,9 @@ void process_command_line(int& argc, char** argv) {
     }
     else if((string(argv[1])=="--alias" || string(argv[1])=="-A") && argc == 4) {
         create_alias(string(argv[2]), string(argv[3]));
+    }
+    else if((string(argv[1])=="--delete-alias" || string(argv[1])=="-D") && argc == 3) {
+        delete_alias(string(argv[2]));
     }
     else {
         std::cout << "Unknown command, plese type \"bluise -h\" to show help! \n";
