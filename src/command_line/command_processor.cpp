@@ -90,7 +90,7 @@ void print_help_console() {
               <<    "--show-info or -s {name of a game} - shows info about a game\n" \
               <<    "--delete or -d {name of a game} - deletes game from list\n" \
               <<    "--edit or -e {name of a game} - edits your game\n" \
-              <<    "--alias or -a {alias} {name of a game} - adds alias to game\n" \
+              <<    "--alias or -A {alias} {name of a game} - adds alias to game\n" \
               <<    "--delete-alias or -D {alias} - deletes alias of a game\n" \
               <<    splitter << endl;
 }
