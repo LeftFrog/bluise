@@ -4,6 +4,8 @@
 namespace {
 
 vector<GameLine> game_lines;
+int maxx, maxy;
+WINDOW* bluise;
 
 void print_games() {
     for(int i = 0; i < game_lines.size(); ++i) {
@@ -11,21 +13,23 @@ void print_games() {
     }
 }
 
+void print_bluise() {
+    box(bluise, 0, 0);
+    mvwprintw(bluise, 0, (maxx - 10)/2, "Bluise");
+    mvwprintw(bluise, 0, 1, "Add");
+    print_games();
+    refresh();
+    wrefresh(bluise);
+}
+
 void print_ui() {
     initscr();
     noecho();
     curs_set(0);
-
-    int maxx = getmaxx(stdscr);
-    int maxy = getmaxy(stdscr);
-
-    WINDOW* bluise = newwin(maxy - 3, maxx - 2, 2, 2);
-    refresh();
-
-    box(bluise, 0, 0);
-
-    mvwprintw(bluise, 0, (maxx - 7)/2 , "Bluise");
-    mvwprintw(bluise, 0, 1, "Add");
+    maxx = getmaxx(stdscr);
+    maxy = getmaxy(stdscr);
+    bluise = newwin(maxy - 3, maxx - 2, 2, 2);
+    print_bluise();
 
     for(int i = 0; i < games.size(); ++i) {
         game_lines.push_back(GameLine(bluise, &games[i], i+1, 2));
@@ -89,12 +93,17 @@ void print_ui() {
             game_lines[current_index].previous();
             game_lines[current_index].print_menu();
             break;
+        case 10:
+            if(game_lines[current_index].enter() == 1) {
+                game_lines.erase(game_lines.begin() + current_index);
+            }
+            break;
         default:
             mvwprintw(bluise, 0, 1, "Add");
             break;
-        case 10:
-            game_lines[current_index].enter();
         }
+        clear();
+        print_bluise();
     }  
 
     getch();
