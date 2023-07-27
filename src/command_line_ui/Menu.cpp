@@ -1,5 +1,10 @@
 #include "Menu.h"
 
+void Menu::update_pos(int _y, int _x) {
+    y = _y;
+    x = _x;
+}
+
 void Menu::print(WINDOW* win)
 {
     int _x = x;

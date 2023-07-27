@@ -1,5 +1,10 @@
 #include "GameLine.h"
 
+void GameLine::update_pos(int _y) {
+    y = _y;
+    menu.update_pos(y, x+game->get_name().length()+1);
+}
+
 void GameLine::print()
 {
     mvwprintw(win, y, x, game->get_name().c_str());

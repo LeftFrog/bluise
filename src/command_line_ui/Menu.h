@@ -21,7 +21,8 @@ public:
             DELETE
         };
     Menu(const int& _x, const int& _y) : x(_x), y(_y) {}
-    Menu() : x(15), y(1) {}
+    Menu() : x(0), y(0) {}
+    void update_pos(int _y, int _x);
     void next();
     void previous();
     int button();

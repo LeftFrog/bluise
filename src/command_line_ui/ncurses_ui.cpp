@@ -6,6 +6,8 @@ namespace {
 vector<GameLine> game_lines;
 int maxx, maxy;
 WINDOW* bluise;
+int current_index = 0;
+
 
 void print_games() {
     for(int i = 0; i < game_lines.size(); ++i) {
@@ -13,16 +15,34 @@ void print_games() {
     }
 }
 
+void update_pos() {
+    for(int i = 0; i < game_lines.size(); ++i) {
+        game_lines[i].update_pos(i+1);
+    }
+}
+
+void print_current() {
+    print_games();
+    wattron(bluise, A_STANDOUT);
+    game_lines[current_index].print();
+    wattroff(bluise, A_STANDOUT);
+    game_lines[current_index].print_menu();
+}
+
 void print_bluise() {
     box(bluise, 0, 0);
     mvwprintw(bluise, 0, (maxx - 10)/2, "Bluise");
-    mvwprintw(bluise, 0, 1, "Add");
-    print_games();
     refresh();
     wrefresh(bluise);
 }
 
-void print_ui() {
+inline void init_game_lines() {
+    for(int i = 0; i < games.size(); ++i) {
+        game_lines.push_back(GameLine(bluise, &games[i], i+1));
+    }
+}
+
+void init_ui() {
     initscr();
     noecho();
     curs_set(0);
@@ -30,29 +50,16 @@ void print_ui() {
     maxy = getmaxy(stdscr);
     bluise = newwin(maxy - 3, maxx - 2, 2, 2);
     print_bluise();
-
-    for(int i = 0; i < games.size(); ++i) {
-        game_lines.push_back(GameLine(bluise, &games[i], i+1, 2));
-    }
-
-    int current_index = 0;
-
-    print_games();
-    wattron(bluise, A_STANDOUT);
-    game_lines[current_index].print();
-    wattroff(bluise, A_STANDOUT);
-    game_lines[current_index].print_menu();
-
+    init_game_lines();
+    print_current();
     wrefresh(bluise);
+}
+
+void process_input() {
     char ch;
     while((ch = wgetch(bluise))) {
         switch (ch)
         {
-        case 'x':
-            wattron(bluise, A_STANDOUT);
-            mvwprintw(bluise, 0, 1, "Add");
-            wattroff(bluise, A_STANDOUT);
-            break;
         case 65:
         case 'w':
             game_lines[current_index].clear_menu();
@@ -62,11 +69,7 @@ void print_ui() {
             else {
                 current_index -= 1; 
             }
-            print_games();
-            wattron(bluise, A_STANDOUT);
-            game_lines[current_index].print();
-            wattroff(bluise, A_STANDOUT);
-            game_lines[current_index].print_menu();
+            print_current();
             break;
         case 66:
         case 's':
@@ -77,11 +80,7 @@ void print_ui() {
             else {
                 current_index += 1; 
             }
-            print_games();
-            wattron(bluise, A_STANDOUT);
-            game_lines[current_index].print();
-            wattroff(bluise, A_STANDOUT);
-            game_lines[current_index].print_menu();
+            print_current();
             break;
         case 67:
         case 'd':
@@ -95,16 +94,28 @@ void print_ui() {
             break;
         case 10:
             if(game_lines[current_index].enter() == 1) {
+                string name = game_lines[current_index].name();
                 game_lines.erase(game_lines.begin() + current_index);
+                bluise_core::delete_game(name);
+                bluise_core::saveGLL();
+                update_pos();
             }
+            current_index = 0;
+            clear();
+            werase(bluise);
+            print_bluise();
+            print_current();
             break;
         default:
-            mvwprintw(bluise, 0, 1, "Add");
             break;
         }
-        clear();
-        print_bluise();
-    }  
+    } 
+}
+
+void print_ui() {
+    init_ui();
+    
+    process_input();
 
     getch();
     endwin();
