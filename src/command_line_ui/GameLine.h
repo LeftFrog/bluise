@@ -12,7 +12,7 @@ private:
     const static int x = 2;
     int y;
 public:
-    void print();
+    inline void print() const { mvwprintw(win, y, x, game->get_name().c_str()); }
     void print_menu();
     void update_pos(int _y);
     string name() {return game->get_name();}

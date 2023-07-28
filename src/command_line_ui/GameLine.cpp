@@ -5,11 +5,6 @@ void GameLine::update_pos(int _y) {
     menu.update_pos(y, x+game->get_name().length()+1);
 }
 
-void GameLine::print()
-{
-    mvwprintw(win, y, x, game->get_name().c_str());
-}
-
 void GameLine::print_menu()
 {
     menu.print(win);
@@ -71,6 +66,7 @@ int GameLine::enter()
                 }
                 break;
             case 10:
+                delwin(sure);
                 return 1;
             }
         }

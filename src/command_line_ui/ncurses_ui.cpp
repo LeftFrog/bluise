@@ -8,20 +8,25 @@ int maxx, maxy;
 WINDOW* bluise;
 int current_index = 0;
 
+const char ENTER = 10;
+const char RIGHT_ARROW = 67;
+const char LEFT_ARROW = 68;
+const char UP_ARROW = 65;
+const char DOWN_ARROW = 66;
 
 void print_games() {
-    for(int i = 0; i < game_lines.size(); ++i) {
-        game_lines[i].print();
+    for(const auto gl : game_lines) {
+        gl.print();
     }
 }
 
-void update_pos() {
+const void update_pos() {
     for(int i = 0; i < game_lines.size(); ++i) {
         game_lines[i].update_pos(i+1);
     }
 }
 
-void print_current() {
+const void print_current() {
     print_games();
     wattron(bluise, A_STANDOUT);
     game_lines[current_index].print();
@@ -37,6 +42,7 @@ void print_bluise() {
 }
 
 inline void init_game_lines() {
+    game_lines.reserve(bluise_core::games.size());
     for(int i = 0; i < games.size(); ++i) {
         game_lines.push_back(GameLine(bluise, &games[i], i+1));
     }
@@ -56,11 +62,14 @@ void init_ui() {
 }
 
 void process_input() {
+    nodelay(bluise, true); 
+    timeout(100); 
+
     char ch;
     while((ch = wgetch(bluise))) {
         switch (ch)
         {
-        case 65:
+        case UP_ARROW:
         case 'w':
             game_lines[current_index].clear_menu();
             if(current_index==0) {
@@ -71,7 +80,7 @@ void process_input() {
             }
             print_current();
             break;
-        case 66:
+        case DOWN_ARROW:
         case 's':
             game_lines[current_index].clear_menu();
             if(current_index==game_lines.size() - 1) {
@@ -82,17 +91,17 @@ void process_input() {
             }
             print_current();
             break;
-        case 67:
+        case RIGHT_ARROW:
         case 'd':
             game_lines[current_index].next();
             game_lines[current_index].print_menu();
             break;
-        case 68:
+        case LEFT_ARROW:
         case 'a':
             game_lines[current_index].previous();
             game_lines[current_index].print_menu();
             break;
-        case 10:
+        case ENTER:
             if(game_lines[current_index].enter() == 1) {
                 string name = game_lines[current_index].name();
                 game_lines.erase(game_lines.begin() + current_index);
