@@ -2,7 +2,7 @@
 
 void GameLine::update_pos(int _y) {
     y = _y;
-    menu.update_pos(y, x+game->get_name().length()+1);
+    menu.update_pos(y, x+game.get_name().length()+1);
 }
 
 void GameLine::print_menu()
@@ -11,7 +11,7 @@ void GameLine::print_menu()
 }
 
 void GameLine::clear_menu() {
-    mvwprintw(win, y, x+game->get_name().length()+1, "                                      ");
+    mvwprintw(win, y, x+game.get_name().length()+1, "                                      ");
 }
 
 void GameLine::next()
@@ -27,7 +27,7 @@ void GameLine::previous()
 int GameLine::enter()
 {
     if(menu.button()==Menu::RUN) {
-        game->execute();
+        game.execute();
         return 0;
     }
     else if(menu.button()==Menu::DELETE) {
@@ -35,7 +35,7 @@ int GameLine::enter()
         WINDOW* sure = newwin(getmaxy(stdscr) / 2 , getmaxx(stdscr) / 2, getmaxy(stdscr) * 1 / 4, getmaxx(stdscr) * 1 / 4);
         refresh();
         box(sure, 0, 0);
-        string ok = "Are you sure that you want delete " + game->get_name() + "? (y/n): ";
+        string ok = "Are you sure that you want delete " + game.get_name() + "? (y/n): ";
         mvwprintw(sure, 1, (getmaxx(sure) - ok.length()) / 2, ok.c_str());
         wattron(sure, A_STANDOUT);
         mvwprintw(sure, getmaxy(sure) - 2, getmaxx(sure) * 1 / 4, "YES");

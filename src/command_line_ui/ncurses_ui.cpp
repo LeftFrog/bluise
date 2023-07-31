@@ -44,7 +44,7 @@ void print_bluise() {
 inline void init_game_lines() {
     game_lines.reserve(bluise_core::games.size());
     for(int i = 0; i < games.size(); ++i) {
-        game_lines.push_back(GameLine(bluise, &games[i], i+1));
+        game_lines.push_back(GameLine(bluise, games[i], i+1));
     }
 }
 

@@ -105,7 +105,9 @@ void delete_game(const string &name)
         games.clear();
         return;
     }
-    games.erase(game);
+    else {
+        games.erase(game);
+    }
 }
 
 }
