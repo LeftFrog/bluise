@@ -1,9 +1,8 @@
+//#include <cctype>
 #include <iostream>
-#include <fstream>
-#include <cctype>
-#include <algorithm>
+#include <string>
 #include <map>
-#include "../main/bluise.h"
+#include "bluise.h"
 
 using bluise_core::games;
 map<string, string> aliases;
@@ -211,7 +210,7 @@ void delete_alias(const string& alias) {
     save_aliases();
 }
 
-void process_command_line(int& argc, char** argv) {
+void process_command_line(int argc, char** argv) {
     if(string(argv[1])=="--help" || string(argv[1])=="-h") {
         print_help_console();
     }
@@ -248,5 +247,13 @@ void process_command_line(int& argc, char** argv) {
     else {
         std::cout << "Unknown command, plese type \"bluise -h\" to show help! \n";
     }
+}
+
+int main(int argc, char** argv) {
+    bluise_core::readGLL();
+    if(argc > 0) {
+        process_command_line(argc, argv);
+    }
     bluise_core::saveGLL();
+    return 0;
 }

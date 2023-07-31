@@ -1,6 +1,5 @@
 #include "bluise.h"
-#include "../command_line_ui/ncurses_ui.cpp"
-//#include "../command_line/command_processor.cpp"
+
 namespace bluise_core {
 void back(const string& name) {
     auto game = find(games.begin(), games.end(), name);
@@ -52,14 +51,14 @@ void edit(const string &var, const string &val, const string &name)
     }
 }
 
-inline void saveGLL() {
+void saveGLL() {
     sort(games.begin(), games.end());
     ofstream oft(HOME+"/Documents/Bluise/Games.gll", std::ofstream::trunc);
     oft << games;
     oft.close();
 }
 
-inline void readGLL() {
+void readGLL() {
 
     ifstream ist(HOME+"/Documents/Bluise/Games.gll");
     try {
@@ -110,16 +109,4 @@ void delete_game(const string &name)
     }
 }
 
-}
-
-int main(int argc, char** argv) {  
-    bluise_core::readGLL();
-    if(argc==1) {
-        print_ui();
-    }
-    else {
-        process_command_line(argc, argv);
-    }
-
-    return 0;
 }

@@ -1,9 +1,12 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <algorithm>
+#include <fstream>
 #include "Game.h"
 #include "invalid_path.h"
 #include "gll_syntax_error.h"
+#include "bluise_error.h"
 #include "GLLReader.cpp"
 #include <filesystem>
 
@@ -11,10 +14,10 @@ namespace fs = std::filesystem;
 
 namespace bluise_core {
 vector<Game> games{};
-const string HOME = getenv("HOME");
+const string HOME = string(getenv("HOME"));
 
-inline void saveGLL();
-inline void readGLL();
+void saveGLL();
+void readGLL();
 
 void back(const string& name);
 void recover(const string& name);
