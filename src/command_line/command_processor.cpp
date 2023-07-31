@@ -251,9 +251,9 @@ void process_command_line(int argc, char** argv) {
 
 int main(int argc, char** argv) {
     bluise_core::readGLL();
-    if(argc > 0) {
-        process_command_line(argc, argv);
-    }
+    //if(argc > 0) {
+    //    process_command_line(argc, argv);
+    //}
     bluise_core::saveGLL();
     return 0;
 }

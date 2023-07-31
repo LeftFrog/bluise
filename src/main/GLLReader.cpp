@@ -1,9 +1,6 @@
-#include <iostream>
-#include "Game.h"
-#include <vector>
-#include "gll_syntax_error.h"
+#include "GLLReader.h"
 
-namespace {
+namespace bluise_core{
     ostream& operator<<(ostream& os, vector<Game>& games) {
         for(auto game : games) {
             os << (game.get_name() + " {\n");
@@ -55,6 +52,4 @@ namespace {
         }
         return is;
     }
-
-    
 }

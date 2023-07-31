@@ -1,6 +1,9 @@
 #include "bluise.h"
 
 namespace bluise_core {
+
+const string HOME = string(getenv("HOME"));
+
 void back(const string& name) {
     auto game = find(games.begin(), games.end(), name);
 

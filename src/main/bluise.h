@@ -7,14 +7,14 @@
 #include "invalid_path.h"
 #include "gll_syntax_error.h"
 #include "bluise_error.h"
-#include "GLLReader.cpp"
+#include "GLLReader.h"
 #include <filesystem>
 
 namespace fs = std::filesystem;
 
 namespace bluise_core {
 vector<Game> games{};
-const string HOME = string(getenv("HOME"));
+extern const string HOME;
 
 void saveGLL();
 void readGLL();
