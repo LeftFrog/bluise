@@ -71,4 +71,27 @@ int GameLine::enter()
             }
         }
     }
+    else if(menu.button()==Menu::SHOWINFO) {
+        clear();
+        WINDOW* info = newwin(getmaxy(stdscr) - 2, getmaxx(stdscr) - 2 , 2, 2);
+        refresh();
+        box(info, 0, 0);
+        mvwprintw(info, 2, 2, string("Name: " + game.get_name()).c_str());
+        mvwprintw(info, 4, 2, string("Working directory: " + game.get_working_directory()).c_str());
+        mvwprintw(info, 6, 2, string("Executable: " + game.get_executable()).c_str());
+        mvwprintw(info, 8, 2, string("Save path: " + game.get_save_path()).c_str());
+        wattron(info, A_STANDOUT);
+        mvwprintw(info, getmaxy(info) - 2, getmaxx(info) / 2 - 6, "Back");
+        wattroff(info, A_STANDOUT);
+        char ch;
+        while(ch = wgetch(info)) {
+            switch(ch) 
+            {
+            case 10:
+                delwin(info);
+                return 0;
+            }
+        }
+    }
 }
+
