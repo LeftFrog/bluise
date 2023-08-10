@@ -1,4 +1,6 @@
 #include "GameLine.h"
+#include "buttons.h"
+#include "../main/bluise.h"
 
 void GameLine::update_pos(int _y) {
     y = _y;
@@ -46,8 +48,8 @@ int GameLine::enter()
         while((c = wgetch(sure))) {
             switch(c) 
             {
-            case 67:
-            case 68:
+            case RIGHT_ARROW:
+            case LEFT_ARROW:
             case 'a':
             case 'd':    
                 if(yes) {
@@ -65,7 +67,7 @@ int GameLine::enter()
                     yes = true;
                 }
                 break;
-            case 10:
+            case ENTER:
                 delwin(sure);
                 return 1;
             }
@@ -87,9 +89,27 @@ int GameLine::enter()
         while(ch = wgetch(info)) {
             switch(ch) 
             {
-            case 10:
+            case ENTER:
                 delwin(info);
                 return 0;
+            }
+        }
+    }
+    else if(menu.button()==Menu::BACK) {
+        WINDOW* ok = newwin(getmaxy(stdscr) / 2 , getmaxx(stdscr) / 2, getmaxy(stdscr) * 1 / 4, getmaxx(stdscr) * 1 / 4);
+        refresh();
+        box(ok, 0, 0);
+        mvwprintw(ok, getmaxy(ok) / 2, getmaxx(ok) / 2 - game.get_name().length() - 2, game.get_name().c_str());
+        wattron(ok, A_STANDOUT);
+        mvwprintw(ok, getmaxy(ok) - 2, getmaxx(ok) / 2 - 6, "Back");
+        wattroff(ok, A_STANDOUT);
+        char ch;
+        while(ch = wgetch(ok)) {
+            switch(ch) 
+            {
+            case ENTER:
+                delwin(ok);
+                return 2;
             }
         }
     }

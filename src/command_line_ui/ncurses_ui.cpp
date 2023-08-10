@@ -1,5 +1,6 @@
-#include "../command_line/command_processor.cpp"
+#include "../main/bluise.h"
 #include "GameLine.h"
+#include "buttons.h"
 
 namespace {
 
@@ -7,12 +8,6 @@ vector<GameLine> game_lines;
 int maxx, maxy;
 WINDOW* bluise;
 int current_index = 0;
-
-const char ENTER = 10;
-const char RIGHT_ARROW = 67;
-const char LEFT_ARROW = 68;
-const char UP_ARROW = 65;
-const char DOWN_ARROW = 66;
 
 void print_games() {
     for(const auto gl : game_lines) {
@@ -43,8 +38,8 @@ void print_bluise() {
 
 inline void init_game_lines() {
     game_lines.reserve(bluise_core::games.size());
-    for(int i = 0; i < games.size(); ++i) {
-        game_lines.push_back(GameLine(bluise, games[i], i+1));
+    for(int i = 0; i < bluise_core::games.size(); ++i) {
+        game_lines.push_back(GameLine(bluise, bluise_core::games[i], i+1));
     }
 }
 
@@ -102,13 +97,6 @@ void process_input() {
             game_lines[current_index].print_menu();
             break;
         case ENTER:
-            if(game_lines[current_index].enter() == 1) {
-                string name = game_lines[current_index].name();
-                game_lines.erase(game_lines.begin() + current_index);
-                bluise_core::delete_game(name);
-                bluise_core::saveGLL();
-                update_pos();
-            }
             current_index = 0;
             clear();
             werase(bluise);

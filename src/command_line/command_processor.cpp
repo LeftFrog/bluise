@@ -1,15 +1,12 @@
-#include <iostream>
-#include <fstream>
-#include <cctype>
-#include <algorithm>
-#include <map>
-#include "../main/bluise.h"
+#include "command_processor.h"
 
 using bluise_core::games;
 map<string, string> aliases;
 
 string splitter = "<------------------------------->";
 
+namespace bluise_command_line {
+    
 ostream& operator<<(ostream& os, map<string, string>& al) {
     for(auto pair : al) {
         os << pair.first << " = " << pair.second << '\n';
@@ -78,7 +75,7 @@ void add_game() {
     }
 }
 
-void print_help_console() {
+void print_help() {
     std::cout <<    splitter \
               <<    "\nCommands: \n" \
               <<    "--help or -h - shows this list of the commands\n" \
@@ -213,7 +210,7 @@ void delete_alias(const string& alias) {
 
 void process_command_line(int& argc, char** argv) {
     if(string(argv[1])=="--help" || string(argv[1])=="-h") {
-        print_help_console();
+        print_help();
     }
     else if(string(argv[1])=="--add" || string(argv[1])=="-a") {
         add_game();
@@ -249,4 +246,6 @@ void process_command_line(int& argc, char** argv) {
         std::cout << "Unknown command, plese type \"bluise -h\" to show help! \n";
     }
     bluise_core::saveGLL();
+}
+
 }

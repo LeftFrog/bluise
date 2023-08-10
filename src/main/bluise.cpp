@@ -1,6 +1,7 @@
 #include "bluise.h"
 #include "../command_line_ui/ncurses_ui.cpp"
-//#include "../command_line/command_processor.cpp"
+#include "../command_line/command_processor.h"
+
 namespace bluise_core {
 void back(const string& name) {
     auto game = find(games.begin(), games.end(), name);
@@ -118,7 +119,7 @@ int main(int argc, char** argv) {
         print_ui();
     }
     else {
-        process_command_line(argc, argv);
+        bluise_command_line::process_command_line(argc, argv);
     }
 
     return 0;
