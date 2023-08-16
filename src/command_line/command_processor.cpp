@@ -1,5 +1,6 @@
 //#include <cctype>
 #include <iostream>
+#include <QVector>
 #include <string>
 #include <map>
 #include "bluise.h"
@@ -111,7 +112,7 @@ void delete_game(const string& name) {
     }
 }
 
-void show_game_info(const vector<Game>::iterator& game) {
+void show_game_info(const QVector<Game>::iterator& game) {
     std::cout   << splitter << endl << "Name: " + game->get_name()  << endl \
                 << "Working directory: " + game->get_working_directory()  << endl\
                 << "Executable: " + game->get_executable() << endl \
@@ -145,7 +146,7 @@ inline bool sure_change(const string& var, const string& val) {
 }
 
 void edit_game(string name) {
-    vector<Game>::iterator game = find(games.begin(), games.end(), name);
+    QVector<Game>::iterator game = find(games.begin(), games.end(), name);
     if(game==games.end()) {
         std::cout << "There isn't this game\n";
         return;
@@ -251,9 +252,9 @@ void process_command_line(int argc, char** argv) {
 
 int main(int argc, char** argv) {
     bluise_core::readGLL();
-    //if(argc > 0) {
-    //    process_command_line(argc, argv);
-    //}
+    if(argc > 0) {
+        process_command_line(argc, argv);
+    }
     bluise_core::saveGLL();
     return 0;
 }

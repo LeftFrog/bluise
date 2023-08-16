@@ -1,7 +1,7 @@
 #pragma once
-#include <vector>
 #include <string>
 #include <algorithm>
+#include <QVector>
 #include <fstream>
 #include "Game.h"
 #include "invalid_path.h"
@@ -13,7 +13,7 @@
 namespace fs = std::filesystem;
 
 namespace bluise_core {
-vector<Game> games{};
+QVector<Game> games{};
 extern const string HOME;
 
 void saveGLL();

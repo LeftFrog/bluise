@@ -8,6 +8,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(PROJECT_SOURCES
 )
 
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
+
 include_directories(${CMAKE_SOURCE_DIR}/inc)
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 
@@ -18,4 +21,5 @@ set(CMAKE_CXX_COMPILER clang++)
 
 add_executable(bluise command_line/command_processor.cpp)
 
-target_link_libraries(bluise bluise-core)
+target_link_libraries(bluise PRIVATE Qt${QT_VERSION_MAJOR}::Core)
+target_link_libraries(bluise PUBLIC bluise_core)
