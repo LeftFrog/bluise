@@ -1,20 +1,23 @@
 #pragma once
-#include <vector>
 #include <string>
+#include <algorithm>
+#include <QVector>
+#include <fstream>
 #include "Game.h"
 #include "invalid_path.h"
 #include "gll_syntax_error.h"
-#include "GLLReader.cpp"
+#include "bluise_error.h"
+#include "GLLReader.h"
 #include <filesystem>
 
 namespace fs = std::filesystem;
 
 namespace bluise_core {
-vector<Game> games{};
-const string HOME = getenv("HOME");
+QVector<Game> games{};
+extern const string HOME;
 
-inline void saveGLL();
-inline void readGLL();
+void saveGLL();
+void readGLL();
 
 void back(const string& name);
 void recover(const string& name);

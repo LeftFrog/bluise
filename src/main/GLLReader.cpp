@@ -1,10 +1,7 @@
-#include <iostream>
-#include "Game.h"
-#include <vector>
-#include "gll_syntax_error.h"
+#include "GLLReader.h"
 
-namespace {
-    ostream& operator<<(ostream& os, vector<Game>& games) {
+namespace bluise_core{
+    ostream& operator<<(ostream& os, QVector<Game>& games) {
         for(auto game : games) {
             os << (game.get_name() + " {\n");
             os << ("working_directory = " + game.get_working_directory() + '\n');
@@ -19,7 +16,7 @@ namespace {
         string var;
         is >> var;
         if(var!=var_name) {
-            throw gll_syntax_error("Syntax Error!\nThere isnt \""+var_name+"\"!");
+            throw gll_syntax_error("Syntax Error!\nThere isnt \""+var_name+"\"!" + var);
         }
         is >> var;
         if(var!="=") {
@@ -29,7 +26,7 @@ namespace {
         return var.substr(1, var.length());
     }
 
-    istream& operator>>(istream& is, vector<Game>& games) {
+    istream& operator>>(istream& is, QVector<Game>& games) {
         while(!is.eof()) {
             string line;
             string name;
@@ -45,7 +42,10 @@ namespace {
                 throw gll_syntax_error("Syntax Error!\nThere isnt \"{\"!");
             }
             name = line.substr(0, line.length() - 2);
-            Game g(name, get_var("working_directory", is), get_var("executable", is), get_var("save_path", is));
+            string wd = get_var("working_directory", is);
+            string ex = get_var("executable", is);
+            string sp = get_var("save_path", is);
+            Game g(name, wd, ex, sp);
             string var;
             is >> var;
             if(var!="}") {
@@ -55,6 +55,4 @@ namespace {
         }
         return is;
     }
-
-    
 }

@@ -3,5 +3,5 @@
 
 class gll_syntax_error : public bluise_error {
 public:
-    gll_syntax_error(string _msg) : bluise_error(_msg) {}
+    gll_syntax_error(const string& _msg) : bluise_error(_msg) {}
 };
