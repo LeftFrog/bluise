@@ -13,7 +13,7 @@
 namespace fs = std::filesystem;
 
 namespace bluise_core {
-QVector<Game> games{};
+extern QVector<Game> games;
 extern const string HOME;
 
 void saveGLL();

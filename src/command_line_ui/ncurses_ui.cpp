@@ -1,8 +1,6 @@
-#include "../main/bluise.h"
 #include "GameLine.h"
+//#include "bluise.h"
 #include "buttons.h"
-
-namespace {
 
 vector<GameLine> game_lines;
 int maxx, maxy;
@@ -39,8 +37,14 @@ void print_bluise() {
 inline void init_game_lines() {
     game_lines.reserve(bluise_core::games.size());
     for(int i = 0; i < bluise_core::games.size(); ++i) {
-        game_lines.push_back(GameLine(bluise, bluise_core::games[i], i+1));
+        game_lines.push_back(GameLine(bluise, &bluise_core::games[i], i+1));
     }
+}
+inline void update_game_lines() {
+    for(int i = 0; i < game_lines.size(); ++i) {
+        game_lines[i].update_gameptr(&bluise_core::games[i]);
+    }
+    update_pos();
 }
 
 void init_ui() {
@@ -97,6 +101,10 @@ void process_input() {
             game_lines[current_index].print_menu();
             break;
         case ENTER:
+            if(game_lines[current_index].enter() == 1) {
+                game_lines.erase(game_lines.begin() + current_index);
+                update_game_lines();
+            }
             current_index = 0;
             clear();
             werase(bluise);
@@ -116,6 +124,4 @@ void print_ui() {
 
     getch();
     endwin();
-}
-
 }

@@ -4,12 +4,11 @@
 #include <map>
 #include "bluise.h"
 
+QVector<Game> bluise_core::games;
 using bluise_core::games;
 map<string, string> aliases;
 
 string splitter = "<------------------------------->";
-
-namespace bluise_command_line {
     
 ostream& operator<<(ostream& os, map<string, string>& al) {
     for(auto pair : al) {

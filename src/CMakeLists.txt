@@ -19,7 +19,8 @@ link_directories(../build_lib)
 
 set(CMAKE_CXX_COMPILER clang++)
 
-add_executable(bluise starter.cpp)
+add_executable(bluise starter.cpp ./command_line_ui/GameLine.cpp ./command_line_ui/Menu.cpp)
 
 target_link_libraries(bluise PRIVATE Qt${QT_VERSION_MAJOR}::Core)
+target_link_libraries(bluise PUBLIC ncurses)
 target_link_libraries(bluise PUBLIC bluise_core)
