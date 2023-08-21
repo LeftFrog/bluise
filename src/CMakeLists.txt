@@ -19,7 +19,7 @@ link_directories(../build_lib)
 
 set(CMAKE_CXX_COMPILER clang++)
 
-add_executable(bluise command_line/command_processor.cpp)
+add_executable(bluise starter.cpp)
 
 target_link_libraries(bluise PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 target_link_libraries(bluise PUBLIC bluise_core)

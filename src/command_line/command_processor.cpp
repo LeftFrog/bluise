@@ -1,4 +1,8 @@
-#include "command_processor.h"
+#include <iostream>
+#include <QVector>
+#include <string>
+#include <map>
+#include "bluise.h"
 
 using bluise_core::games;
 map<string, string> aliases;
@@ -245,12 +249,4 @@ void process_command_line(int argc, char** argv) {
     else {
         std::cout << "Unknown command, plese type \"bluise -h\" to show help! \n";
     }
-}
-
-int main(int argc, char** argv) {
-    bluise_core::readGLL();
-    if(argc > 0) {
-        process_command_line(argc, argv);
-    }
-    bluise_core::saveGLL();
 }
