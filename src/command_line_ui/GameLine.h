@@ -1,10 +1,8 @@
 #pragma once
-#include "ncurses.h"
-#include "string"
 #include "Menu.h"
-#include "buttons.h"
 #include "Game.h"
 #include "bluise.h"
+#include "winmaker.cpp"
 
 class GameLine {
 private:
