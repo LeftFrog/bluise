@@ -141,5 +141,49 @@ int GameLine::enter()
             }
         }
     }
+    else if(menu.button()==Menu::RECOVER) {
+        clear();
+        WINDOW* sure = newwin(getmaxy(stdscr) / 2 , getmaxx(stdscr) / 2, getmaxy(stdscr) * 1 / 4, getmaxx(stdscr) * 1 / 4);
+        refresh();
+        box(sure, 0, 0);
+        string ok = "Do you want to recover saves for the "+game->get_name()+"?";
+        mvwprintw(sure, 1, (getmaxx(sure) - ok.length()) / 2, ok.c_str());
+        wattron(sure, A_STANDOUT);
+        mvwprintw(sure, getmaxy(sure) - 2, getmaxx(sure) * 1 / 4, "YES");
+        wattroff(sure, A_STANDOUT);
+        mvwprintw(sure, getmaxy(sure) - 2, getmaxx(sure) * 3 / 4 - 1, "NO");
+        bool yes = true;
+        char ch;
+        while(ch = wgetch(sure)) {
+            switch(ch) 
+            {
+            case RIGHT_ARROW:
+            case LEFT_ARROW:
+            case 'a':
+            case 'd':    
+                if(yes) {
+                    mvwprintw(sure, getmaxy(sure) - 2, getmaxx(sure) * 1 / 4, "YES");
+                    wattron(sure, A_STANDOUT);
+                    mvwprintw(sure, getmaxy(sure) - 2, getmaxx(sure) * 3 / 4 - 1, "NO");
+                    wattroff(sure, A_STANDOUT);
+                    yes = false;
+                }
+                else {
+                    wattron(sure, A_STANDOUT);
+                    mvwprintw(sure, getmaxy(sure) - 2, getmaxx(sure) * 1 / 4, "YES");
+                    wattroff(sure, A_STANDOUT);
+                    mvwprintw(sure, getmaxy(sure) - 2, getmaxx(sure) * 3 / 4 - 1, "NO");
+                    yes = true;
+                }
+                break;
+            case ENTER:
+                delwin(sure);
+                if(yes) {
+                    bluise_core::recover(game->get_name());
+                }
+                return 0;
+            }
+        }
+    }
 }
 
