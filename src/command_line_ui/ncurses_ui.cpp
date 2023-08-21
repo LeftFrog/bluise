@@ -119,9 +119,6 @@ void process_input() {
 
 void print_ui() {
     init_ui();
-    
     process_input();
-
-    getch();
     endwin();
 }
