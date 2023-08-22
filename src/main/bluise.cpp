@@ -2,8 +2,6 @@
 
 namespace bluise_core {
 
-const string HOME = string(getenv("HOME"));
-
 void back(const string& name) {
     auto game = find(games.begin(), games.end(), name);
 
@@ -11,7 +9,7 @@ void back(const string& name) {
         throw bluise_error("There isn't this game!");
     }
 
-    string back_path = HOME+"/Documents/Bluise/backs/"+name+"/";
+    string back_path = BACKUP_PATH+name+"/";
     if(!fs::exists(back_path)) {
         if(!fs::create_directory(back_path)) {
             throw bluise_error("Can't create directory!");
@@ -27,11 +25,20 @@ void recover(const string& name) {
         throw bluise_error("There isn't this game!");
     }
 
-    string back_path = HOME+"/Documents/Bluise/backs/"+name+"/";
+    string back_path = BACKUP_PATH+name+"/";
     if(!fs::exists(back_path)) {
         throw bluise_error("There isn't backups of saves of your game");
     }
     std::system(string("cp -R \""+back_path+".\" \""+game->get_save_path()+"\"").c_str());
+}
+
+bool has_backup(const string &name)
+{
+    auto game = find(games.begin(), games.end(), name);
+    if(game==games.end()) {
+        throw bluise_error("There isn't this game!");
+    }
+    return fs::exists(BACKUP_PATH+name) ? true : false;
 }
 
 void edit(const string &var, const string &val, const string &name)
