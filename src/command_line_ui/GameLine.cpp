@@ -20,29 +20,6 @@ void make_info_win(const string& info_str) {
     }
 }
 
-void make_info_win(const vector<string>& info_str) {
-    clear();
-    WINDOW* info = newwin(getmaxy(stdscr) - 2, getmaxx(stdscr) - 2 , 2, 2);
-    refresh();
-    box(info, 0, 0);
-    for(int i = 0; i < info_str.size(); ++i) {
-        mvwprintw(info, i+1, 2, info_str[i].c_str());
-    }
-    wattron(info, A_STANDOUT);
-    mvwprintw(info, getmaxy(info) - 2, (getmaxx(info) - 4) / 2, "Back");
-    wattroff(info, A_STANDOUT);
-    char ch;
-    while(ch = wgetch(info)) {
-        switch(ch) 
-        {
-        case ENTER:
-            delwin(info);
-            break;
-        }
-    }
-}
-
-
 void GameLine::update_pos(int _y) {
     y = _y;
     menu.update_pos(y, x+game->get_name().length()+1);
@@ -120,11 +97,26 @@ int GameLine::enter()
         }
     }
     else if(menu.button()==Menu::SHOWINFO) {
-        vector<string> info = { "Name: " + game->get_name(), 
-                                "Working directory: " + game->get_working_directory(), 
-                                "Executable: " + game->get_executable(), 
-                                "Save path: " + game->get_save_path()};
-        make_info_win(info);
+        clear();
+        WINDOW* info = newwin(getmaxy(stdscr) - 2, getmaxx(stdscr) - 2 , 2, 2);
+        refresh();
+        box(info, 0, 0);
+        mvwprintw(info, 1, 2, string("Name: " + game->get_name()).c_str());
+        mvwprintw(info, 2, 2, string("Working directory: " + game->get_working_directory()).c_str());
+        mvwprintw(info, 3, 2, string("Executable: " + game->get_executable()).c_str());
+        mvwprintw(info, 4, 2, string("Save path: " + game->get_save_path()).c_str());
+        wattron(info, A_STANDOUT);
+        mvwprintw(info, getmaxy(info) - 2, (getmaxx(info) - 4) / 2, "Back");
+        wattroff(info, A_STANDOUT);
+        char ch;
+        while(ch = wgetch(info)) {
+            switch(ch) 
+            {
+            case ENTER:
+                delwin(info);
+                return 0;
+            }
+        }
     }
     else if(menu.button()==Menu::BACK) {
         clear();
