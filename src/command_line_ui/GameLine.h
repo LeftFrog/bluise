@@ -2,7 +2,7 @@
 #include "Menu.h"
 #include "Game.h"
 #include "bluise.h"
-#include "winmaker.cpp"
+#include "buttons.h"
 
 class GameLine {
 private:

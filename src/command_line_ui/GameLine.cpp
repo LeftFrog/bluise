@@ -1,5 +1,48 @@
 #include "GameLine.h"
 
+void make_info_win(const string& info_str) {
+    clear();
+    WINDOW* info = newwin(getmaxy(stdscr) / 2 , getmaxx(stdscr) / 2, getmaxy(stdscr) * 1 / 4, getmaxx(stdscr) * 1 / 4);
+    refresh();
+    box(info, 0, 0);
+    mvwprintw(info, 1, (getmaxx(info) - info_str.length()) / 2, info_str.c_str());
+    wattron(info, A_STANDOUT);
+    mvwprintw(info, getmaxy(info) - 2, (getmaxx(info) - 4) / 2, "Back");
+    wattroff(info, A_STANDOUT);
+    char ch;
+    while(ch = wgetch(info)) {
+        switch(ch) 
+        {
+        case ENTER:
+            delwin(info);
+            return;
+        }
+    }
+}
+
+void make_info_win(const vector<string>& info_str) {
+    clear();
+    WINDOW* info = newwin(getmaxy(stdscr) - 2, getmaxx(stdscr) - 2 , 2, 2);
+    refresh();
+    box(info, 0, 0);
+    for(int i = 0; i < info_str.size(); ++i) {
+        mvwprintw(info, i+1, 2, info_str[i].c_str());
+    }
+    wattron(info, A_STANDOUT);
+    mvwprintw(info, getmaxy(info) - 2, (getmaxx(info) - 4) / 2, "Back");
+    wattroff(info, A_STANDOUT);
+    char ch;
+    while(ch = wgetch(info)) {
+        switch(ch) 
+        {
+        case ENTER:
+            delwin(info);
+            break;
+        }
+    }
+}
+
+
 void GameLine::update_pos(int _y) {
     y = _y;
     menu.update_pos(y, x+game->get_name().length()+1);
@@ -27,6 +70,7 @@ void GameLine::previous()
 int GameLine::enter()
 {
     if(menu.button()==Menu::RUN) {
+        make_info_win("The game is running!");
         game->execute();
         return 0;
     }
