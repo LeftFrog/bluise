@@ -1,19 +1,14 @@
-#include <vector>
-#include <string>
-#include <iostream>
-#include "../main/bluise.h"
-#include "../command_line/command_processor.h"
+#include "bluise.h"
+#include <QtWidgets>
 
-void qt_win() {}
-
-int main(int argc, char** argv) {  
-    bluise_core::readGLL();
-    if(argc==1) {
-        qt_win();
+int qt_win(int argc, char** argv) {
+    QApplication a(argc, argv);
+    QWidget w;
+    QVBoxLayout* VBL = new QVBoxLayout();
+    for(int i = 0; i < bluise_core::games.size(); ++i) {
+        VBL->addWidget(new QLabel(bluise_core::games[i].get_name().c_str()));
     }
-    else {
-        bluise_command_line::process_command_line(argc, argv);
-    }
-
-    return 0;
+    w.setLayout(VBL);
+    w.show();
+    return a.exec();
 }

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(bluise_core VERSION 0.4.5 LANGUAGES CXX C)
+project(bluise_core VERSION 0.5 LANGUAGES CXX C)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
