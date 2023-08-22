@@ -2,6 +2,9 @@
 
 namespace bluise_core {
 
+const string HOME = string(getenv("HOME"));
+const string BACKUP_PATH = HOME+"/Documents/Bluise/backs/";
+
 void back(const string& name) {
     auto game = find(games.begin(), games.end(), name);
 
@@ -32,7 +35,7 @@ void recover(const string& name) {
     std::system(string("cp -R \""+back_path+".\" \""+game->get_save_path()+"\"").c_str());
 }
 
-bool has_backup(const string &name)
+bool has_backup(const string& name)
 {
     auto game = find(games.begin(), games.end(), name);
     if(game==games.end()) {

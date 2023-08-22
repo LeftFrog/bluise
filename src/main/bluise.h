@@ -14,8 +14,8 @@ namespace fs = std::filesystem;
 
 namespace bluise_core {
 extern QVector<Game> games;
-extern const string HOME = string(getenv("HOME"));
-const string BACKUP_PATH = HOME+"/Documents/Bluise/backs/";
+extern const string HOME;
+extern const string BACKUP_PATH;
 
 void saveGLL();
 void readGLL();

@@ -131,6 +131,10 @@ int GameLine::enter()
         return 0;
     }
     else if(menu.button()==Menu::RECOVER) {
+        if(!bluise_core::has_backup(game->get_name())) {
+            make_info_win("There aren't any backups of saves for your game.");
+            return -1;
+        }
         string ok = "Do you want to recover saves for the "+game->get_name()+"?";
         if(make_yes_no_win(ok)) {
             bluise_core::recover(game->get_name());
