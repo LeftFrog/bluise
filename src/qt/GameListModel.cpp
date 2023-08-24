@@ -33,7 +33,7 @@ int GameListModel::rowCount(const QModelIndex &parent) const
 Qt::ItemFlags GameListModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags flags = QAbstractListModel::flags(index);
-    return index.isValid() ? (flags | Qt::ItemIsEditable) : flags;
+    return flags;
 }
 
 void GameListModel::run_game(const QModelIndex &index) {
