@@ -5,6 +5,7 @@ using namespace std;
 
 class Game
 {
+protected:
     enum exec_type{linux_exe, windows_exe};
 
     string name;

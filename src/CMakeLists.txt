@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Bluise VERSION 0.5 LANGUAGES CXX C)
+project(Bluise VERSION 0.5.1 LANGUAGES CXX C)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -22,7 +22,7 @@ link_directories(../build_lib)
 
 set(CMAKE_CXX_COMPILER clang++)
 
-add_executable(bluise starter.cpp ./qt/GameListModel.cpp)
+add_executable(bluise starter.cpp ./qt/GameListModel.cpp ./qt/QGame.cpp)
 
 target_link_libraries(bluise PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(bluise PUBLIC ncurses)

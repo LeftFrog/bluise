@@ -1,11 +1,25 @@
 #include "GameListModel.h"
 
+GameListModel::GameListModel(QObject *parent)  : QAbstractListModel(parent) {
+    for(auto game : bluise_core::games) {
+        games.push_back(QGame(game.get_name(), game.get_working_directory(), game.get_executable(), game.get_save_path()));
+    }
+}
+
 QVariant GameListModel::data(const QModelIndex &index, int role) const
 {
-    if(!index.isValid() || index.row() > bluise_core::games.size() || index.row() < 0) {
+    if(!index.isValid() || index.row() > games.size() || index.row() < 0) {
         return QVariant();
     }
-    return (role == Qt::DisplayRole || role == Qt::EditRole) ? (bluise_core::games[index.row()].get_name().c_str()) : QVariant();
+    if(role == Qt::DisplayRole || role == Qt::EditRole){
+        return QString(games[index.row()].get_name().c_str());
+    }
+    else if(role == Qt::DecorationRole) {
+        return games[index.row()].get_icon();
+    }
+    else {
+        return QVariant();
+    }
 }
 
 int GameListModel::rowCount(const QModelIndex &parent) const
