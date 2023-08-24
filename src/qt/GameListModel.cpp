@@ -35,3 +35,7 @@ Qt::ItemFlags GameListModel::flags(const QModelIndex &index) const
     Qt::ItemFlags flags = QAbstractListModel::flags(index);
     return index.isValid() ? (flags | Qt::ItemIsEditable) : flags;
 }
+
+void GameListModel::run_game(const QModelIndex &index) {
+    games[index.row()].execute();
+}

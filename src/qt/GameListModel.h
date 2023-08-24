@@ -1,4 +1,5 @@
 #pragma once
+#include <QObject>
 #include <QAbstractListModel> 
 #include <QVector>
 #include "QGame.h"
@@ -12,6 +13,8 @@ public:
     QVariant data(const QModelIndex& index, int role) const;
     int rowCount(const QModelIndex& parent = QModelIndex()) const;
     Qt::ItemFlags flags(const QModelIndex& index) const;
+public slots:
+    void run_game(const QModelIndex& index);
 private:
     QVector<QGame> games;
 };
