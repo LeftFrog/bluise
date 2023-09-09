@@ -15,7 +15,7 @@ QVariant GameListModel::data(const QModelIndex &index, int role) const
         return QString(games[index.row()].get_name().c_str());
     }
     else if(role == Qt::DecorationRole) {
-        return games[index.row()].get_icon();
+        return games[index.row()].get_header();
     }
     else {
         return QVariant();
