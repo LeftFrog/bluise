@@ -11,4 +11,5 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent *event) override;
 private:
     char color_mod = 0;
+    QRect play_button;
 };
