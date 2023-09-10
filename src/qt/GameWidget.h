@@ -12,4 +12,6 @@ protected:
 private:
     char color_mod = 0;
     QRect play_button;
+    QPushButton* play_butt;
+    QPushButton* sett_butt;
 };

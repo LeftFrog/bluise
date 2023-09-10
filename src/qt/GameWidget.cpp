@@ -4,6 +4,10 @@ GameWidget::GameWidget( QWidget *parent) : QWidget(parent) {
     //setSizePolicy(QSizePolicy::Fixed);
     setMinimumSize(QSize(260, 145));
     setMouseTracking(true);
+    play_butt = new QPushButton(this);
+    play_butt->setIcon(QIcon("/home/leftfrog/Downloads/play.png"));
+    play_butt->setIconSize(QSize(30, 30));
+    play_butt->setGeometry(QRect(QPoint(260-40, 145-38), QSize(35, 35)));
 }
 
 QSize GameWidget::sizeHint() const {
@@ -23,12 +27,6 @@ void GameWidget::paintEvent(QPaintEvent *event) {
     painter.setPen(QPen(palette().color(QPalette::WindowText), 3));
     painter.setFont(QFont("Arial", 11));
     painter.drawText(QRect(15, height()-20, 100, 20), Qt::AlignLeft, "Baldur's Gate");
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(QBrush(palette().color(QPalette::Active, QPalette::ColorRole::Button), Qt::SolidPattern));
-    painter.drawRoundedRect(play_button, 5, 5);
-    QImage play_button_img = QImage("/home/leftfrog/Downloads/play.png");
-    play_button = QRect(width()-40, height()-35, 30, 30);
-    painter.drawImage(play_button, play_button_img.scaled(30, 30));
     QWidget::paintEvent(event);
 }
 
