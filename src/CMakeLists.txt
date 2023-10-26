@@ -22,7 +22,7 @@ link_directories(../build_lib)
 
 set(CMAKE_CXX_COMPILER clang++)
 
-add_executable(bluise starter.cpp ./qt/GameWidget.cpp ./qt/QGame.cpp)
+add_executable(bluise starter.cpp ./qt/GameWidget.cpp ./qt/QGame.cpp ./qt/GameListWidget.cpp)
 
 target_link_libraries(bluise PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(bluise PUBLIC ncurses)

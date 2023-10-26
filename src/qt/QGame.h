@@ -9,9 +9,10 @@
 class QGame : public Game {
 public:
     QGame(const string& n, const string& wd, const string& e, const string& sp);
+    QGame(Game& game);
     QIcon get_icon() const { return icon; }
-    QIcon get_header() const { return header; }
+    QPixmap get_header() const { return header; }
 private:
     QIcon icon;
-    QIcon header;
+    QPixmap header;
 };
