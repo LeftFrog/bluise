@@ -10,7 +10,6 @@
 int qt_win(int argc, char** argv) {
     QApplication a(argc, argv);
     QWidget w;
-    Game* g = &bluise_core::games[0];
     QGridLayout* Grid = new QGridLayout();
     for(int i = 0; i < bluise_core::games.size(); ++i) {
         Grid->addWidget(new GameWidget(&bluise_core::games[i], &w), 1, i);

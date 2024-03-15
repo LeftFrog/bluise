@@ -1,10 +1,6 @@
 #pragma once
-//#include <QtWidgets>
 #include <QQuickWidget>
 #include <QQuickItem>
-// #include <QWidget>
-// #include <QPushButton>
-// #include <QObject>
 #include "Game.h"
 
 class GameWidget : public QQuickWidget {

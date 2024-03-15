@@ -4,6 +4,7 @@
 GameWidget::GameWidget(Game* _game, QWidget *parent) : QQuickWidget(QUrl("./GameWidget.qml"), parent), game(_game) {
     resize(sizeHint());
     setMinimumSize(sizeHint());
+    
     QQuickItem* root = rootObject();
     QQuickItem* main_rect = root->findChild<QQuickItem*>("MainRect");
     QQuickItem* text = main_rect->findChild<QQuickItem*>("Name");

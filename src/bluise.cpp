@@ -76,6 +76,9 @@ void recover(const string& name) {
 void edit(const Game::var_type &var, const string &val, const string &name)
 {
     auto game = find(games.begin(), games.end(), name);
+    if(game==games.end()) {
+        throw bluise_error("There isn't this game!");
+    }
     switch(var) {
         case Game::var_type::name:
             game->set_name(val);
@@ -203,10 +206,11 @@ void print_game_vector() {
 void back(const string& name) {
     try {
         bluise_core::back(name);
-        std::cout << "Successfully made backup of your saves.\n";
     } catch(const bluise_error& err) {
         std::cerr << err.what() << std::endl;
+        return;
     }
+    std::cout << "Successfully made backup of your saves.\n";
 }
 
 void recover(const string& name) {
@@ -226,11 +230,12 @@ void add_game() {
 
     try {
         bluise_core::add(name, working_directory, executable, save_path);
-        std::cout << "The game successfully added.\n";
     }
     catch(const bluise_error& err) {
         std::cerr << err.what() << std::endl;
+        return;
     }
+    std::cout << "The game successfully added.\n";
 }
 
 void print_help() {
@@ -260,11 +265,12 @@ void delete_game(const string& name) {
     std::cout << std::endl;
     try {
         bluise_core::delete_game(name);
-        std::cout << "The game successfully deleted.\n";
     }
     catch(const bluise_error& err) {
         std::cerr << err.what() << std::endl;
+        return;
     }
+    std::cout << "The game successfully deleted.\n";
 }
 
 void show_game_info(const QList<Game>::iterator& game) {
@@ -287,10 +293,11 @@ void show_info(const string& name) {
 void run_game(const string& name) {
     try {
         bluise_core::run(name);
-        std::cout << "Successfully ran the game.\n";
     } catch(const bluise_error& err) {
         std::cerr << err.what() << std::endl;
+        return;
     }
+    std::cout << "Successfully ran the game.\n";
 }
 
 inline bool sure_change(const string& var, const string& val) {

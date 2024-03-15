@@ -1,8 +1,6 @@
 #pragma once
 #include <string>
-//#include <QIcon>
 #include <QPixmap>
-//#include "bluise.h"
 
 using std::string;
 class Game
@@ -16,8 +14,7 @@ protected:
     string executable;
     string save_path;
     QString header_path;
-    //QIcon icon;
-    
+
     exec_type type;
 
 public:
@@ -27,7 +24,6 @@ public:
     inline string get_working_directory() const { return working_directory; }
     inline string get_executable() const { return executable; }
     inline string get_save_path() const { return save_path; }
-    //QIcon get_icon() const { return icon; }
     QString get_header_path() const { return header_path; }
 
     void set_name(const string& n) { name = n; } ;

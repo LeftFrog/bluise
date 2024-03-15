@@ -56,7 +56,7 @@ void Game::execute() const {
     else if(type==windows_exe) {
         string command = "nohup portproton \"" + executable + "\" &> /dev/null &";
         system(command.c_str());
-
+    }
 #elif __WIN32
         system(executable.c_str());
 #elif __APPLE__
