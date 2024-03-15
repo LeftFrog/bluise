@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Bluise VERSION 0.5.1 LANGUAGES CXX C)
+project(Bluise VERSION 0.6 LANGUAGES CXX C)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -8,22 +8,37 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(PROJECT_SOURCES
+set(CMAKE_PREFIX_PATH /Users/Shared/Qt/6.6.2/macos/lib/cmake/)
+
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets Quick)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Quick QuickWidgets)
+
+qt_standard_project_setup()
+
+
+qt_add_qml_module(appBluise_qml
+    URI Bluise_qml
+    VERSION 1.0
+    QML_FILES GameWidget.qml
 )
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+set(PROJECT_SOURCES
+    starter.cpp
+    bluise.h
+    bluise.cpp
+    bluise_error.h
+    command_processor.cpp
+    Game.h
+    Game.cpp
+    gll_syntax_error.h
+    invalid_path.h
+    GLLReader.h
+    GLLReader.cpp
+)
 
-include_directories(${CMAKE_SOURCE_DIR}/inc)
-link_directories(${CMAKE_SOURCE_DIR}/lib)
+qt_add_executable(bluise starter.cpp bluise.cpp Game.cpp GLLReader.cpp GameWidget.cpp)
 
-include_directories(./main)
-link_directories(../build_lib)
+target_link_libraries(bluise PRIVATE Qt6::Widgets)
+target_link_libraries(bluise PRIVATE Qt6::Quick)
+target_link_libraries(bluise PRIVATE Qt6::QuickWidgets)
 
-set(CMAKE_CXX_COMPILER clang++)
-
-add_executable(bluise starter.cpp ./qt/GameWidget.cpp ./qt/QGame.cpp ./qt/GameListWidget.cpp)
-
-target_link_libraries(bluise PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-target_link_libraries(bluise PUBLIC ncurses)
-target_link_libraries(bluise PUBLIC bluise_core)
