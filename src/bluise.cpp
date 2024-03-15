@@ -7,7 +7,7 @@
 #include "gll_syntax_error.h"
 #include <filesystem>
 #include <QStandardPaths>
-
+ 
 namespace bluise_core {
 namespace fs = std::filesystem;
 const string DOCS = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString()+"/Bluise/";
@@ -37,8 +37,6 @@ void bluise_core::sort(Iterator begin, Iterator end)
         sort(bound+1, end);
     }
 }
-
-
 
 void back(const string& name) {
     auto game = find(games.begin(), games.end(), name);
@@ -73,31 +71,6 @@ void recover(const string& name) {
     fs::copy(back_path, game->get_save_path(), fs::copy_options::recursive | fs::copy_options::overwrite_existing);
 }
 
-void edit(const Game::var_type &var, const string &val, const string &name)
-{
-    auto game = find(games.begin(), games.end(), name);
-    if(game==games.end()) {
-        throw bluise_error("There isn't this game!");
-    }
-    switch(var) {
-        case Game::var_type::name:
-            game->set_name(val);
-            break;
-        case Game::var_type::working_directory:
-            game->set_working_directory(val);
-            break;
-        case Game::var_type::executable:
-            game->set_executable(val);
-            break;
-        case Game::var_type::save_path:
-            game->set_save_path(val);
-            break;
-        default:
-            throw bluise_error("Unknown variable!");
-            break;
-    }
-}
-
 void saveGLL() {
     if(!fs::exists(DOCS)) {
         fs::create_directories(DOCS);
@@ -123,43 +96,11 @@ void readGLL() {
     ist.close();
 }
 
-void add(const string &name, const string &working_directory, const string &executable, const string &save_path)
-{
-    auto game = find(games.begin(), games.end(), name);
-    if (game!=games.end())
-    {
-        throw bluise_error("There is a game with the same name!");
-    }
-    games.push_back(Game(name, working_directory, executable, save_path));
-}
-
-void run(const string &name)
-{
-    auto game = find(games.begin(), games.end(), name);
-    if(game==games.end()) {
-        throw bluise_error("There isn't this game!");
-    }
-    game->execute();
-}
-
-void delete_game(const string &name)
-{
-    auto game = find(games.begin(), games.end(), name);
-    if(game==games.end()) {
-        throw bluise_error("There isn't this game!");
-    }
-    if(games.size()==1) {
-        games.clear();
-        return;
-    }
-    else {
-        games.erase(game);
-    }
-}
-
 }
 
 namespace command_processor {
+namespace bc = bluise_core;
+
 std::map<string, string> aliases;
 std::map<string, Game::var_type> types = {  {"name", Game::var_type::name},
                                             {"working_directory", Game::var_type::working_directory},
@@ -229,7 +170,12 @@ void add_game() {
     string save_path = get_game_var("save_path");
 
     try {
-        bluise_core::add(name, working_directory, executable, save_path);
+        auto game = find(bc::games.begin(), bc::games.end(), name);
+        if (game!=bc::games.end())
+        {
+            throw bluise_error("There is a game with the same name!");
+        }
+        bc::games.push_back(Game(name, working_directory, executable, save_path));
     }
     catch(const bluise_error& err) {
         std::cerr << err.what() << std::endl;
@@ -264,7 +210,17 @@ void delete_game(const string& name) {
     }
     std::cout << std::endl;
     try {
-        bluise_core::delete_game(name);
+        auto game = find(bc::games.begin(), bc::games.end(), name);
+        if(game==bc::games.end()) {
+            throw bluise_error("There isn't this game!");
+        }
+        if(bc::games.size()==1) {
+            bc::games.clear();
+            return;
+        }
+        else {
+            bc::games.erase(game);
+        }
     }
     catch(const bluise_error& err) {
         std::cerr << err.what() << std::endl;
@@ -282,8 +238,8 @@ void show_game_info(const QList<Game>::iterator& game) {
 }
 
 void show_info(const string& name) {
-    auto game = find(bluise_core::games.begin(), bluise_core::games.end(), name);
-    if(game==bluise_core::games.end()) {
+    auto game = find(bc::games.begin(), bc::games.end(), name);
+    if(game==bc::games.end()) {
         std::cout << "There isn't this game\n";
         return;
     }
@@ -292,7 +248,11 @@ void show_info(const string& name) {
 
 void run_game(const string& name) {
     try {
-        bluise_core::run(name);
+        auto game = find(bc::games.begin(), bc::games.end(), name);
+        if(game==bc::games.end()) {
+            throw bluise_error("There isn't this game!");
+        }
+        game->execute();
     } catch(const bluise_error& err) {
         std::cerr << err.what() << std::endl;
         return;
@@ -308,8 +268,8 @@ inline bool sure_change(const string& var, const string& val) {
 }
 
 void edit_game(string name) {
-    QList<Game>::iterator game = find(bluise_core::games.begin(), bluise_core::games.end(), name);
-    if(game==bluise_core::games.end()) {
+    QList<Game>::iterator game = find(bc::games.begin(), bc::games.end(), name);
+    if(game==bc::games.end()) {
         std::cout << "There isn't this game\n";
         return;
     }
@@ -323,7 +283,23 @@ void edit_game(string name) {
     string val = get_game_var(var_name);
     Game::var_type var = types[var_name];
     try {
-        bluise_core::edit(var, val, name);
+            switch(var) {
+            case Game::var_type::name:
+                game->set_name(val);
+                break;
+            case Game::var_type::working_directory:
+                game->set_working_directory(val);
+                break;
+            case Game::var_type::executable:
+                game->set_executable(val);
+                break;
+            case Game::var_type::save_path:
+                game->set_save_path(val);
+                break;
+            default:
+                throw bluise_error("Unknown variable!");
+                break;
+        }
     }
     catch (const bluise_error& err) {
         std::cerr << err.what();

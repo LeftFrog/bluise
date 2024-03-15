@@ -17,10 +17,6 @@ void readGLL();
 
 void back(const string& name);
 void recover(const string& name);
-void edit(const Game::var_type& var, const string& val, const string& name);
-void add(const string& name, const string& working_directory, const string& executable, const string& save_path);
-void run(const string& name);
-void delete_game(const string& name);
 }
 
 namespace command_processor {
