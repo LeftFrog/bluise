@@ -2,6 +2,7 @@
 #include <filesystem>
 #include "bluise.h"
 #include "invalid_path.h"
+#include <QDebug>
 
 void Game::set_working_directory(const string &wd) {
     if(!std::filesystem::exists(wd)) {
@@ -60,7 +61,8 @@ void Game::execute() const {
 #elif __WIN32
         system(executable.c_str());
 #elif __APPLE__
-        string command = "open -a "+executable;
+        qDebug() << executable;
+        string command = "open -a \""+executable+"\"";
         system(command.c_str());
 #endif
 }

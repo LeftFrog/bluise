@@ -1,5 +1,4 @@
 #include <QtWidgets>
-#include "bluise.h"
 #include "GameWidget.h"
 
 class GameListWidget : public QWidget {
