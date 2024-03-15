@@ -17,7 +17,6 @@ void readGLL();
 
 void back(const string& name);
 void recover(const string& name);
-// bool has_backup(const string& name);
 void edit(const string& var, const string& val, const string& name);
 void add(const string& name, const string& working_directory, const string& executable, const string& save_path);
 void run(const string& name);

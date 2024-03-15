@@ -15,6 +15,7 @@ const string BACKUP_PATH = DOCS+"backs/";
 
 QList<Game> games;
 
+// std::sort does not work on my mac ¯⁠\⁠_⁠(⁠ツ⁠)⁠_⁠/⁠¯
 template<typename Iterator>
 Iterator part(Iterator begin, Iterator end) {
     auto previous = std::prev(end);
@@ -55,7 +56,7 @@ void back(const string& name) {
             throw bluise_error("Can't create directory!");
         }
     }
-    std::system(string("cp -R \""+game->get_save_path()+".\" \""+back_path+"\"").c_str());
+    fs::copy(game->get_save_path(), back_path+".", fs::copy_options::recursive);
 }
 
 void recover(const string& name) {
@@ -69,26 +70,28 @@ void recover(const string& name) {
     if(!fs::exists(back_path)) {
         throw bluise_error("There isn't backups of saves of your game");
     }
-    std::system(string("cp -R \""+back_path+".\" \""+game->get_save_path()+"\"").c_str());
+    fs::copy(back_path, game->get_save_path(), fs::copy_options::recursive | fs::copy_options::overwrite_existing);
 }
 
-void edit(const string &var, const string &val, const string &name)
+void edit(const Game::var_type &var, const string &val, const string &name)
 {
     auto game = find(games.begin(), games.end(), name);
-    if(var=="name") {
-        game->set_name(val);
-    }
-    else if(var=="working_directory") {
-        game->set_working_directory(val);
-    }
-    else if(var=="executable") {
-        game->set_executable(val);
-    }
-    else if(var=="save_path") {
-        game->set_save_path(val);
-    }
-    else {
-        throw bluise_error("Unknown variable!");
+    switch(var) {
+        case Game::var_type::name:
+            game->set_name(val);
+            break;
+        case Game::var_type::working_directory:
+            game->set_working_directory(val);
+            break;
+        case Game::var_type::executable:
+            game->set_executable(val);
+            break;
+        case Game::var_type::save_path:
+            game->set_save_path(val);
+            break;
+        default:
+            throw bluise_error("Unknown variable!");
+            break;
     }
 }
 
@@ -155,6 +158,10 @@ void delete_game(const string &name)
 
 namespace command_processor {
 std::map<string, string> aliases;
+std::map<string, Game::var_type> types = {  {"name", Game::var_type::name},
+                                            {"working_directory", Game::var_type::working_directory},
+                                            {"executable", Game::var_type::executable},
+                                            {"save_path", Game::var_type::save_path}};
 
 string splitter = "<------------------------------->";
 
@@ -303,11 +310,11 @@ void edit_game(string name) {
     show_game_info(game);
 
     std::cout   << "Choose option to edit(name, working_directory, executable, save_path): \n";
-    string var;
-    std::cin >> var;
+    string var_name;
+    std::cin >> var_name;
     std::cin.ignore();
-    string val = get_game_var(var);
-
+    string val = get_game_var(var_name);
+    Game::var_type var = types[var_name];
     try {
         bluise_core::edit(var, val, name);
     }

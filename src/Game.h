@@ -21,6 +21,8 @@ protected:
     exec_type type;
 
 public:
+    enum class var_type{name, working_directory, executable, save_path};
+
     inline string get_name() const { return name; }
     inline string get_working_directory() const { return working_directory; }
     inline string get_executable() const { return executable; }
