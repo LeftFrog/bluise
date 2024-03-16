@@ -13,5 +13,6 @@ protected:
 private:
     Game* game;
 public slots:
+    void edit();
     void play();
 };

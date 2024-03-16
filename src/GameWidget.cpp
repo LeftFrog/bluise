@@ -1,5 +1,5 @@
 #include "GameWidget.h"
-#include <iostream>
+#include "GameEditWidget.h"
 
 GameWidget::GameWidget(Game* _game, QWidget *parent) : QQuickWidget(QUrl("./GameWidget.qml"), parent), game(_game) {
     resize(sizeHint());
@@ -10,6 +10,7 @@ GameWidget::GameWidget(Game* _game, QWidget *parent) : QQuickWidget(QUrl("./Game
     QQuickItem* text = main_rect->findChild<QQuickItem*>("Name");
     text->setProperty("text", game->get_name().c_str());
     main_rect->setProperty("img_source", game->get_header_path());
+    connect(main_rect->findChild<QQuickItem*>("edit_button"), SIGNAL(editClicked()), SLOT(edit()));
     connect(main_rect->findChild<QQuickItem*>("play_button"), SIGNAL(playClicked()), SLOT(play()));
 }
 
@@ -23,6 +24,11 @@ void GameWidget::resizeEvent(QResizeEvent *event)
     root->setProperty("width", event->size().width());
     root->setProperty("height", event->size().height());
     QQuickWidget::resizeEvent(event);
+}
+
+void GameWidget::edit() {
+    GameEditWidget* edit = new GameEditWidget(game);
+    edit->show();
 }
 
 void GameWidget::play() {

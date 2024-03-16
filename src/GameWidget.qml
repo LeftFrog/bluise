@@ -30,6 +30,8 @@ Rectangle {
 
     Button {
         id: bt1
+        signal editClicked()
+        objectName: "edit_button"
         height: parent.useful_height - parent.margin
         width: height
         x: parent.width - parent.margin/2 - width
@@ -39,6 +41,7 @@ Rectangle {
         icon.color: "#d1d1d1"
         icon.width: 2*width
         icon.height: 2*height
+        onClicked: editClicked();
     }
     Button {
         signal playClicked()
