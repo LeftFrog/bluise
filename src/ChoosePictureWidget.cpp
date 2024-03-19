@@ -21,8 +21,12 @@ void ChoosePictureWidget::paintEvent(QPaintEvent * event)
 
 void ChoosePictureWidget::mousePressEvent(QMouseEvent * event)
 {
-    QString path = QFileDialog::getOpenFileName();
-    pic = QPixmap(path);
+    QFileDialog* fd = new QFileDialog(this);
+    fd->setNameFilter("*.jpg *.png *.jpeg *.jpe");
+    connect(fd, &QFileDialog::fileSelected, this, &ChoosePictureWidget::setPicture);
+    fd->exec();
+    // QString path = fd->getOpenFileName();
+    // pic = QPixmap(path);
 }
 
 void ChoosePictureWidget::setPicture(const QString & path)

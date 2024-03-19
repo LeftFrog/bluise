@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Bluise VERSION 0.6.2 LANGUAGES CXX C)
+project(Bluise VERSION 0.6.3 LANGUAGES CXX C)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -36,7 +36,7 @@ set(PROJECT_SOURCES
     GLLReader.cpp
 )
 
-qt_add_executable(bluise starter.cpp bluise.cpp Game.cpp GLLReader.cpp GameWidget.cpp GameListWidget.cpp GameEditWidget.cpp ChoosePictureWidget.cpp)
+qt_add_executable(bluise starter.cpp bluise.cpp Game.cpp GLLReader.cpp GameWidget.cpp GameListWidget.cpp GameEditWidget.cpp ChoosePictureWidget.cpp FileValidator.cpp)
 
 target_link_libraries(bluise PRIVATE Qt6::Widgets)
 target_link_libraries(bluise PRIVATE Qt6::Quick)
