@@ -31,7 +31,7 @@ void ChoosePictureWidget::mousePressEvent(QMouseEvent * event)
 
 void ChoosePictureWidget::setPicture(const QString & path)
 {
-    pic = QPixmap(path);
+    pic = QPixmap(path).scaled(rect().size());
 }
 
 QSize ChoosePictureWidget::sizeHint() const
