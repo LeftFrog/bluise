@@ -4,6 +4,7 @@
 GameWidget::GameWidget(Game* _game, QWidget *parent) : QQuickWidget(QUrl("./GameWidget.qml"), parent), game(_game) {
     resize(sizeHint());
     setMinimumSize(sizeHint());
+    setFixedSize(sizeHint());
     
     QQuickItem* root = rootObject();
     QQuickItem* main_rect = root->findChild<QQuickItem*>("MainRect");
@@ -12,6 +13,7 @@ GameWidget::GameWidget(Game* _game, QWidget *parent) : QQuickWidget(QUrl("./Game
     main_rect->setProperty("img_source", game->get_header_path());
     connect(main_rect->findChild<QQuickItem*>("edit_button"), SIGNAL(editClicked()), SLOT(edit()));
     connect(main_rect->findChild<QQuickItem*>("play_button"), SIGNAL(playClicked()), SLOT(play()));
+    qDebug() << game->get_name().c_str() << " " << game->get_header_path();
 }
 
 QSize GameWidget::sizeHint() const {

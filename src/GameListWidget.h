@@ -3,8 +3,7 @@
 
 class GameListWidget : public QWidget {
     Q_OBJECT
-private:
-    QVector<GameWidget*> game_widgets;
 public:
+    QList<GameWidget*> game_widgets;
     GameListWidget(QWidget *parent = nullptr);
 };

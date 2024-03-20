@@ -3,16 +3,20 @@
 #include "invalid_path.h"
 #include <iostream>
 #include <QApplication>
-#include <QGridLayout>
 #include "GameListWidget.h"
-
 
 
 int qt_win(int argc, char** argv) {
     QApplication a(argc, argv);
-    QApplication::setStyle(QStyleFactory::create("Macintosh"));
-
-    GameListWidget w;
+    QScrollArea w;
+    GameListWidget* gameListWidget = new GameListWidget(&w);
+    w.setWidget(gameListWidget);
+    w.horizontalScrollBar()->setEnabled(false);
+    w.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    w.verticalScrollBar()->setEnabled(true);
+    w.resize(1280, 720);
+    w.setAlignment(Qt::AlignHCenter);
+    w.setMinimumWidth(gameListWidget->sizeHint().width());
     w.show();
     return a.exec();
 }

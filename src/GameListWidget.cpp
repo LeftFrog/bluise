@@ -1,7 +1,7 @@
 #include "GameListWidget.h"
 #include "bluise.h"
 
-GameListWidget::GameListWidget(QWidget *parent)
+GameListWidget::GameListWidget(QWidget *parent) : QWidget(parent)
 {
     for(int i = 0; i < bluise_core::games.size(); ++i) {
         game_widgets.push_back(new GameWidget(&bluise_core::games[i], this));
@@ -9,7 +9,12 @@ GameListWidget::GameListWidget(QWidget *parent)
     QGridLayout *layout = new QGridLayout();
     if(game_widgets.size()>=3) {
         for(int i = 0; i < game_widgets.size(); ++i) {
-            layout->addWidget(game_widgets[i], i/3, i%3);
+            if(i==3) {
+                layout->addWidget(game_widgets[i], 1, 0);
+            }
+            else {
+                layout->addWidget(game_widgets[i], 0, i);
+            }
         }
     }
     else {
@@ -17,6 +22,5 @@ GameListWidget::GameListWidget(QWidget *parent)
             layout->addWidget(game_widgets[i], 0, i);
         }
     }
-    resize(1280, 300);
     setLayout(layout);
 }
