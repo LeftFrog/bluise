@@ -43,4 +43,5 @@ ChoosePictureWidget::ChoosePictureWidget(QWidget* parent) : QWidget(parent)
 {
     setAutoFillBackground(true);
     resize(430, 215);
+    setFixedSize(430, 215);
 }

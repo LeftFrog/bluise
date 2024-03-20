@@ -17,10 +17,5 @@ GameListWidget::GameListWidget(QWidget *parent) : QWidget(parent)
             }
         }
     }
-    else {
-        for(int i = 0; i < game_widgets.size(); ++i) {
-            layout->addWidget(game_widgets[i], 0, i);
-        }
-    }
     setLayout(layout);
 }
