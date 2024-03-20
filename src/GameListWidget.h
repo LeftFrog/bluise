@@ -1,3 +1,4 @@
+#pragma once
 #include <QtWidgets>
 #include "GameWidget.h"
 

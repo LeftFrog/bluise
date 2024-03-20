@@ -15,4 +15,5 @@ private:
 public slots:
     void edit();
     void play();
+    void repaintSlot();
 };

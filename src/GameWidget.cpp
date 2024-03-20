@@ -31,8 +31,18 @@ void GameWidget::resizeEvent(QResizeEvent *event)
 void GameWidget::edit() {
     GameEditWidget* edit = new GameEditWidget(game);
     edit->show();
+    connect(edit, &GameEditWidget::gameChanged, this, &GameWidget::repaintSlot);
 }
 
 void GameWidget::play() {
     game->execute();
+}
+
+void GameWidget::repaintSlot()
+{
+    QQuickItem* root = rootObject();
+    QQuickItem* main_rect = root->findChild<QQuickItem*>("MainRect");
+    QQuickItem* text = main_rect->findChild<QQuickItem*>("Name");
+    text->setProperty("text", game->get_name().c_str());
+    update();
 }

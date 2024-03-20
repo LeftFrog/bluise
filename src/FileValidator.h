@@ -1,3 +1,4 @@
+#pragma once
 #include <QValidator>
 
 class FileValidator : public QValidator

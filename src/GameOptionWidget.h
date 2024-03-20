@@ -1,3 +1,4 @@
+#pragma once
 #include <QWidget>
 #include <QLineEdit>
 #include <QLabel>
