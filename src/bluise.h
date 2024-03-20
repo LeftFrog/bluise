@@ -14,6 +14,8 @@ void sort(Iterator begin, Iterator end);
 
 void saveGLL();
 void readGLL();
+void readGamesJSON();
+void saveGamesJSON();
 
 void back(const string& name);
 void recover(const string& name);

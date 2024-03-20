@@ -36,7 +36,7 @@ set(PROJECT_SOURCES
     GLLReader.cpp
 )
 
-qt_add_executable(bluise starter.cpp bluise.cpp Game.cpp GLLReader.cpp GameWidget.cpp GameListWidget.cpp GameEditWidget.cpp ChoosePictureWidget.cpp FileValidator.cpp GameOptionWidget.cpp)
+qt_add_executable(bluise starter.cpp bluise.cpp Game.cpp GameWidget.cpp GameListWidget.cpp GameEditWidget.cpp ChoosePictureWidget.cpp FileValidator.cpp GameOptionWidget.cpp)
 
 target_link_libraries(bluise PRIVATE Qt6::Widgets)
 target_link_libraries(bluise PRIVATE Qt6::Quick)

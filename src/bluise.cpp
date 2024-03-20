@@ -2,11 +2,15 @@
 #include <string>
 #include <algorithm>
 #include <fstream>
-#include "GLLReader.h"
+#include <iostream>
 #include "invalid_path.h"
 #include "gll_syntax_error.h"
 #include <filesystem>
 #include <QStandardPaths>
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
  
 namespace bluise_core {
 namespace fs = std::filesystem;
@@ -71,29 +75,39 @@ void recover(const string& name) {
     fs::copy(back_path, game->get_save_path(), fs::copy_options::recursive | fs::copy_options::overwrite_existing);
 }
 
-void saveGLL() {
-    if(!fs::exists(DOCS)) {
-        fs::create_directories(DOCS);
+void readGamesJSON()
+{
+    QString str;
+    QFile file;
+    file.setFileName((DOCS+"Games.json").c_str());
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    str = file.readAll();
+    file.close();
+    QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
+    QJsonArray arr = doc.array();
+    for(auto game : arr) {
+        QJsonObject obj = game.toObject();
+        games.push_back(Game(obj["name"].toString().toStdString(), obj["working_directory"].toString().toStdString(), obj["executable"].toString().toStdString(), obj["save_path"].toString().toStdString()));
     }
-    sort(games.begin(), games.end());
-    std::ofstream oft(DOCS+"Games.gll", std::ofstream::trunc);
-    oft << games;
-    oft.close();
 }
 
-void readGLL() {
-    std::ifstream ist(DOCS+"Games.gll");
-    try {
-        games.clear();
-        ist >> games;
+void saveGamesJSON()
+{
+    QJsonArray arr;
+    for(auto game : games) {
+        QJsonObject obj;
+        obj["name"] = QString::fromStdString(game.get_name());
+        obj["working_directory"] = QString::fromStdString(game.get_working_directory());
+        obj["executable"] = QString::fromStdString(game.get_executable());
+        obj["save_path"] = QString::fromStdString(game.get_save_path());
+        arr.append(obj);
     }
-    catch (const invalid_path& err) {
-        std::cerr << err.what();
-    }
-    catch (const gll_syntax_error& err) {
-        std::cerr << err.what();
-    }
-    ist.close();
+    QJsonDocument doc(arr);
+    QFile file((DOCS+"Games.json").c_str());
+    file.open(QIODevice::WriteOnly | QIODevice::Text);
+    file.resize(0);
+    file.write(doc.toJson());
+    file.close();
 }
 
 }
