@@ -4,18 +4,18 @@
 #include <fstream>
 #include <iostream>
 #include "invalid_path.h"
-#include "gll_syntax_error.h"
 #include <filesystem>
 #include <QStandardPaths>
 #include <QFile>
+#include <QDir>
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
  
 namespace bluise_core {
 namespace fs = std::filesystem;
-const string DOCS = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString()+"/Bluise/";
-const string BACKUP_PATH = DOCS+"backs/";
+const QString DOCS = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)+"/Bluise/";
+const QString BACKUP_PATH = DOCS+"backs/";
 
 QList<Game> games;
 
@@ -42,44 +42,46 @@ void bluise_core::sort(Iterator begin, Iterator end)
     }
 }
 
-void back(const string& name) {
-    auto game = find(games.begin(), games.end(), name);
+void back(const QString& name) {
+    auto game = find(games.begin(), games.end(), name.toStdString());
 
     if(game==games.end()) {
         throw bluise_error("There isn't this game!");
     }
-
-    if(!fs::exists(BACKUP_PATH)) {
-        fs::create_directories(BACKUP_PATH);
+    QDir dir(BACKUP_PATH);
+    if(!dir.exists()) {
+        dir.mkdir(BACKUP_PATH);
     }
-    string back_path = BACKUP_PATH+name+"/";
-    if(!fs::exists(back_path)) {
-        if(!fs::create_directory(back_path)) {
+    QString back_path = BACKUP_PATH+name+"/";
+    QDir back_dir(back_path);
+    if(!back_dir.exists()) {
+        if(!back_dir.mkdir(back_path)) {
             throw bluise_error("Can't create directory!");
         }
     }
-    fs::copy(game->get_save_path(), back_path+".", fs::copy_options::recursive);
+    fs::copy(game->get_save_path().toStdString(), (back_path+".").toStdString(), fs::copy_options::recursive);
 }
 
-void recover(const string& name) {
-    auto game = find(games.begin(), games.end(), name);
+void recover(const QString& name) {
+    auto game = find(games.begin(), games.end(), name.toStdString());
 
     if((game==games.end())) {
         throw bluise_error("There isn't this game!");
     }
 
-    string back_path = BACKUP_PATH+name+"/";
-    if(!fs::exists(back_path)) {
+    QString back_path = BACKUP_PATH+name+"/";
+    QDir back_dir(back_path);
+    if(!back_dir.exists()) {
         throw bluise_error("There isn't backups of saves of your game");
     }
-    fs::copy(back_path, game->get_save_path(), fs::copy_options::recursive | fs::copy_options::overwrite_existing);
+    fs::copy(back_path.toStdString(), game->get_save_path().toStdString(), fs::copy_options::recursive | fs::copy_options::overwrite_existing);
 }
 
 void readGamesJSON()
 {
     QString str;
     QFile file;
-    file.setFileName((DOCS+"Games.json").c_str());
+    file.setFileName(DOCS+"Games.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     str = file.readAll();
     file.close();
@@ -87,7 +89,11 @@ void readGamesJSON()
     QJsonArray arr = doc.array();
     for(auto game : arr) {
         QJsonObject obj = game.toObject();
-        games.push_back(Game(obj["name"].toString().toStdString(), obj["working_directory"].toString().toStdString(), obj["executable"].toString().toStdString(), obj["save_path"].toString().toStdString()));
+        try {
+            games.push_back(Game(obj["name"].toString(), obj["working_directory"].toString(), obj["executable"].toString(), obj["save_path"].toString()));
+        } catch(const invalid_path& err) {
+            std::cerr << err.what() << std::endl;
+        }
     }
 }
 
@@ -96,14 +102,14 @@ void saveGamesJSON()
     QJsonArray arr;
     for(auto game : games) {
         QJsonObject obj;
-        obj["name"] = QString::fromStdString(game.get_name());
-        obj["working_directory"] = QString::fromStdString(game.get_working_directory());
-        obj["executable"] = QString::fromStdString(game.get_executable());
-        obj["save_path"] = QString::fromStdString(game.get_save_path());
+        obj["name"] = game.get_name();
+        obj["working_directory"] = game.get_working_directory();
+        obj["executable"] = game.get_executable();
+        obj["save_path"] = game.get_save_path();
         arr.append(obj);
     }
     QJsonDocument doc(arr);
-    QFile file((DOCS+"Games.json").c_str());
+    QFile file(DOCS+"Games.json");
     file.open(QIODevice::WriteOnly | QIODevice::Text);
     file.resize(0);
     file.write(doc.toJson());
@@ -153,14 +159,14 @@ inline string get_game_var(const string& var_name) {
 void print_game_vector() {
     std::cout << splitter << std::endl;
     for(int i = 0; i < bluise_core::games.size(); ++i) {
-        std::cout << i+1 << " | " << bluise_core::games[i].get_name() << std::endl;
+        std::cout << i+1 << " | " << bluise_core::games[i].get_name().toStdString() << std::endl;
     }
     std::cout << splitter << std::endl;
 }
 
 void back(const string& name) {
     try {
-        bluise_core::back(name);
+        bluise_core::back(QString::fromStdString(name));
     } catch(const bluise_error& err) {
         std::cerr << err.what() << std::endl;
         return;
@@ -170,7 +176,7 @@ void back(const string& name) {
 
 void recover(const string& name) {
     try {
-        bluise_core::recover(name);
+        bluise_core::recover(QString::fromStdString(name));
         std::cout << "Successfully recovered your saves.\n";
     } catch(const bluise_error& err) {
         std::cerr << err.what() << std::endl;
@@ -189,7 +195,7 @@ void add_game() {
         {
             throw bluise_error("There is a game with the same name!");
         }
-        bc::games.push_back(Game(name, working_directory, executable, save_path));
+        bc::games.push_back(Game(QString::fromStdString(name), QString::fromStdString(working_directory), QString::fromStdString(executable), QString::fromStdString(save_path)));
     }
     catch(const bluise_error& err) {
         std::cerr << err.what() << std::endl;
@@ -244,10 +250,10 @@ void delete_game(const string& name) {
 }
 
 void show_game_info(const QList<Game>::iterator& game) {
-    std::cout   << splitter << std::endl << "Name: " + game->get_name()  << std::endl \
-              << "Working directory: " + game->get_working_directory()  << std::endl\
-              << "Executable: " + game->get_executable() << std::endl \
-              << "Save path: " + game->get_save_path() << std::endl \
+    std::cout   << splitter << std::endl << "Name: " + game->get_name().toStdString()  << std::endl \
+              << "Working directory: " + game->get_working_directory().toStdString()  << std::endl\
+              << "Executable: " + game->get_executable().toStdString() << std::endl \
+              << "Save path: " + game->get_save_path().toStdString() << std::endl \
               << splitter << std::endl;
 }
 
@@ -299,16 +305,16 @@ void edit_game(string name) {
     try {
             switch(var) {
             case Game::var_type::name:
-                game->set_name(val);
+                game->set_name(QString::fromStdString(val));
                 break;
             case Game::var_type::working_directory:
-                game->set_working_directory(val);
+                game->set_working_directory(QString::fromStdString(val));
                 break;
             case Game::var_type::executable:
-                game->set_executable(val);
+                game->set_executable(QString::fromStdString(val));
                 break;
             case Game::var_type::save_path:
-                game->set_save_path(val);
+                game->set_save_path(QString::fromStdString(val));
                 break;
             default:
                 throw bluise_error("Unknown variable!");
@@ -321,12 +327,12 @@ void edit_game(string name) {
 }
 
 inline void load_aliases() {
-    std::ifstream ist(bluise_core::DOCS+"aliases.txt");
+    std::ifstream ist(bluise_core::DOCS.toStdString()+"aliases.txt");
     ist >> aliases;
 }
 
 inline void save_aliases() {
-    std::ofstream oft(bluise_core::DOCS+"aliases.txt", std::ofstream::trunc);
+    std::ofstream oft(bluise_core::DOCS.toStdString()+"aliases.txt", std::ofstream::trunc);
     oft << aliases;
 }
 

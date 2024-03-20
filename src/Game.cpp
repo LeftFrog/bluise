@@ -3,9 +3,11 @@
 #include "bluise.h"
 #include "invalid_path.h"
 #include <QDebug>
+#include <QFile>
+#include <QDir>
 
-void Game::set_working_directory(const string &wd) {
-    if(!std::filesystem::exists(wd)) {
+void Game::set_working_directory(const QString &wd) {
+    if(!QDir(wd).exists()) {
         throw invalid_path("Invalid working directory!");
     }
     if (wd[wd.size()-1] != '/') {
@@ -16,9 +18,9 @@ void Game::set_working_directory(const string &wd) {
     }
 }
 
-void Game::set_executable(const string &e) {
+void Game::set_executable(const QString &e) {
 #ifdef __APPLE__
-    if(!std::filesystem::exists(e)) {
+    if(!std::filesystem::exists(e.toStdString())) {
         throw invalid_path("Invalid executable!");
     }
 #else
@@ -29,8 +31,8 @@ void Game::set_executable(const string &e) {
     executable = e;
 }
 
-void Game::set_save_path(string sp) {
-    if(!std::filesystem::exists(sp)) {
+void Game::set_save_path(QString sp) {
+    if(!QDir(sp).exists()) {
             throw invalid_path("Invalid save path!");
     }
     if(sp[sp.size()-1] != '/') {
@@ -39,16 +41,15 @@ void Game::set_save_path(string sp) {
     save_path = sp;
 }
 
-Game::Game(const string &n, const string &wd, const string &e, const string &sp) : name(n) {
+Game::Game(const QString &n, const QString &wd, const QString &e, const QString &sp) : name(n) {
     set_working_directory(wd);
     set_executable(e);
     set_save_path(sp);
 
-    string path = bluise_core::DOCS+"res/";
+    QString path = bluise_core::DOCS+"res/";
     //icon = std::filesystem::exists(path+name+".png") ? QIcon(string(path+name+".png").c_str()) : QIcon(string(path+"game.png").c_str());
-    header_path = std::filesystem::exists(path+name+"_header.jpg") ? QString::fromStdString(path+name+"_header.jpg") : QString::fromStdString(path+name+"_header.jpg");
-
-    if(e.substr(e.size()-4, 4)==".exe") { type = windows_exe; }
+    header_path = QFile::exists(path+name+"_header.jpg") ? path+name+"_header.jpg" : path+name+"_header.jpg";
+    if(e.toStdString().substr(e.size()-4, 4)==".exe") { type = windows_exe; }
     else { type = linux_exe; }
 }
 
@@ -67,8 +68,8 @@ void Game::execute() const {
         system(executable.c_str());
 #elif __APPLE__
         qDebug() << executable;
-        string command = "open -a \""+executable+"\"";
-        system(command.c_str());
+        QString command = "open -a \""+executable+"\"";
+        system(command.toStdString().c_str());
 #endif
 }
 
@@ -79,6 +80,11 @@ bool Game::operator==(const Game &other)
 
 bool Game::operator==(const string& other) {
 
+    return (this->name.toStdString()==other) ? true : false;
+}
+
+bool Game::operator==(const QString & other)
+{
     return (this->name==other) ? true : false;
 }
 

@@ -8,13 +8,13 @@
 #include <QLineEdit>
 
 GameEditWidget::GameEditWidget(Game* _game, QWidget* parent) : QWidget(parent), game(_game) {
-    name = new GameOptionWidget("Name: ", QString::fromStdString(game->get_name()));
+    name = new GameOptionWidget("Name: ", game->get_name());
     
-    working_directory = new GameOptionWidget("Working directory: ", QString::fromStdString(game->get_working_directory()), false);
+    working_directory = new GameOptionWidget("Working directory: ", game->get_working_directory(), false);
 
-    exec = new GameOptionWidget("Executable: ", QString::fromStdString(game->get_executable()), true);
+    exec = new GameOptionWidget("Executable: ", game->get_executable(), true);
 
-    save_path = new GameOptionWidget("Save path: ", QString::fromStdString(game->get_save_path()), false);
+    save_path = new GameOptionWidget("Save path: ", game->get_save_path(), false);
 
     QPushButton* apply = new QPushButton("Apply");
     connect(apply, &QPushButton::clicked, this, &GameEditWidget::apply);
@@ -44,10 +44,10 @@ void GameEditWidget::closeWin()
 
 void GameEditWidget::apply()
 {
-    game->set_name(name->text().toStdString());
-    game->set_working_directory(working_directory->text().toStdString());
-    game->set_executable(exec->text().toStdString());
-    game->set_save_path(save_path->text().toStdString());
+    game->set_name(name->text());
+    game->set_working_directory(working_directory->text());
+    game->set_executable(exec->text());
+    game->set_save_path(save_path->text());
     emit gameChanged();
     close();
 }

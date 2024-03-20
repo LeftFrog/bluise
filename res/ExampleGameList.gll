@@ -1,5 +1,0 @@
-GameName {
-    working_directory = path
-    executable = path
-    save_path = path
-}

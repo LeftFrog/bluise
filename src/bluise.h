@@ -6,19 +6,17 @@
 
 namespace bluise_core {
 extern QList<Game> games;
-extern const string DOCS;
-extern const string BACKUP_PATH;
+extern const QString DOCS;
+extern const QString BACKUP_PATH;
 
 template<typename Iterator>
 void sort(Iterator begin, Iterator end);
 
-void saveGLL();
-void readGLL();
 void readGamesJSON();
 void saveGamesJSON();
 
-void back(const string& name);
-void recover(const string& name);
+void back(const QString& name);
+void recover(const QString& name);
 }
 
 namespace command_processor {
