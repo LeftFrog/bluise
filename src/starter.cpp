@@ -15,8 +15,8 @@ int qt_win(int argc, char** argv) {
     w.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     w.verticalScrollBar()->setEnabled(true);
     w.resize(1280, 720);
-    w.setAlignment(Qt::AlignHCenter);
     w.setMinimumWidth(gameListWidget->sizeHint().width());
+    w.setMinimumHeight(300);
     w.show();
     return a.exec();
 }

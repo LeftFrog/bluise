@@ -7,15 +7,8 @@ GameListWidget::GameListWidget(QWidget *parent) : QWidget(parent)
         game_widgets.push_back(new GameWidget(&bluise_core::games[i], this));
     }
     QGridLayout *layout = new QGridLayout();
-    if(game_widgets.size()>=3) {
-        for(int i = 0; i < game_widgets.size(); ++i) {
-            if(i==3) {
-                layout->addWidget(game_widgets[i], 1, 0);
-            }
-            else {
-                layout->addWidget(game_widgets[i], 0, i);
-            }
-        }
+    for(int i = 0; i < game_widgets.size(); ++i) {
+        layout->addWidget(game_widgets[i], i/3, i%3);
     }
     setLayout(layout);
 }
