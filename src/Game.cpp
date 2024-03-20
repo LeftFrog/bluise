@@ -8,7 +8,12 @@ void Game::set_working_directory(const string &wd) {
     if(!std::filesystem::exists(wd)) {
         throw invalid_path("Invalid working directory!");
     }
-    working_directory = wd;
+    if (wd[wd.size()-1] != '/') {
+        working_directory = wd + '/';
+    }
+    else {
+        working_directory = wd;
+    }
 }
 
 void Game::set_executable(const string &e) {
