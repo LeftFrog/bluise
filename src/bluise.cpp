@@ -33,8 +33,7 @@ Iterator part(Iterator begin, Iterator end) {
 }
 
 template<typename Iterator>
-void bluise_core::sort(Iterator begin, Iterator end)
-{
+void bluise_core::sort(Iterator begin, Iterator end) {
     if(std::distance(begin, end)>1) {
         Iterator bound = part(begin, end);
         sort(begin, bound);
@@ -77,8 +76,7 @@ void recover(const QString& name) {
     fs::copy(back_path.toStdString(), game->get_save_path().toStdString(), fs::copy_options::recursive | fs::copy_options::overwrite_existing);
 }
 
-void readGamesJSON()
-{
+void readGamesJSON() {
     QString str;
     QFile file;
     file.setFileName(DOCS+"Games.json");
@@ -97,8 +95,7 @@ void readGamesJSON()
     }
 }
 
-void saveGamesJSON()
-{
+void saveGamesJSON() {
     QJsonArray arr;
     for(auto game : games) {
         QJsonObject obj;

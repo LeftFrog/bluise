@@ -1,23 +1,23 @@
-#pragma once 
-#include <QWidget>
-#include "GameOptionWidget.h"
+#pragma once
 #include "ChoosePictureWidget.h"
-#include <QPushButton>
+#include "GameOptionWidget.h"
 #include "bluise.h"
+#include <QPushButton>
+#include <QWidget>
 
-class GameAddWidget : public QWidget
-{
-    Q_OBJECT
+class GameAddWidget : public QWidget {
+  Q_OBJECT
 private:
-    GameOptionWidget* name;
-    GameOptionWidget* working_directory;
-    GameOptionWidget* exec;
-    GameOptionWidget* save_path;
-    ChoosePictureWidget* choose;
-    QPushButton* addButton;
+  GameOptionWidget *name;
+  GameOptionWidget *working_directory;
+  GameOptionWidget *exec;
+  GameOptionWidget *save_path;
+  ChoosePictureWidget *choose;
+  QPushButton *addButton;
 private slots:
-    void closeWin() { close(); }
-    void addGame();
+  void closeWin() { close(); }
+  void addGame();
+
 public:
-    GameAddWidget(QWidget* parent = nullptr);
+  GameAddWidget(QWidget *parent = nullptr);
 };

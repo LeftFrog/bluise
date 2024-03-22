@@ -1,19 +1,22 @@
 #pragma once
-#include <QQuickWidget>
-#include <QQuickItem>
 #include "Game.h"
+#include <QQuickItem>
+#include <QQuickWidget>
+
 
 class GameWidget : public QQuickWidget {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    GameWidget(Game* _game, QWidget *parent = nullptr);
-    virtual QSize sizeHint() const override;
+  GameWidget(Game *_game, QWidget *parent = nullptr);
+  virtual QSize sizeHint() const override;
+
 protected:
-    virtual void resizeEvent(QResizeEvent *event) override;
+  virtual void resizeEvent(QResizeEvent *event) override;
+
 private:
-    Game* game;
+  Game *game;
 public slots:
-    void edit();
-    void play();
-    void repaintSlot();
+  void edit();
+  void play();
+  void repaintSlot();
 };
