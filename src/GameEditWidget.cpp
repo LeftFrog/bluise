@@ -3,27 +3,30 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QVBoxLayout>
-#include <QPushButton>
-#include <QFileDialog>
 #include <QLineEdit>
 
 GameEditWidget::GameEditWidget(Game* _game, QWidget* parent) : QWidget(parent), game(_game) {
     name = new GameOptionWidget("Name: ", game->get_name());
+    connect(name, &GameOptionWidget::gameChanged, this, &GameEditWidget::changed);
     
     working_directory = new GameOptionWidget("Working directory: ", game->get_working_directory(), false);
+    connect(working_directory, &GameOptionWidget::gameChanged, this, &GameEditWidget::changed);
 
     exec = new GameOptionWidget("Executable: ", game->get_executable(), true);
+    connect(exec, &GameOptionWidget::gameChanged, this, &GameEditWidget::changed);
 
     save_path = new GameOptionWidget("Save path: ", game->get_save_path(), false);
+    connect(save_path, &GameOptionWidget::gameChanged, this, &GameEditWidget::changed);
 
-    QPushButton* apply = new QPushButton("Apply");
-    connect(apply, &QPushButton::clicked, this, &GameEditWidget::apply);
-    apply->setDefault(true);
+    applyButton = new QPushButton("Apply");
+    connect(applyButton, &QPushButton::clicked, this, &GameEditWidget::apply);
+    applyButton->setDefault(true);
+    applyButton->setDisabled(true);
     QPushButton* cancel = new QPushButton("Cancel");
     connect(cancel, &QPushButton::clicked, this, &GameEditWidget::closeWin);
     QHBoxLayout* HBL4 = new QHBoxLayout;
     HBL4->addWidget(cancel);
-    HBL4->addWidget(apply);
+    HBL4->addWidget(applyButton);
 
     QVBoxLayout* VBL = new QVBoxLayout;
     ChoosePictureWidget* choose = new ChoosePictureWidget();
@@ -50,4 +53,18 @@ void GameEditWidget::apply()
     game->set_save_path(save_path->text());
     emit gameChanged();
     close();
+}
+
+void GameEditWidget::changed()
+{
+    if(!applyButton->isEnabled()) {
+        if(name->isChanged() || working_directory->isChanged() || exec->isChanged() || save_path->isChanged()) {
+            applyButton->setEnabled(true);
+        }
+    }
+    else {
+        if(!name->isChanged() && !working_directory->isChanged() && !exec->isChanged() && !save_path->isChanged()) {
+            applyButton->setDisabled(true);
+        }
+    }
 }

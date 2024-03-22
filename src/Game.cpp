@@ -41,14 +41,15 @@ void Game::set_save_path(QString sp) {
     save_path = sp;
 }
 
-Game::Game(const QString &n, const QString &wd, const QString &e, const QString &sp) : name(n) {
+Game::Game(const QString &n, const QString &wd, const QString &e, const QString &sp, const QString& _header_name) : name(n), header_name(_header_name) {
     set_working_directory(wd);
     set_executable(e);
     set_save_path(sp);
 
     QString path = bluise_core::DOCS+"res/";
-    //icon = std::filesystem::exists(path+name+".png") ? QIcon(string(path+name+".png").c_str()) : QIcon(string(path+"game.png").c_str());
-    header_path = QFile::exists(path+name+"_header.jpg") ? path+name+"_header.jpg" : path+name+"_header.jpg";
+    if(QFile::exists(path+header_name)) {
+        header_path = path+header_name;
+    }
     if(e.toStdString().substr(e.size()-4, 4)==".exe") { type = windows_exe; }
     else { type = linux_exe; }
 }

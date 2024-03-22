@@ -90,7 +90,7 @@ void readGamesJSON()
     for(auto game : arr) {
         QJsonObject obj = game.toObject();
         try {
-            games.push_back(Game(obj["name"].toString(), obj["working_directory"].toString(), obj["executable"].toString(), obj["save_path"].toString()));
+            games.push_back(Game(obj["name"].toString(), obj["working_directory"].toString(), obj["executable"].toString(), obj["save_path"].toString(), obj["header"].toString()));
         } catch(const invalid_path& err) {
             std::cerr << err.what() << std::endl;
         }
@@ -106,6 +106,7 @@ void saveGamesJSON()
         obj["working_directory"] = game.get_working_directory();
         obj["executable"] = game.get_executable();
         obj["save_path"] = game.get_save_path();
+        obj["header"] = game.get_header_name();
         arr.append(obj);
     }
     QJsonDocument doc(arr);

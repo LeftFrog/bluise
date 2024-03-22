@@ -3,24 +3,28 @@
         "name": "Civilization VI",
         "working_directory": "/Applications/Civ6.app/",
         "executable": "/Applications/Civ6.app",
-        "save_path": "/Users/leftfrog/Library/Application Support/Sid Meier's Civilization VI/Saves/"
+        "save_path": "/Users/leftfrog/Library/Application Support/Sid Meier's Civilization VI/Saves/",
+        "header": "Civ6.jpg"
     },
     {
         "name": "Doki",
         "working_directory": "/Users/Shared/Epic Games/DokiDokiLitClubPlus/Doki Doki Literature Club Plus.app/",
         "executable": "/Users/Shared/Epic Games/DokiDokiLitClubPlus/Doki Doki Literature Club Plus.app",
-        "save_path": "/Users/Shared/Epic Games/DokiDokiLitClubPlus/Doki Doki Literature Club Plus.app/"
+        "save_path": "/Users/Shared/Epic Games/DokiDokiLitClubPlus/Doki Doki Literature Club Plus.app/",
+        "header": "Doki.jpg"
     },
     {
         "name": "Minecraft",
         "working_directory": "/Volumes/sd/minecraft/",
         "executable": "/Applications/Minecraft.app",
-        "save_path": "/Volumes/sd/minecraft/"
+        "save_path": "/Volumes/sd/minecraft/",
+        "header": "Mine.jpg"
     },
     {
         "name": "Stellaris",
         "working_directory": "/Users/Shared/Stellaris/",
         "executable": "/Users/Shared/Stellaris/dowser",
-        "save_path": "/Users/leftfrog/Documents/Paradox Interactive/Stellaris/save games/"
+        "save_path": "/Users/leftfrog/Documents/Paradox Interactive/Stellaris/save games/",
+        "header": "Stellaris.jpg"
     }
 ]

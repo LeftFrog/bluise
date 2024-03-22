@@ -13,6 +13,7 @@ protected:
     QString working_directory;
     QString executable;
     QString save_path;
+    QString header_name;
     QString header_path;
 
     exec_type type;
@@ -24,6 +25,7 @@ public:
     inline QString get_working_directory() const { return working_directory; }
     inline QString get_executable() const { return executable; }
     inline QString get_save_path() const { return save_path; }
+    QString get_header_name() const { return header_name; }
     QString get_header_path() const { return header_path; }
 
     void set_name(const QString& n) { name = n; } ;
@@ -32,7 +34,7 @@ public:
     void set_save_path(QString sp);
 
     Game() {}
-    Game(const QString& n, const QString& wd, const QString& e, const QString& sp);
+    Game(const QString& n, const QString& wd, const QString& e, const QString& sp, const QString& _header_name = "");
 
     void execute() const;
 

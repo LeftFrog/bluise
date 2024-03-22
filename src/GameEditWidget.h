@@ -1,5 +1,6 @@
 #pragma once
 #include <QWidget>
+#include <QPushButton>
 #include "Game.h"
 #include "GameOptionWidget.h"
 
@@ -10,6 +11,7 @@ public:
     GameEditWidget(Game* _game, QWidget* parent = nullptr);
 private:
     Game* game;
+    QPushButton* applyButton;
     GameOptionWidget* name;
     GameOptionWidget* working_directory;
     GameOptionWidget* exec;
@@ -17,6 +19,7 @@ private:
 private slots:
     void closeWin();
     void apply();
+    void changed();
 signals:
     void gameChanged();
 };
