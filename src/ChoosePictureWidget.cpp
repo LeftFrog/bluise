@@ -31,6 +31,8 @@ void ChoosePictureWidget::mousePressEvent(QMouseEvent * event)
 
 void ChoosePictureWidget::setPicture(const QString & path)
 {
+    current_path = path;
+    emit changed();
     pic = QPixmap(path).scaled(rect().size());
 }
 
@@ -39,9 +41,9 @@ QSize ChoosePictureWidget::sizeHint() const
 return QSize(430, 215);
 }
 
-ChoosePictureWidget::ChoosePictureWidget(QWidget* parent) : QWidget(parent)
-{
+ChoosePictureWidget::ChoosePictureWidget(const QString& path,QWidget* parent) : QWidget(parent), first_path(path), current_path(path) {
     setAutoFillBackground(true);
     resize(430, 215);
     setFixedSize(430, 215);
+    pic = QPixmap(path).scaled(rect().size());
 }

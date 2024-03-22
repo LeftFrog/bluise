@@ -1,5 +1,6 @@
 #include "GameWidget.h"
 #include "GameEditWidget.h"
+#include "GameAddWidget.h"
 
 GameWidget::GameWidget(Game* _game, QWidget *parent) : QQuickWidget(QUrl("./GameWidget.qml"), parent), game(_game) {
     resize(sizeHint());
@@ -30,6 +31,8 @@ void GameWidget::resizeEvent(QResizeEvent *event)
 void GameWidget::edit() {
     GameEditWidget* edit = new GameEditWidget(game);
     edit->show();
+    // GameAddWidget* add = new GameAddWidget();
+    // add->show();
     connect(edit, &GameEditWidget::gameChanged, this, &GameWidget::repaintSlot);
 }
 
