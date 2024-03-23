@@ -1,5 +1,4 @@
-#include "GameListWidget.h"
-#include "GameWidget.h"
+#include "GameScrollArea.h"
 #include "bluise.h"
 #include "invalid_path.h"
 #include <QApplication>
@@ -7,15 +6,7 @@
 
 int qt_win(int argc, char **argv) {
   QApplication a(argc, argv);
-  QScrollArea w;
-  GameListWidget *gameListWidget = new GameListWidget(&w);
-  w.setWidget(gameListWidget);
-  w.horizontalScrollBar()->setEnabled(false);
-  w.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  w.verticalScrollBar()->setEnabled(true);
-  w.resize(1280, 720);
-  w.setMinimumWidth(gameListWidget->sizeHint().width());
-  w.setMinimumHeight(300);
+  GameScrollArea w;
   w.show();
   return a.exec();
 }
