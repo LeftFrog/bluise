@@ -32,8 +32,6 @@ void GameWidget::resizeEvent(QResizeEvent *event) {
 void GameWidget::edit() {
   GameEditWidget *edit = new GameEditWidget(game);
   edit->show();
-  // GameAddWidget* add = new GameAddWidget();
-  // add->show();
   connect(edit, &GameEditWidget::gameChanged, this, &GameWidget::repaintSlot);
 }
 

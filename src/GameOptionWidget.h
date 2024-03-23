@@ -7,14 +7,6 @@
 
 class GameOptionWidget : public QWidget {
   Q_OBJECT
-private:
-  QLineEdit *ledit;
-  QLabel *lbl;
-  QString first_text;
-  bool has_file_dialog;
-private slots:
-  void open_file();
-
 public:
   GameOptionWidget(const QString &label, const QString &text,
                    QWidget *parent = nullptr);
@@ -24,4 +16,12 @@ public:
   bool isChanged() const { return ledit->text() != first_text; }
 signals:
   void gameChanged();
+private:
+  QLineEdit *ledit;
+  QLabel *lbl;
+  QString first_text;
+  bool has_file_dialog;
+private slots:
+  void open_file();
+
 };

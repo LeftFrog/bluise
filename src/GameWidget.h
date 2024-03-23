@@ -9,14 +9,14 @@ class GameWidget : public QQuickWidget {
 public:
   GameWidget(Game *_game, QWidget *parent = nullptr);
   virtual QSize sizeHint() const override;
-
+public slots:
+  void edit();
+  void play();
+  void repaintSlot();
+  
 protected:
   virtual void resizeEvent(QResizeEvent *event) override;
 
 private:
   Game *game;
-public slots:
-  void edit();
-  void play();
-  void repaintSlot();
 };

@@ -6,12 +6,11 @@ class GameEditWidget : public GameOptionsWidget {
 
 public:
   GameEditWidget(Game *_game, QWidget *parent = nullptr);
-
-private:
-  Game *game;
+signals:
+  void gameChanged();
 protected slots:
   virtual void apply() override;
   void changed();
-signals:
-  void gameChanged();
+private:
+  Game *game;
 };

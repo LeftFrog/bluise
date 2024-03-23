@@ -1,29 +1,37 @@
 #include "GameAddWidget.h"
+#include "bluise.h"
 #include <QFile>
 #include <filesystem>
 
-GameAddWidget::GameAddWidget(QWidget *parent) : QWidget(parent) {
-  name = new GameOptionWidget("Name", "", this);
-  working_directory =
-      new GameOptionWidget("Working directory", "", false, this);
-  exec = new GameOptionWidget("Executable", "", true, this);
-  save_path = new GameOptionWidget("Save path", "", false, this);
-  choose = new ChoosePictureWidget("", this);
-  QVBoxLayout *VBL = new QVBoxLayout;
-  VBL->addWidget(choose);
-  VBL->addWidget(name);
-  VBL->addWidget(working_directory);
-  VBL->addWidget(exec);
-  VBL->addWidget(save_path);
-  setLayout(VBL);
-
-  QPushButton *cancel = new QPushButton("Cancel");
-  connect(cancel, &QPushButton::clicked, this, &GameAddWidget::closeWin);
-  addButton = new QPushButton("Add");
-  connect(addButton, &QPushButton::clicked, this, &GameAddWidget::addGame);
+GameAddWidget::GameAddWidget(QWidget *parent) : GameOptionsWidget(parent) {
+  connect(name, &GameOptionWidget::gameChanged, this, &GameAddWidget::changed);
+  connect(working_directory, &GameOptionWidget::gameChanged, this,
+          &GameAddWidget::changed);
+  connect(exec, &GameOptionWidget::gameChanged, this, &GameAddWidget::changed);
+  connect(save_path, &GameOptionWidget::gameChanged, this,
+          &GameAddWidget::changed);
+  applyButton->setText("Add");
 }
 
-void GameAddWidget::addGame() {
+void GameAddWidget::changed()
+{
+  if(!applyButton->isEnabled())
+  {
+    if(name->isChanged() && working_directory->isChanged() && exec->isChanged() && save_path->isChanged() && choose->isChanged())
+    {
+      applyButton->setEnabled(true);
+    }
+  }
+  else
+  {
+    if(!name->isChanged() || !working_directory->isChanged() || !exec->isChanged() || !save_path->isChanged() || !choose->isChanged())
+    {
+      applyButton->setDisabled(true);
+    }
+  }
+}
+
+void GameAddWidget::apply() {
   std::filesystem::copy(choose->path().toStdString(),
                         (bluise_core::DOCS + "res/").toStdString());
   QString header = QFile(choose->path()).fileName();
