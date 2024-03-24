@@ -1,4 +1,5 @@
 #include "GameOptionsWidget.h"
+#include <QTextEdit>
 
 GameOptionsWidget::GameOptionsWidget(QWidget *parent) {
   name = new GameOptionWidget("Name: ", "");
@@ -42,7 +43,9 @@ GameOptionsWidget::GameOptionsWidget(const Game game, QWidget *parent) {
   HBL->addWidget(cancel);
   HBL->addWidget(applyButton);
   QVBoxLayout *VBL = new QVBoxLayout;
-  VBL->addWidget(choose);
+  QHBoxLayout *HBL1 = new QHBoxLayout;
+  HBL1->addWidget(choose, Qt::AlignHCenter);
+  VBL->addLayout(HBL1);
   VBL->addWidget(name);
   VBL->addWidget(working_directory);
   VBL->addWidget(exec);
