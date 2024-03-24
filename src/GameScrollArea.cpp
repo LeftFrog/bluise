@@ -2,7 +2,7 @@
 #include "GameListWidget.h"
 
 GameScrollArea::GameScrollArea(QWidget *parent) : QScrollArea(parent) {
-  GameListWidget *gameListWidget = new GameListWidget(this);
+  GameListWidget* gameListWidget = new GameListWidget(this);
   setWidget(gameListWidget);
   horizontalScrollBar()->setEnabled(false);
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

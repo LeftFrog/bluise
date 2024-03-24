@@ -7,6 +7,7 @@
 int qt_win(int argc, char **argv) {
   QApplication a(argc, argv);
   GameScrollArea w;
+
   w.show();
   return a.exec();
 }

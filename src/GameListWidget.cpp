@@ -10,4 +10,4 @@ GameListWidget::GameListWidget(QWidget *parent) : QWidget(parent) {
     layout->addWidget(game_widgets[i], i / 3, i % 3);
   }
   setLayout(layout);
-}
+} 

@@ -13,7 +13,6 @@ public slots:
   void edit();
   void play();
   void repaintSlot();
-  
 protected:
   virtual void resizeEvent(QResizeEvent *event) override;
 

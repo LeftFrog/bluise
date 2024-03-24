@@ -2,9 +2,9 @@
 
 GameOptionsWidget::GameOptionsWidget(QWidget *parent) {
   name = new GameOptionWidget("Name: ", "");
-  working_directory = new GameOptionWidget("Working directory: ", "");
-  exec = new GameOptionWidget("Executable: ", "");
-  save_path = new GameOptionWidget("Save path: ", "");
+  working_directory = new GameOptionWidget("Working directory: ", "", false);
+  exec = new GameOptionWidget("Executable: ", "", true);
+  save_path = new GameOptionWidget("Save path: ", "", false);
   choose = new ChoosePictureWidget("");
   applyButton = new QPushButton("Apply");
   connect(applyButton, &QPushButton::clicked, this, &GameOptionsWidget::apply);
@@ -16,7 +16,7 @@ GameOptionsWidget::GameOptionsWidget(QWidget *parent) {
   HBL->addWidget(cancel);
   HBL->addWidget(applyButton);
   QVBoxLayout *VBL = new QVBoxLayout;
-  VBL->addWidget(choose);
+  VBL->addWidget(choose, Qt::AlignHCenter);
   VBL->addWidget(name);
   VBL->addWidget(working_directory);
   VBL->addWidget(exec);
@@ -28,9 +28,9 @@ GameOptionsWidget::GameOptionsWidget(QWidget *parent) {
 GameOptionsWidget::GameOptionsWidget(const Game game, QWidget *parent) {
   name = new GameOptionWidget("Name: ", game.get_name());
   working_directory =
-      new GameOptionWidget("Working directory: ", game.get_working_directory());
-  exec = new GameOptionWidget("Executable: ", game.get_executable());
-  save_path = new GameOptionWidget("Save path: ", game.get_save_path());
+      new GameOptionWidget("Working directory: ", game.get_working_directory(), false);
+  exec = new GameOptionWidget("Executable: ", game.get_executable(), true);
+  save_path = new GameOptionWidget("Save path: ", game.get_save_path(), false);
   choose = new ChoosePictureWidget(game.get_header_path());
   applyButton = new QPushButton("Apply");
   connect(applyButton, &QPushButton::clicked, this, &GameOptionsWidget::apply);
