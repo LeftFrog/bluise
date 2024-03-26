@@ -10,4 +10,12 @@ GameScrollArea::GameScrollArea(QWidget *parent) : QScrollArea(parent) {
   resize(1280, 720);
   setMinimumWidth(gameListWidget->sizeHint().width());
   setMinimumHeight(300);
+  addWidget = new AddWidget(this);
+  addWidget->setGeometry(10, height() - 60, 50, 50);
+}
+
+void GameScrollArea::resizeEvent(QResizeEvent * event)
+{
+  addWidget->setGeometry(10, height() - 60, 50, 50);
+  QScrollArea::resizeEvent(event);
 }
