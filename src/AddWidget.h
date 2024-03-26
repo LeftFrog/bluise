@@ -8,7 +8,7 @@ public:
   AddWidget(QWidget *parent = nullptr);
   virtual QSize sizeHint() const override { return QSize(50, 50);};
 public slots:
-  //void add();
+  void add();
 protected:
   virtual void resizeEvent(QResizeEvent *event) override;
 };

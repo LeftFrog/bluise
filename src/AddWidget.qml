@@ -13,6 +13,7 @@ Rectangle {
         height: 50 // parent.height
         radius: 30
         color: palette.midlight
+        objectName: "mainRect"
         // property bool hovered: mouse.hovered
         property bool visibleButtons: false
         // state: "mainState"
@@ -63,13 +64,16 @@ Rectangle {
             acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
         }
         RoundButton {
+            signal addClicked();
+            objectName: "addButton"
             width: 50 // parent.width
             height: 50 // parent.height
             radius: parent.radius
             flat: true
             icon.cache: true
             icon.source: "/Users/leftfrog/Projects/add_widget/plus.png"
-            icon.color: palette.dark // "#404040"
+            icon.color: palette.dark 
+            onClicked: addClicked();
         }
         RoundButton {
             width: 50 // parent.width
