@@ -9,6 +9,7 @@ class GameWidget : public QQuickWidget {
 public:
   GameWidget(Game *_game, QWidget *parent = nullptr);
   virtual QSize sizeHint() const override;
+  bool operator>(const GameWidget &other) const;
 public slots:
   void edit();
   void play();

@@ -91,5 +91,5 @@ bool Game::operator==(const QString &other) {
 }
 
 bool Game::operator<(const Game &other) {
-  return (this->name < other.name) ? true : false;
+  return (this->name < other.name);
 }

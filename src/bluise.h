@@ -10,7 +10,7 @@ extern QList<Game> games;
 extern const QString DOCS;
 extern const QString BACKUP_PATH;
 
-template <typename Iterator> void sort(Iterator begin, Iterator end);
+template <typename Iterator, typename Compare> void sort(Iterator begin, Iterator end, Compare comp);
 
 void readGamesJSON();
 void saveGamesJSON();

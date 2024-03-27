@@ -22,6 +22,11 @@ GameWidget::GameWidget(Game *_game, QWidget *parent)
 
 QSize GameWidget::sizeHint() const { return QSize(390, 234); }
 
+bool GameWidget::operator>(const GameWidget & other) const
+{
+  return game->get_name() > other.game->get_name();
+}
+
 void GameWidget::resizeEvent(QResizeEvent *event) {
   QQuickItem *root = rootObject();
   root->setProperty("width", event->size().width());

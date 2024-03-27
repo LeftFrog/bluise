@@ -7,5 +7,6 @@ class GameListWidget : public QWidget {
   Q_OBJECT
 public:
   QList<GameWidget *> game_widgets;
+  QList<GameWidget *> gameWidgetsProxy;
   GameListWidget(QWidget *parent = nullptr);
 };
