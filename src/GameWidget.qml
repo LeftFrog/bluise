@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Effects
 
 Rectangle {
     width: 390
@@ -14,6 +15,7 @@ Rectangle {
     radius: 10
     property int useful_height: height/18*4;
     property int margin: (height/18)/2
+    property bool disabled: true
     color: palette.light
     property alias img_source: img.source
 
@@ -27,7 +29,12 @@ Rectangle {
         smooth: true
         visible:true
     }
-
+    // MultiEffect {
+    //     objectName: "effect"
+    //     anchors.fill: img
+    //     source: img
+    //     saturation: parent.disabled ? -1.0 : 0
+    // }
     Button {
         id: bt1
         signal editClicked()

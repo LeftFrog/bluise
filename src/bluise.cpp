@@ -96,8 +96,12 @@ void readGamesJSON() {
           Game(obj["name"].toString(), obj["working_directory"].toString(),
                obj["executable"].toString(), obj["save_path"].toString(),
                obj["header"].toString()));
-    } catch (const invalid_path &err) {
+    } catch (const bluise_error &err) {
       std::cerr << err.what() << std::endl;
+      games.push_back(
+          Game(obj["name"].toString(), obj["working_directory"].toString(),
+               obj["executable"].toString(), obj["save_path"].toString(),
+               obj["header"].toString(), true));
     }
   }
 }

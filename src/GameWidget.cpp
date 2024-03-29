@@ -1,6 +1,7 @@
 #include "GameWidget.h"
 #include "GameAddWidget.h"
 #include "GameEditWidget.h"
+#include <QErrorMessage>
 
 
 GameWidget::GameWidget(Game *_game, QWidget *parent)
@@ -37,10 +38,18 @@ void GameWidget::resizeEvent(QResizeEvent *event) {
 void GameWidget::edit() {
   GameEditWidget *edit_widget = new GameEditWidget(game);
   edit_widget->show();
-  connect(edit_widget, SIGNAL(repaint()), SLOT(repaintSlot()));
+  connect(edit_widget, SIGNAL(gameChanged()), SLOT(repaintSlot()));
 }
 
-void GameWidget::play() { game->execute(); }
+void GameWidget::play() { 
+  if(game->isDisabled()) {
+     QErrorMessage *error = new QErrorMessage(this);
+     error->showMessage("This game is disabled!");
+  }
+  else {
+    game->execute();
+  }
+}
 
 void GameWidget::repaintSlot() {
   QQuickItem *root = rootObject();

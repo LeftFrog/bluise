@@ -15,6 +15,7 @@ protected:
   QString save_path;
   QString header_name;
   QString header_path;
+  bool disabled;
 
   exec_type type;
 
@@ -32,10 +33,11 @@ public:
   void set_working_directory(const QString &wd);
   void set_executable(const QString &e);
   void set_save_path(QString sp);
+  bool isDisabled() const { return disabled; }
 
   Game() {}
   Game(const QString &n, const QString &wd, const QString &e, const QString &sp,
-       const QString &_header_name = "");
+       const QString &_header_name = "", bool _disabled = false);
 
   void execute() const;
 

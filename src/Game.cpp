@@ -42,21 +42,27 @@ void Game::set_save_path(QString sp) {
 }
 
 Game::Game(const QString &n, const QString &wd, const QString &e,
-           const QString &sp, const QString &_header_name)
-    : name(n), header_name(_header_name) {
-  set_working_directory(wd);
-  set_executable(e);
-  set_save_path(sp);
-
-  QString path = bluise_core::DOCS + "res/";
-  if (QFile::exists(path + header_name)) {
-    header_path = path + header_name;
+           const QString &sp, const QString &_header_name, bool _disabled)
+    : name(n), header_name(_header_name), disabled(_disabled) {
+  if (_disabled) {
+    working_directory = wd;
+    executable = e;
+    save_path = sp;
   }
-  if (e.toStdString().substr(e.size() - 4, 4) == ".exe") {
-    type = windows_exe;
-  } else {
-    type = linux_exe;
+  else {
+    set_working_directory(wd);
+    set_executable(e);
+    set_save_path(sp);
   }
+    QString path = bluise_core::DOCS + "res/";
+    if (QFile::exists(path + header_name)) {
+      header_path = path + header_name;
+    }
+    if (e.toStdString().substr(e.size() - 4, 4) == ".exe") {
+      type = windows_exe;
+    } else {
+      type = linux_exe;
+    }
 }
 
 void Game::execute() const {
