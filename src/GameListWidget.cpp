@@ -22,9 +22,13 @@ void GameListWidget::init()
 }
 
 void GameListWidget::addWidgets() {
+  delete layout;
+  layout = new QGridLayout();
   for (int i = 0; i < game_widgets.size(); ++i) {
     layout->addWidget(game_widgets[i], i / 3, i % 3);
   }
+  resize(layout->sizeHint());
+  setLayout(layout);
 }
 
 void GameListWidget::added()

@@ -2,6 +2,8 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QMessageBox>
+#include "bluise_error.h"
 #include <QVBoxLayout>
 
 GameEditWidget::GameEditWidget(Game *_game, QWidget *parent)
@@ -17,10 +19,16 @@ GameEditWidget::GameEditWidget(Game *_game, QWidget *parent)
 }
 
 void GameEditWidget::apply() {
-  game->set_name(name->text());
-  game->set_working_directory(working_directory->text());
-  game->set_executable(exec->text());
-  game->set_save_path(save_path->text());
+  try {
+    game->set_name(name->text());
+    game->set_working_directory(working_directory->text());
+    game->set_executable(exec->text());
+    game->set_save_path(save_path->text());
+  }
+  catch (bluise_error &err) {
+    QMessageBox::critical(this, "Error", QString::fromStdString(err.what()));
+    return;
+  }
   emit gameChanged();
   close();
 }
