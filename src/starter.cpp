@@ -11,10 +11,8 @@ int qt_win(int argc, char **argv) {
   QSplitter splitter(Qt::Vertical);
   GameScrollArea *gameScrollArea = new GameScrollArea(&splitter);
   Dock *w = new Dock(&splitter);
-  // w->resize(gameScrollArea->width(), 50);
-  // w->rootObject()->setProperty("width", gameScrollArea->width());
-  // w->rootObject()->setProperty("height", 50);
-  splitter.resize(1280, 600);
+  QObject::connect(w, &Dock::added, gameScrollArea, &GameScrollArea::added);
+  splitter.resize(gameScrollArea->width(), 600);
   splitter.setHandleWidth(1);
   splitter.addWidget(w);
   splitter.addWidget(gameScrollArea);

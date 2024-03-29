@@ -6,10 +6,31 @@ GameListWidget::GameListWidget(QWidget *parent) : QWidget(parent) {
     // if(bluise_core::games[i].isDisabled()) continue;
     game_widgets.push_back(new GameWidget(&bluise_core::games[i], this));
   }
-  QGridLayout *layout = new QGridLayout();
+  layout = new QGridLayout();
+  addWidgets();
+  setBackgroundRole(QPalette::Base);
+  resize(width(), game_widgets.size()/3*300);
+  setLayout(layout);
+}
+
+void GameListWidget::init()
+{
+  for (int i = 0; i < bluise_core::games.size(); ++i) {
+    // if(bluise_core::games[i].isDisabled()) continue;
+    game_widgets.push_back(new GameWidget(&bluise_core::games[i], this));
+  }
+  addWidgets();
+}
+
+void GameListWidget::addWidgets() {
   for (int i = 0; i < game_widgets.size(); ++i) {
     layout->addWidget(game_widgets[i], i / 3, i % 3);
   }
-  setBackgroundRole(QPalette::Base);
-  setLayout(layout);
+}
+
+void GameListWidget::added()
+{
+  game_widgets.clear();
+  init();
+  addWidgets();
 }

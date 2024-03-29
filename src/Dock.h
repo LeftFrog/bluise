@@ -6,6 +6,10 @@ class Dock : public QQuickWidget {
   Q_OBJECT
 public:
   Dock(QWidget *parent = nullptr);
+signals:
+  void added();
+protected:
+  virtual void resizeEvent(QResizeEvent *event) override;
 public slots: 
   void addGame();
 };

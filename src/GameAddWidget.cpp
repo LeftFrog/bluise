@@ -37,5 +37,6 @@ void GameAddWidget::apply() {
   QString header = QFile(choose->path()).fileName();
   bluise_core::games.push_back(Game(name->text(), working_directory->text(),
                                     exec->text(), save_path->text(), header));
+  emit added();
   close();
 }

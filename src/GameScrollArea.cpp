@@ -7,10 +7,11 @@ GameScrollArea::GameScrollArea(QWidget *parent) : QScrollArea(parent) {
   horizontalScrollBar()->setEnabled(false);
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   verticalScrollBar()->setEnabled(true);
-  resize(1280, 720);
+  resize(gameListWidget->sizeHint().width(), 720);
   setMinimumWidth(gameListWidget->sizeHint().width());
   setMinimumHeight(300);
   setBackgroundRole(QPalette::Base);
+  connect(this, &GameScrollArea::added, gameListWidget, &GameListWidget::added);
 }
 
 void GameScrollArea::resizeEvent(QResizeEvent * event)

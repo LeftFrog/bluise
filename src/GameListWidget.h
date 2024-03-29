@@ -9,4 +9,10 @@ public:
   QList<GameWidget *> game_widgets;
   QList<GameWidget *> gameWidgetsProxy;
   GameListWidget(QWidget *parent = nullptr);
+public slots:
+  void added();
+private:
+  QGridLayout *layout;
+  void addWidgets();
+  void init();
 };
