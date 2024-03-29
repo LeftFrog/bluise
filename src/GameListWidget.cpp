@@ -9,7 +9,6 @@ GameListWidget::GameListWidget(QWidget *parent) : QWidget(parent) {
   layout = new QGridLayout();
   addWidgets();
   setBackgroundRole(QPalette::Base);
-  resize(width(), game_widgets.size()/3*300);
   setLayout(layout);
 }
 

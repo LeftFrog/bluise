@@ -52,6 +52,7 @@ GameOptionsWidget::GameOptionsWidget(const Game game, QWidget *parent) {
   VBL->addWidget(save_path);
   VBL->addLayout(HBL);
   setLayout(VBL);
+  setWindowModality(Qt::ApplicationModal);
 }
 
 void GameOptionsWidget::closeWin() { close(); }
