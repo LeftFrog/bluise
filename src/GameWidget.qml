@@ -5,7 +5,7 @@ import QtQuick.Effects
 Rectangle {
     width: 390
     height: 234
-    color: palette.window
+    color: palette.base
     visible:true
 
     Rectangle {
@@ -16,7 +16,7 @@ Rectangle {
     property int useful_height: height/18*4;
     property int margin: (height/18)/2
     property bool disabled: true
-    color: palette.light
+    color: palette.midlight
     property alias img_source: img.source
 
     Image {

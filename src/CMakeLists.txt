@@ -20,7 +20,7 @@ qt_add_qml_module(appBluise_qml
     URI Bluise_qml
     VERSION 1.0
     QML_FILES GameWidget.qml
-    QML_FILES AddWidget.qml
+    QML_FILES Dock.qml
 )
 
 set(PROJECT_SOURCES
@@ -37,7 +37,7 @@ set(PROJECT_SOURCES
     GLLReader.cpp
 )
 
-qt_add_executable(bluise starter.cpp bluise.cpp Game.cpp GameWidget.cpp GameListWidget.cpp AddWidget.cpp GameScrollArea.cpp GameOptionsWidget.cpp GameEditWidget.cpp ChoosePictureWidget.cpp FileValidator.cpp GameOptionWidget.cpp GameAddWidget.cpp)
+qt_add_executable(bluise starter.cpp bluise.cpp Game.cpp GameWidget.cpp GameListWidget.cpp Dock.cpp GameScrollArea.cpp GameOptionsWidget.cpp GameEditWidget.cpp ChoosePictureWidget.cpp FileValidator.cpp GameOptionWidget.cpp GameAddWidget.cpp)
 
 target_link_libraries(bluise PRIVATE Qt6::Widgets)
 target_link_libraries(bluise PRIVATE Qt6::Quick)

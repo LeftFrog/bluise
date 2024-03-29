@@ -104,6 +104,9 @@ void readGamesJSON() {
                obj["header"].toString(), true));
     }
   }
+  sort(games.begin(), games.end(), [](const Game &a, const Game &b) {
+    return a.get_name() < b.get_name();
+  });
 }
 
 void saveGamesJSON() {
