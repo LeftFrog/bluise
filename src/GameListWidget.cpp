@@ -7,8 +7,9 @@ GameListWidget::GameListWidget(QWidget *parent) : QWidget(parent) {
     game_widgets.push_back(new GameWidget(&bluise_core::games[i], this));
   }
   layout = new QGridLayout();
-  addWidgets();
-  setBackgroundRole(QPalette::Base);
+  for (int i = 0; i < game_widgets.size(); ++i) {
+    layout->addWidget(game_widgets[i], i / 3, i % 3);
+  }
   setLayout(layout);
 }
 
@@ -22,7 +23,6 @@ void GameListWidget::init()
 }
 
 void GameListWidget::addWidgets() {
-  delete layout;
   layout = new QGridLayout();
   for (int i = 0; i < game_widgets.size(); ++i) {
     layout->addWidget(game_widgets[i], i / 3, i % 3);

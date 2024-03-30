@@ -23,7 +23,7 @@ GameOptionWidget::GameOptionWidget(const QString &label, const QString &text,
   layout->addWidget(lbl);
   layout->addWidget(ledit);
   ledit->setValidator(new FileValidator(!has_file_dialog, ledit));
-  QPushButton *pbutton = new QPushButton("open");
+  QPushButton *pbutton = new QPushButton("...");
   connect(pbutton, &QPushButton::clicked, this, &GameOptionWidget::open_file);
   connect(ledit, &QLineEdit::textChanged, this, &GameOptionWidget::gameChanged);
   layout->addWidget(pbutton);
