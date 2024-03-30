@@ -45,7 +45,7 @@ Rectangle {
         y :parent.height - parent.margin/2 - height
         icon.cache: true
         icon.source: "../res/settings.png"
-        icon.color: palette.dark // "#d1d1d1"
+        icon.color: palette.dark 
         icon.width: 2*width
         icon.height: 2*height
         onClicked: editClicked();
@@ -59,7 +59,7 @@ Rectangle {
         y: bt1.y
         icon.cache: true
         icon.source: "../res/play.png"
-        icon.color: palette.dark //"#d1d1d1"
+        icon.color: palette.dark 
         icon.width: 2*width
         icon.height: 2*height
         onClicked: playClicked();

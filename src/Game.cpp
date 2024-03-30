@@ -58,23 +58,12 @@ Game::Game(const QString &n, const QString &wd, const QString &e,
     if (QFile::exists(path + header_name)) {
       header_path = path + header_name;
     }
-    if (e.toStdString().substr(e.size() - 4, 4) == ".exe") {
-      type = windows_exe;
-    } else {
-      type = linux_exe;
-    }
 }
 
 void Game::execute() const {
 #ifdef __linux__
-  if (type == linux_exe) {
-
-    string command = "nohup \"" + executable + "\" &> /dev/null &";
-    system(command.c_str());
-  } else if (type == windows_exe) {
-    string command = "nohup portproton \"" + executable + "\" &> /dev/null &";
-    system(command.c_str());
-  }
+  string command = "nohup \"" + executable + "\" &> /dev/null &";
+  system(command.c_str()); 
 #elif __WIN32
   system(executable.c_str());
 #elif __APPLE__
@@ -84,18 +73,18 @@ void Game::execute() const {
 #endif
 }
 
-bool Game::operator==(const Game &other) {
+bool Game::operator==(const Game &other) const {
   return (this->name == other.name) ? true : false;
 }
 
-bool Game::operator==(const string &other) {
+bool Game::operator==(const string &other) const {
   return (this->name.toStdString() == other) ? true : false;
 }
 
-bool Game::operator==(const QString &other) {
+bool Game::operator==(const QString &other) const {
   return (this->name == other) ? true : false;
 }
 
-bool Game::operator<(const Game &other) {
+bool Game::operator<(const Game &other) const {
   return (this->name < other.name);
 }

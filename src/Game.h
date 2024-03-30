@@ -6,19 +6,6 @@
 using std::string;
 class Game {
 
-protected:
-  enum exec_type { linux_exe, windows_exe };
-
-  QString name;
-  QString working_directory;
-  QString executable;
-  QString save_path;
-  QString header_name;
-  QString header_path;
-  bool disabled;
-
-  exec_type type;
-
 public:
   enum class var_type { name, working_directory, executable, save_path };
 
@@ -26,14 +13,14 @@ public:
   inline QString get_working_directory() const { return working_directory; }
   inline QString get_executable() const { return executable; }
   inline QString get_save_path() const { return save_path; }
-  QString get_header_name() const { return header_name; }
-  QString get_header_path() const { return header_path; }
+  inline QString get_header_name() const { return header_name; }
+  inline QString get_header_path() const { return header_path; }
+  bool isDisabled() const { return disabled; }
 
   void set_name(const QString &n) { name = n; };
   void set_working_directory(const QString &wd);
   void set_executable(const QString &e);
   void set_save_path(QString sp);
-  bool isDisabled() const { return disabled; }
 
   Game() {}
   Game(const QString &n, const QString &wd, const QString &e, const QString &sp,
@@ -41,8 +28,17 @@ public:
 
   void execute() const;
 
-  bool operator<(const Game &other);
-  bool operator==(const Game &other);
-  bool operator==(const string &other);
-  bool operator==(const QString &other);
+  bool operator<(const Game &other) const;
+  bool operator==(const Game &other) const;
+  bool operator==(const string &other) const;
+  bool operator==(const QString &other) const;
+
+protected:
+  QString name;
+  QString working_directory;
+  QString executable;
+  QString save_path;
+  QString header_name;
+  QString header_path;
+  bool disabled;
 };

@@ -16,7 +16,6 @@ public slots:
   void repaintSlot();
 protected:
   virtual void resizeEvent(QResizeEvent *event) override;
-
 private:
   Game *game;
 };

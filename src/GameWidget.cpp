@@ -1,11 +1,12 @@
 #include "GameWidget.h"
 #include "GameAddWidget.h"
 #include "GameEditWidget.h"
-#include <QErrorMessage>
+#include <QMessageBox>
 
 
 GameWidget::GameWidget(Game *_game, QWidget *parent)
     : QQuickWidget(QUrl("./GameWidget.qml"), parent), game(_game) {
+  
   resize(sizeHint());
   setMinimumSize(sizeHint());
   setFixedSize(sizeHint());
@@ -13,8 +14,10 @@ GameWidget::GameWidget(Game *_game, QWidget *parent)
   QQuickItem *root = rootObject();
   QQuickItem *main_rect = root->findChild<QQuickItem *>("MainRect");
   QQuickItem *text = main_rect->findChild<QQuickItem *>("Name");
+
   text->setProperty("text", game->get_name());
   main_rect->setProperty("img_source", game->get_header_path());
+
   connect(main_rect->findChild<QQuickItem *>("edit_button"),
           SIGNAL(editClicked()), SLOT(edit()));
   connect(main_rect->findChild<QQuickItem *>("play_button"),
@@ -43,8 +46,7 @@ void GameWidget::edit() {
 
 void GameWidget::play() { 
   if(game->isDisabled()) {
-     QErrorMessage *error = new QErrorMessage(this);
-     error->showMessage("This game is disabled!");
+    QMessageBox::critical(this, "Error", "This game is not available.");
   }
   else {
     game->execute();

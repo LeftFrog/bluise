@@ -36,7 +36,7 @@ void GameAddWidget::apply() {
   try {
     std::filesystem::copy(choose->path().toStdString(),
                         (bluise_core::DOCS + "res/").toStdString());
-    QString header = QFile(choose->path()).fileName();
+    QString header = QString::fromStdString(std::filesystem::path(choose->path().toStdString()).filename().string());
     bluise_core::games.push_back(Game(name->text(), working_directory->text(),
                                     exec->text(), save_path->text(), header));
   } catch (bluise_error& err) {
