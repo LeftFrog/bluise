@@ -7,6 +7,7 @@
 #include <QJsonObject>
 #include <QStandardPaths>
 #include <filesystem>
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -19,29 +20,6 @@ const QString DOCS =
 const QString BACKUP_PATH = DOCS + "backs/";
 
 QList<Game> games;
-
-// std::sort does not work on my mac ¯⁠\⁠_⁠(⁠ツ⁠)⁠_⁠/⁠¯
-template <typename Iterator, typename Compare> 
-Iterator part(Iterator begin, Iterator end, Compare comp) {
-  auto previous = std::prev(end, 1);
-  auto i = begin;
-  for (auto j = begin; j != previous; ++j) {
-    if (comp(*j, *previous)) {
-      std::swap(*i++, *j);
-    }
-  }
-  std::swap(*i, *previous);
-  return i;
-}
-
-template <typename Iterator, typename Compare> 
-void sort(Iterator begin, Iterator end, Compare comp) {
-  if (std::distance(begin, end) > 1) {
-    Iterator bound = part(begin, end, comp);
-    sort(begin, bound, comp);
-    sort(bound + 1, end, comp);
-  }
-}
 
 void back(const QString &name) {
   auto game = find(games.begin(), games.end(), name.toStdString());
@@ -104,15 +82,14 @@ void readGamesJSON() {
                obj["header"].toString(), true));
     }
   }
-  sort(games.begin(), games.end(), [](const Game &a, const Game &b) {
-    return a.get_name() < b.get_name();
-  });
+  std::sort(games.begin(), games.end());
 }
 
 void saveGamesJSON() {
-  bluise_core::sort(games.begin(), games.end(), [](const Game &a, const Game &b) {
-    return a.get_name() < b.get_name();
-  });
+  // bluise_core::sort(games.begin(), games.end(), [](const Game &a, const Game &b) {
+  //   return a.get_name() < b.get_name();
+  // });
+  std::sort(games.begin(), games.end());
   QJsonArray arr;
   for (auto game : games) {
     QJsonObject obj;
