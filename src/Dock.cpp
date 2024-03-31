@@ -7,6 +7,7 @@ Dock::Dock(QWidget * parent) : QQuickWidget(QUrl("Dock.qml"), parent)
 {
   QQuickItem *root = this->rootObject();
   connect(root->findChild<QQuickItem *>("addButton"), SIGNAL(addClicked()), SLOT(addGame()));
+  connect(root, SIGNAL(checked(QString)), SIGNAL(sort(const QString&)));
   setFixedHeight(50);
 }
 

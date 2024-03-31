@@ -4,6 +4,7 @@
 GameScrollArea::GameScrollArea(QWidget *parent) : QScrollArea(parent) {
   GameListWidget* gameListWidget = new GameListWidget(this);
   connect(this, &GameScrollArea::added, gameListWidget, &GameListWidget::added);
+  connect(this, &GameScrollArea::sort, gameListWidget, &GameListWidget::sortWidgets);
   setWidget(gameListWidget);
 
   horizontalScrollBar()->setEnabled(false);

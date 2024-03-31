@@ -12,6 +12,7 @@ int qt_win(int argc, char **argv) {
   GameScrollArea *gameScrollArea = new GameScrollArea(&splitter);
   Dock *w = new Dock(&splitter);
   QObject::connect(w, &Dock::added, gameScrollArea, &GameScrollArea::added);
+  QObject::connect(w, &Dock::sort, gameScrollArea, &GameScrollArea::sort);
   splitter.resize(gameScrollArea->width(), 600);
   splitter.setHandleWidth(1);
   splitter.addWidget(w);

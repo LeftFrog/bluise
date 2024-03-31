@@ -10,6 +10,7 @@ public:
   GameListWidget(QWidget *parent = nullptr);
 public slots:
   void added();
+  void sortWidgets(const QString& order);
 private:
   QGridLayout *layout;
   void addWidgets();

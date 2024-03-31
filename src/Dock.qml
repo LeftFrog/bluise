@@ -4,10 +4,13 @@ import Qt.labs.platform
 
 
 Rectangle {
+    id: main
     width: 1280
     height: 50
     color: palette.midlight
+    signal checked(text: string)
     RoundButton {
+        objectName: "sort"
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
         anchors.rightMargin: 10
@@ -20,6 +23,24 @@ Rectangle {
         icon.source: "/Users/leftfrog/Documents/Bluise/res/sort.png"
         icon.color: palette.dark
         onClicked: menu.open()
+    }
+    Menu {
+        objectName: "sortMenu"
+        id: menu
+        MenuItemGroup {
+            objectName: "menuItemGroup"
+            items: menu.items
+            onTriggered: function (item) { main.checked(item.text) }
+        }
+        MenuItem {
+            text: "Name"
+            checkable: true
+            checked: true
+        }
+        MenuItem {
+            text: "Date added"
+            checkable: true
+        }
     }
     RoundButton {
         objectName: "addButton"
@@ -34,22 +55,5 @@ Rectangle {
         icon.source: "/Users/leftfrog/Documents/Bluise/res/plus.png"
         icon.color: palette.dark
         onClicked: addClicked();
-    }
-    Menu {
-        id: menu
-        MenuItemGroup {
-            signal checked(text: string)
-            items: menu.items
-            onTriggered: function (item) { checked(item.text) }
-        }
-        MenuItem {
-            text: "Name"
-            checkable: true
-            checked: true
-        }
-        MenuItem {
-            text: "Date added"
-            checkable: true
-        }
     }
 }

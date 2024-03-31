@@ -2,7 +2,9 @@
 #include "bluise.h"
 
 GameListWidget::GameListWidget(QWidget *parent) : QWidget(parent) {
+  layout = new QGridLayout();
   init();
+  setLayout(layout);
 }
 
 void GameListWidget::init()
@@ -15,16 +17,23 @@ void GameListWidget::init()
 }
 
 void GameListWidget::addWidgets() {
-  layout = new QGridLayout();
   for (int i = 0; i < game_widgets.size(); ++i) {
     layout->addWidget(game_widgets[i], i / 3, i % 3);
   }
-  setLayout(layout);
 }
 
 void GameListWidget::added()
 {
   game_widgets.clear();
   init();
+  addWidgets();
+}
+
+void GameListWidget::sortWidgets(const QString& order)
+{
+  if(order == "Name")
+  {
+    std::sort(game_widgets.begin(), game_widgets.end(), [](GameWidget* a, GameWidget* b) { return a->name() < b->name(); });
+  }
   addWidgets();
 }
