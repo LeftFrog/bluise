@@ -69,18 +69,19 @@ void readGamesJSON() {
   QJsonArray arr = doc.array();
   for (auto game : arr) {
     QJsonObject obj = game.toObject();
+    Game g;
     try {
-      games.push_back(
-          Game(obj["name"].toString(), obj["working_directory"].toString(),
-               obj["executable"].toString(), obj["save_path"].toString(),
-               obj["header"].toString()));
+      g = Game(obj["name"].toString(), obj["working_directory"].toString(),
+              obj["executable"].toString(), obj["save_path"].toString(),
+              obj["header"].toString());
     } catch (const bluise_error &err) {
       std::cerr << err.what() << std::endl;
-      games.push_back(
-          Game(obj["name"].toString(), obj["working_directory"].toString(),
-               obj["executable"].toString(), obj["save_path"].toString(),
-               obj["header"].toString(), true));
+      g = Game(obj["name"].toString(), obj["working_directory"].toString(),
+              obj["executable"].toString(), obj["save_path"].toString(),
+              obj["header"].toString(), true);
     }
+    g.setReleaseYear(obj["releaseYear"].toInt());
+    games.push_back(g);
   }
   std::sort(games.begin(), games.end());
 }
@@ -98,6 +99,7 @@ void saveGamesJSON() {
     obj["executable"] = game.get_executable();
     obj["save_path"] = game.get_save_path();
     obj["header"] = game.get_header_name();
+    obj["releaseYear"] = game.getReleaseYear();
     arr.append(obj);
   }
   QJsonDocument doc(arr);

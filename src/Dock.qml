@@ -24,6 +24,31 @@ Rectangle {
         icon.color: palette.dark
         onClicked: menu.open()
     }
+    RoundButton {
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 50
+        // x: parent.width - 40
+        // y: 10
+        width: 30
+        height: 30
+        radius: 10
+        flat: true
+        icon.source: "/Users/leftfrog/Documents/Bluise/res/sort.png"
+        icon.color: palette.dark
+        onClicked: filters.open()
+    }
+    Menu {
+        id: filters
+        MenuItemGroup {
+            id: group2
+            items: filters.items
+        }
+        MenuItem {
+            text: "Show uninstalled"
+            checkable: true
+        }
+    }
     Menu {
         objectName: "sortMenu"
         id: menu
@@ -38,7 +63,7 @@ Rectangle {
             checked: true
         }
         MenuItem {
-            text: "Date added"
+            text: "Release Year"
             checkable: true
         }
     }

@@ -34,6 +34,9 @@ void GameListWidget::sortWidgets(const QString& order)
   if(order == "Name")
   {
     std::sort(game_widgets.begin(), game_widgets.end(), [](GameWidget* a, GameWidget* b) { return a->name() < b->name(); });
+  } else if(order == "Release Year")
+  {
+    std::sort(game_widgets.begin(), game_widgets.end(), [](GameWidget* a, GameWidget* b) { return a->releaseYear() < b->releaseYear(); });
   }
   addWidgets();
 }

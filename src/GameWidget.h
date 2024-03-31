@@ -11,6 +11,7 @@ public:
   virtual QSize sizeHint() const override;
   bool operator>(const GameWidget &other) const;
   QString name() const { return game->get_name(); }
+  int releaseYear() const { return game->getReleaseYear(); }
 public slots:
   void edit();
   void play();

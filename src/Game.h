@@ -15,12 +15,14 @@ public:
   inline QString get_save_path() const { return save_path; }
   inline QString get_header_name() const { return header_name; }
   inline QString get_header_path() const { return header_path; }
+  inline int getReleaseYear() const { return release_year; }
   bool isDisabled() const { return disabled; }
 
   void set_name(const QString &n) { name = n; };
   void set_working_directory(const QString &wd);
   void set_executable(const QString &e);
   void set_save_path(QString sp);
+  void setReleaseYear(int year) { release_year = year; }
 
   Game() {}
   Game(const QString &n, const QString &wd, const QString &e, const QString &sp,
@@ -40,5 +42,6 @@ protected:
   QString save_path;
   QString header_name;
   QString header_path;
+  int release_year;
   bool disabled;
 };

@@ -54,10 +54,11 @@ Game::Game(const QString &n, const QString &wd, const QString &e,
     set_executable(e);
     set_save_path(sp);
   }
-    QString path = bluise_core::DOCS + "res/";
-    if (QFile::exists(path + header_name)) {
-      header_path = path + header_name;
-    }
+  QString path = bluise_core::DOCS + "res/";
+  if (QFile::exists(path + header_name)) {
+    header_path = path + header_name;
+  }
+  release_year = 0;
 }
 
 void Game::execute() const {
