@@ -8,8 +8,11 @@ Rectangle {
     height: 50
     color: palette.midlight
     RoundButton {
-        x: parent.width - 40
-        y: 10
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 10
+        // x: parent.width - 40
+        // y: 10
         width: 30
         height: 30
         radius: 10
@@ -21,8 +24,9 @@ Rectangle {
     RoundButton {
         objectName: "addButton"
         signal addClicked()
-        x: 10
-        y: 10
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.leftMargin: 10
         width: 30
         height: 30
         radius: 10
@@ -33,14 +37,19 @@ Rectangle {
     }
     Menu {
         id: menu
+        MenuItemGroup {
+            signal checked(text: string)
+            items: menu.items
+            onTriggered: function (item) { checked(item.text) }
+        }
         MenuItem {
             text: "Name"
+            checkable: true
+            checked: true
         }
         MenuItem {
             text: "Date added"
-        }
-        MenuItem {
-            text: "Minecraft"
+            checkable: true
         }
     }
 }

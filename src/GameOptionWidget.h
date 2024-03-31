@@ -12,6 +12,7 @@ public:
                    QWidget *parent = nullptr);
   GameOptionWidget(const QString &label, const QString &text,
                    bool _has_file_dialog, QWidget *parent = nullptr);
+                   
   QString text() const { return ledit->text(); }
   bool isChanged() const { return ledit->text() != first_text; }
 signals:
