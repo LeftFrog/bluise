@@ -49,6 +49,7 @@ Game::Game()
   save_path = "";
   header_path = "";
   header_name = "";
+  release_year = 0;
 }
 
 Game::Game(const QString &n, const QString &wd, const QString &e,
