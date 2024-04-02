@@ -3,7 +3,7 @@
 #include <QPainter>
 
 ChoosePictureWidget::ChoosePictureWidget(const QString &path, QWidget *parent)
-    : QWidget(parent), first_path(path), current_path(path) {
+    : QWidget(parent), firstPath(path), currentPath(path) {
   setAutoFillBackground(true);
   resize(430, 215);
   setFixedSize(430, 215);
@@ -31,7 +31,7 @@ void ChoosePictureWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 void ChoosePictureWidget::setPicture(const QString &path) {
-  current_path = path;
+  currentPath = path;
   emit changed();
   pic = QPixmap(path).scaled(rect().size());
 }

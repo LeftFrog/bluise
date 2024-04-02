@@ -11,6 +11,7 @@ signals:
 protected slots:
   virtual void apply() override;
   void changed();
+
 private:
   Game *game;
 };

@@ -10,7 +10,7 @@ public:
   GameWidget(Game *_game, QWidget *parent = nullptr);
   virtual QSize sizeHint() const override;
   bool operator>(const GameWidget &other) const;
-  QString name() const { return game->get_name(); }
+  QString name() const { return game->getName(); }
   int releaseYear() const { return game->getReleaseYear(); }
 public slots:
   void edit();

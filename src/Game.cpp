@@ -6,19 +6,18 @@
 #include <QFile>
 #include <filesystem>
 
-
-void Game::set_working_directory(const QString &wd) {
+void Game::setWorkingDirectory(const QString &wd) {
   if (!QDir(wd).exists()) {
     throw invalid_path("Invalid working directory!");
   }
   if (wd[wd.size() - 1] != '/') {
-    working_directory = wd + '/';
+    workingDirectory = wd + '/';
   } else {
-    working_directory = wd;
+    workingDirectory = wd;
   }
 }
 
-void Game::set_executable(const QString &e) {
+void Game::setExecutable(const QString &e) {
 #ifdef __APPLE__
   if (!std::filesystem::exists(e.toStdString())) {
     throw invalid_path("Invalid executable!");
@@ -31,51 +30,49 @@ void Game::set_executable(const QString &e) {
   executable = e;
 }
 
-void Game::set_save_path(QString sp) {
+void Game::setSavePath(QString sp) {
   if (!QDir(sp).exists()) {
     throw invalid_path("Invalid save path!");
   }
   if (sp[sp.size() - 1] != '/') {
     sp += '/';
   }
-  save_path = sp;
+  savePath = sp;
 }
 
-Game::Game()
-{
+Game::Game() {
   name = "";
-  working_directory = "";
+  workingDirectory = "";
   executable = "";
-  save_path = "";
-  header_path = "";
-  header_name = "";
-  release_year = 0;
+  savePath = "";
+  headerPath = "";
+  headerName = "";
+  releaseYear = 0;
 }
 
-Game::Game(const QString &n, const QString &wd, const QString &e,
-           const QString &sp, const QString &_header_name, bool _disabled)
-    : name(n), header_name(_header_name), disabled(_disabled) {
+Game::Game(const QString &n, const QString &e, const QString &wd,
+           const QString &sp, const QString &_headerName, bool _disabled)
+    : name(n), headerName(_headerName), disabled(_disabled) {
   if (_disabled) {
-    working_directory = wd;
+    workingDirectory = wd;
     executable = e;
-    save_path = sp;
-  }
-  else {
-    set_working_directory(wd);
-    set_executable(e);
-    set_save_path(sp);
+    savePath = sp;
+  } else {
+    setWorkingDirectory(wd);
+    setExecutable(e);
+    setSavePath(sp);
   }
   QString path = bluise_core::DOCS + "res/";
-  if (QFile::exists(path + header_name)) {
-    header_path = path + header_name;
+  if (QFile::exists(path + headerName)) {
+    headerPath = path + headerName;
   }
-  release_year = 0;
+  releaseYear = 0;
 }
 
 void Game::execute() const {
 #ifdef __linux__
   string command = "nohup \"" + executable + "\" &> /dev/null &";
-  system(command.c_str()); 
+  system(command.c_str());
 #elif __WIN32
   system(executable.c_str());
 #elif __APPLE__

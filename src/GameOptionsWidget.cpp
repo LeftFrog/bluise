@@ -12,12 +12,12 @@ GameOptionsWidget::GameOptionsWidget(const Game game, QWidget *parent)
 
 void GameOptionsWidget::init(const Game &game) {
   QWidget *gameInfo = new QWidget(this);
-  name = new GameOptionWidget("Name: ", game.get_name());
+  name = new GameOptionWidget("Name: ", game.getName());
   working_directory = new GameOptionWidget(
-      "Working directory: ", game.get_working_directory(), false);
-  exec = new GameOptionWidget("Executable: ", game.get_executable(), true);
-  save_path = new GameOptionWidget("Save path: ", game.get_save_path(), false);
-  choose = new ChoosePictureWidget(game.get_header_path());
+      "Working directory: ", game.getWorkingDirectory(), false);
+  exec = new GameOptionWidget("Executable: ", game.getExecutable(), true);
+  save_path = new GameOptionWidget("Save path: ", game.getSavePath(), false);
+  choose = new ChoosePictureWidget(game.getHeaderPath());
   GameOptionWidget *releaseYear = new GameOptionWidget(
       "Release year: ",
       game.getReleaseYear() == 0 ? "" : QString::number(game.getReleaseYear()));

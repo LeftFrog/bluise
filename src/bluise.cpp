@@ -6,11 +6,12 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QStandardPaths>
-#include <filesystem>
 #include <algorithm>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <string>
+
 
 namespace bluise_core {
 namespace fs = std::filesystem;
@@ -38,7 +39,7 @@ void back(const QString &name) {
       throw bluise_error("Can't create directory!");
     }
   }
-  fs::copy(game->get_save_path().toStdString(), (back_path + ".").toStdString(),
+  fs::copy(game->getSavePath().toStdString(), (back_path + ".").toStdString(),
            fs::copy_options::recursive);
 }
 
@@ -54,7 +55,7 @@ void recover(const QString &name) {
   if (!back_dir.exists()) {
     throw bluise_error("There isn't backups of saves of your game");
   }
-  fs::copy(back_path.toStdString(), game->get_save_path().toStdString(),
+  fs::copy(back_path.toStdString(), game->getSavePath().toStdString(),
            fs::copy_options::recursive | fs::copy_options::overwrite_existing);
 }
 
@@ -71,14 +72,14 @@ void readGamesJSON() {
     QJsonObject obj = game.toObject();
     Game g;
     try {
-      g = Game(obj["name"].toString(), obj["working_directory"].toString(),
-              obj["executable"].toString(), obj["save_path"].toString(),
-              obj["header"].toString());
+      g = Game(obj["name"].toString(), obj["executable"].toString(),
+               obj["working_directory"].toString(), obj["save_path"].toString(),
+               obj["header"].toString());
     } catch (const bluise_error &err) {
       std::cerr << err.what() << std::endl;
-      g = Game(obj["name"].toString(), obj["working_directory"].toString(),
-              obj["executable"].toString(), obj["save_path"].toString(),
-              obj["header"].toString(), true);
+      g = Game(obj["name"].toString(), obj["executable"].toString(),
+               obj["working_directory"].toString(), obj["save_path"].toString(),
+               obj["header"].toString(), true);
     }
     g.setReleaseYear(obj["releaseYear"].toInt());
     games.push_back(g);
@@ -87,18 +88,19 @@ void readGamesJSON() {
 }
 
 void saveGamesJSON() {
-  // bluise_core::sort(games.begin(), games.end(), [](const Game &a, const Game &b) {
+  // bluise_core::sort(games.begin(), games.end(), [](const Game &a, const Game
+  // &b) {
   //   return a.get_name() < b.get_name();
   // });
   std::sort(games.begin(), games.end());
   QJsonArray arr;
   for (auto game : games) {
     QJsonObject obj;
-    obj["name"] = game.get_name();
-    obj["working_directory"] = game.get_working_directory();
-    obj["executable"] = game.get_executable();
-    obj["save_path"] = game.get_save_path();
-    obj["header"] = game.get_header_name();
+    obj["name"] = game.getName();
+    obj["workingDirectory"] = game.getWorkingDirectory();
+    obj["executable"] = game.getExecutable();
+    obj["savePath"] = game.getSavePath();
+    obj["header"] = game.getHeaderName();
     obj["releaseYear"] = game.getReleaseYear();
     arr.append(obj);
   }
@@ -118,9 +120,9 @@ namespace bc = bluise_core;
 std::map<string, string> aliases;
 std::map<string, Game::var_type> types = {
     {"name", Game::var_type::name},
-    {"working_directory", Game::var_type::working_directory},
+    {"working_directory", Game::var_type::workingDirectory},
     {"executable", Game::var_type::executable},
-    {"save_path", Game::var_type::save_path}};
+    {"save_path", Game::var_type::savePath}};
 
 string splitter = "<------------------------------->";
 
@@ -154,8 +156,8 @@ inline string get_game_var(const string &var_name) {
 void print_game_vector() {
   std::cout << splitter << std::endl;
   for (int i = 0; i < bluise_core::games.size(); ++i) {
-    std::cout << i + 1 << " | "
-              << bluise_core::games[i].get_name().toStdString() << std::endl;
+    std::cout << i + 1 << " | " << bluise_core::games[i].getName().toStdString()
+              << std::endl;
   }
   std::cout << splitter << std::endl;
 }
@@ -190,9 +192,10 @@ void add_game() {
     if (game != bc::games.end()) {
       throw bluise_error("There is a game with the same name!");
     }
-    bc::games.push_back(Game(
-        QString::fromStdString(name), QString::fromStdString(working_directory),
-        QString::fromStdString(executable), QString::fromStdString(save_path)));
+    bc::games.push_back(Game(QString::fromStdString(name),
+                             QString::fromStdString(executable),
+                             QString::fromStdString(working_directory),
+                             QString::fromStdString(save_path)));
   } catch (const bluise_error &err) {
     std::cerr << err.what() << std::endl;
     return;
@@ -244,13 +247,11 @@ void delete_game(const string &name) {
 
 void show_game_info(const QList<Game>::iterator &game) {
   std::cout << splitter << std::endl
-            << "Name: " + game->get_name().toStdString() << std::endl
-            << "Working directory: " +
-                   game->get_working_directory().toStdString()
+            << "Name: " + game->getName().toStdString() << std::endl
+            << "Working directory: " + game->getWorkingDirectory().toStdString()
             << std::endl
-            << "Executable: " + game->get_executable().toStdString()
-            << std::endl
-            << "Save path: " + game->get_save_path().toStdString() << std::endl
+            << "Executable: " + game->getExecutable().toStdString() << std::endl
+            << "Save path: " + game->getSavePath().toStdString() << std::endl
             << splitter << std::endl;
 }
 
@@ -304,16 +305,16 @@ void edit_game(string name) {
   try {
     switch (var) {
     case Game::var_type::name:
-      game->set_name(QString::fromStdString(val));
+      game->setName(QString::fromStdString(val));
       break;
-    case Game::var_type::working_directory:
-      game->set_working_directory(QString::fromStdString(val));
+    case Game::var_type::workingDirectory:
+      game->setWorkingDirectory(QString::fromStdString(val));
       break;
     case Game::var_type::executable:
-      game->set_executable(QString::fromStdString(val));
+      game->setExecutable(QString::fromStdString(val));
       break;
-    case Game::var_type::save_path:
-      game->set_save_path(QString::fromStdString(val));
+    case Game::var_type::savePath:
+      game->setSavePath(QString::fromStdString(val));
       break;
     default:
       throw bluise_error("Unknown variable!");

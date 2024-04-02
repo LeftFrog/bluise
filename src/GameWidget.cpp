@@ -15,8 +15,8 @@ GameWidget::GameWidget(Game *_game, QWidget *parent)
   QQuickItem *main_rect = root->findChild<QQuickItem *>("MainRect");
   QQuickItem *text = main_rect->findChild<QQuickItem *>("Name");
 
-  text->setProperty("text", game->get_name());
-  main_rect->setProperty("img_source", game->get_header_path());
+  text->setProperty("text", game->getName());
+  main_rect->setProperty("img_source", game->getHeaderPath());
 
   connect(main_rect->findChild<QQuickItem *>("edit_button"),
           SIGNAL(editClicked()), SLOT(edit()));
@@ -28,7 +28,7 @@ QSize GameWidget::sizeHint() const { return QSize(390, 234); }
 
 bool GameWidget::operator>(const GameWidget & other) const
 {
-  return game->get_name() > other.game->get_name();
+  return game->getName() > other.game->getName();
 }
 
 void GameWidget::resizeEvent(QResizeEvent *event) {
@@ -57,6 +57,6 @@ void GameWidget::repaintSlot() {
   QQuickItem *root = rootObject();
   QQuickItem *main_rect = root->findChild<QQuickItem *>("MainRect");
   QQuickItem *text = main_rect->findChild<QQuickItem *>("Name");
-  text->setProperty("text", game->get_name());
+  text->setProperty("text", game->getName());
   update();
 }

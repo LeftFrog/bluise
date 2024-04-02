@@ -1,9 +1,9 @@
 #include "GameEditWidget.h"
+#include "bluise_error.h"
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
 #include <QMessageBox>
-#include "bluise_error.h"
 #include <QVBoxLayout>
 
 GameEditWidget::GameEditWidget(Game *_game, QWidget *parent)
@@ -20,12 +20,11 @@ GameEditWidget::GameEditWidget(Game *_game, QWidget *parent)
 
 void GameEditWidget::apply() {
   try {
-    game->set_name(name->text());
-    game->set_working_directory(working_directory->text());
-    game->set_executable(exec->text());
-    game->set_save_path(save_path->text());
-  }
-  catch (bluise_error &err) {
+    game->setName(name->text());
+    game->setWorkingDirectory(working_directory->text());
+    game->setExecutable(exec->text());
+    game->setSavePath(save_path->text());
+  } catch (bluise_error &err) {
     QMessageBox::critical(this, "Error", QString::fromStdString(err.what()));
     return;
   }
@@ -35,13 +34,11 @@ void GameEditWidget::apply() {
 
 void GameEditWidget::changed() {
   if (!applyButton->isEnabled()) {
-    if (name->isChanged() || working_directory->isChanged() ||
-        exec->isChanged() || save_path->isChanged() || choose->isChanged()) {
+    if (name->isChanged() || exec->isChanged() || choose->isChanged()) {
       applyButton->setEnabled(true);
     }
   } else {
-    if (!name->isChanged() && !working_directory->isChanged() &&
-        !exec->isChanged() && !save_path->isChanged() && !choose->isChanged()) {
+    if (!name->isChanged() && !exec->isChanged() && !choose->isChanged()) {
       applyButton->setDisabled(true);
     }
   }

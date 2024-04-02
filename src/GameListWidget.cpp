@@ -7,8 +7,7 @@ GameListWidget::GameListWidget(QWidget *parent) : QWidget(parent) {
   setLayout(layout);
 }
 
-void GameListWidget::init()
-{
+void GameListWidget::init() {
   for (int i = 0; i < bluise_core::games.size(); ++i) {
     // if(bluise_core::games[i].isDisabled()) continue;
     game_widgets.push_back(new GameWidget(&bluise_core::games[i], this));
@@ -22,21 +21,22 @@ void GameListWidget::addWidgets() {
   }
 }
 
-void GameListWidget::added()
-{
+void GameListWidget::added() {
   game_widgets.clear();
   init();
   addWidgets();
 }
 
-void GameListWidget::sortWidgets(const QString& order)
-{
-  if(order == "Name")
-  {
-    std::sort(game_widgets.begin(), game_widgets.end(), [](GameWidget* a, GameWidget* b) { return a->name() < b->name(); });
-  } else if(order == "Release Year")
-  {
-    std::sort(game_widgets.begin(), game_widgets.end(), [](GameWidget* a, GameWidget* b) { return a->releaseYear() < b->releaseYear(); });
+void GameListWidget::sortWidgets(const QString &order) {
+  if (order == "Name") {
+    std::sort(
+        game_widgets.begin(), game_widgets.end(),
+        [](GameWidget *a, GameWidget *b) { return a->name() < b->name(); });
+  } else if (order == "Release Year") {
+    std::sort(game_widgets.begin(), game_widgets.end(),
+              [](GameWidget *a, GameWidget *b) {
+                return a->releaseYear() < b->releaseYear();
+              });
   }
   addWidgets();
 }

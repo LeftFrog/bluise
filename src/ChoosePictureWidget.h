@@ -5,11 +5,10 @@ class ChoosePictureWidget : public QWidget {
   Q_OBJECT
 public:
   virtual QSize sizeHint() const override;
-  QString path() const { return current_path; }
+  QString path() const { return currentPath; }
   ChoosePictureWidget(const QString &path = "", QWidget *parent = nullptr);
   bool isChanged() const {
-    return current_path != first_path;
-    qDebug() << first_path << " " << current_path;
+    return currentPath != firstPath;
   }
 public slots:
   void setPicture(const QString &path);
@@ -21,6 +20,6 @@ protected:
   virtual void mousePressEvent(QMouseEvent *event) override;
 private:
   QPixmap pic;
-  QString first_path;
-  QString current_path;
+  QString firstPath;
+  QString currentPath;
 };
