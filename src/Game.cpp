@@ -41,6 +41,16 @@ void Game::set_save_path(QString sp) {
   save_path = sp;
 }
 
+Game::Game()
+{
+  name = "";
+  working_directory = "";
+  executable = "";
+  save_path = "";
+  header_path = "";
+  header_name = "";
+}
+
 Game::Game(const QString &n, const QString &wd, const QString &e,
            const QString &sp, const QString &_header_name, bool _disabled)
     : name(n), header_name(_header_name), disabled(_disabled) {

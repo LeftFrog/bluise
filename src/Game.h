@@ -24,7 +24,7 @@ public:
   void set_save_path(QString sp);
   void setReleaseYear(int year) { release_year = year; }
 
-  Game() {}
+  Game();
   Game(const QString &n, const QString &wd, const QString &e, const QString &sp,
        const QString &_header_name = "", bool _disabled = false);
 

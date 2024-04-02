@@ -20,7 +20,7 @@ void Dock::resizeEvent(QResizeEvent * event) {
 
 void Dock::addGame()
 {
-  GameAddWidget *add_widget = new GameAddWidget(this);
+  GameAddWidget *add_widget = new GameAddWidget();
   connect(add_widget, &GameAddWidget::added, this, &Dock::added);
   add_widget->show();
 }

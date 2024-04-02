@@ -3,7 +3,7 @@
 #include "Game.h"
 #include "GameOptionWidget.h"
 #include <QPushButton>
-#include <QWidget>
+#include <QTabWidget>
 
 class GameOptionsWidget : public QWidget {
   Q_OBJECT
@@ -12,6 +12,7 @@ public:
   GameOptionsWidget(const Game game, QWidget *parent = nullptr);
 
 protected:
+  void init(const Game& game = Game());
   GameOptionWidget *name;
   GameOptionWidget *working_directory;
   GameOptionWidget *exec;
