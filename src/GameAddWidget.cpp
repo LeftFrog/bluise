@@ -5,12 +5,10 @@
 #include <filesystem>
 
 GameAddWidget::GameAddWidget(QWidget *parent) : GameOptionsWidget(parent) {
-  connect(options["name"], &GameOptionWidget::gameChanged, this, &GameAddWidget::changed);
-  connect(options["workingDirectory"], &GameOptionWidget::gameChanged, this,
-          &GameAddWidget::changed);
-  connect(options["exec"], &GameOptionWidget::gameChanged, this, &GameAddWidget::changed);
-  connect(options["savePath"], &GameOptionWidget::gameChanged, this,
-          &GameAddWidget::changed);
+  for(auto &option : options) {
+    connect(option, &GameOptionWidget::gameChanged, this, &GameAddWidget::changed);
+  }
+  connect(choose, &ChoosePictureWidget::changed, this, &GameAddWidget::changed);
   applyButton->setText("Add");
 }
 
