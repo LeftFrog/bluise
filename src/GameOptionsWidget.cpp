@@ -13,11 +13,11 @@ GameOptionsWidget::GameOptionsWidget(const Game game, QWidget *parent)
 void GameOptionsWidget::init(const Game &game) {
   QWidget *gameInfo = new QWidget(this);
   //options = QMap<QString, GameOptionWidget *>();
-  // options["name"] = new GameOptionWidget("Name: ", game.getName());
-  // options["exec"] = new GameOptionWidget("Executable: ", game.getExecutable(), true);
-  // options["workingDirectory"] = new GameOptionWidget(
-  //   "Working directory: ", game.getWorkingDirectory(), false);
-  // options["savePath"] = new GameOptionWidget("Save path: ", game.getSavePath(), false);
+  options["name"] = new GameOptionWidget("Name: ", game.getName());
+  options["exec"] = new GameOptionWidget("Executable: ", game.getExecutable(), true);
+  options["workingDirectory"] = new GameOptionWidget(
+    "Working directory: ", game.getWorkingDirectory(), false);
+  options["savePath"] = new GameOptionWidget("Save path: ", game.getSavePath(), false);
   choose = new ChoosePictureWidget(game.getHeaderPath());
   GameOptionWidget *releaseYear = new GameOptionWidget(
       "Release year: ",
@@ -39,15 +39,14 @@ void GameOptionsWidget::init(const Game &game) {
   QHBoxLayout *HBL1 = new QHBoxLayout;
   HBL1->addWidget(choose, Qt::AlignHCenter);
   VBL->addLayout(HBL1);
-  // VBL->addWidget(options["name"]);
+  VBL->addWidget(options["name"]);
   VBL->addWidget(releaseYear);
   gameInfo->setLayout(VBL);
   QVBoxLayout *VBL2 = new QVBoxLayout;
   QWidget *gameOptions = new QWidget(this);
-  VBL2->addWidget(new QLabel("Game options"));
-  // VBL2->addWidget(options["workingDirectory"]);
-  // VBL2->addWidget(options["exec"]);
-  // VBL2->addWidget(options["savePath"]);
+  VBL2->addWidget(options["workingDirectory"]);
+  VBL2->addWidget(options["exec"]);
+  VBL2->addWidget(options["savePath"]);
   gameOptions->setLayout(VBL2);
 
   QTabWidget *tabWidget = new QTabWidget(this);

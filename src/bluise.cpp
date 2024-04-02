@@ -73,12 +73,12 @@ void readGamesJSON() {
     Game g;
     try {
       g = Game(obj["name"].toString(), obj["executable"].toString(),
-               obj["working_directory"].toString(), obj["save_path"].toString(),
+               obj["workingDirectory"].toString(), obj["savePath"].toString(),
                obj["header"].toString());
     } catch (const bluise_error &err) {
       std::cerr << err.what() << std::endl;
       g = Game(obj["name"].toString(), obj["executable"].toString(),
-               obj["working_directory"].toString(), obj["save_path"].toString(),
+               obj["workingDirectory"].toString(), obj["savePath"].toString(),
                obj["header"].toString(), true);
     }
     g.setReleaseYear(obj["releaseYear"].toInt());
@@ -88,10 +88,6 @@ void readGamesJSON() {
 }
 
 void saveGamesJSON() {
-  // bluise_core::sort(games.begin(), games.end(), [](const Game &a, const Game
-  // &b) {
-  //   return a.get_name() < b.get_name();
-  // });
   std::sort(games.begin(), games.end());
   QJsonArray arr;
   for (auto game : games) {

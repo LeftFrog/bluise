@@ -16,7 +16,7 @@ protected:
   void init(const Game& game = Game());
   ChoosePictureWidget *choose;
   QPushButton *applyButton;
-  // QMap<QString, GameOptionWidget*> options;
+  QMap<QString, GameOptionWidget*> options;
 protected slots:
   void closeWin();
   virtual void apply() = 0;
