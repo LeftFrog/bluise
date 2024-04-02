@@ -10,6 +10,7 @@ GameOptionsWidget::GameOptionsWidget(const Game game, QWidget *parent) : QWidget
 }
 
 void GameOptionsWidget::init(const Game& game) {
+  QWidget *gameInfo = new QWidget(this);
   name = new GameOptionWidget("Name: ", game.get_name());
   working_directory =
       new GameOptionWidget("Working directory: ", game.get_working_directory(), false);
@@ -34,13 +35,24 @@ void GameOptionsWidget::init(const Game& game) {
   HBL1->addWidget(choose, Qt::AlignHCenter);
   VBL->addLayout(HBL1);
   VBL->addWidget(name);
-  VBL->addWidget(working_directory);
-  VBL->addWidget(exec);
-  VBL->addWidget(save_path);
-  VBL->addLayout(HBL);
+  gameInfo->setLayout(VBL);
+  QVBoxLayout *VBL2 = new QVBoxLayout; 
+  QWidget *gameOptions = new QWidget(this);
 
-  setLayout(VBL);
+  VBL2->addWidget(working_directory);
+  VBL2->addWidget(exec);
+  VBL2->addWidget(save_path);
+  gameOptions->setLayout(VBL2);
 
+  QTabWidget *tabWidget = new QTabWidget(this);
+
+  tabWidget->addTab(gameInfo, "Game info");
+  tabWidget->addTab(gameOptions, "Game options");
+
+  QVBoxLayout *VBL3 = new QVBoxLayout;
+  VBL3->addWidget(tabWidget);
+  VBL3->addLayout(HBL);
+  setLayout(VBL3);
   setWindowModality(Qt::ApplicationModal);
 }
 
