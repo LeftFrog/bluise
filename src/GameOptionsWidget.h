@@ -4,6 +4,7 @@
 #include "GameOptionWidget.h"
 #include <QPushButton>
 #include <QTabWidget>
+//  #include <QMap>
 
 class GameOptionsWidget : public QWidget {
   Q_OBJECT
@@ -13,12 +14,9 @@ public:
 
 protected:
   void init(const Game& game = Game());
-  GameOptionWidget *name;
-  GameOptionWidget *working_directory;
-  GameOptionWidget *exec;
-  GameOptionWidget *save_path;
   ChoosePictureWidget *choose;
   QPushButton *applyButton;
+  // QMap<QString, GameOptionWidget*> options;
 protected slots:
   void closeWin();
   virtual void apply() = 0;

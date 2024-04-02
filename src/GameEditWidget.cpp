@@ -8,38 +8,49 @@
 
 GameEditWidget::GameEditWidget(Game *_game, QWidget *parent)
     : GameOptionsWidget(*_game, parent), game(_game) {
-  connect(name, &GameOptionWidget::gameChanged, this, &GameEditWidget::changed);
-  connect(working_directory, &GameOptionWidget::gameChanged, this,
-          &GameEditWidget::changed);
-  connect(exec, &GameOptionWidget::gameChanged, this, &GameEditWidget::changed);
-  connect(save_path, &GameOptionWidget::gameChanged, this,
-          &GameEditWidget::changed);
-  connect(choose, &ChoosePictureWidget::changed, this,
-          &GameEditWidget::changed);
+  // connect(options["name"], &GameOptionWidget::gameChanged, this, &GameEditWidget::changed);
+  // connect(options["workingDirectory"], &GameOptionWidget::gameChanged, this,
+  //         &GameEditWidget::changed);
+  // connect(options["exec"], &GameOptionWidget::gameChanged, this, &GameEditWidget::changed);
+  // connect(options["savePath"], &GameOptionWidget::gameChanged, this,
+  //         &GameEditWidget::changed);
+  // connect(choose, &ChoosePictureWidget::changed, this,
+  //         &GameEditWidget::changed);
 }
 
 void GameEditWidget::apply() {
-  try {
-    game->setName(name->text());
-    game->setWorkingDirectory(working_directory->text());
-    game->setExecutable(exec->text());
-    game->setSavePath(save_path->text());
-  } catch (bluise_error &err) {
-    QMessageBox::critical(this, "Error", QString::fromStdString(err.what()));
-    return;
-  }
+  // try {
+  //   game->setName(options["name"]->text());
+  //   game->setWorkingDirectory(options["workingDirectory"]->text());
+  //   game->setExecutable(options["exec"]->text());
+  //   game->setSavePath(options["savePath"]->text());
+  // } catch (bluise_error &err) {
+  //   QMessageBox::critical(this, "Error", QString::fromStdString(err.what()));
+  //   return;
+  // }
   emit gameChanged();
   close();
 }
 
 void GameEditWidget::changed() {
-  if (!applyButton->isEnabled()) {
-    if (name->isChanged() || exec->isChanged() || choose->isChanged()) {
-      applyButton->setEnabled(true);
-    }
-  } else {
-    if (!name->isChanged() && !exec->isChanged() && !choose->isChanged()) {
-      applyButton->setDisabled(true);
-    }
-  }
+  // if (!applyButton->isEnabled()) {
+  //   for(auto opt : options) {
+  //     if(opt->isChanged()) {
+  //       applyButton->setEnabled(true);
+  //     }
+  //   }
+  //   if(choose->isChanged()) {
+  //     applyButton->setEnabled(true);
+  //   }
+  // } else {
+  //   int i = 0;
+  //   for(auto opt : options) {
+  //     if(!opt->isChanged()) {
+  //       i++;
+  //     }
+  //   }
+  //   if(!choose->isChanged() && i == options.size()) {
+  //     applyButton->setDisabled(false);
+  //   }
+  // }
 }
