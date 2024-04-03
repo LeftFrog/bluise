@@ -9,7 +9,7 @@ Rectangle {
     height: 50
     color: palette.midlight
     signal checked(text: string)
-    signal filter(text: string)
+    signal filter(text: string, checked: bool)
     RoundButton {
         objectName: "sort"
         anchors.right: parent.right
@@ -44,7 +44,7 @@ Rectangle {
         MenuItemGroup {
             id: group2
             items: filters.items
-            onTriggered: function (item) { main.filter(item.text) }
+            onTriggered: function (item) { main.filter(item.text, item.checked) }
         }
         MenuItem {
             text: "Show uninstalled"

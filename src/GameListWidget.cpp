@@ -3,6 +3,7 @@
 
 GameListWidget::GameListWidget(QWidget *parent) : QWidget(parent) {
   layout = new QGridLayout();
+  layout->setAlignment(Qt::AlignTop);
   init();
   setLayout(layout);
 }
@@ -18,7 +19,6 @@ void GameListWidget::init() {
 void GameListWidget::addWidgets() {
   for (int i = 0; i < game_widgets.size(); ++i) {
     if(Filter::NotInstalled & filters  && game_widgets[i]->isDisabled()) {
-      continue;
     }
     layout->addWidget(game_widgets[i], i / 3, i % 3);
   }
@@ -44,8 +44,12 @@ void GameListWidget::sortWidgets(const QString &order) {
   addWidgets();
 }
 
-void GameListWidget::filter(const QString & filter) {
-  filters = Filter::NotInstalled;
-  qDebug() << "Not installed" << (Filter::NotInstalled & filters ? "1" : "0");
+void GameListWidget::filter(const QString & filter, bool checked) {
+  filters = Filter::NotInstalled; 
+  for(auto g : game_widgets) {
+    if(Filter::NotInstalled & filters && g->isDisabled() && !checked) {
+      game_widgets.removeIf([g](GameWidget *gw) { return gw->isDisabled(); });
+    }
+  }
   addWidgets();
 }

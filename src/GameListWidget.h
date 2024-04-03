@@ -8,13 +8,12 @@ public:
   QList<GameWidget *> game_widgets;
   GameListWidget(QWidget *parent = nullptr);
   enum Filter {
-    NotInstalled = 0x0,
-  };
+    NotInstalled = 0x1,};
   Q_DECLARE_FLAGS(Filters, Filter)
 public slots:
   void added();
   void sortWidgets(const QString &order);
-  void filter(const QString &filter);
+  void filter(const QString &filter, bool checked);
 private:
   Filters filters;
   QGridLayout *layout;
