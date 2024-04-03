@@ -8,6 +8,7 @@ public:
 signals:
   void added();
   void sort(const QString &order);
+  void filter(const QString &filter);
 protected:
   virtual void resizeEvent(QResizeEvent *event) override;
 };

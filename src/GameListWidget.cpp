@@ -17,6 +17,9 @@ void GameListWidget::init() {
 
 void GameListWidget::addWidgets() {
   for (int i = 0; i < game_widgets.size(); ++i) {
+    if(Filter::NotInstalled & filters  && game_widgets[i]->isDisabled()) {
+      continue;
+    }
     layout->addWidget(game_widgets[i], i / 3, i % 3);
   }
 }
@@ -38,5 +41,11 @@ void GameListWidget::sortWidgets(const QString &order) {
                 return a->releaseYear() < b->releaseYear();
               });
   }
+  addWidgets();
+}
+
+void GameListWidget::filter(const QString & filter) {
+  filters = Filter::NotInstalled;
+  qDebug() << "Not installed" << (Filter::NotInstalled & filters ? "1" : "0");
   addWidgets();
 }

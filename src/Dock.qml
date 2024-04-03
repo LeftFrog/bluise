@@ -9,6 +9,7 @@ Rectangle {
     height: 50
     color: palette.midlight
     signal checked(text: string)
+    signal filter(text: string)
     RoundButton {
         objectName: "sort"
         anchors.right: parent.right
@@ -34,7 +35,7 @@ Rectangle {
         height: 30
         radius: 10
         flat: true
-        icon.source: "/Users/leftfrog/Documents/Bluise/res/sort.png"
+        icon.source: "/Users/leftfrog/Documents/Bluise/res/filter.png"
         icon.color: palette.dark
         onClicked: filters.open()
     }
@@ -43,10 +44,12 @@ Rectangle {
         MenuItemGroup {
             id: group2
             items: filters.items
+            onTriggered: function (item) { main.filter(item.text) }
         }
         MenuItem {
             text: "Show uninstalled"
             checkable: true
+            checked: true
         }
     }
     Menu {

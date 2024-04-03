@@ -12,6 +12,7 @@ public:
   bool operator>(const GameWidget &other) const;
   QString name() const { return game->getName(); }
   int releaseYear() const { return game->getReleaseYear(); }
+  bool isDisabled() const { return game->isDisabled(); }
 public slots:
   void edit();
   void play();
