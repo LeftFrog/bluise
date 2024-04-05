@@ -5,6 +5,12 @@ GameListWidget::GameListWidget(QWidget *parent) : QWidget(parent) {
   layout = new QGridLayout();
   layout->setAlignment(Qt::AlignTop);
   filters_map["Show unistalled"] = Filter::NotInstalled;
+  filters_map["Windows"] = Filter::Windows;
+#ifdef Q_OS_MACOS
+  filters_map["macOS"] = Filter::macOS;
+#elif Q_OS_LINUX
+  filters_map["Linux"] = Filter::Linux;
+#endif
   init();
   setLayout(layout);
 }

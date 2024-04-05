@@ -10,7 +10,12 @@ public:
   enum Filter {
     Windows = 0x0,
     NotInstalled = 0x1,
-    macOS = 0x2,};
+#ifdef Q_OS_MACOS
+    macOS = 0x2,
+#elif Q_Os_LINUX
+    Linux = 0x2,
+#endif
+};
   Q_DECLARE_FLAGS(Filters, Filter)
 public slots:
   void added();
