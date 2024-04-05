@@ -4,6 +4,7 @@
 GameListWidget::GameListWidget(QWidget *parent) : QWidget(parent) {
   layout = new QGridLayout();
   layout->setAlignment(Qt::AlignTop);
+  filters_map["Show unistalled"] = Filter::NotInstalled;
   init();
   setLayout(layout);
 }
@@ -18,8 +19,6 @@ void GameListWidget::init() {
 
 void GameListWidget::addWidgets() {
   for (int i = 0; i < game_widgets.size(); ++i) {
-    if(Filter::NotInstalled & filters  && game_widgets[i]->isDisabled()) {
-    }
     layout->addWidget(game_widgets[i], i / 3, i % 3);
   }
 }
@@ -45,11 +44,32 @@ void GameListWidget::sortWidgets(const QString &order) {
 }
 
 void GameListWidget::filter(const QString & filter, bool checked) {
-  filters = Filter::NotInstalled; 
-  for(auto g : game_widgets) {
-    if(Filter::NotInstalled & filters && g->isDisabled() && !checked) {
-      game_widgets.removeIf([g](GameWidget *gw) { return gw->isDisabled(); });
+  if(checked) {
+    filters |= Filter::NotInstalled;// filters_map[filter];
+  } else {
+    filters &= (filters_map[filter]);
+  }
+  if(checked) {
+    if(Filter::NotInstalled & filters) {
+      for(int i = 0; i < bluise_core::games.size(); ++i) {
+        if(bluise_core::games[i].isDisabled()) {
+          game_widgets.push_back(new GameWidget(&bluise_core::games[i], this));
+        }
+      }
+    }
+  } else {
+    if(!(Filter::NotInstalled & filters)) {
+      for(auto game : game_widgets) {
+        qDebug() << game->name() << game->isDisabled();
+        if(game->isDisabled()) {
+          qDebug() << "NotInstalled";
+          game_widgets.remove(game_widgets.indexOf(game));
+          delete game;
+        }
+      }
     }
   }
+  sortWidgets("Name");
+  qDebug() << filters << game_widgets.size();
   addWidgets();
 }
