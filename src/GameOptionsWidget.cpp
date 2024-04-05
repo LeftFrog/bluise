@@ -18,7 +18,7 @@ void GameOptionsWidget::init(const Game &game) {
   options["workingDirectory"] = new GameOptionWidget(
     "Working directory: ", game.getWorkingDirectory(), false);
   options["savePath"] = new GameOptionWidget("Save path: ", game.getSavePath(), false);
-  options["releaseYear"] = new GameOptionWidget("Release year: ", QString::number(game.getReleaseYear()));
+  options["releaseYear"] = new GameOptionWidget("Release year: ", game.getReleaseYear() == 0 ? "" : QString::number(game.getReleaseYear()));
   choose = new ChoosePictureWidget(game.getHeaderPath());
 
   applyButton = new QPushButton("Apply");
