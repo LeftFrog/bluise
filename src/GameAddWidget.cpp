@@ -26,14 +26,14 @@ void GameAddWidget::changed() {
 
 void GameAddWidget::apply() {
   try {
-    if (QFile::exists(bluise_core::DOCS + "res/" +
+    if (QFile::exists(bluise_core::DOCS + "res/covers/" +
                       QString::fromStdString(
                           std::filesystem::path(choose->path().toStdString())
                               .filename()
                               .string()))) {
       int i = 1;
       while (
-          QFile::exists(bluise_core::DOCS + "res/" +
+          QFile::exists(bluise_core::DOCS + "res/covers/" +
                         QString::fromStdString(
                             std::filesystem::path(choose->path().toStdString())
                                 .filename()
@@ -42,14 +42,14 @@ void GameAddWidget::apply() {
       }
       std::filesystem::copy(
           choose->path().toStdString(),
-          (bluise_core::DOCS + "res/").toStdString() +
+          (bluise_core::DOCS + "res/covers").toStdString() +
               std::filesystem::path(choose->path().toStdString())
                   .filename()
                   .string() +
               std::to_string(i));
     } else {
       std::filesystem::copy(choose->path().toStdString(),
-                            (bluise_core::DOCS + "res/").toStdString());
+                            (bluise_core::DOCS + "res/covers").toStdString());
     }
     QString header = QString::fromStdString(
         std::filesystem::path(choose->path().toStdString())

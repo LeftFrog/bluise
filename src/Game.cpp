@@ -6,15 +6,17 @@
 #include <QFile>
 #include <filesystem>
 
+QString Game::getCoverPath() const { return bluise_core::DOCS + "res/covers/" + name + ".jpg"; }
+
 void Game::setWorkingDirectory(const QString &wd) {
-  if (!QDir(wd).exists()) {
-    throw invalid_path("Invalid working directory!");
-  }
-  if (wd[wd.size() - 1] != '/') {
-    workingDirectory = wd + '/';
-  } else {
-    workingDirectory = wd;
-  }
+    if (!QDir(wd).exists()) {
+        throw invalid_path("Invalid working directory!");
+    }
+    if (wd[wd.size() - 1] != '/') {
+        workingDirectory = wd + '/';
+    } else {
+        workingDirectory = wd;
+    }
 }
 
 void Game::setExecutable(const QString &e) {

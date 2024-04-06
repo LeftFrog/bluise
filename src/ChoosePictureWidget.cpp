@@ -5,8 +5,8 @@
 ChoosePictureWidget::ChoosePictureWidget(const QString &path, QWidget *parent)
     : QWidget(parent), firstPath(path), currentPath(path) {
   setAutoFillBackground(true);
-  resize(430, 215);
-  setFixedSize(430, 215);
+  resize(265, 376);
+  setFixedSize(265, 376);
   pic = QPixmap(path).scaled(rect().size());
 }
 

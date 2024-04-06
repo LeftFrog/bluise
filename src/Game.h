@@ -14,6 +14,7 @@ public:
   inline QString getSavePath() const { return savePath; }
   inline QString getHeaderName() const { return headerName; }
   inline QString getHeaderPath() const { return headerPath; }
+  QString getCoverPath() const;
   inline QPixmap getHeader() const { return header; }
   inline QPixmap getCover() const { return cover; }
 
