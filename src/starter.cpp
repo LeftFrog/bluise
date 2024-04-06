@@ -18,24 +18,23 @@ int main(int argc, char **argv) {
   bluise_core::readGamesJSON();
   // if (argc == 1) {
     GameListModel model;
-    // QStringListModel model(list);
-    // QTableView view;
     QSplitter window(Qt::Vertical);
     QListView view;
     window.addWidget(&view);
     GameInfoWidget *info = new GameInfoWidget(&window);
     window.addWidget(info);
     info->hide();
-    // info->hide();
 
     view.setViewMode(QListView::IconMode);
     view.setModel(&model);
     view.setItemDelegate(new CoverDelegate(QSize(265/1.5, 376/1.5)));
     view.setResizeMode(QListView::Adjust);
-    view.setSizeAdjustPolicy(QListView::AdjustToContents);
+    view.setUniformItemSizes(true);
+    view.setSizeAdjustPolicy(QListView::AdjustToContentsOnFirstShow);
     view.setWrapping(true);
     view.setSpacing(15);
     view.setFlow(QListView::LeftToRight);
+    window.resize(800, 600);
     QObject::connect(&view, &QListView::clicked, info, &GameInfoWidget::setGame);
     window.show();
   // } else {
