@@ -74,12 +74,12 @@ void readGamesJSON() {
     try {
       g = Game(obj["name"].toString(), obj["executable"].toString(),
                obj["workingDirectory"].toString(), obj["savePath"].toString(),
-               obj["header"].toString());
+               obj["coverName"].toString());
     } catch (const bluise_error &err) {
       std::cerr << err.what() << std::endl;
       g = Game(obj["name"].toString(), obj["executable"].toString(),
                obj["workingDirectory"].toString(), obj["savePath"].toString(),
-               obj["header"].toString(), true);
+               obj["coverName"].toString(), true);
     }
     g.setReleaseYear(obj["releaseYear"].toInt());
     games.push_back(g);
@@ -96,7 +96,7 @@ void saveGamesJSON() {
     obj["workingDirectory"] = game.getWorkingDirectory();
     obj["executable"] = game.getExecutable();
     obj["savePath"] = game.getSavePath();
-    obj["header"] = game.getHeaderName();
+    obj["coverName"] = game.getCoverName();
     obj["releaseYear"] = game.getReleaseYear();
     arr.append(obj);
   }

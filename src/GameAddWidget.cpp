@@ -42,7 +42,7 @@ void GameAddWidget::apply() {
       }
       std::filesystem::copy(
           choose->path().toStdString(),
-          (bluise_core::DOCS + "res/covers").toStdString() +
+          (bluise_core::DOCS + "res/covers/").toStdString() +
               std::filesystem::path(choose->path().toStdString())
                   .filename()
                   .string() +
@@ -58,6 +58,7 @@ void GameAddWidget::apply() {
     bluise_core::games.push_back(Game(options["name"]->text(), options["exec"]->text(),
                                       options["workingDirectory"]->text(),
                                       options["savePath"]->text(), header));
+    qDebug() << "Game added!";
   } catch (bluise_error &err) {
     QMessageBox::critical(this, "Error", QString::fromStdString(err.what()));
     return;

@@ -6,8 +6,6 @@
 #include <QFile>
 #include <filesystem>
 
-QString Game::getCoverPath() const { return bluise_core::DOCS + "res/covers/" + name + ".jpg"; }
-
 void Game::setWorkingDirectory(const QString &wd) {
     if (!QDir(wd).exists()) {
         throw invalid_path("Invalid working directory!");
@@ -53,8 +51,8 @@ Game::Game() {
 }
 
 Game::Game(const QString &n, const QString &e, const QString &wd,
-           const QString &sp, const QString &_headerName, bool _disabled)
-    : name(n), headerName(_headerName), disabled(_disabled) {
+           const QString &sp, const QString &_coverName, bool _disabled)
+    : name(n), coverName(_coverName), disabled(_disabled) {
   if (_disabled) {
     workingDirectory = wd;
     executable = e;
@@ -64,13 +62,13 @@ Game::Game(const QString &n, const QString &e, const QString &wd,
     setExecutable(e);
     setSavePath(sp);
   }
-  QString path = bluise_core::DOCS + "res/";
-  if (QFile::exists(path + headerName)) {
-    headerPath = path + headerName;
+  QString path = bluise_core::DOCS + "res/covers/";
+  if (QFile::exists(path + coverName)) {
+    coverPath = path + coverName;
   }
   releaseYear = 0;
-  header = QPixmap(headerPath).scaled(390, 234, Qt::KeepAspectRatio);
-  cover = QPixmap(bluise_core::DOCS + "res/covers/" + name + ".jpg");
+  // header = QPixmap(headerPath).scaled(390, 234, Qt::KeepAspectRatio);
+  cover = QPixmap(coverPath);
 }
 
 void Game::execute() const {

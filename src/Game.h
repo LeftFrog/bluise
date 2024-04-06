@@ -14,7 +14,8 @@ public:
   inline QString getSavePath() const { return savePath; }
   inline QString getHeaderName() const { return headerName; }
   inline QString getHeaderPath() const { return headerPath; }
-  QString getCoverPath() const;
+  inline QString getCoverPath() const { return coverPath; }
+  inline QString getCoverName() const { return coverName; }
   inline QPixmap getHeader() const { return header; }
   inline QPixmap getCover() const { return cover; }
 
@@ -29,7 +30,7 @@ public:
 
   Game();
   Game(const QString &n, const QString &e, const QString &wd = "",
-       const QString &sp = "", const QString &_headerName = "",
+       const QString &sp = "", const QString &_coverName = "",
        bool _disabled = false);
 
   void execute() const;
@@ -46,6 +47,8 @@ protected:
   QString savePath;
   QString headerName;
   QString headerPath;
+  QString coverPath;
+  QString coverName;
   QPixmap header;
   QPixmap cover;
   int releaseYear;
