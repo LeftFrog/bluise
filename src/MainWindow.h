@@ -7,8 +7,11 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
 public:
   MainWindow(QWidget *parent = nullptr);
+private slots:
+  void addGame(QAction* action);
 private:
   GameListModel model;
   // GameInfoWidget *info;
   QListView *list;
+  QMenuBar *menuBar;
 };

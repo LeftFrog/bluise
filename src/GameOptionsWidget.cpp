@@ -57,6 +57,7 @@ void GameOptionsWidget::init(const Game &game) {
   VBL3->addLayout(HBL);
   setLayout(VBL3);
   setWindowModality(Qt::ApplicationModal);
+  resize(700, 500);
 }
 
 void GameOptionsWidget::closeWin() { close(); }
