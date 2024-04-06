@@ -36,3 +36,15 @@ Qt::ItemFlags GameListModel::flags(const QModelIndex &index) const {
   if (!index.isValid()) return Qt::ItemIsEnabled;
   return QAbstractListModel::flags(index);
 }
+
+bool GameListModel::insertRows(int row, int count, const QModelIndex &parent) {
+  beginInsertRows(parent, row, row + count - 1);
+  endInsertRows();
+  return true;
+}
+
+bool GameListModel::removeRows(int row, int count, const QModelIndex &parent) {
+  beginRemoveRows(parent, row, row + count - 1);
+  endRemoveRows();
+  return true;
+}

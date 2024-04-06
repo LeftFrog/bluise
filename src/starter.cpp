@@ -19,9 +19,9 @@ int main(int argc, char **argv) {
   // if (argc == 1) {
   MainWindow w;
   w.show();
+  bluise_core::saveGamesJSON();
   // } else {
   //   command_processor::process_command_line(argc, argv);
   // }
-  bluise_core::saveGamesJSON();
   return a.exec();
 }

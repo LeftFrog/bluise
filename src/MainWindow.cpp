@@ -8,6 +8,7 @@
 #include <QStringListModel>
 #include <QMenuBar>
 #include "GameAddWidget.h"
+#include "bluise.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   setWindowTitle("Bluise");
@@ -41,6 +42,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   setCentralWidget(splitter);
 }
 
+MainWindow::~MainWindow() {
+  bluise_core::saveGamesJSON();
+  // QMainWindow::~QMainWindow();
+}
 void MainWindow::addGame(QAction* action) {
   if(action->text() == "New Game") {
     GameAddWidget *add_widget = new GameAddWidget;

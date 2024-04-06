@@ -90,8 +90,10 @@ void readGamesJSON() {
 void saveGamesJSON() {
   std::sort(games.begin(), games.end());
   QJsonArray arr;
+  qDebug() << games.size();
   for (auto game : games) {
     QJsonObject obj;
+    qDebug() << game.getName();
     obj["name"] = game.getName();
     obj["workingDirectory"] = game.getWorkingDirectory();
     obj["executable"] = game.getExecutable();

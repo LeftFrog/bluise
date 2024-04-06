@@ -58,7 +58,7 @@ void GameAddWidget::apply() {
     bluise_core::games.push_back(Game(options["name"]->text(), options["exec"]->text(),
                                       options["workingDirectory"]->text(),
                                       options["savePath"]->text(), header));
-    qDebug() << "Game added!";
+    qDebug() << "Game added!" << bluise_core::games.size();
   } catch (bluise_error &err) {
     QMessageBox::critical(this, "Error", QString::fromStdString(err.what()));
     return;
