@@ -46,6 +46,9 @@ qt_add_executable(bluise starter.cpp
     GameScrollArea.cpp 
     GameOptionsWidget.cpp 
     GameEditWidget.cpp 
+    GameListModel.cpp
+    CoverDelegate.cpp
+    GameInfoWidget.cpp
     ChoosePictureWidget.cpp 
     FileValidator.cpp 
     GameOptionWidget.cpp 

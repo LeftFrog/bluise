@@ -14,6 +14,9 @@ public:
   inline QString getSavePath() const { return savePath; }
   inline QString getHeaderName() const { return headerName; }
   inline QString getHeaderPath() const { return headerPath; }
+  inline QPixmap getHeader() const { return header; }
+  inline QPixmap getCover() const { return cover; }
+
   inline int getReleaseYear() const { return releaseYear; }
   bool isDisabled() const { return disabled; }
 
@@ -42,6 +45,8 @@ protected:
   QString savePath;
   QString headerName;
   QString headerPath;
+  QPixmap header;
+  QPixmap cover;
   int releaseYear;
   bool disabled;
 };

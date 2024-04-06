@@ -67,6 +67,8 @@ Game::Game(const QString &n, const QString &e, const QString &wd,
     headerPath = path + headerName;
   }
   releaseYear = 0;
+  header = QPixmap(headerPath).scaled(390, 234, Qt::KeepAspectRatio);
+  cover = QPixmap(bluise_core::DOCS + "res/covers/" + name + ".jpg");
 }
 
 void Game::execute() const {
