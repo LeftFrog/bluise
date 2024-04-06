@@ -5,6 +5,8 @@
 
 GameListModel::GameListModel(QObject *parent) : QAbstractListModel(parent) {
   games = &bluise_core::games;
+  qDebug() << "GameListModel created";
+  qDebug() << games->size();
 }
 
 int GameListModel::rowCount(const QModelIndex &parent) const {

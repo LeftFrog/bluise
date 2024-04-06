@@ -41,6 +41,7 @@ qt_add_executable(bluise starter.cpp
     FileValidator.cpp 
     GameOptionWidget.cpp 
     GameAddWidget.cpp
+    MainWindow.cpp
 )
 
 target_link_libraries(bluise PRIVATE Qt6::Widgets)
