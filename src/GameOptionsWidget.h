@@ -17,6 +17,7 @@ protected:
   ChoosePictureWidget *choose;
   QPushButton *applyButton;
   QMap<QString, GameOptionWidget*> options;
+  QString setCover();
 protected slots:
   void closeWin();
   virtual void apply() = 0;

@@ -40,6 +40,15 @@ void Game::setSavePath(QString sp) {
   savePath = sp;
 }
 
+void Game::setCover(const QString &_coverName) {
+  QString path = bluise_core::DOCS + "res/covers/";
+  if (QFile::exists(path + _coverName)) {
+    coverPath = path + _coverName;
+    cover = QPixmap(coverPath);
+    coverName = _coverName;
+  }
+}
+
 Game::Game() {
   name = "";
   workingDirectory = "";

@@ -27,6 +27,7 @@ public:
   void setExecutable(const QString &e);
   void setSavePath(QString sp);
   void setReleaseYear(int year) { releaseYear = year; }
+  void setCover(const QString &_coverName);
 
   Game();
   Game(const QString &n, const QString &e, const QString &wd = "",

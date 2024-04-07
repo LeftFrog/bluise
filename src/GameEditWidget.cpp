@@ -21,6 +21,10 @@ void GameEditWidget::apply() {
     game->setWorkingDirectory(options["workingDirectory"]->text());
     game->setExecutable(options["exec"]->text());
     game->setSavePath(options["savePath"]->text());
+    game->setReleaseYear(options["releaseYear"]->text().toInt());
+    if(choose->isChanged()) {
+      game->setCover(setCover());
+    }
   } catch (bluise_error &err) {
     QMessageBox::critical(this, "Error", QString::fromStdString(err.what()));
     return;
