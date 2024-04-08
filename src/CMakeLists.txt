@@ -19,6 +19,7 @@ qt_add_qml_module(appBluise_qml
     URI Bluise_qml
     VERSION 1.0
     QML_FILES GameInfoWidget.qml
+    QML_FILES ToolBar.qml
 )
 
 set(PROJECT_SOURCES
@@ -33,6 +34,7 @@ set(PROJECT_SOURCES
     invalid_path.h
     GLLReader.h
     GLLReader.cpp
+
 )
 
 qt_add_executable(bluise starter.cpp 
@@ -48,6 +50,7 @@ qt_add_executable(bluise starter.cpp
     GameOptionWidget.cpp 
     GameAddWidget.cpp
     MainWindow.cpp
+    ToolBar.cpp
 )
 
 target_link_libraries(bluise PRIVATE Qt6::Widgets)
