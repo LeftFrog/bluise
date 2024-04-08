@@ -7,8 +7,6 @@ GameInfoWidget::GameInfoWidget(QWidget *parent) : QQuickWidget(QUrl("./GameInfoW
   game = nullptr;
   setFixedHeight(100);
   QQuickItem *row = rootObject()->findChild<QQuickItem*>("column")->findChild<QQuickItem*>("row");
-  qDebug() << row;
-  qDebug () << row->findChild<QQuickItem *>("play");
   connect(row->findChild<QQuickItem *>("play"), SIGNAL(playClicked()), this, SLOT(play()));
   connect(row->findChild<QQuickItem *>("settings"), SIGNAL(settingsClicked()), this, SLOT(settings()));
 
@@ -17,12 +15,10 @@ GameInfoWidget::GameInfoWidget(QWidget *parent) : QQuickWidget(QUrl("./GameInfoW
 void GameInfoWidget::setGame(const QModelIndex& index) {
   game = index.data(Qt::UserRole + 1).value<Game *>();
   rootObject()->setProperty("nameText", game->getName());
-  qDebug() << game->getName();
   show();
 }
 
 void GameInfoWidget::play() {
-  qDebug() << "Play";
   if(game->isDisabled()) {
     QMessageBox::critical(this, "Error", "This game is not available.");
   }
@@ -32,7 +28,6 @@ void GameInfoWidget::play() {
 }
 
 void GameInfoWidget::settings() {
-  qDebug() << "Settings";
   GameEditWidget *edit_widget = new GameEditWidget(game);
   edit_widget->show();
 }

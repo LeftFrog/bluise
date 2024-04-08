@@ -7,7 +7,7 @@ ChoosePictureWidget::ChoosePictureWidget(const QString &path, QWidget *parent)
   setAutoFillBackground(true);
   resize(265, 376);
   setFixedSize(265, 376);
-  pic = QPixmap(path).scaled(rect().size());
+  pic = QPixmap(path).scaled(rect().size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 }
 
 void ChoosePictureWidget::paintEvent(QPaintEvent *event) {
