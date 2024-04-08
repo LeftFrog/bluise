@@ -19,12 +19,14 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         anchors.rightMargin: parent.margin
         RoundButton {
-            text: "lol"
+            icon.source: "/Users/leftfrog/Documents/Bluise/res/filter.png"
+            icon.color: palette.buttonText
             flat: true
             radius: parent.parent.radius
         }
         RoundButton {
-            text: "ok"
+            icon.source: "/Users/leftfrog/Documents/Bluise/res/sort.png"
+            icon.color: palette.buttonText
             flat: true
             radius: parent.parent.radius
         }
