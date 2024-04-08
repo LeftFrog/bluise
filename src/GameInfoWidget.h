@@ -1,18 +1,19 @@
 #pragma once
-#include <QWidget>
+#include <QQuickWidget>
 #include <QLabel>
 #include "Game.h"
 
-class GameInfoWidget : public QWidget {
+class GameInfoWidget : public QQuickWidget {
   Q_OBJECT
 public:
   GameInfoWidget(QWidget *parent = nullptr);
 public slots:
   void setGame(const QModelIndex& index);
+protected:
+  void resizeEvent(QResizeEvent *event) override;
 private slots:
   void play();
   void settings();
 private:
   Game* game;
-  QLabel *name;
 };

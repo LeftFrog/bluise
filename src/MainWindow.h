@@ -15,4 +15,5 @@ private:
   // GameInfoWidget *info;
   QListView *list;
   QMenuBar *menuBar;
+  QToolBar *toolBar;
 };

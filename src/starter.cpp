@@ -4,7 +4,7 @@
 #include <iostream>
 #include <QtWidgets>
 #include "MainWindow.h"
-#include "QListView"
+#include "QListView" 
 
 void qt_win() {
   GameListModel model;
@@ -19,7 +19,6 @@ int main(int argc, char **argv) {
   // if (argc == 1) {
   MainWindow w;
   w.show();
-  bluise_core::saveGamesJSON();
   // } else {
   //   command_processor::process_command_line(argc, argv);
   // }

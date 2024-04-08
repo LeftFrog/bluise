@@ -9,9 +9,12 @@
 #include <QMenuBar>
 #include "GameAddWidget.h"
 #include "bluise.h"
+#include <QToolBar>
+#include <QDockWidget>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-  setWindowTitle("Bluise");
+  setUnifiedTitleAndToolBarOnMac(true);
+  // setWindowTitle("Bluise");
   resize(800, 600);
 
   menuBar = new QMenuBar();
@@ -20,10 +23,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   connect(file, &QMenu::triggered, this, &MainWindow::addGame);
   setMenuBar(menuBar);
 
-  QSplitter *splitter = new QSplitter(Qt::Vertical);
-  list = new QListView();
+  toolBar = new QToolBar();
+  toolBar->addAction("New Game");
+  addToolBar(toolBar);
+  toolBar->setMovable(false);
+
+  QSplitter *splitter = new QSplitter(Qt::Vertical, this);
+  list = new QListView(splitter);
   splitter->addWidget(list);
-  GameInfoWidget *info = new GameInfoWidget;
+  GameInfoWidget *info = new GameInfoWidget(splitter);
   splitter->addWidget(info);
   list->setModel(&model);
   info->hide();
@@ -44,7 +52,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
 MainWindow::~MainWindow() {
   bluise_core::saveGamesJSON();
-  // QMainWindow::~QMainWindow();
 }
 void MainWindow::addGame(QAction* action) {
   if(action->text() == "New Game") {
