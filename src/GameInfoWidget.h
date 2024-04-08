@@ -2,6 +2,7 @@
 #include <QQuickWidget>
 #include <QLabel>
 #include "Game.h"
+#include <QMenu>
 
 class GameInfoWidget : public QQuickWidget {
   Q_OBJECT
@@ -14,6 +15,8 @@ protected:
 private slots:
   void play();
   void settings();
+  void popupMenu();
 private:
-  Game* game;
+  Game *game;
+  QMenu *menu;
 };

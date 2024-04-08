@@ -8,8 +8,10 @@ GameInfoWidget::GameInfoWidget(QWidget *parent) : QQuickWidget(QUrl("./GameInfoW
   setFixedHeight(100);
   QQuickItem *row = rootObject()->findChild<QQuickItem*>("column")->findChild<QQuickItem*>("row");
   connect(row->findChild<QQuickItem *>("play"), SIGNAL(playClicked()), this, SLOT(play()));
-  connect(row->findChild<QQuickItem *>("settings"), SIGNAL(settingsClicked()), this, SLOT(settings()));
-
+  connect(row->findChild<QQuickItem *>("settings"), SIGNAL(settingsClicked()), this, SLOT(popupMenu()));
+  menu = new QMenu();
+  menu->addAction("play", this, SLOT(play()));
+  menu->addAction("settings", this, SLOT(settings()));
 }
 
 void GameInfoWidget::setGame(const QModelIndex& index) {
@@ -36,4 +38,8 @@ void GameInfoWidget::resizeEvent(QResizeEvent *event) {
   QQuickWidget::resizeEvent(event);
   rootObject()->setProperty("width", width());
   rootObject()->setProperty("height", height());
+}
+
+void GameInfoWidget::popupMenu() {
+  menu->exec(QCursor::pos());
 }
