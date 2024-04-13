@@ -21,10 +21,26 @@ Rectangle {
             title: "Platform"
             MenuItem {
                 text: "Windows"
+                checkable: true
             }
             MenuItem {
                 text: "MacOS"
+                checkable: true
             }
+        }
+    }
+    Menu {
+        id: sortMenu
+        MenuItemGroup {
+            items: sortMenu.items
+        }
+        MenuItem {
+            text: "Name"
+            checked: true
+        }
+        MenuItem {
+            text: "Year"
+            checkable: true
         }
     }
     Row {
@@ -48,8 +64,6 @@ Rectangle {
             height: 40
             icon.width: 60
             icon.height: 60
-            // flat: true
-            // radius: parent.parent.radius
             onClicked: filter.open()
         }
         Button {
@@ -59,8 +73,7 @@ Rectangle {
             icon.height: 60
             icon.source: "/Users/leftfrog/Documents/Bluise/res/sort.png"
             icon.color: palette.buttonText
-            // flat: true
-            // radius: parent.parent.radius
+            onClicked: sortMenu.open()
         }
     }
 }
