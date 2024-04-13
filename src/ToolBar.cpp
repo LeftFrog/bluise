@@ -2,7 +2,7 @@
 #include <QQuickItem>
 
 ToolBar::ToolBar(QWidget *parent) : QQuickWidget(QUrl("./ToolBar.qml"), parent) {
-  setFixedHeight(50);
+  setFixedHeight(45);
   rootObject()->setProperty("width", width());
   rootObject()->setProperty("height", height());
 }

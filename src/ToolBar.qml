@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import Qt.labs.platform
 Rectangle {
+    id: main
     color: palette.window
     property int radius: 10
     property int margin: 5
@@ -21,6 +22,9 @@ Rectangle {
             MenuItem {
                 text: "Windows"
             }
+            MenuItem {
+                text: "MacOS"
+            }
         }
     }
     Row {
@@ -37,18 +41,26 @@ Rectangle {
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
         anchors.rightMargin: parent.margin
-        RoundButton {
+        Button {
             icon.source: "/Users/leftfrog/Documents/Bluise/res/filter.png"
             icon.color: palette.buttonText
-            flat: true
-            radius: parent.parent.radius
+            width: 40
+            height: 40
+            icon.width: 60
+            icon.height: 60
+            // flat: true
+            // radius: parent.parent.radius
             onClicked: filter.open()
         }
-        RoundButton {
+        Button {
+            width: 40
+            height: 40
+            icon.width: 60
+            icon.height: 60
             icon.source: "/Users/leftfrog/Documents/Bluise/res/sort.png"
             icon.color: palette.buttonText
-            flat: true
-            radius: parent.parent.radius
+            // flat: true
+            // radius: parent.parent.radius
         }
     }
 }
