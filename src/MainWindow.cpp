@@ -16,7 +16,7 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   setUnifiedTitleAndToolBarOnMac(true);
   // setWindowTitle("Bluise");
-  resize(973, 600);
+  resize(1900, 800);
 
   menuBar = new QMenuBar();
   QMenu *file = menuBar->addMenu("&File");
