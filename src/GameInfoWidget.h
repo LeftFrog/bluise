@@ -4,14 +4,14 @@
 #include "Game.h"
 #include <QMenu>
 
-class GameInfoWidget : public QQuickWidget {
+class GameInfoWidget : public QWidget {
   Q_OBJECT
 public:
   GameInfoWidget(QWidget *parent = nullptr);
 public slots:
   void setGame(const QModelIndex& index);
 protected:
-  void resizeEvent(QResizeEvent *event) override;
+  // void resizeEvent(QResizeEvent *event) override;
 private slots:
   void play();
   void settings();
@@ -19,4 +19,5 @@ private slots:
 private:
   Game *game;
   QMenu *menu;
+  QLabel *name = new QLabel();
 };

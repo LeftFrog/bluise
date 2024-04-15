@@ -51,6 +51,7 @@ qt_add_executable(bluise starter.cpp
     GameAddWidget.cpp
     MainWindow.cpp
     ToolBar.cpp
+    GameProxyModel.cpp
 )
 
 target_link_libraries(bluise PRIVATE Qt6::Widgets)

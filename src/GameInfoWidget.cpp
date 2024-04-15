@@ -2,22 +2,34 @@
 #include <QtWidgets>
 #include "GameEditWidget.h"
 #include <QQuickItem>
+#include "bluise.h"
 
-GameInfoWidget::GameInfoWidget(QWidget *parent) : QQuickWidget(QUrl("./GameInfoWidget.qml"), parent) {
+GameInfoWidget::GameInfoWidget(QWidget *parent) : QWidget(parent) {
+  QPushButton *play = new QPushButton("Play");
+  QPushButton *settings_button = new QPushButton();
+  QApplication::palette();
+  QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << "../res/");
+  settings_button->setIcon(QIcon::fromTheme("go-down")); 
+
+  name = new QLabel();
+  name->setAlignment(Qt::AlignLeft);
+  QHBoxLayout *layout = new QHBoxLayout();
+  layout->addWidget(play);
+  layout->addWidget(settings_button);
   game = nullptr;
   setFixedHeight(100);
-  rootObject()->setProperty("height", height());
-  QQuickItem *row = rootObject()->findChild<QQuickItem*>("column")->findChild<QQuickItem*>("row");
-  connect(row->findChild<QQuickItem *>("play"), SIGNAL(playClicked()), this, SLOT(play()));
-  connect(row->findChild<QQuickItem *>("settings"), SIGNAL(settingsClicked()), this, SLOT(popupMenu()));
   menu = new QMenu();
   menu->addAction("play", this, SLOT(play()));
   menu->addAction("settings", this, SLOT(settings()));
+  setLayout(layout);
 }
 
 void GameInfoWidget::setGame(const QModelIndex& index) {
   game = index.data(Qt::UserRole + 1).value<Game *>();
-  rootObject()->setProperty("nameText", game->getName());
+  if(game == nullptr) {
+    return;
+  }
+  name->setText(game->getName());
   show();
 }
 
@@ -35,10 +47,6 @@ void GameInfoWidget::settings() {
   edit_widget->show();
 }
 
-void GameInfoWidget::resizeEvent(QResizeEvent *event) {
-  rootObject()->setProperty("width", width());
-  QQuickWidget::resizeEvent(event);
-}
 
 void GameInfoWidget::popupMenu() {
   menu->exec(QCursor::pos());

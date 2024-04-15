@@ -1,9 +1,8 @@
 #pragma once
-#include <QAbstractProxyModel>
+#include <QSortFilterProxyModel>
 
-class GameProxyModel : public QAbstractProxyModel {
+class GameProxyModel : public QSortFilterProxyModel {
   Q_OBJECT
 public:
   GameProxyModel(QObject *parent = nullptr);
-  int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 };

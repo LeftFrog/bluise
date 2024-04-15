@@ -12,6 +12,7 @@
 #include <QToolBar>
 #include <QDockWidget>
 #include "ToolBar.h"
+#include "GameProxyModel.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   setUnifiedTitleAndToolBarOnMac(true);
@@ -31,10 +32,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   splitter->addWidget(list);
   GameInfoWidget *info = new GameInfoWidget(splitter);
   splitter->addWidget(info);
-  list->setModel(&model);
+  // list->setModel(&model);
   info->hide();
   splitter->setHandleWidth(2);
 
+  GameProxyModel *proxy = new GameProxyModel(this);
+  proxy->setSourceModel(&model);
+  list->setModel(proxy);
+  proxy->sort(0, Qt::AscendingOrder);
   list->setViewMode(QListView::IconMode);
   list->setItemDelegate(new CoverDelegate(QSize(265/1.5, 376/1.5)));
   list->setResizeMode(QListView::Adjust);
