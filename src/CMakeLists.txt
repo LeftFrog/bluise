@@ -47,6 +47,7 @@ qt_add_executable(bluise starter.cpp
     ToolBar.cpp
     GameProxyModel.cpp
     GameInfoWidget.ui
+    BeautifulButton.cpp
 )
 
 # set_target_properties(bluise PROPERTIES
