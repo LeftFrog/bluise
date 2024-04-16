@@ -8,6 +8,14 @@
 GameInfoWidget::GameInfoWidget(QWidget *parent) : QWidget(parent), ui(new Ui::GameInfoWidget) {
   ui->setupUi(this);
   setFixedHeight(100);
+
+  menu = new QMenu(this);
+  menu->addAction("Play", this, &GameInfoWidget::play);
+  menu->addAction("Settings", this, &GameInfoWidget::settings);
+
+  connect(ui->pushButton_2, &QPushButton::clicked, this, &GameInfoWidget::play);
+  connect(ui->pushButton, &QPushButton::clicked, this, &GameInfoWidget::popupMenu);
+
   ui->label->setFont(QFont("Arial", 22));
 }
 
