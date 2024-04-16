@@ -1,27 +1,18 @@
 #include "GameInfoWidget.h"
+#include "./ui_GameInfoWidget.h"
 #include <QtWidgets>
 #include "GameEditWidget.h"
 #include <QQuickItem>
 #include "bluise.h"
 
-GameInfoWidget::GameInfoWidget(QWidget *parent) : QWidget(parent) {
-  QPushButton *play = new QPushButton("Play");
-  QPushButton *settings_button = new QPushButton();
-  QApplication::palette();
-  QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << "../res/");
-  settings_button->setIcon(QIcon::fromTheme("go-down")); 
-
-  name = new QLabel();
-  name->setAlignment(Qt::AlignLeft);
-  QHBoxLayout *layout = new QHBoxLayout();
-  layout->addWidget(play);
-  layout->addWidget(settings_button);
-  game = nullptr;
+GameInfoWidget::GameInfoWidget(QWidget *parent) : QWidget(parent), ui(new Ui::GameInfoWidget) {
+  ui->setupUi(this);
   setFixedHeight(100);
-  menu = new QMenu();
-  menu->addAction("play", this, SLOT(play()));
-  menu->addAction("settings", this, SLOT(settings()));
-  setLayout(layout);
+  ui->label->setFont(QFont("Arial", 22));
+}
+
+GameInfoWidget::~GameInfoWidget() {
+  delete ui;
 }
 
 void GameInfoWidget::setGame(const QModelIndex& index) {
@@ -29,8 +20,8 @@ void GameInfoWidget::setGame(const QModelIndex& index) {
   if(game == nullptr) {
     return;
   }
-  name->setText(game->getName());
-  show();
+  ui->label->setText(game->getName());
+  this->show();
 }
 
 void GameInfoWidget::play() {

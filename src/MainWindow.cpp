@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   // list->setModel(&model);
   info->hide();
   splitter->setHandleWidth(2);
+  splitter->setCollapsible(2, false);
 
   GameProxyModel *proxy = new GameProxyModel(this);
   proxy->setSourceModel(&model);

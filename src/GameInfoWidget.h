@@ -1,13 +1,19 @@
 #pragma once
-#include <QQuickWidget>
 #include <QLabel>
 #include "Game.h"
 #include <QMenu>
 
+QT_BEGIN_NAMESPACE
+namespace Ui {
+class GameInfoWidget;
+}
+QT_END_NAMESPACE
+
 class GameInfoWidget : public QWidget {
   Q_OBJECT
 public:
-  GameInfoWidget(QWidget *parent = nullptr);
+  explicit GameInfoWidget(QWidget *parent = nullptr);
+  ~GameInfoWidget();
 public slots:
   void setGame(const QModelIndex& index);
 protected:
@@ -19,5 +25,5 @@ private slots:
 private:
   Game *game;
   QMenu *menu;
-  QLabel *name = new QLabel();
+  Ui::GameInfoWidget *ui;
 };

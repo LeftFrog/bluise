@@ -18,7 +18,6 @@ qt_standard_project_setup()
 qt_add_qml_module(appBluise_qml
     URI Bluise_qml
     VERSION 1.0
-    QML_FILES GameInfoWidget.qml
     QML_FILES ToolBar.qml
 )
 
@@ -52,8 +51,18 @@ qt_add_executable(bluise starter.cpp
     MainWindow.cpp
     ToolBar.cpp
     GameProxyModel.cpp
+    GameInfoWidget.ui
 )
+
+# set_target_properties(bluise PROPERTIES
+#     MACOSX_BUNDLE TRUE
+#     WIN32_EXECUTABLE TRUE
+# )
 
 target_link_libraries(bluise PRIVATE Qt6::Widgets)
 target_link_libraries(bluise PRIVATE Qt6::Quick)
 target_link_libraries(bluise PRIVATE Qt6::QuickWidgets)
+
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_finalize_executable(bluise)
+endif()
