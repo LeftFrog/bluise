@@ -1,10 +1,8 @@
 #pragma once
-#include <QQuickWidget>
+#include <QToolBar>
 
-class ToolBar : public QQuickWidget {
+class ToolBar : public QToolBar {
   Q_OBJECT
 public:
   ToolBar(QWidget *parent = nullptr);
-protected:
-  void resizeEvent(QResizeEvent *event) override;
 };

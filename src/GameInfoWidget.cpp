@@ -2,7 +2,6 @@
 #include "./ui_GameInfoWidget.h"
 #include <QtWidgets>
 #include "GameEditWidget.h"
-#include <QQuickItem>
 #include "bluise.h"
 
 GameInfoWidget::GameInfoWidget(QWidget *parent) : QWidget(parent), ui(new Ui::GameInfoWidget) {
@@ -18,6 +17,11 @@ GameInfoWidget::GameInfoWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ga
 
   connect(ui->pushButton_2, &QPushButton::clicked, this, &GameInfoWidget::play);
   connect(ui->pushButton, &QPushButton::clicked, this, &GameInfoWidget::popupMenu);
+
+  QPalette palette = this->palette();
+  palette.setColor(QPalette::Window, palette.color(QPalette::Midlight));
+  setAutoFillBackground(true);
+  this->setPalette(palette);
 
   ui->label->setFont(QFont("Arial", 22));
 }

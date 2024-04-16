@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
   QSplitter *splitter = new QSplitter(Qt::Vertical, this);
   ToolBar *toolbar = new ToolBar(splitter);
-  splitter->addWidget(toolbar);
+  addToolBar(Qt::TopToolBarArea, toolbar);
   list = new QListView(splitter);
   splitter->addWidget(list);
   GameInfoWidget *info = new GameInfoWidget(splitter);
