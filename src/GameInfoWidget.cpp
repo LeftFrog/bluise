@@ -9,9 +9,12 @@ GameInfoWidget::GameInfoWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ga
   ui->setupUi(this);
   setFixedHeight(100);
 
-  menu = new QMenu(this);
-  menu->addAction("Play", this, &GameInfoWidget::play);
-  menu->addAction("Settings", this, &GameInfoWidget::settings);
+  menu = new QMenu();
+  QAction *play = new QAction(QIcon::fromTheme("media-playback-start"), tr("&Play"), this);
+  QAction *settings = new QAction("Settings", this);
+  menu->addAction(play);
+  menu->addSeparator();
+  menu->addAction(settings);
 
   connect(ui->pushButton_2, &QPushButton::clicked, this, &GameInfoWidget::play);
   connect(ui->pushButton, &QPushButton::clicked, this, &GameInfoWidget::popupMenu);
