@@ -9,13 +9,15 @@ public:
   explicit BeautifulButton(QWidget *parent = nullptr);
   ~BeautifulButton();
 
-  QSize sizeHint() const override {
-    return QSize(40, 25);
-  }
+  void setMenu(QMenu *menu);
+
+  QSize sizeHint() const override;
 
 protected:
   bool checked = false;
   void paintEvent(QPaintEvent *event) override;
+private:
+  QMenu *menu;
 };
 
 }

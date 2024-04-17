@@ -22,6 +22,7 @@ int main(int argc, char **argv) {
   BeautifulUi::BeautifulButton *button = new BeautifulUi::BeautifulButton(&w);
   button->setGeometry(10, 10, 40, 25);
   button->setIcon(QIcon::fromTheme("document-new"));
+  button->setMenu(new QMenu(button));
   w.show();
   // } else {
   //   command_processor::process_command_line(argc, argv);
