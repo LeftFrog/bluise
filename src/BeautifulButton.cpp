@@ -20,7 +20,7 @@ void BeautifulUi::BeautifulButton::paintEvent(QPaintEvent *event) {
   painter.setRenderHint(QPainter::Antialiasing);
   painter.setPen(Qt::NoPen);
   if(isChecked()) {
-    painter.setBrush(QColor(0, 0, 0, 10));
+    painter.setBrush(QColor(0, 0, 0, 15));
   } else {
     painter.setBrush(QColor(0, 0, 0, 0));
   }
@@ -32,16 +32,20 @@ void BeautifulUi::BeautifulButton::paintEvent(QPaintEvent *event) {
     QRect menuButtonRect = rect();
     menuButtonRect.setX(rect().width()-20);
     mainButtonRect.setWidth(20);
-    QPen pen;
-    pen.setColor(palette().color(QPalette::Text));
-    painter.setPen(pen);
-    painter.drawLine(menuButtonRect.topLeft().x()+5, menuButtonRect.topLeft().y()+height()/2-2, menuButtonRect.center().x(), menuButtonRect.topLeft().y()+height()/2+2);
-    painter.drawLine(menuButtonRect.center().x(), menuButtonRect.topLeft().y()+height()/2+2, menuButtonRect.topRight().x()-6, menuButtonRect.topLeft().y()+height()/2-2);
-    painter.setPen(Qt::NoPen);
+    paintMenuButton(painter, menuButtonRect);
   }
   else {
       icon().paint(&painter, rect(), Qt::AlignCenter, isChecked() ? QIcon::Selected : QIcon::Normal);
   }
+}
+
+void BeautifulUi::BeautifulButton::paintMenuButton(QPainter &painter, const QRect &rect) {
+  QPen pen;
+  pen.setColor(palette().color(QPalette::Text));
+  painter.setPen(pen);
+  painter.drawLine(rect.topLeft().x()+5, rect.topLeft().y()+height()/2-2, rect.center().x(), rect.topLeft().y()+height()/2+2);
+  painter.drawLine(rect.center().x(), rect.topLeft().y()+height()/2+2, rect.topRight().x()-6, rect.topLeft().y()+height()/2-2);
+  painter.setPen(Qt::NoPen);
 }
 
 QSize BeautifulUi::BeautifulButton::sizeHint() const {
