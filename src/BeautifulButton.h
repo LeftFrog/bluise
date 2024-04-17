@@ -12,9 +12,7 @@ public:
   void setMenu(QMenu *menu);
 
   QSize sizeHint() const override;
-
 protected:
-  bool checked = false;
   void paintEvent(QPaintEvent *event) override;
   void paintMenuButton(QPainter &painter, const QRect &rect);
 private:
