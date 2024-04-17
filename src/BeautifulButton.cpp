@@ -1,5 +1,6 @@
 #include "BeautifulButton.h"
 #include <QPainter>
+#include <QMouseEvent>
 
 BeautifulUi::BeautifulButton::BeautifulButton(QWidget *parent) : QAbstractButton(parent) {
   setCheckable(true);
@@ -24,6 +25,9 @@ void BeautifulUi::BeautifulButton::paintEvent(QPaintEvent *event) {
   } else {
     painter.setBrush(QColor(0, 0, 0, 0));
   }
+  if (hovered) {
+    painter.setBrush(QColor(0, 0, 0, 10));
+  }
   painter.drawRoundedRect(rect(), 5, 5);
   if (menu) {
     QRect mainButtonRect = rect();
@@ -46,6 +50,16 @@ void BeautifulUi::BeautifulButton::paintMenuButton(QPainter &painter, const QRec
   painter.drawLine(rect.topLeft().x()+5, rect.topLeft().y()+height()/2-2, rect.center().x(), rect.topLeft().y()+height()/2+2);
   painter.drawLine(rect.center().x(), rect.topLeft().y()+height()/2+2, rect.topRight().x()-6, rect.topLeft().y()+height()/2-2);
   painter.setPen(Qt::NoPen);
+}
+
+void BeautifulUi::BeautifulButton::mouseMoveEvent(QMouseEvent *event) {
+  if(rect().contains(event->pos())) {
+    hovered = true;
+  } else {
+    hovered = false;
+  }
+  update();
+  QAbstractButton::mouseMoveEvent(event);
 }
 
 QSize BeautifulUi::BeautifulButton::sizeHint() const {
