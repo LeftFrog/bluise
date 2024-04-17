@@ -10,8 +10,9 @@ public:
   ~BeautifulButton();
 
   QSize sizeHint() const override {
-    return QSize(100, 50);
+    return QSize(40, 25);
   }
+
 protected:
   bool checked = false;
   void paintEvent(QPaintEvent *event) override;

@@ -15,9 +15,10 @@ void BeautifulUi::BeautifulButton::paintEvent(QPaintEvent *event) {
   painter.setRenderHint(QPainter::Antialiasing);
   painter.setPen(Qt::NoPen);
   if(isChecked()) {
-    painter.setBrush(QColor(0, 0, 0, 25));
+    painter.setBrush(QColor(0, 0, 0, 10));
   } else {
     painter.setBrush(QColor(0, 0, 0, 0));
   }
-  painter.drawRoundedRect(rect(), 10, 10);
+  painter.drawRoundedRect(rect(), 5, 5);
+  icon().paint(&painter, rect(), Qt::AlignCenter, isChecked() ? QIcon::Selected : QIcon::Normal);
 }

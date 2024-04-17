@@ -20,7 +20,8 @@ int main(int argc, char **argv) {
   // if (argc == 1) {
   QWidget w;
   BeautifulUi::BeautifulButton *button = new BeautifulUi::BeautifulButton(&w);
-  button->setGeometry(10, 10, 100, 50);
+  button->setGeometry(10, 10, 40, 25);
+  button->setIcon(QIcon::fromTheme("document-new"));
   w.show();
   // } else {
   //   command_processor::process_command_line(argc, argv);
