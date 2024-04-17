@@ -16,7 +16,8 @@ protected:
   void paintEvent(QPaintEvent *event) override;
   void paintMenuButton(QPainter &painter, const QRect &rect);
 
-  void mouseMoveEvent(QMouseEvent *event) override;
+  void enterEvent(QEnterEvent *event) override;
+  void leaveEvent(QEvent *event) override;
   void mouseReleaseEvent(QMouseEvent *event) override;
 
   bool hovered = false;

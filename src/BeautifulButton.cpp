@@ -6,6 +6,7 @@
 BeautifulUi::BeautifulButton::BeautifulButton(QWidget *parent) : QAbstractButton(parent) {
   setCheckable(true);
   setMouseTracking(true);
+  setAttribute(Qt::WA_Hover, true);
 }
 
 BeautifulUi::BeautifulButton::~BeautifulButton() {
@@ -55,16 +56,16 @@ void BeautifulUi::BeautifulButton::paintMenuButton(QPainter &painter, const QRec
   painter.setPen(Qt::NoPen);
 }
 
-void BeautifulUi::BeautifulButton::mouseMoveEvent(QMouseEvent *event) {
-  // if(rect().contains(event->globalPos())) {
-  //   hovered = true;
-  //   qDebug() << "hovered";
-  // } else {
-  //   hovered = false;
-  //   qDebug() << "not hovered";
-  // }
-  // update();
-  QAbstractButton::mouseMoveEvent(event);
+void BeautifulUi::BeautifulButton::enterEvent(QEnterEvent *event) {
+  hovered = true;
+  update();
+  QAbstractButton::enterEvent(event);
+}
+
+void BeautifulUi::BeautifulButton::leaveEvent(QEvent *event) {
+  hovered = false;
+  update();
+  QAbstractButton::leaveEvent(event);
 }
 
 void BeautifulUi::BeautifulButton::mouseReleaseEvent(QMouseEvent *event) {
