@@ -1,9 +1,11 @@
 #include "BeautifulButton.h"
 #include <QPainter>
 #include <QMouseEvent>
+#include <QMenu>
 
 BeautifulUi::BeautifulButton::BeautifulButton(QWidget *parent) : QAbstractButton(parent) {
   setCheckable(true);
+  setMouseTracking(true);
 }
 
 BeautifulUi::BeautifulButton::~BeautifulButton() {
@@ -46,20 +48,31 @@ void BeautifulUi::BeautifulButton::paintEvent(QPaintEvent *event) {
 void BeautifulUi::BeautifulButton::paintMenuButton(QPainter &painter, const QRect &rect) {
   QPen pen;
   pen.setColor(palette().color(QPalette::Text));
+  pen.setWidth(1);
   painter.setPen(pen);
-  painter.drawLine(rect.topLeft().x()+5, rect.topLeft().y()+height()/2-2, rect.center().x(), rect.topLeft().y()+height()/2+2);
-  painter.drawLine(rect.center().x(), rect.topLeft().y()+height()/2+2, rect.topRight().x()-6, rect.topLeft().y()+height()/2-2);
+  painter.drawLine(rect.topLeft().x()+5, rect.center().y()-2, rect.center().x(), rect.center().y()+2);
+  painter.drawLine(rect.center().x(), rect.center().y()+2, rect.topRight().x()-6, rect.center().y()-2);
   painter.setPen(Qt::NoPen);
 }
 
 void BeautifulUi::BeautifulButton::mouseMoveEvent(QMouseEvent *event) {
-  if(rect().contains(event->pos())) {
-    hovered = true;
-  } else {
-    hovered = false;
-  }
-  update();
+  // if(rect().contains(event->globalPos())) {
+  //   hovered = true;
+  //   qDebug() << "hovered";
+  // } else {
+  //   hovered = false;
+  //   qDebug() << "not hovered";
+  // }
+  // update();
   QAbstractButton::mouseMoveEvent(event);
+}
+
+void BeautifulUi::BeautifulButton::mouseReleaseEvent(QMouseEvent *event) {
+  if (menu && rect().contains(event->pos())) {
+    setChecked(true);
+    menu->exec(mapToGlobal(rect().bottomLeft()));
+  }
+  QAbstractButton::mouseReleaseEvent(event);
 }
 
 QSize BeautifulUi::BeautifulButton::sizeHint() const {
