@@ -35,11 +35,12 @@ void BeautifulUi::BeautifulButton::paintEvent(QPaintEvent *event) {
   painter.drawRoundedRect(rect(), 5, 5);
   if (menu) {
     QRect mainButtonRect = rect();
-    mainButtonRect.setWidth(rect().width()-20);
+    mainButtonRect.setWidth(rect().width()-18);
+    mainButtonRect.setX(6);
     icon().paint(&painter, mainButtonRect, Qt::AlignCenter, isChecked() ? QIcon::Selected : QIcon::Normal);
     QRect menuButtonRect = rect();
-    menuButtonRect.setX(rect().width()-20);
-    mainButtonRect.setWidth(20);
+    menuButtonRect.setX(mainButtonRect.width()+10);
+    menuButtonRect.setWidth(12);
     paintMenuButton(painter, menuButtonRect);
   }
   else {
