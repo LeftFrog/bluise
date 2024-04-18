@@ -57,12 +57,18 @@ void BeautifulUi::BeautifulButton::paintMenuButton(QPainter &painter, const QRec
 }
 
 void BeautifulUi::BeautifulButton::enterEvent(QEnterEvent *event) {
+  if(group()) {
+    return;
+  }
   hovered = true;
   update();
   QAbstractButton::enterEvent(event);
 }
 
 void BeautifulUi::BeautifulButton::leaveEvent(QEvent *event) {
+  if(group()) {
+    return;
+  }
   hovered = false;
   update();
   QAbstractButton::leaveEvent(event);

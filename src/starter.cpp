@@ -6,6 +6,7 @@
 #include "MainWindow.h"
 #include "QListView" 
 #include "BeautifulButton.h"
+#include "BeautifulButtonGroup.h"
 
 void qt_win() {
   GameListModel model;
@@ -19,12 +20,13 @@ int main(int argc, char **argv) {
   bluise_core::readGamesJSON();
   // if (argc == 1) {
   QWidget w;
+  BeautifulUi::BeautifulButtonGroup *group = new BeautifulUi::BeautifulButtonGroup(&w);
   BeautifulUi::BeautifulButton *button = new BeautifulUi::BeautifulButton(&w);
-  button->setGeometry(10, 10, 40, 25);
   button->setIcon(QIcon::fromTheme("document-new"));
-  QMenu *menu = new QMenu(button);
-  menu->addAction("New Game");
-  button->setMenu(menu);
+  group->addButton(button);
+  button = new BeautifulUi::BeautifulButton(&w);
+  button->setIcon(QIcon::fromTheme("document-open"));
+  group->addButton(button);
   w.show();
   // } else {
   //   command_processor::process_command_line(argc, argv);
