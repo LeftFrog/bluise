@@ -2,6 +2,7 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include <QMenu>
+#include <QStyleHints>
 
 BeautifulUi::BeautifulButton::BeautifulButton(QWidget *parent) : QAbstractButton(parent) {
   setCheckable(true);
@@ -23,14 +24,12 @@ void BeautifulUi::BeautifulButton::paintEvent(QPaintEvent *event) {
   QPainter painter(this);
   painter.setRenderHint(QPainter::Antialiasing);
   painter.setPen(Qt::NoPen);
-  if(isChecked()) {
-    painter.setBrush(QColor(0, 0, 0, 15));
-  } else {
-    painter.setBrush(QColor(0, 0, 0, 0));
-  }
-  if (hovered) {
-    painter.setBrush(QColor(0, 0, 0, 10));
-  }
+  QColor color = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? Qt::white : Qt::black;
+
+  color.setAlpha(hovered ? 10 : 0);
+  color.setAlpha(isChecked() ? 15 : color.alpha());
+  painter.setBrush(color);
+
   painter.drawRoundedRect(rect(), 5, 5);
   if (menu) {
     QRect mainButtonRect = rect();

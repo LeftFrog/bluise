@@ -1,5 +1,7 @@
 #include "BeautifulButtonGroup.h"
 #include <QPainter>
+#include <QStyleHints>
+#include <QGuiApplication>
 
 BeautifulUi::BeautifulButtonGroup::BeautifulButtonGroup(QWidget *parent) : QWidget(parent) {
   buttonGroup = new QButtonGroup(this);
@@ -30,7 +32,9 @@ void BeautifulUi::BeautifulButtonGroup::paintEvent(QPaintEvent *event) {
   QPainter painter(this);
   painter.setRenderHint(QPainter::Antialiasing);
   painter.setPen(Qt::NoPen);
-  painter.setBrush(QColor(0, 0, 0, hovered ? 10 : 0));
+  QColor color = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? Qt::white : Qt::black;
+  color.setAlpha(hovered ? 10 : 0);
+  painter.setBrush(color);
   painter.drawRoundedRect(rect(), 5, 5);
 }
 
