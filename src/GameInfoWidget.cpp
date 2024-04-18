@@ -8,9 +8,15 @@ GameInfoWidget::GameInfoWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ga
   ui->setupUi(this);
   setFixedHeight(100);
 
+  fa::QtAwesome *awesome = new fa::QtAwesome(this);
+  awesome->initFontAwesome();
+
   menu = new QMenu();
-  QAction *play = new QAction(QIcon::fromTheme("media-playback-start"), tr("&Play"), this);
-  QAction *settings = new QAction("Settings", this);
+  
+  QAction *play = new QAction(awesome->icon(fa::fa_solid, fa::fa_play), tr("&Play"), this);
+  connect(play, &QAction::triggered, this, &GameInfoWidget::play);
+  QAction *settings = new QAction(awesome->icon(fa::fa_solid, fa::fa_gear), "Settings", this);
+  connect(settings, &QAction::triggered, this, &GameInfoWidget::settings);
   menu->addAction(play);
   menu->addSeparator();
   menu->addAction(settings);
@@ -18,8 +24,6 @@ GameInfoWidget::GameInfoWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ga
   connect(ui->pushButton_2, &QPushButton::clicked, this, &GameInfoWidget::play);
   connect(ui->pushButton, &QPushButton::clicked, this, &GameInfoWidget::popupMenu);
 
-  fa::QtAwesome *awesome = new fa::QtAwesome(this);
-  awesome->initFontAwesome();
   ui->pushButton->setIcon(awesome->icon(fa::fa_solid, fa::fa_chevron_down));
 
   QPalette palette = this->palette();
