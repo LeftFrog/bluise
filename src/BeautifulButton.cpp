@@ -77,5 +77,5 @@ void BeautifulUi::BeautifulButton::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 QSize BeautifulUi::BeautifulButton::sizeHint() const {
-  return QSize(40, 25);
+  return QSize(40, 30);
 }
