@@ -13,6 +13,8 @@
 #include <QDockWidget>
 #include "ToolBar.h"
 #include "GameProxyModel.h"
+#include "BeautifulButton.h"
+#include "QtAwesome/QtAwesome/QtAwesome.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   setUnifiedTitleAndToolBarOnMac(true);
@@ -26,8 +28,21 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   setMenuBar(menuBar);
 
   QSplitter *splitter = new QSplitter(Qt::Vertical, this);
-  ToolBar *toolbar = new ToolBar(splitter);
+
+  fa::QtAwesome *awesome = new fa::QtAwesome(this);
+  awesome->initFontAwesome();
+
+  ToolBar *toolbar = new ToolBar(this);
+  QMenu *menu = new QMenu;
+  BeautifulUi::BeautifulButton *settingsButton = new BeautifulUi::BeautifulButton(this);
+  settingsButton->setIcon(awesome->icon(fa::fa_solid, fa::fa_ellipsis));
+  settingsButton->setMenu(menu);
+  QWidget *spacer = new QWidget;
+  spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  toolbar->addWidget(spacer);
+  toolbar->addWidget(settingsButton);
   addToolBar(Qt::TopToolBarArea, toolbar);
+
   list = new QListView(splitter);
   splitter->addWidget(list);
   GameInfoWidget *info = new GameInfoWidget(splitter);

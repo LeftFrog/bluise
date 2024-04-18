@@ -8,6 +8,8 @@ BeautifulUi::BeautifulButton::BeautifulButton(QWidget *parent) : QAbstractButton
   setCheckable(true);
   setMouseTracking(true);
   setAttribute(Qt::WA_Hover, true);
+  awesome = new fa::QtAwesome(this);
+  awesome->initFontAwesome();
 }
 
 BeautifulUi::BeautifulButton::~BeautifulButton() {
@@ -47,13 +49,8 @@ void BeautifulUi::BeautifulButton::paintEvent(QPaintEvent *event) {
 }
 
 void BeautifulUi::BeautifulButton::paintMenuButton(QPainter &painter, const QRect &rect) {
-  QPen pen;
-  pen.setColor(palette().color(QPalette::Text));
-  pen.setWidth(1);
-  painter.setPen(pen);
-  painter.drawLine(rect.topLeft().x()+5, rect.center().y()-2, rect.center().x(), rect.center().y()+2);
-  painter.drawLine(rect.center().x(), rect.center().y()+2, rect.topRight().x()-6, rect.center().y()-2);
-  painter.setPen(Qt::NoPen);
+  QIcon icon = awesome->icon(fa::fa_solid, fa::fa_chevron_down);
+  icon.paint(&painter, rect, Qt::AlignCenter, QIcon::Normal);
 }
 
 void BeautifulUi::BeautifulButton::enterEvent(QEnterEvent *event) {

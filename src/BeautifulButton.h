@@ -1,5 +1,6 @@
 #pragma once
 #include <QAbstractButton>
+#include "QtAwesome/QtAwesome/QtAwesome.h"
 
 namespace BeautifulUi {
 
@@ -23,6 +24,7 @@ protected:
   bool hovered = false;
 private:
   QMenu *menu;
+  fa::QtAwesome *awesome;
 };
 
 }
