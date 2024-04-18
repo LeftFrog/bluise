@@ -18,6 +18,10 @@ GameInfoWidget::GameInfoWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ga
   connect(ui->pushButton_2, &QPushButton::clicked, this, &GameInfoWidget::play);
   connect(ui->pushButton, &QPushButton::clicked, this, &GameInfoWidget::popupMenu);
 
+  fa::QtAwesome *awesome = new fa::QtAwesome(this);
+  awesome->initFontAwesome();
+  ui->pushButton->setIcon(awesome->icon(fa::fa_solid, fa::fa_chevron_down));
+
   QPalette palette = this->palette();
   palette.setColor(QPalette::Window, palette.color(QPalette::Midlight));
   setAutoFillBackground(true);

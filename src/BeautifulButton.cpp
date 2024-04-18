@@ -41,7 +41,8 @@ void BeautifulUi::BeautifulButton::paintEvent(QPaintEvent *event) {
     paintMenuButton(painter, menuButtonRect);
   }
   else {
-      icon().paint(&painter, rect(), Qt::AlignCenter, isChecked() ? QIcon::Selected : QIcon::Normal);
+    QRect buttonRect = rect();
+    icon().paint(&painter, buttonRect, Qt::AlignCenter, isChecked() ? QIcon::Selected : QIcon::Normal);
   }
 }
 

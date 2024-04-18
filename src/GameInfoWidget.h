@@ -2,6 +2,7 @@
 #include <QLabel>
 #include "Game.h"
 #include <QMenu>
+#include "QtAwesome/QtAwesome/QtAwesome.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

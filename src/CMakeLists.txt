@@ -15,6 +15,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 qt_standard_project_setup()
 
+add_subdirectory(QtAwesome QtAwesome)
 
 set(PROJECT_SOURCES
     starter.cpp
@@ -57,6 +58,7 @@ qt_add_executable(bluise starter.cpp
 # )
 
 target_link_libraries(bluise PRIVATE Qt6::Widgets)
+target_link_libraries(bluise PUBLIC QtAwesome)
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(bluise)
