@@ -7,7 +7,6 @@
 #include "QListView" 
 #include "BeautifulButton.h"
 #include "BeautifulButtonGroup.h"
-#include "QtAwesome/QtAwesome/QtAwesome.h"
 
 void qt_win() {
   GameListModel model;

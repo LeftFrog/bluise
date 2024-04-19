@@ -23,8 +23,10 @@ private slots:
   void play();
   void settings();
   void popupMenu();
+  void setIcon(Qt::ColorScheme scheme);
 private:
   Game *game;
   QMenu *menu;
+  fa::QtAwesome *awesome = new fa::QtAwesome;
   Ui::GameInfoWidget *ui;
 };
