@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
   ToolBar *toolbar = new ToolBar(this);
   QMenu *menu = new QMenu;
+  menu->addAction("Lol");
   BeautifulUi::BeautifulButton *settingsButton = new BeautifulUi::BeautifulButton(this);
   settingsButton->setIcon(awesome->icon(fa::fa_solid, fa::fa_ellipsis));
   settingsButton->setMenu(menu);

@@ -3,6 +3,7 @@
 #include <QMouseEvent>
 #include <QMenu>
 #include <QStyleHints>
+#include <QApplication>
 
 BeautifulUi::BeautifulButton::BeautifulButton(QWidget *parent) : QAbstractButton(parent) {
   setCheckable(true);
@@ -18,7 +19,7 @@ BeautifulUi::BeautifulButton::~BeautifulButton() {
 
 void BeautifulUi::BeautifulButton::setMenu(QMenu *menu) {
   this->menu = menu;
-  resize(sizeHint().width()+10, sizeHint().height());
+  resize(sizeHint().width()+20, sizeHint().height());
 }
 
 void BeautifulUi::BeautifulButton::paintEvent(QPaintEvent *event) {
@@ -56,6 +57,7 @@ void BeautifulUi::BeautifulButton::paintMenuButton(QPainter &painter, const QRec
 
 void BeautifulUi::BeautifulButton::enterEvent(QEnterEvent *event) {
   if(group()) {
+    QApplication::sendEvent(parent(), event);
     return;
   }
   hovered = true;

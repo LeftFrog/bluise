@@ -23,7 +23,6 @@ private:
   bool hovered = false;
   QButtonGroup *buttonGroup;
   QList<BeautifulButton*> buttons;
-  QHBoxLayout *layout;
 };
 
 }

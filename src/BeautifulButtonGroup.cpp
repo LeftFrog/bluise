@@ -6,9 +6,7 @@
 BeautifulUi::BeautifulButtonGroup::BeautifulButtonGroup(QWidget *parent) : QWidget(parent) {
   buttonGroup = new QButtonGroup(this);
   buttonGroup->setExclusive(true);
-  layout = new QHBoxLayout(this);
   // resize(0, 0);
-  setLayout(layout);
 }
 
 BeautifulUi::BeautifulButtonGroup::~BeautifulButtonGroup() {
@@ -18,9 +16,9 @@ BeautifulUi::BeautifulButtonGroup::~BeautifulButtonGroup() {
 void BeautifulUi::BeautifulButtonGroup::addButton(BeautifulButton *button) {
   buttons.append(button);
   buttonGroup->addButton(button);
-  layout->addWidget(button);
-  // button->move(buttons.indexOf(button)*buttons.at(buttons.indexOf(button)-1)->width, 0);
-  // resize(width()+button->width(), button->sizeHint().height());
+  button->setParent(this);
+  button->move(buttons.indexOf(button)*button->sizeHint().width(), 0);
+  resize(button->sizeHint().width()*buttons.size(), height());
 }
 
 void BeautifulUi::BeautifulButtonGroup::setExclusive(bool exclusive) {
