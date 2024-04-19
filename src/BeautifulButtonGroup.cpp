@@ -17,8 +17,8 @@ void BeautifulUi::BeautifulButtonGroup::addButton(BeautifulButton *button) {
   buttons.append(button);
   buttonGroup->addButton(button);
   button->setParent(this);
-  button->move(buttons.indexOf(button)*button->sizeHint().width(), 0);
-  resize(button->sizeHint().width()*buttons.size(), height());
+  button->move(buttons.indexOf(button)*button->sizeHint().width()+1, 0);
+  resize(button->sizeHint().width()*buttons.size()+buttons.size()-1, height());
 }
 
 void BeautifulUi::BeautifulButtonGroup::setExclusive(bool exclusive) {
@@ -33,7 +33,7 @@ void BeautifulUi::BeautifulButtonGroup::paintEvent(QPaintEvent *event) {
   QColor color = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? Qt::white : Qt::black;
   color.setAlpha(hovered ? 10 : 0);
   painter.setBrush(color);
-  painter.drawRoundedRect(rect(), 5, 5);
+  painter.drawRoundedRect(rect(), 6, 6);
 }
 
 void BeautifulUi::BeautifulButtonGroup::enterEvent(QEnterEvent *event) {

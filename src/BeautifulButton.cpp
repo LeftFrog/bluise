@@ -33,7 +33,7 @@ void BeautifulUi::BeautifulButton::paintEvent(QPaintEvent *event) {
   color.setAlpha(isChecked() ? 15 : color.alpha());
   painter.setBrush(color);
 
-  painter.drawRoundedRect(rect(), 5, 5);
+  painter.drawRoundedRect(rect(), 6, 6);
   if (menu) {
     QRect mainButtonRect = rect();
     mainButtonRect.setWidth(rect().width()-18);
