@@ -15,6 +15,7 @@
 #include "GameProxyModel.h"
 #include "BeautifulButton.h"
 #include "QtAwesome/QtAwesome/QtAwesome.h"
+#include <QToolButton>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   setUnifiedTitleAndToolBarOnMac(true);
@@ -33,15 +34,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   awesome->initFontAwesome();
 
   ToolBar *toolbar = new ToolBar(this);
-  QMenu *menu = new QMenu;
-  menu->addAction("Lol");
-  BeautifulUi::BeautifulButton *settingsButton = new BeautifulUi::BeautifulButton(this);
-  settingsButton->setIcon(awesome->icon(fa::fa_solid, fa::fa_ellipsis));
-  settingsButton->setMenu(menu);
-  QWidget *spacer = new QWidget;
-  spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-  toolbar->addWidget(spacer);
-  toolbar->addWidget(settingsButton);
   addToolBar(Qt::TopToolBarArea, toolbar);
 
   list = new QListView(splitter);
