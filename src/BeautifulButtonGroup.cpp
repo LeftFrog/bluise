@@ -34,6 +34,14 @@ void BeautifulUi::BeautifulButtonGroup::paintEvent(QPaintEvent *event) {
   color.setAlpha(hovered ? 10 : 0);
   painter.setBrush(color);
   painter.drawRoundedRect(rect(), 6, 6);
+  if(buttons.size()>=2) {
+    color.setAlpha(15);
+    QPen pen = QPen(color);
+    painter.setPen(pen);
+    for(int i = 1; i < buttons.size(); ++i) {
+      painter.drawLine(buttons[i]->width()*i+1, 5, buttons[i]->width()*i+1, height()-5);
+    }
+  }
 }
 
 void BeautifulUi::BeautifulButtonGroup::enterEvent(QEnterEvent *event) {
