@@ -26,10 +26,11 @@ GameInfoWidget::GameInfoWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ga
 
   ui->pushButton->setIcon(awesome->icon(fa::fa_solid, fa::fa_chevron_down));
 
-  QPalette palette = this->palette();
-  palette.setColor(QPalette::Window, palette.color(QPalette::Midlight));
+  // QPalette palette = this->palette();
+  // palette.setColor(QPalette::Window, palette.color(QPalette::Midlight));
+  setBackgroundRole(QPalette::Midlight);
   setAutoFillBackground(true);
-  this->setPalette(palette);
+  // this->setPalette(palette);
 
   ui->label->setFont(QFont("Arial", 22));
 }

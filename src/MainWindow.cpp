@@ -34,7 +34,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   awesome->initFontAwesome();
 
   ToolBar *toolbar = new ToolBar(this);
-  addToolBar(Qt::TopToolBarArea, toolbar);
+  //addToolBar(Qt::TopToolBarArea, toolbar);
+  splitter->addWidget(toolbar);
+  splitter->setCollapsible(0, false);
 
   list = new QListView(splitter);
   splitter->addWidget(list);
@@ -43,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   // list->setModel(&model);
   info->hide();
   splitter->setHandleWidth(2);
-  splitter->setCollapsible(1, false);
+  splitter->setCollapsible(2, false);
 
   GameProxyModel *proxy = new GameProxyModel(this);
   proxy->setSourceModel(&model);
