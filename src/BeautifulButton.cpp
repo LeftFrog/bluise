@@ -45,7 +45,7 @@ void BeautifulUi::BeautifulButton::paintEvent(QPaintEvent *event) {
     paintMenuButton(painter, menuButtonRect);
   }
   else {
-    QRect buttonRect = rect();
+    QRect buttonRect = QRect(rect().x() + 4, rect().y() + 3, rect().width() - 8 , rect().height()-6);
     icon().paint(&painter, buttonRect, Qt::AlignCenter, isChecked() ? QIcon::Selected : QIcon::Normal);
   }
 }
@@ -83,5 +83,5 @@ void BeautifulUi::BeautifulButton::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 QSize BeautifulUi::BeautifulButton::sizeHint() const {
-  return QSize(40, 30);
+  return QSize(45, 30);
 }
