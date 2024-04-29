@@ -71,7 +71,7 @@ MainWindow::~MainWindow() {
 void MainWindow::addGame(QAction* action) {
   if(action->text() == "New Game") {
     GameAddWidget *add_widget = new GameAddWidget;
-    connect(add_widget, SIGNAL(added()), list, SLOT(update()));
+    connect(add_widget, SIGNAL(added()), &model, SLOT(updateList()));
     add_widget->show();
   }
 }

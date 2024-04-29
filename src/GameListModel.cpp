@@ -46,3 +46,7 @@ bool GameListModel::removeRows(int row, int count, const QModelIndex &parent) {
   endRemoveRows();
   return true;
 }
+
+void GameListModel::updateList() {
+  insertRows(games->size()-1, 1);
+}
