@@ -5,12 +5,14 @@
 #include <QStyleHints>
 #include <QApplication>
 
-BeautifulUi::BeautifulButton::BeautifulButton(QWidget *parent) : QAbstractButton(parent) {
+BeautifulUi::BeautifulButton::BeautifulButton(int _awesomeIcon, QWidget *parent) : QAbstractButton(parent), awesomeIcon(_awesomeIcon) {
   setCheckable(true);
   setMouseTracking(true);
   setAttribute(Qt::WA_Hover, true);
   awesome = new fa::QtAwesome(this);
   awesome->initFontAwesome();
+  QAbstractButton::setIcon(awesome->icon(fa::fa_solid, awesomeIcon));
+  connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged, this, &BeautifulButton::setIcon);
 }
 
 BeautifulUi::BeautifulButton::~BeautifulButton() {
@@ -84,4 +86,11 @@ void BeautifulUi::BeautifulButton::mouseReleaseEvent(QMouseEvent *event) {
 
 QSize BeautifulUi::BeautifulButton::sizeHint() const {
   return QSize(45, 30);
+}
+
+void BeautifulUi::BeautifulButton::setIcon(Qt::ColorScheme scheme) {
+  delete awesome;
+  awesome = new fa::QtAwesome;
+  awesome->initFontAwesome();
+  QAbstractButton::setIcon(awesome->icon(fa::fa_solid, awesomeIcon));
 }

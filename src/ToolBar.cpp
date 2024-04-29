@@ -23,10 +23,8 @@ ToolBar::ToolBar(QWidget *parent) : QWidget(parent) {
   QWidget *spacer = new QWidget;
   spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   BeautifulUi::BeautifulButtonGroup *group = new BeautifulUi::BeautifulButtonGroup(this);
-  BeautifulUi::BeautifulButton *listView = new BeautifulUi::BeautifulButton(group);
-  BeautifulUi::BeautifulButton *tableView = new BeautifulUi::BeautifulButton(group);
-  tableView->setIcon(awesome->icon(fa::fa_styles::fa_solid, fa::fa_table_cells_large));
-  listView->setIcon(awesome->icon(fa::fa_styles::fa_solid, fa::fa_list_ul));
+  BeautifulUi::BeautifulButton *listView = new BeautifulUi::BeautifulButton(fa::fa_table_cells_large, group);
+  BeautifulUi::BeautifulButton *tableView = new BeautifulUi::BeautifulButton(fa::fa_list_ul, group);
   group->addButton(tableView);
   group->addButton(listView);
   QHBoxLayout *HBL = new QHBoxLayout;
