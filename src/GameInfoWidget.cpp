@@ -9,10 +9,13 @@ GameInfoWidget::GameInfoWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ga
   setFixedHeight(100);
 
   menu = new QMenu();
+
+  awesome = new fa::QtAwesome;
+  awesome->initFontAwesome();
   
-  QAction *play = new QAction(awesome->icon(fa::fa_solid, fa::fa_play), tr("&Play"), this);
+  QAction *play = new QAction(/*awesome->icon(fa::fa_solid, fa::fa_play),*/ "Play", menu);
   connect(play, &QAction::triggered, this, &GameInfoWidget::play);
-  QAction *settings = new QAction(awesome->icon(fa::fa_solid, fa::fa_gear), "Settings", this);
+  QAction *settings = new QAction(/*awesome->icon(fa::fa_solid, fa::fa_gear),*/ "Settings", menu);
   connect(settings, &QAction::triggered, this, &GameInfoWidget::settings);
   menu->addAction(play);
   menu->addSeparator();
@@ -24,7 +27,7 @@ GameInfoWidget::GameInfoWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ga
   connect(ui->pushButton, &QPushButton::clicked, this, &GameInfoWidget::popupMenu);
 
   ui->pushButton->setIcon(awesome->icon(fa::fa_solid, fa::fa_chevron_down));
-  setIcon(Qt::ColorScheme::Light);
+  setIcon(QApplication::styleHints()->colorScheme());
 
   // QPalette palette = this->palette();
   // palette.setColor(QPalette::Window, palette.color(QPalette::Midlight));
@@ -64,7 +67,8 @@ void GameInfoWidget::settings() {
 
 
 void GameInfoWidget::popupMenu() {
-  menu->exec(QCursor::pos());
+  qDebug() << "KOK";
+  menu->popup(QCursor::pos());
 }
 
 void GameInfoWidget::setIcon(Qt::ColorScheme scheme) {
