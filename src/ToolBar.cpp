@@ -1,8 +1,6 @@
 #include "ToolBar.h"
 #include <QPushButton>
 #include <QMenu>
-#include "BeautifulButton.h"
-#include "BeautifulButtonGroup.h"
 #include "QtAwesome/QtAwesome/QtAwesome.h"
 
 ToolBar::ToolBar(QWidget *parent) : QWidget(parent) {
@@ -22,20 +20,16 @@ ToolBar::ToolBar(QWidget *parent) : QWidget(parent) {
 
   QWidget *spacer = new QWidget;
   spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-  BeautifulUi::BeautifulButtonGroup *group = new BeautifulUi::BeautifulButtonGroup(this);
+  group = new BeautifulUi::BeautifulButtonGroup(this);
   BeautifulUi::BeautifulButton *listView = new BeautifulUi::BeautifulButton(fa::fa_table_cells_large, group);
   BeautifulUi::BeautifulButton *tableView = new BeautifulUi::BeautifulButton(fa::fa_list_ul, group);
   group->addButton(tableView);
   group->addButton(listView);
-  QHBoxLayout *HBL = new QHBoxLayout;
-  // HBL->addWidget(spacer);
-  // HBL->addWidget(group);
-  // HBL->addWidget(settingsButton);
+  group->setGeometry(width()-group->width()-5, (height() - group->height())/2, group->width(), group->height());
   setContentsMargins(5, 2, 5, 2);
-  // setLayout(HBL);
+}
 
+void ToolBar::resizeEvent(QResizeEvent *event) {
+  group->setGeometry(width()-group->width()-5, (height() - group->height())/2, group->width(), group->height());
 
-  // addWidget(spacer);
-  // addWidget(wid);
-  // addWidget(settingsButton);
 }
