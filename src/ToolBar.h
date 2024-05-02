@@ -9,6 +9,7 @@ class ToolBar : public QWidget {
 public:
   ToolBar(QWidget *parent = nullptr);
 signals:
+  void setSort(int role);
   void addGame();
 protected:
   virtual void resizeEvent(QResizeEvent *event) override;
@@ -18,4 +19,6 @@ private:
   BeautifulUi::BeautifulButton *optionsButton;
   BeautifulUi::BeautifulButton *addButton;
   BeautifulUi::BeautifulButton *sortButton;
+private slots:
+  void sort(QAction* action);
 };

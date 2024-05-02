@@ -62,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   list->setFlow(QListView::LeftToRight);
 
   connect(list, &QListView::clicked, info, &GameInfoWidget::setGame);
+  connect(toolbar, &ToolBar::setSort, proxy, &QSortFilterProxyModel::setSortRole);
 
   setCentralWidget(splitter);
 }

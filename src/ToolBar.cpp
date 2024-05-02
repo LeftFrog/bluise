@@ -30,6 +30,7 @@ ToolBar::ToolBar(QWidget *parent) : QWidget(parent) {
   sortMenu->addAction("Name");
   sortMenu->addAction("Release year");
   sortButton->setMenu(sortMenu);
+  connect(sortMenu, &QMenu::triggered, this, &ToolBar::sort);
 
   search = new QLineEdit(this);
   search->setStyleSheet("QLineEdit { border-radius: 5px; }");
@@ -49,4 +50,12 @@ void ToolBar::resizeEvent(QResizeEvent *event) {
   group->setGeometry(sortButton->x()-15-group->width(), (height() - group->height())/2+1, group->width(), group->height());
   addButton->setGeometry(contentsMargins().left(), (height() - addButton->height())/2+1, 30, addButton->height());
   search->setGeometry(width()/12*3, contentsMargins().top(), width()/12*6, height()-9);
+}
+
+void ToolBar::sort(QAction *action) {
+  if(action->text()=="Release year") {
+    emit setSort(Qt::UserRole+1);
+  } else if(action->text()=="Name") {
+    emit setSort(Qt::DisplayRole);
+  }
 }
