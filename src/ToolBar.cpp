@@ -54,7 +54,7 @@ void ToolBar::resizeEvent(QResizeEvent *event) {
 
 void ToolBar::sort(QAction *action) {
   if(action->text()=="Release year") {
-    emit setSort(Qt::UserRole+1);
+    emit setSort(Qt::UserRole+2);
   } else if(action->text()=="Name") {
     emit setSort(Qt::DisplayRole);
   }
