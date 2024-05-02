@@ -17,4 +17,5 @@ private:
   BeautifulUi::BeautifulButtonGroup *group;
   BeautifulUi::BeautifulButton *optionsButton;
   BeautifulUi::BeautifulButton *addButton;
+  BeautifulUi::BeautifulButton *sortButton;
 };
