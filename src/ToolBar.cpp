@@ -30,6 +30,7 @@ ToolBar::ToolBar(QWidget *parent) : QWidget(parent) {
   search->setGeometry(width()/5, 4, width()/5*3, height()-4);
 
   addButton = new BeautifulUi::BeautifulButton(fa::fa_plus, this);
+  addButton->setCheckable(false);
 
   optionsButton->setGeometry(width()-optionsButton->width()-5, (height() - optionsButton->height())/2, optionsButton->width(), optionsButton->height());
   group->setGeometry(width()-group->width()-5-5-optionsButton->width(), (height() - group->height())/2, group->width(), group->height());
