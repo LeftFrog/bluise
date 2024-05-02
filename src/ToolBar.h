@@ -14,4 +14,5 @@ private:
   QLineEdit *search;
   BeautifulUi::BeautifulButtonGroup *group;
   BeautifulUi::BeautifulButton *optionsButton;
+  BeautifulUi::BeautifulButton *addButton;
 };
