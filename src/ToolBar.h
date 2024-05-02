@@ -11,4 +11,5 @@ protected:
   virtual void resizeEvent(QResizeEvent *event) override;
 private:
   BeautifulUi::BeautifulButtonGroup *group;
+  BeautifulUi::BeautifulButton *optionsButton;
 };

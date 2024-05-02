@@ -11,13 +11,6 @@ ToolBar::ToolBar(QWidget *parent) : QWidget(parent) {
   fa::QtAwesome *awesome = new fa::QtAwesome;
   awesome->initFontAwesome();
 
-  QMenu *menu = new QMenu;
-  menu->addAction("Lol");
-
-  // BeautifulUi::BeautifulButton *settingsButton = new BeautifulUi::BeautifulButton(this);
-  // settingsButton->setIcon(awesome->icon(fa::fa_solid, fa::fa_ellipsis));
-  // settingsButton->setMenu(menu);
-
   QWidget *spacer = new QWidget;
   spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   group = new BeautifulUi::BeautifulButtonGroup(this);
@@ -25,11 +18,18 @@ ToolBar::ToolBar(QWidget *parent) : QWidget(parent) {
   BeautifulUi::BeautifulButton *tableView = new BeautifulUi::BeautifulButton(fa::fa_list_ul, group);
   group->addButton(tableView);
   group->addButton(listView);
-  group->setGeometry(width()-group->width()-5, (height() - group->height())/2, group->width(), group->height());
+
+  optionsButton = new BeautifulUi::BeautifulButton(fa::fa_ellipsis, this);
+  QMenu *optionsMenu = new QMenu();
+  optionsMenu->addAction("LOL");
+  optionsButton->setMenu(optionsMenu);
+
+  optionsButton->setGeometry(width()-optionsButton->width()-5, (height() - optionsButton->height())/2, optionsButton->width(), optionsButton->height());
+  group->setGeometry(width()-group->width()-5-5-optionsButton->width(), (height() - group->height())/2, group->width(), group->height());
   setContentsMargins(5, 2, 5, 2);
 }
 
 void ToolBar::resizeEvent(QResizeEvent *event) {
-  group->setGeometry(width()-group->width()-5, (height() - group->height())/2, group->width(), group->height());
-
+  optionsButton->setGeometry(width()-optionsButton->width()-5, (height() - optionsButton->height())/2, optionsButton->width(), optionsButton->height());
+  group->setGeometry(width()-group->width()-5-5-optionsButton->width(), (height() - group->height())/2, group->width(), group->height());
 }
