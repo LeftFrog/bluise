@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   menuBar = new QMenuBar();
   QMenu *file = menuBar->addMenu("&File");
   file->addAction("New Game");
-  connect(file, &QMenu::triggered, this, &MainWindow::addGame);
+  connect(file, &QMenu::triggered, this, &MainWindow::handleMenus);
   setMenuBar(menuBar);
 
   QSplitter *splitter = new QSplitter(Qt::Vertical, this);
@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
   ToolBar *toolbar = new ToolBar(this);
   //addToolBar(Qt::TopToolBarArea, toolbar);
+  connect(toolbar, &ToolBar::addGame, this, &MainWindow::addGame);
   splitter->addWidget(toolbar);
   splitter->setCollapsible(0, false);
 
@@ -68,10 +69,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 MainWindow::~MainWindow() {
   bluise_core::saveGamesJSON();
 }
-void MainWindow::addGame(QAction* action) {
+
+void MainWindow::handleMenus(QAction* action) {
   if(action->text() == "New Game") {
-    GameAddWidget *add_widget = new GameAddWidget;
-    connect(add_widget, SIGNAL(added()), &model, SLOT(updateList()));
-    add_widget->show();
+    addGame();
   }
+}
+
+void MainWindow::addGame() {
+  GameAddWidget *add_widget = new GameAddWidget;
+  connect(add_widget, SIGNAL(added()), &model, SLOT(updateList()));
+  add_widget->show();
 }

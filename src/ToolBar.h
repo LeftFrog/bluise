@@ -8,6 +8,8 @@ class ToolBar : public QWidget {
   Q_OBJECT
 public:
   ToolBar(QWidget *parent = nullptr);
+signals:
+  void addGame();
 protected:
   virtual void resizeEvent(QResizeEvent *event) override;
 private:
