@@ -37,13 +37,9 @@ void BeautifulUi::BeautifulButton::paintEvent(QPaintEvent *event) {
 
   painter.drawRoundedRect(rect(), 6, 6);
   if (menu) {
-    QRect mainButtonRect = rect();
-    mainButtonRect.setWidth(rect().width()-15);
-    mainButtonRect.setX(2);
+    QRect mainButtonRect = QRect(2, rect().y() + 4, rect().width()-15, rect().height()-8);
     icon().paint(&painter, mainButtonRect, Qt::AlignCenter, isChecked() ? QIcon::Selected : QIcon::Normal);
-    QRect menuButtonRect = rect();
-    menuButtonRect.setX(mainButtonRect.width()+2);
-    menuButtonRect.setWidth(9);
+    QRect menuButtonRect = QRect(mainButtonRect.width()+2, rect().y()+4, 9, rect().height()-8);
     paintMenuButton(painter, menuButtonRect);
   }
   else {
