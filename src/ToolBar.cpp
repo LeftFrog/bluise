@@ -2,6 +2,7 @@
 #include <QPushButton>
 #include <QMenu>
 #include "QtAwesome/QtAwesome/QtAwesome.h"
+#include <QActionGroup>
 
 ToolBar::ToolBar(QWidget *parent) : QWidget(parent) {
   // setMovable(false);
@@ -27,8 +28,17 @@ ToolBar::ToolBar(QWidget *parent) : QWidget(parent) {
 
   sortButton = new BeautifulUi::BeautifulButton(fa::fa_sort, this);
   QMenu *sortMenu = new QMenu();
-  sortMenu->addAction("Name");
-  sortMenu->addAction("Release year");
+  QActionGroup *sortGroup = new QActionGroup(sortMenu);
+  QAction *nameSort = new QAction("Name");
+  nameSort->setCheckable(true);
+  nameSort->setChecked(true);
+  sortMenu->addAction(nameSort);
+  sortGroup->addAction(nameSort);
+  QAction *yearSort = new QAction("Release year");
+  yearSort->setCheckable(true);
+  sortMenu->addAction(yearSort);
+  sortGroup->addAction(yearSort);
+  sortGroup->setExclusive(true);
   sortButton->setMenu(sortMenu);
   connect(sortMenu, &QMenu::triggered, this, &ToolBar::sort);
 
