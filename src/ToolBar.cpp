@@ -28,6 +28,7 @@ ToolBar::ToolBar(QWidget *parent) : QWidget(parent) {
   search = new QLineEdit(this);
   search->setStyleSheet("QLineEdit { border-radius: 5px; }");
   search->setGeometry(width()/5, 4, width()/5*3, height()-4);
+  search->setPlaceholderText("Search game by name");
 
   addButton = new BeautifulUi::BeautifulButton(fa::fa_plus, this);
   addButton->setCheckable(false);
