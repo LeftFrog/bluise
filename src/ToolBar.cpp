@@ -34,14 +34,12 @@ ToolBar::ToolBar(QWidget *parent) : QWidget(parent) {
   addButton->setCheckable(false);
   connect(addButton, &BeautifulUi::BeautifulButton::clicked, this, &ToolBar::addGame);
 
-  optionsButton->setGeometry(width()-optionsButton->width()-5, (height() - optionsButton->height())/2, optionsButton->width(), optionsButton->height());
-  group->setGeometry(width()-group->width()-5-5-optionsButton->width(), (height() - group->height())/2, group->width(), group->height());
-  setContentsMargins(5, 2, 5, 2);
+  setContentsMargins(10, 6, 6, 10);
 }
 
 void ToolBar::resizeEvent(QResizeEvent *event) {
-  optionsButton->setGeometry(width()-optionsButton->width()-5, (height() - optionsButton->height())/2+1, optionsButton->width(), optionsButton->height());
-  group->setGeometry(width()-group->width()-5-20-optionsButton->width(), (height() - group->height())/2+1, group->width(), group->height());
-  addButton->setGeometry(5, (height() - addButton->height())/2+1, 30, addButton->height());
-  search->setGeometry(width()/12*3, 6, width()/12*6, height()-9);
+  optionsButton->setGeometry(width()-optionsButton->width()-contentsMargins().right(), (height() - optionsButton->height())/2+1, optionsButton->width(), optionsButton->height());
+  group->setGeometry(width()-group->width()-contentsMargins().right()-20-optionsButton->width(), (height() - group->height())/2+1, group->width(), group->height());
+  addButton->setGeometry(contentsMargins().left(), (height() - addButton->height())/2+1, 30, addButton->height());
+  search->setGeometry(width()/12*3, contentsMargins().top(), width()/12*6, height()-9);
 }
