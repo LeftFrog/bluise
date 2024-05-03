@@ -1,6 +1,7 @@
 #pragma once
 #include <QMainWindow>
 #include <QListView>
+#include <QTableView>
 #include "GameListModel.h"
 
 class MainWindow : public QMainWindow {
@@ -13,7 +14,7 @@ private slots:
   void addGame();
 private:
   GameListModel model;
-  // GameInfoWidget *info;
+  QTableView *table;
   QListView *list;
   QMenuBar *menuBar;
   QToolBar *toolBar;
