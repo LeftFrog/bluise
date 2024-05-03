@@ -17,7 +17,7 @@ GameInfoWidget::GameInfoWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ga
   connect(play, &QAction::triggered, this, &GameInfoWidget::play);
   QAction *settings = new QAction(/*awesome->icon(fa::fa_solid, fa::fa_gear),*/ "Settings", menu);
   connect(settings, &QAction::triggered, this, &GameInfoWidget::settings);
-  QAction *remove = new QAction("Delete", menu);
+  QAction *remove = new QAction("Remove", menu);
   connect(remove, &QAction::triggered, this, &GameInfoWidget::removeGame);
   menu->addAction(play);
   menu->addSeparator();
