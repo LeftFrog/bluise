@@ -17,12 +17,14 @@ GameInfoWidget::GameInfoWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ga
   connect(play, &QAction::triggered, this, &GameInfoWidget::play);
   QAction *settings = new QAction(/*awesome->icon(fa::fa_solid, fa::fa_gear),*/ "Settings", menu);
   connect(settings, &QAction::triggered, this, &GameInfoWidget::settings);
+  QAction *remove = new QAction("Delete", menu);
+  connect(remove, &QAction::triggered, this, &GameInfoWidget::removeGame);
   menu->addAction(play);
   menu->addSeparator();
   menu->addAction(settings);
+  menu->addAction(remove);
 
   connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged, this, &GameInfoWidget::setIcon);
-
   connect(ui->pushButton_2, &QPushButton::clicked, this, &GameInfoWidget::play);
   connect(ui->pushButton, &QPushButton::clicked, this, &GameInfoWidget::popupMenu);
 
@@ -67,7 +69,6 @@ void GameInfoWidget::settings() {
 
 
 void GameInfoWidget::popupMenu() {
-  qDebug() << "KOK";
   menu->popup(QCursor::pos());
 }
 
@@ -76,4 +77,9 @@ void GameInfoWidget::setIcon(Qt::ColorScheme scheme) {
   awesome = new fa::QtAwesome;
   awesome->initFontAwesome();
   ui->pushButton->setIcon(awesome->icon(fa::fa_solid, fa::fa_chevron_down));
+}
+
+void GameInfoWidget::removeGame() {
+  bluise_core::games.removeOne(*game);
+  hide();
 }
