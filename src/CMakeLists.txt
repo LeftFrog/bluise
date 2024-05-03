@@ -50,6 +50,7 @@ qt_add_executable(bluise starter.cpp
     GameInfoWidget.ui
     BeautifulButton.cpp
     BeautifulButtonGroup.cpp
+    SearchBar.cpp
 )
 
 # set_target_properties(bluise PROPERTIES

@@ -2,7 +2,7 @@
 #include <QToolBar>
 #include "BeautifulButton.h"
 #include "BeautifulButtonGroup.h"
-#include <QLineEdit>
+#include "SearchBar.h"
 
 class ToolBar : public QWidget {
   Q_OBJECT
@@ -14,7 +14,7 @@ signals:
 protected:
   virtual void resizeEvent(QResizeEvent *event) override;
 private:
-  QLineEdit *search;
+  SearchBar *search;
   BeautifulUi::BeautifulButtonGroup *group;
   BeautifulUi::BeautifulButton *optionsButton;
   BeautifulUi::BeautifulButton *addButton;
