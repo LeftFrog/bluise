@@ -32,7 +32,7 @@ set(PROJECT_SOURCES
 
 )
 
-qt_add_executable(bluise starter.cpp 
+qt_add_executable(Bluise starter.cpp 
     bluise.cpp 
     Game.cpp 
     GameOptionsWidget.cpp 
@@ -53,14 +53,14 @@ qt_add_executable(bluise starter.cpp
     SearchBar.cpp
 )
 
-# set_target_properties(bluise PROPERTIES
+# set_target_properties(Bluise PROPERTIES
 #     MACOSX_BUNDLE TRUE
 #     WIN32_EXECUTABLE TRUE
 # )
 
-target_link_libraries(bluise PRIVATE Qt6::Widgets)
-target_link_libraries(bluise PUBLIC QtAwesome)
+target_link_libraries(Bluise PRIVATE Qt6::Widgets)
+target_link_libraries(Bluise PUBLIC QtAwesome)
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(bluise)
+    qt_finalize_executable(Bluise)
 endif()

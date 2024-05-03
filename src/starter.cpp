@@ -18,6 +18,7 @@ void qt_win() {
 int main(int argc, char **argv) {
   QApplication a(argc, argv);
   bluise_core::readGamesJSON();
+  a.setWindowIcon(QIcon("/Users/leftfrog/Projects/bluise/res/1024-mac-1024.png"));
   // if (argc == 1) {
   // QWidget w;
   // fa::QtAwesome *awesome = new fa::QtAwesome(&w);

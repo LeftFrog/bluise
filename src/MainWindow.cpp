@@ -64,6 +64,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   connect(list, &QListView::clicked, info, &GameInfoWidget::setGame);
   connect(toolbar, &ToolBar::setSort, proxy, &QSortFilterProxyModel::setSortRole);
 
+  setWindowIcon(QIcon("/Users/leftfrog/Projects/bluise/res/1024-mac.png"));
+
   setCentralWidget(splitter);
 }
 
