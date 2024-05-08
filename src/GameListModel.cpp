@@ -25,6 +25,8 @@ QVariant GameListModel::data(const QModelIndex &index, int role) const {
     return QVariant::fromValue(g);
   } else if(role == ReleaseYearRole) {
     return games->at(index.row()).getReleaseYear();
+  } else if(role == InstalledRole) {
+    return games->at(index.row()).isDisabled() ? "true" : "false";
   }
   else {
     return QVariant();
@@ -51,3 +53,7 @@ bool GameListModel::removeRows(int row, int count, const QModelIndex &parent) {
 void GameListModel::updateList() {
   insertRows(games->size()-1, 1);
 }
+
+// QVariant GameListModel::headerData(int section, Qt::Orientation orientation, int role) {
+
+// }

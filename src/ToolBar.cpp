@@ -23,7 +23,10 @@ ToolBar::ToolBar(QWidget *parent) : QWidget(parent) {
   optionsButton = new BeautifulUi::BeautifulButton(fa::fa_ellipsis, this);
   QMenu *optionsMenu = new QMenu();
   optionsMenu->addAction("Options");
-  optionsMenu->addAction("Show unistalled");
+  QAction *installed = new QAction("Show unistalled");
+  installed->setCheckable(true);
+  installed->setChecked(true);
+  optionsMenu->addAction(installed);
   optionsButton->setMenu(optionsMenu);
 
   sortButton = new BeautifulUi::BeautifulButton(fa::fa_sort, this);

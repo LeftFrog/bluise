@@ -61,9 +61,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   list->setSpacing(15);
   list->setFlow(QListView::LeftToRight);
 
-  table = new QTableView;
-  table->setModel(proxy);
-  table->show();
+  proxy->setFilterRole(Qt::UserRole + 3);
+
+  // table = new QTableView;
+  // table->setModel(proxy);
+  // table->setHorizontalHeader()
+  // table->show();
 
   connect(list, &QListView::clicked, info, &GameInfoWidget::setGame);
   connect(toolbar, &ToolBar::setSort, proxy, &QSortFilterProxyModel::setSortRole);
