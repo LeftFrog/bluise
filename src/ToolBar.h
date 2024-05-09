@@ -11,6 +11,7 @@ public:
 signals:
   void setSort(int role);
   void addGame();
+  void setFilter(const QString& filer);
 protected:
   virtual void resizeEvent(QResizeEvent *event) override;
 private:
@@ -20,5 +21,6 @@ private:
   BeautifulUi::BeautifulButton *addButton;
   BeautifulUi::BeautifulButton *sortButton;
 private slots:
+  void filter(QAction* action);
   void sort(QAction* action);
 };

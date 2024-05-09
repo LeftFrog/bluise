@@ -26,7 +26,12 @@ ToolBar::ToolBar(QWidget *parent) : QWidget(parent) {
   QAction *installed = new QAction("Show unistalled");
   installed->setCheckable(true);
   installed->setChecked(true);
+  QActionGroup *filters = new QActionGroup(optionsMenu);
+  filters->setExclusive(false);
+  filters->addAction(installed);
+  connect(filters, &QActionGroup::triggered, this, &ToolBar::filter);
   optionsMenu->addAction(installed);
+
   optionsButton->setMenu(optionsMenu);
 
   sortButton = new BeautifulUi::BeautifulButton(fa::fa_sort, this);
@@ -68,5 +73,11 @@ void ToolBar::sort(QAction *action) {
     emit setSort(Qt::UserRole+2);
   } else if(action->text()=="Name") {
     emit setSort(Qt::DisplayRole);
+  }
+}
+
+void ToolBar::filter(QAction *action) {
+  if(action->text() == "Show unistalled") {
+    emit setFilter(action->isChecked() ? "" : "false");
   }
 }
