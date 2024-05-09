@@ -12,6 +12,7 @@ signals:
   void setSort(int role);
   void addGame();
   void setFilter(const QString& filer);
+  void setName(const QString& name);
 protected:
   virtual void resizeEvent(QResizeEvent *event) override;
 private:

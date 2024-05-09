@@ -57,6 +57,8 @@ ToolBar::ToolBar(QWidget *parent) : QWidget(parent) {
   addButton->setCheckable(false);
   connect(addButton, &BeautifulUi::BeautifulButton::clicked, this, &ToolBar::addGame);
 
+  connect(search, &QLineEdit::textChanged, this, &ToolBar::setName);
+
   setContentsMargins(10, 6, 6, 10);
 }
 
@@ -78,6 +80,6 @@ void ToolBar::sort(QAction *action) {
 
 void ToolBar::filter(QAction *action) {
   if(action->text() == "Show unistalled") {
-    emit setFilter(action->isChecked() ? "" : "false");
+    emit setFilter(action->isChecked() ? "" : "f");
   }
 }

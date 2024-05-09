@@ -62,7 +62,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   list->setFlow(QListView::LeftToRight);
 
   proxy->setFilterRole(Qt::UserRole + 3);
-  connect(toolbar, &ToolBar::setFilter, proxy, &QSortFilterProxyModel::setFilterFixedString);
+  connect(toolbar, &ToolBar::setFilter, proxy, &GameProxyModel::setFilterExp);
+  connect(toolbar, &ToolBar::setName, proxy, &GameProxyModel::setNameExp);
 
   // table = new QTableView;
   // table->setModel(proxy);

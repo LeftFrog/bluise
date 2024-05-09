@@ -26,7 +26,7 @@ QVariant GameListModel::data(const QModelIndex &index, int role) const {
   } else if(role == ReleaseYearRole) {
     return games->at(index.row()).getReleaseYear();
   } else if(role == InstalledRole) {
-    return games->at(index.row()).isDisabled() ? "true" : "false";
+    return games->at(index.row()).getName() + ":" +(games->at(index.row()).isDisabled() ? "t" : "f");
   }
   else {
     return QVariant();
