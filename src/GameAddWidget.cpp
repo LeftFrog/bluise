@@ -29,10 +29,12 @@ void GameAddWidget::changed() {
 
 void GameAddWidget::apply() {
   try {
-    bluise_core::games.push_back(Game(options["name"]->text(),
+    Game g = Game(options["name"]->text(),
                                       options["exec"]->text(),
                                       options["workingDirectory"]->text(),
-                                      options["savePath"]->text(), setCover()));
+                                      options["savePath"]->text(), setCover());
+    g.setRunner(runner);
+    bluise_core::games.push_back(g);
   } catch (bluise_error &err) {
     QMessageBox::critical(this, "Error", QString::fromStdString(err.what()));
     return;

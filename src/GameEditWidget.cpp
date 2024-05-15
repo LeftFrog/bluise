@@ -22,6 +22,7 @@ void GameEditWidget::apply() {
     game->setExecutable(options["exec"]->text());
     game->setSavePath(options["savePath"]->text());
     game->setReleaseYear(options["releaseYear"]->text().toInt());
+    game->setRunner(runner);
     if(choose->isChanged()) {
       game->setCover(setCover());
     }

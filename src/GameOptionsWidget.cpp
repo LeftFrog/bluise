@@ -21,6 +21,17 @@ void GameOptionsWidget::init(const Game &game) {
   options["savePath"] = new GameOptionWidget("Save path: ", game.getSavePath(), false);
   options["releaseYear"] = new GameOptionWidget("Release year: ", game.getReleaseYear() == 0 ? "" : QString::number(game.getReleaseYear()));
   choose = new ChoosePictureWidget(game.getCoverPath());
+  
+  QWidget *runnerWidget = new QWidget;
+  runnerBox = new QComboBox();
+  runnerBox->addItem("Native");
+  runnerBox->addItem("GamePortingToolkit");
+  QLabel *runnerLbl = new QLabel("Runner: ");
+  QHBoxLayout *runnerLayout = new QHBoxLayout;
+  runnerLayout->addWidget(runnerLbl);
+  runnerLayout->addWidget(runnerBox); 
+  runnerWidget->setLayout(runnerLayout);
+  connect(runnerBox, &QComboBox::textActivated, this, &GameOptionsWidget::applyRunner);
 
   applyButton = new QPushButton("Apply");
   connect(applyButton, &QPushButton::clicked, this, &GameOptionsWidget::apply);
@@ -39,6 +50,7 @@ void GameOptionsWidget::init(const Game &game) {
   HBL1->addWidget(choose, Qt::AlignHCenter);
   VBL->addLayout(HBL1);
   VBL->addWidget(options["name"]);
+  VBL->addWidget(runnerWidget);
   VBL->addWidget(options["releaseYear"]);
   gameInfo->setLayout(VBL);
   QVBoxLayout *VBL2 = new QVBoxLayout;
@@ -99,4 +111,12 @@ QString GameOptionsWidget::setCover() {
       header = fileName + extension;
     }
     return header;
+}
+
+void GameOptionsWidget::applyRunner(const QString& _runner) {
+  if(_runner=="Native") {
+    runner = Game::Native;
+  } else if (_runner == "GamePortingToolkit") {
+    runner = Game::GamePortingToolkit;
+  }
 }

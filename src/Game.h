@@ -7,6 +7,8 @@ class Game {
 
 public:
   enum class var_type { name, workingDirectory, executable, savePath };
+  enum Runner { Native,
+                GamePortingToolkit };
 
   inline QString getName() const { return name; }
   inline QString getWorkingDirectory() const { return workingDirectory; }
@@ -18,6 +20,7 @@ public:
   inline QString getCoverName() const { return coverName; }
   inline QPixmap getHeader() const { return header; }
   inline QPixmap getCover() const { return cover; }
+  Runner getRunner() { return runner; }
 
   inline int getReleaseYear() const { return releaseYear; }
   bool isDisabled() const { return disabled; }
@@ -28,6 +31,7 @@ public:
   void setSavePath(QString sp);
   void setReleaseYear(int year) { releaseYear = year; }
   void setCover(const QString &_coverName);
+  void setRunner(const Runner& _runner) { runner = _runner; }
 
   Game();
   Game(const QString &n, const QString &e, const QString &wd = "",
@@ -52,6 +56,7 @@ protected:
   QString coverName;
   QPixmap header;
   QPixmap cover;
+  Runner runner;
   int releaseYear;
   bool disabled;
 };

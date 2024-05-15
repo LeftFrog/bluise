@@ -18,5 +18,7 @@ void GameProxyModel::setFilterExp(const QString& filter) {
 }
 
 void GameProxyModel::updateRegularExpression() {
-  setFilterRegularExpression(nameRegularExpression+"(\\w+\\s*)+:"+filterRegularExpression);
+  QString pattern = nameRegularExpression.trimmed()+"(\\w+\\s*)*+:"+filterRegularExpression;
+  QRegularExpression regex(pattern, QRegularExpression::CaseInsensitiveOption);
+  setFilterRegularExpression(regex/*(\\w+\\s*)+"(\\w+\\s*)+:"+filterRegularExpression*/);
 }
