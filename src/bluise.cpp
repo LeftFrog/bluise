@@ -80,6 +80,7 @@ void readGamesJSON() {
       g = Game(obj["name"].toString(), obj["executable"].toString(),
                obj["workingDirectory"].toString(), obj["savePath"].toString(),
                obj["coverName"].toString(), true);
+      g.setRunner(static_cast<Game::Runner>(obj["runner"].toInt()));
     }
     g.setReleaseYear(obj["releaseYear"].toInt());
     games.push_back(g);
@@ -98,6 +99,7 @@ void saveGamesJSON() {
     obj["savePath"] = game.getSavePath();
     obj["coverName"] = game.getCoverName();
     obj["releaseYear"] = game.getReleaseYear();
+    obj["runner"] = game.getRunner();
     arr.append(obj);
   }
   QJsonDocument doc(arr);
