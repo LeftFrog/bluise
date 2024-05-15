@@ -8,12 +8,7 @@
 
 GameEditWidget::GameEditWidget(Game *_game, QWidget *parent)
     : GameOptionsWidget(*_game, parent), game(_game) {
-  for(auto &option : options) {
-    connect(option, &GameOptionWidget::gameChanged, this, &GameEditWidget::changed);
-  }
-  connect(choose, &ChoosePictureWidget::changed, this,
-          &GameEditWidget::changed);
-  connect(runner, &BoxOptionWidget::changed, this, &GameEditWidget::changed);
+
 }
 
 void GameEditWidget::apply() {

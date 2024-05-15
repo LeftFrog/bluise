@@ -5,13 +5,7 @@
 #include <filesystem>
 
 GameAddWidget::GameAddWidget(QWidget *parent) : GameOptionsWidget(parent) {
-  for (auto &option : options) {
-    connect(option, &GameOptionWidget::gameChanged, this,
-            &GameAddWidget::changed);
-  }
-  connect(choose, &ChoosePictureWidget::changed, this, &GameAddWidget::changed);
   applyButton->setText("Add");
-  connect(runner, &BoxOptionWidget::changed, this, &GameAddWidget::changed);
 }
 
 void GameAddWidget::changed() {

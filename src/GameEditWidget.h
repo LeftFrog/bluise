@@ -10,7 +10,7 @@ signals:
   void gameChanged();
 protected slots:
   virtual void apply() override;
-  void changed();
+  void changed() override;
 
 private:
   Game *game;

@@ -59,6 +59,14 @@ void GameOptionsWidget::init(const Game &game) {
   QVBoxLayout *VBL3 = new QVBoxLayout;
   VBL3->addWidget(tabWidget);
   VBL3->addLayout(HBL);
+
+  for(auto &option : options) {
+    connect(option, &GameOptionWidget::gameChanged, this, &GameOptionsWidget::changed);
+  }
+  connect(choose, &ChoosePictureWidget::changed, this,
+          &GameOptionsWidget::changed);
+  connect(runner, &BoxOptionWidget::changed, this, &GameOptionsWidget::changed);
+
   setLayout(VBL3);
   setWindowModality(Qt::ApplicationModal);
   resize(700, 500);

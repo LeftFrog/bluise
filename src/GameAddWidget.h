@@ -9,5 +9,5 @@ signals:
   void added();
 protected slots:
   virtual void apply() override;
-  void changed();
+  void changed() override;
 };
