@@ -20,7 +20,7 @@ public:
   inline QString getCoverName() const { return coverName; }
   inline QPixmap getHeader() const { return header; }
   inline QPixmap getCover() const { return cover; }
-  Runner getRunner() { return runner; }
+  inline int getRunner() const { return runner; }
 
   inline int getReleaseYear() const { return releaseYear; }
   bool isDisabled() const { return disabled; }

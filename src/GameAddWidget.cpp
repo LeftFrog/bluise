@@ -11,17 +11,18 @@ GameAddWidget::GameAddWidget(QWidget *parent) : GameOptionsWidget(parent) {
   }
   connect(choose, &ChoosePictureWidget::changed, this, &GameAddWidget::changed);
   applyButton->setText("Add");
+  connect(runner, &BoxOptionWidget::changed, this, &GameAddWidget::changed);
 }
 
 void GameAddWidget::changed() {
   if (!applyButton->isEnabled()) {
     if (options["name"]->isChanged() && options["exec"]->isChanged() &&
-        choose->isChanged()) {
+        choose->isChanged() && runner->isChanged()) {
       applyButton->setEnabled(true);
     }
   } else {
     if (!options["name"]->isChanged() || !options["exec"]->isChanged() ||
-        !choose->isChanged()) {
+        !choose->isChanged() && runner->isChanged()) {
       applyButton->setDisabled(true);
     }
   }
@@ -33,7 +34,7 @@ void GameAddWidget::apply() {
                                       options["exec"]->text(),
                                       options["workingDirectory"]->text(),
                                       options["savePath"]->text(), setCover());
-    g.setRunner(runner);
+    g.setRunner(static_cast<Game::Runner>(runner->currentIndex()));
     bluise_core::games.push_back(g);
   } catch (bluise_error &err) {
     QMessageBox::critical(this, "Error", QString::fromStdString(err.what()));

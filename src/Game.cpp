@@ -78,6 +78,7 @@ Game::Game(const QString &n, const QString &e, const QString &wd,
   releaseYear = 0;
   // header = QPixmap(headerPath).scaled(390, 234, Qt::KeepAspectRatio);
   cover = QPixmap(coverPath);
+  runner = Native;
 }
 
 void Game::execute() const {

@@ -51,6 +51,7 @@ qt_add_executable(Bluise starter.cpp
     BeautifulButton.cpp
     BeautifulButtonGroup.cpp
     SearchBar.cpp
+    BoxOptionWidget.cpp
 )
 
 # set_target_properties(Bluise PROPERTIES

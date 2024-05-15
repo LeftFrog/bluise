@@ -5,7 +5,7 @@
 #include <QPushButton>
 #include <QTabWidget>
 #include <QComboBox>
-//  #include <QMap>
+#include "BoxOptionWidget.h"
 
 class GameOptionsWidget : public QWidget {
   Q_OBJECT
@@ -18,11 +18,9 @@ protected:
   ChoosePictureWidget *choose;
   QPushButton *applyButton;
   QMap<QString, GameOptionWidget*> options;
-  QComboBox *runnerBox;
   QString setCover();
-  Game::Runner runner;
+  BoxOptionWidget* runner;
 protected slots:
-  virtual void applyRunner(const QString& _runner);
   void closeWin();
   virtual void apply() = 0;
 };

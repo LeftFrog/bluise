@@ -13,6 +13,7 @@ GameEditWidget::GameEditWidget(Game *_game, QWidget *parent)
   }
   connect(choose, &ChoosePictureWidget::changed, this,
           &GameEditWidget::changed);
+  connect(runner, &BoxOptionWidget::changed, this, &GameEditWidget::changed);
 }
 
 void GameEditWidget::apply() {
@@ -22,7 +23,7 @@ void GameEditWidget::apply() {
     game->setExecutable(options["exec"]->text());
     game->setSavePath(options["savePath"]->text());
     game->setReleaseYear(options["releaseYear"]->text().toInt());
-    game->setRunner(runner);
+    game->setRunner(static_cast<Game::Runner>(runner->currentIndex()));
     if(choose->isChanged()) {
       game->setCover(setCover());
     }
@@ -44,6 +45,10 @@ void GameEditWidget::changed() {
     if(choose->isChanged()) {
       applyButton->setEnabled(true);
     }
+    if(runner->isChanged()) {
+
+      applyButton->setEnabled(true);
+    }
   } else {
     int i = 0;
     for(auto opt : options) {
@@ -52,6 +57,9 @@ void GameEditWidget::changed() {
       }
     }
     if(!choose->isChanged() && i == options.size()) {
+      applyButton->setDisabled(true);
+    }
+    if(runner->isChanged()) {
       applyButton->setDisabled(true);
     }
   }
