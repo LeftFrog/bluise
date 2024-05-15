@@ -30,32 +30,19 @@ void GameEditWidget::apply() {
   close();
 }
 
-void GameEditWidget::changed() {
-  if (!applyButton->isEnabled()) {
+bool GameEditWidget::optionsHaveChanged() {
     for(auto opt : options) {
       if(opt->isChanged()) {
-        applyButton->setEnabled(true);
+        return true;
       }
     }
-    if(choose->isChanged()) {
-      applyButton->setEnabled(true);
-    }
-    if(runner->isChanged()) {
+    return false;
+}
 
-      applyButton->setEnabled(true);
-    }
+void GameEditWidget::changed() {
+  if(optionsHaveChanged() || choose->isChanged() || runner->isChanged()) {
+    applyButton->setEnabled(true);
   } else {
-    int i = 0;
-    for(auto opt : options) {
-      if(!opt->isChanged()) {
-        ++i;
-      }
-    }
-    if(!choose->isChanged() && i == options.size()) {
-      applyButton->setDisabled(true);
-    }
-    if(runner->isChanged()) {
-      applyButton->setDisabled(true);
-    }
+    applyButton->setDisabled(true);
   }
 }

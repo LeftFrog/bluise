@@ -13,5 +13,6 @@ protected slots:
   void changed() override;
 
 private:
+  bool optionsHaveChanged();
   Game *game;
 };
