@@ -2,7 +2,7 @@
 #include <QMainWindow>
 #include <QListView>
 #include <QTableView>
-#include "GameListModel.h"
+#include "./ModelView/GameListModel.h"
 
 class MainWindow : public QMainWindow {
   Q_OBJECT

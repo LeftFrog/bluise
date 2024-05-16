@@ -1,6 +1,6 @@
 #pragma once
 #include <QAbstractButton>
-#include "QtAwesome/QtAwesome/QtAwesome.h"
+#include "../QtAwesome/QtAwesome/QtAwesome.h"
 
 namespace BeautifulUi {
 

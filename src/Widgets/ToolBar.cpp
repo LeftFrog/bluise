@@ -1,7 +1,7 @@
 #include "ToolBar.h"
 #include <QPushButton>
 #include <QMenu>
-#include "QtAwesome/QtAwesome/QtAwesome.h"
+#include "../QtAwesome/QtAwesome/QtAwesome.h"
 #include <QActionGroup>
 
 ToolBar::ToolBar(QWidget *parent) : QWidget(parent) {

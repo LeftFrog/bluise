@@ -2,7 +2,7 @@
 #include "./ui_GameInfoWidget.h"
 #include <QtWidgets>
 #include "GameEditWidget.h"
-#include "bluise.h"
+#include "../BluiseCore/bluise.h"
 
 GameInfoWidget::GameInfoWidget(QWidget *parent) : QWidget(parent), ui(new Ui::GameInfoWidget) {
   ui->setupUi(this);

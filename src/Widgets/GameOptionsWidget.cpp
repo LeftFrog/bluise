@@ -1,6 +1,6 @@
 #include "GameOptionsWidget.h"
 #include <QTextEdit>
-#include "bluise.h"
+#include "../BluiseCore/bluise.h"
 
 GameOptionsWidget::GameOptionsWidget(QWidget *parent) : QWidget(parent) {
   init();

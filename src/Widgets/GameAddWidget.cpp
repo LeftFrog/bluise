@@ -1,5 +1,5 @@
 #include "GameAddWidget.h"
-#include "bluise.h"
+#include "../BluiseCore/bluise.h"
 #include <QFile>
 #include <QMessageBox>
 #include <filesystem>

@@ -1,6 +1,6 @@
 #pragma once
 #include "ChoosePictureWidget.h"
-#include "Game.h"
+#include "../BluiseCore/Game.h"
 #include "GameOptionWidget.h"
 #include <QPushButton>
 #include <QTabWidget>

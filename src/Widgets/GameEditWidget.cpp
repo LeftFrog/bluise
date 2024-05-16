@@ -1,5 +1,5 @@
 #include "GameEditWidget.h"
-#include "bluise_error.h"
+#include "../BluiseCore/bluise_error.h"
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>

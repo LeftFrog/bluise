@@ -1,5 +1,5 @@
 #include "GameOptionWidget.h"
-#include "FileValidator.h"
+#include "../BluiseCore/FileValidator.h"
 #include "QPushButton"
 
 GameOptionWidget::GameOptionWidget(const QString &label, const QString &text,

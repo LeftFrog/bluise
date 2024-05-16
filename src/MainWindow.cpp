@@ -1,23 +1,24 @@
 #include "MainWindow.h"
-#include "GameListModel.h"
-#include "GameInfoWidget.h"
-#include "CoverDelegate.h"
+#include "./ModelView/GameListModel.h"
+#include "./Widgets/GameInfoWidget.h"
+#include "./ModelView/CoverDelegate.h"
 #include <QSplitter>
 #include <QListView>
 #include <QTableView>
 #include <QStringListModel>
 #include <QMenuBar>
-#include "GameAddWidget.h"
-#include "bluise.h"
+#include "./Widgets/GameAddWidget.h"
+#include "./BluiseCore/bluise.h"
 #include <QToolBar>
 #include <QDockWidget>
-#include "ToolBar.h"
-#include "GameProxyModel.h"
-#include "BeautifulButton.h"
+#include "./Widgets/ToolBar.h"
+#include "./ModelView/GameProxyModel.h"
+#include "./BeautifulUI/BeautifulButton.h"
 #include "QtAwesome/QtAwesome/QtAwesome.h"
 #include <QToolButton>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
+  bluise_core::readGamesJSON();
   setUnifiedTitleAndToolBarOnMac(true);
   // setWindowTitle("Bluise");
   resize(1900, 800);

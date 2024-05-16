@@ -1,7 +1,7 @@
 #pragma once
 #include <QToolBar>
-#include "BeautifulButton.h"
-#include "BeautifulButtonGroup.h"
+#include "../BeautifulUI/BeautifulButton.h"
+#include "../BeautifulUI/BeautifulButtonGroup.h"
 #include "SearchBar.h"
 
 class ToolBar : public QWidget {

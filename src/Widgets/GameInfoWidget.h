@@ -1,8 +1,8 @@
 #pragma once
 #include <QLabel>
-#include "Game.h"
+#include "../BluiseCore/Game.h"
 #include <QMenu>
-#include "QtAwesome/QtAwesome/QtAwesome.h"
+#include "../QtAwesome/QtAwesome/QtAwesome.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

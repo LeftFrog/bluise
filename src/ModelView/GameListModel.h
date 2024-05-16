@@ -1,6 +1,6 @@
 #pragma once
 #include <QAbstractListModel>
-#include "Game.h"
+#include "../BluiseCore/Game.h"
 
 class GameListModel : public QAbstractListModel {
   Q_OBJECT

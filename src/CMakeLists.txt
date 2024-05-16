@@ -33,25 +33,25 @@ set(PROJECT_SOURCES
 )
 
 qt_add_executable(Bluise starter.cpp 
-    bluise.cpp 
-    Game.cpp 
-    GameOptionsWidget.cpp 
-    GameEditWidget.cpp 
-    GameListModel.cpp
-    CoverDelegate.cpp
-    GameInfoWidget.cpp
-    ChoosePictureWidget.cpp 
-    FileValidator.cpp 
-    GameOptionWidget.cpp 
-    GameAddWidget.cpp
+    ./BluiseCore/bluise.cpp 
+    ./BluiseCore/Game.cpp 
+    ./Widgets/GameOptionsWidget.cpp 
+    ./Widgets/GameEditWidget.cpp 
+    ./ModelView/GameListModel.cpp
+    ./ModelView/CoverDelegate.cpp
+    ./Widgets/GameInfoWidget.cpp
+    ./Widgets/ChoosePictureWidget.cpp 
+    ./BluiseCore/FileValidator.cpp 
+    ./Widgets/GameOptionWidget.cpp 
+    ./Widgets/GameAddWidget.cpp
     MainWindow.cpp
-    ToolBar.cpp
-    GameProxyModel.cpp
-    GameInfoWidget.ui
-    BeautifulButton.cpp
-    BeautifulButtonGroup.cpp
-    SearchBar.cpp
-    BoxOptionWidget.cpp
+    ./Widgets/ToolBar.cpp
+    ./ModelView/GameProxyModel.cpp
+    ./Widgets/GameInfoWidget.ui
+    ./BeautifulUI/BeautifulButton.cpp
+    ./BeautifulUI/BeautifulButtonGroup.cpp
+    ./Widgets/SearchBar.cpp
+    ./Widgets/BoxOptionWidget.cpp
 )
 
 # set_target_properties(Bluise PROPERTIES

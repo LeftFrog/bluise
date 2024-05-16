@@ -1,6 +1,5 @@
 #include "GameListModel.h"
-#include "Game.h"
-#include "bluise.h"
+#include "../BluiseCore/bluise.h"
 #include <QImage>
 
 GameListModel::GameListModel(QObject *parent) : QAbstractListModel(parent) {
