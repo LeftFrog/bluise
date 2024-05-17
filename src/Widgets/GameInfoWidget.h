@@ -27,6 +27,7 @@ private slots:
   void popupMenu();
   void setIcon(Qt::ColorScheme scheme);
   void removeGame();
+  void openWorkingDirectory();
 private:
   Game *game;
   QMenu *menu;

@@ -19,9 +19,13 @@ GameInfoWidget::GameInfoWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Ga
   connect(settings, &QAction::triggered, this, &GameInfoWidget::settings);
   QAction *remove = new QAction("Remove", menu);
   connect(remove, &QAction::triggered, this, &GameInfoWidget::removeGame);
+  QAction* openWD = new QAction("Open game folder", menu);
+  connect(openWD, &QAction::triggered, this, &GameInfoWidget::openWorkingDirectory);
+
   menu->addAction(play);
   menu->addSeparator();
   menu->addAction(settings);
+  menu->addAction(openWD);
   menu->addAction(remove);
 
   connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged, this, &GameInfoWidget::setIcon);
@@ -83,4 +87,14 @@ void GameInfoWidget::removeGame() {
   bluise_core::games.removeOne(*game);
   emit removeSignal();
   hide();
+}
+
+void GameInfoWidget::openWorkingDirectory() {
+  QDir dir(game->getWorkingDirectory());
+  if(dir.exists()) {
+    QDesktopServices::openUrl(QUrl::fromLocalFile(dir.absolutePath()));
+  } else {
+    QMessageBox::critical(this, "Error", "Game folder is not specified");
+    return;
+  }
 }
