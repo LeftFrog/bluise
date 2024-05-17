@@ -23,6 +23,11 @@ void GameAddWidget::apply() {
                                       options["exec"]->text(),
                                       options["workingDirectory"]->text(),
                                       options["savePath"]->text(), setCover());
+    if(choose->path().isEmpty()) {
+      g.setCover("");
+    } else {
+      g.setCover(setCover());
+    }
     g.setRunner(static_cast<Game::Runner>(runner->currentIndex()));
     bluise_core::games.push_back(g);
   } catch (bluise_error &err) {
