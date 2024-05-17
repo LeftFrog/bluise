@@ -50,7 +50,11 @@ bool GameListModel::removeRows(int row, int count, const QModelIndex &parent) {
 }
 
 void GameListModel::updateList() {
-  insertRows(games->size()-1, 1);
+  insertRows(1, 1);
+}
+
+void GameListModel::removeGame() {
+  removeRows(1, 1);
 }
 
 // QVariant GameListModel::headerData(int section, Qt::Orientation orientation, int role) {

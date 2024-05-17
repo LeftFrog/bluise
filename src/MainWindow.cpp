@@ -65,6 +65,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   proxy->setFilterRole(Qt::UserRole + 3);
   connect(toolbar, &ToolBar::setFilter, proxy, &GameProxyModel::setFilterExp);
   connect(toolbar, &ToolBar::setName, proxy, &GameProxyModel::setNameExp);
+  connect(info, &GameInfoWidget::removeSignal, &model, &GameListModel::removeGame);
 
   // table = new QTableView;
   // table->setModel(proxy);

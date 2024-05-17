@@ -15,6 +15,8 @@ class GameInfoWidget : public QWidget {
 public:
   explicit GameInfoWidget(QWidget *parent = nullptr);
   ~GameInfoWidget();
+signals:
+  void removeSignal();
 public slots:
   void setGame(const QModelIndex& index);
 protected:
