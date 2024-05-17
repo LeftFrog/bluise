@@ -34,6 +34,7 @@ public:
   void setRunner(const Runner& _runner) { runner = _runner; }
 
   Game();
+  Game(const QString& _name, const QString& executable);
   Game(const QString &n, const QString &e, const QString &wd = "",
        const QString &sp = "", const QString &_coverName = "",
        bool _disabled = false);
