@@ -11,6 +11,8 @@ void CoverDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     painter->setClipPath(path);
     painter->setPen(Qt::NoPen);
     if(pixmap.isNull()) {
+      QPalette pal{};
+      painter->setBrush(QBrush(pal.color(QPalette::Midlight)));
       painter->drawRect(rect);
     } else {
       painter->drawPixmap(rect, pixmap);

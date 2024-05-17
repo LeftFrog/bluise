@@ -75,39 +75,39 @@ void GameOptionsWidget::init(const Game &game) {
 void GameOptionsWidget::closeWin() { close(); }
 
 QString GameOptionsWidget::setCover() {
-    QString header = "";
-    QString fileName = QString::fromStdString(
-        std::filesystem::path(choose->path().toStdString())
-            .filename()
-            .string()
-            .substr(0, std::filesystem::path(choose->path().toStdString())
-                               .filename()
-                               .string()
-                               .size() -
-                           4));
-    QString extension = QString::fromStdString(
-        std::filesystem::path(choose->path().toStdString())
-            .filename()
-            .string()
-            .substr(std::filesystem::path(choose->path().toStdString())
-                        .filename()
-                        .string()
-                        .size() -
-                    4));
-    QString path = bluise_core::DOCS + "res/covers/";
-    if (QFile::exists(path + fileName + extension)) {
-      int i = 1;
-      while (QFile::exists(path + fileName + QString::number(i) + extension)) {
-        ++i;
-      }
-      std::filesystem::copy(
-          choose->path().toStdString(),
-          (path + fileName + QString::number(i) + extension).toStdString());
-      header = fileName + QString::number(i) + extension;
-    } else {
-      std::filesystem::copy(choose->path().toStdString(),
-                            (bluise_core::DOCS + "res/covers").toStdString());
-      header = fileName + extension;
+  QString header = "";
+  QString fileName = QString::fromStdString(
+      std::filesystem::path(choose->path().toStdString())
+          .filename()
+          .string()
+          .substr(0, std::filesystem::path(choose->path().toStdString())
+                              .filename()
+                              .string()
+                              .size() -
+                          4));
+  QString extension = QString::fromStdString(
+      std::filesystem::path(choose->path().toStdString())
+          .filename()
+          .string()
+          .substr(std::filesystem::path(choose->path().toStdString())
+                      .filename()
+                      .string()
+                      .size() -
+                  4));
+  QString path = bluise_core::DOCS + "res/covers/";
+  if (QFile::exists(path + fileName + extension)) {
+    int i = 1;
+    while (QFile::exists(path + fileName + QString::number(i) + extension)) {
+      ++i;
     }
-    return header;
+    std::filesystem::copy(
+        choose->path().toStdString(),
+        (path + fileName + QString::number(i) + extension).toStdString());
+    header = fileName + QString::number(i) + extension;
+  } else {
+    std::filesystem::copy(choose->path().toStdString(),
+                          (bluise_core::DOCS + "res/covers").toStdString());
+    header = fileName + extension;
+  }
+  return header;
 }
