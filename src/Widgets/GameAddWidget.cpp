@@ -10,7 +10,7 @@ GameAddWidget::GameAddWidget(QWidget *parent) : GameOptionsWidget(parent) {
 
 void GameAddWidget::changed() {
   if (options["name"]->isChanged() && options["exec"]->isChanged() &&
-      choose->isChanged() && runner->isChanged()) {
+      runner->isChanged()) {
     applyButton->setEnabled(true);
   } else {
       applyButton->setDisabled(true);
