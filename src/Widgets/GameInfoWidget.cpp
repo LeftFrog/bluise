@@ -91,7 +91,7 @@ void GameInfoWidget::removeGame() {
 
 void GameInfoWidget::openWorkingDirectory() {
   QDir dir(game->getWorkingDirectory());
-  if(dir.exists()) {
+  if(dir.exists() && game->getWorkingDirectory()!="/") {
     QDesktopServices::openUrl(QUrl::fromLocalFile(dir.absolutePath()));
   } else {
     QMessageBox::critical(this, "Error", "Game folder is not specified");
