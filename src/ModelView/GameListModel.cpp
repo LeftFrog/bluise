@@ -57,6 +57,18 @@ void GameListModel::removeGame() {
   removeRows(1, 1);
 }
 
-// QVariant GameListModel::headerData(int section, Qt::Orientation orientation, int role) {
+QVariant GameListModel::headerData(int section, Qt::Orientation orientation, int role) {
+  if (role != Qt::DisplayRole || orientation != Qt::Horizontal)
+    return QVariant();
 
-// }
+  switch (section) {
+  case 0:
+    return QString("Name");
+  case 1:
+    return QString("Icon");
+  case 2:
+    return QString("Date");
+  default:
+    return QVariant();
+  }
+}

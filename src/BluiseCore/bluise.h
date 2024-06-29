@@ -13,8 +13,8 @@ extern const QString BACKUP_PATH;
 void readGamesJSON();
 void saveGamesJSON();
 
-void back(const QString &name);
-void recover(const QString &name);
+void makeBackup(const Game& game);
+void recover(const Game& game);
 } // namespace bluise_core
 
 namespace command_processor {

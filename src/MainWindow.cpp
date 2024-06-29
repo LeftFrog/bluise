@@ -67,11 +67,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   connect(toolbar, &ToolBar::setName, proxy, &GameProxyModel::setNameExp);
   connect(info, &GameInfoWidget::removeSignal, &model, &GameListModel::removeGame);
 
-  // table = new QTableView;
-  // table->setModel(proxy);
-  // table->setHorizontalHeader()
-  // table->show();
-
   connect(list, &QListView::clicked, info, &GameInfoWidget::setGame);
   connect(toolbar, &ToolBar::setSort, proxy, &QSortFilterProxyModel::setSortRole);
 

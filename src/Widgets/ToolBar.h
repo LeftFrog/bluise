@@ -17,7 +17,7 @@ protected:
   virtual void resizeEvent(QResizeEvent *event) override;
 private:
   SearchBar *search;
-  BeautifulUi::BeautifulButtonGroup *group;
+  // BeautifulUi::BeautifulButtonGroup *group;
   BeautifulUi::BeautifulButton *optionsButton;
   BeautifulUi::BeautifulButton *addButton;
   BeautifulUi::BeautifulButton *sortButton;

@@ -22,40 +22,29 @@ const QString BACKUP_PATH = DOCS + "backs/";
 
 QList<Game> games;
 
-void back(const QString &name) {
-  auto game = find(games.begin(), games.end(), name.toStdString());
-
-  if (game == games.end()) {
-    throw bluise_error("There isn't this game!");
-  }
+void makeBackup(const Game& game) {
   QDir dir(BACKUP_PATH);
   if (!dir.exists()) {
     dir.mkdir(BACKUP_PATH);
   }
-  QString back_path = BACKUP_PATH + name + "/";
+  QString back_path = BACKUP_PATH + game.getName() + "/";
   QDir back_dir(back_path);
   if (!back_dir.exists()) {
     if (!back_dir.mkdir(back_path)) {
       throw bluise_error("Can't create directory!");
     }
   }
-  fs::copy(game->getSavePath().toStdString(), (back_path + ".").toStdString(),
+  fs::copy(game.getSavePath().toStdString(), (back_path + ".").toStdString(),
            fs::copy_options::recursive);
 }
 
-void recover(const QString &name) {
-  auto game = find(games.begin(), games.end(), name.toStdString());
-
-  if ((game == games.end())) {
-    throw bluise_error("There isn't this game!");
-  }
-
-  QString back_path = BACKUP_PATH + name + "/";
+void recover(const Game& game) {
+  QString back_path = BACKUP_PATH + game.getName() + "/";
   QDir back_dir(back_path);
   if (!back_dir.exists()) {
     throw bluise_error("There isn't backups of saves of your game");
   }
-  fs::copy(back_path.toStdString(), game->getSavePath().toStdString(),
+  fs::copy(back_path.toStdString(), game.getSavePath().toStdString(),
            fs::copy_options::recursive | fs::copy_options::overwrite_existing);
 }
 
@@ -162,7 +151,12 @@ void print_game_vector() {
 
 void back(const string &name) {
   try {
-    bluise_core::back(QString::fromStdString(name));
+    auto game = std::find(bluise_core::games.begin(), bluise_core::games.end(), name);
+
+    if (game == bluise_core::games.end()) {
+      throw bluise_error("There isn't this game!");
+    }
+    bluise_core::makeBackup(*game);
   } catch (const bluise_error &err) {
     std::cerr << err.what() << std::endl;
     return;
@@ -172,7 +166,12 @@ void back(const string &name) {
 
 void recover(const string &name) {
   try {
-    bluise_core::recover(QString::fromStdString(name));
+    auto game = std::find(bluise_core::games.begin(), bluise_core::games.end(), name);
+
+    if (game == bluise_core::games.end()) {
+      throw bluise_error("There isn't this game!");
+    }
+    bluise_core::recover(*game);
     std::cout << "Successfully recovered your saves.\n";
   } catch (const bluise_error &err) {
     std::cerr << err.what() << std::endl;
