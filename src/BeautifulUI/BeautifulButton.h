@@ -22,11 +22,12 @@ protected:
   void leaveEvent(QEvent *event) override;
   void mouseReleaseEvent(QMouseEvent *event) override;
 
-  bool hovered = false;
 protected slots:
   void setIcon(Qt::ColorScheme scheme);
+  
 private:
   int awesomeIcon;
+  bool hovered = false;
   QMenu *menu;
   fa::QtAwesome *awesome;
 };

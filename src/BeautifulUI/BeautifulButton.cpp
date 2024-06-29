@@ -17,6 +17,7 @@ BeautifulUi::BeautifulButton::BeautifulButton(int _awesomeIcon, QWidget *parent)
 
 BeautifulUi::BeautifulButton::~BeautifulButton() {
   delete menu;
+  delete awesome;
 }
 
 void BeautifulUi::BeautifulButton::setMenu(QMenu *menu) {
@@ -29,13 +30,14 @@ void BeautifulUi::BeautifulButton::paintEvent(QPaintEvent *event) {
   QPainter painter(this);
   painter.setRenderHint(QPainter::Antialiasing);
   painter.setPen(Qt::NoPen);
-  QColor color = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? Qt::white : Qt::black;
 
+  QColor color = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? Qt::white : Qt::black;
   color.setAlpha(hovered ? 15 : 0);
   color.setAlpha(isChecked() ? 20 : color.alpha());
   painter.setBrush(color);
 
   painter.drawRoundedRect(rect(), 6, 6);
+  
   if (menu) {
     QRect mainButtonRect = QRect(2, rect().y() + 4, rect().width()-15, rect().height()-8);
     icon().paint(&painter, mainButtonRect, Qt::AlignCenter, isChecked() ? QIcon::Selected : QIcon::Normal);
