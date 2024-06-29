@@ -1,5 +1,6 @@
 #pragma once
 #include <QWidget>
+#include <QProgressBar>
 
 class ScanForGamesWidget : public QWidget
 {
@@ -7,4 +8,10 @@ class ScanForGamesWidget : public QWidget
 
 public:
   ScanForGamesWidget(QWidget* parent = nullptr);
+
+public slots:
+  void scan();
+
+private:
+  QProgressBar* progress;
 };

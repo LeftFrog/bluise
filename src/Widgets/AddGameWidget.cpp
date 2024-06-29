@@ -1,6 +1,7 @@
 #include "AddGameWidget.h"
 #include "AddLocalInstalledGameWidget.h"
 #include "ScanForGamesWidget.h"
+#include <QTimer>
 
 AddGameWidget::AddGameWidget(QWidget* parent) : QWidget(parent) {
   layout = new QStackedLayout();
@@ -32,4 +33,8 @@ void AddGameWidget::searchGames() {
   ScanForGamesWidget* wid = new ScanForGamesWidget();
   layout->addWidget(wid);
   layout->setCurrentIndex(1);
+  QTimer *timer = new QTimer(this);
+  connect(timer, &QTimer::timeout, wid, &ScanForGamesWidget::scan);
+  timer->setSingleShot(true); // Run only once
+  timer->start(100);
 }
