@@ -52,6 +52,7 @@ qt_add_executable(Bluise starter.cpp
     ./BeautifulUI/BeautifulButtonGroup.cpp
     ./Widgets/SearchBar.cpp
     ./Widgets/BoxOptionWidget.cpp
+    ./Widgets/AddGameWidget.cpp
 )
 
 # set_target_properties(Bluise PROPERTIES

@@ -8,6 +8,11 @@ GameAddWidget::GameAddWidget(QWidget *parent) : GameOptionsWidget(parent) {
   applyButton->setText("Add");
 }
 
+void GameAddWidget::closeEvent(QCloseEvent* event) {
+  emit closed();
+  GameOptionsWidget::closeEvent(event);
+}
+
 void GameAddWidget::changed() {
   if (options["name"]->isChanged() && options["exec"]->isChanged() &&
       runner->isChanged()) {

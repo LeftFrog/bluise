@@ -30,7 +30,7 @@ void GameOptionsWidget::init(const Game &game) {
   applyButton->setDisabled(true);
 
   QPushButton *cancel = new QPushButton("Cancel");
-  connect(cancel, &QPushButton::clicked, this, &GameOptionsWidget::closeWin);
+  connect(cancel, &QPushButton::clicked, this, &GameOptionsWidget::close);
 
   QHBoxLayout *HBL = new QHBoxLayout;
   HBL->addWidget(cancel);

@@ -16,6 +16,7 @@
 #include "./BeautifulUI/BeautifulButton.h"
 #include "QtAwesome/QtAwesome/QtAwesome.h"
 #include <QToolButton>
+#include "Widgets/AddGameWidget.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   bluise_core::readGamesJSON();
@@ -86,7 +87,8 @@ void MainWindow::handleMenus(QAction* action) {
 }
 
 void MainWindow::addGame() {
-  GameAddWidget *add_widget = new GameAddWidget;
-  connect(add_widget, SIGNAL(added()), &model, SLOT(updateList()));
+  AddGameWidget* add_widget = new AddGameWidget();
+  // GameAddWidget *add_widget = new GameAddWidget;
+  // connect(add_widget, SIGNAL(added()), &model, SLOT(updateList()));
   add_widget->show();
 }

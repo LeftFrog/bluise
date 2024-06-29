@@ -7,7 +7,10 @@ public:
   GameAddWidget(QWidget *parent = nullptr);
 signals:
   void added();
+  void closed();
 protected slots:
   virtual void apply() override;
   void changed() override;
+protected:
+  virtual void closeEvent(QCloseEvent* event) override;
 };
