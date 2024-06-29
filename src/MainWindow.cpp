@@ -19,27 +19,23 @@
 #include "Widgets/AddGameWidget.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-  bluise_core::readGamesJSON();
+  bluise_core::gameManager.loadGames(bluise_core::DOCS+"games.json");
   setUnifiedTitleAndToolBarOnMac(true);
-  // setWindowTitle("Bluise");
+  setWindowTitle("Bluise");
   resize(1900, 800);
 
   menuBar = new QMenuBar();
-  QMenu *file = menuBar->addMenu("&File");
-  file->addAction("New Game");
-  connect(file, &QMenu::triggered, this, &MainWindow::handleMenus);
+  QMenu *fileMenu = menuBar->addMenu("&File");
+  fileMenu->addAction("New Game");
+  connect(fileMenu, &QMenu::triggered, this, &MainWindow::handleMenus);
   setMenuBar(menuBar);
 
   QSplitter *splitter = new QSplitter(Qt::Vertical, this);
 
-  fa::QtAwesome *awesome = new fa::QtAwesome(this);
-  awesome->initFontAwesome();
-
   ToolBar *toolbar = new ToolBar(this);
-  //addToolBar(Qt::TopToolBarArea, toolbar);
-  connect(toolbar, &ToolBar::addGame, this, &MainWindow::addGame);
   splitter->addWidget(toolbar);
   splitter->setCollapsible(0, false);
+  connect(toolbar, &ToolBar::addGame, this, &MainWindow::addGame);
 
   list = new QListView(splitter);
   splitter->addWidget(list);
@@ -52,8 +48,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
   GameProxyModel *proxy = new GameProxyModel(this);
   proxy->setSourceModel(&model);
-  list->setModel(proxy);
+  proxy->setFilterRole(Qt::UserRole + 3);
   proxy->sort(0, Qt::AscendingOrder);
+
+  list->setModel(proxy);
   list->setViewMode(QListView::IconMode);
   list->setItemDelegate(new CoverDelegate(QSize(265/1.5, 376/1.5)));
   list->setResizeMode(QListView::Adjust);
@@ -63,12 +61,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   list->setSpacing(15);
   list->setFlow(QListView::LeftToRight);
 
-  proxy->setFilterRole(Qt::UserRole + 3);
-  connect(toolbar, &ToolBar::setFilter, proxy, &GameProxyModel::setFilterExp);
-  connect(toolbar, &ToolBar::setName, proxy, &GameProxyModel::setNameExp);
+  fa::QtAwesome *awesome = new fa::QtAwesome(this);
+  awesome->initFontAwesome();
+
   connect(info, &GameInfoWidget::removeSignal, &model, &GameListModel::removeGame);
 
   connect(list, &QListView::clicked, info, &GameInfoWidget::setGame);
+
+  connect(toolbar, &ToolBar::setFilter, proxy, &GameProxyModel::setFilterExp);
+  connect(toolbar, &ToolBar::setName, proxy, &GameProxyModel::setNameExp);
   connect(toolbar, &ToolBar::setSort, proxy, &QSortFilterProxyModel::setSortRole);
 
   setWindowIcon(QIcon("/Users/leftfrog/Projects/bluise/res/1024-mac.png"));
@@ -77,7 +78,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 }
 
 MainWindow::~MainWindow() {
-  bluise_core::saveGamesJSON();
+  bluise_core::gameManager.saveGames(bluise_core::DOCS+"games.json");
 }
 
 void MainWindow::handleMenus(QAction* action) {
@@ -88,7 +89,5 @@ void MainWindow::handleMenus(QAction* action) {
 
 void MainWindow::addGame() {
   AddGameWidget* add_widget = new AddGameWidget();
-  // AddLocalInstalledGameWidget *add_widget = new AddLocalInstalledGameWidget;
-  // connect(add_widget, SIGNAL(added()), &model, SLOT(updateList()));
   add_widget->show();
 }

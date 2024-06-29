@@ -3,7 +3,7 @@
 #include <QImage>
 
 GameListModel::GameListModel(QObject *parent) : QAbstractListModel(parent) {
-  games = &bluise_core::games;
+  games = &bluise_core::gameManager.games;
 }
 
 int GameListModel::rowCount(const QModelIndex &parent) const {
