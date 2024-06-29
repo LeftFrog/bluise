@@ -53,6 +53,7 @@ qt_add_executable(Bluise starter.cpp
     ./Widgets/SearchBar.cpp
     ./Widgets/BoxOptionWidget.cpp
     ./Widgets/AddGameWidget.cpp
+    ./Widgets/ScanForGamesWidget.cpp
 )
 
 # set_target_properties(Bluise PROPERTIES

@@ -1,13 +1,14 @@
 #include "AddGameWidget.h"
 #include "AddLocalInstalledGameWidget.h"
+#include "ScanForGamesWidget.h"
 
 AddGameWidget::AddGameWidget(QWidget* parent) : QWidget(parent) {
   layout = new QStackedLayout();
 
   QPushButton* addLocalInstalledGame = new QPushButton("Add a local installed game");
   connect(addLocalInstalledGame, &QPushButton::clicked, this, &AddGameWidget::addLocalGame);
-  QPushButton* searchGames = new QPushButton("Search games on the hard drive");
-
+  QPushButton* searchGames = new QPushButton("Scan for games on the hard drive");
+  connect(searchGames, &QPushButton::clicked, this, &AddGameWidget::searchGames);
   QVBoxLayout* VBL = new QVBoxLayout();
   VBL->addWidget(addLocalInstalledGame);
   VBL->addWidget(searchGames);
@@ -21,7 +22,14 @@ AddGameWidget::AddGameWidget(QWidget* parent) : QWidget(parent) {
 
 void AddGameWidget::addLocalGame() {
   AddLocalInstalledGameWidget* wid = new AddLocalInstalledGameWidget();
+  resize(700, 689);
   connect(wid, &AddLocalInstalledGameWidget::closed, this, &AddGameWidget::close);
+  layout->addWidget(wid);
+  layout->setCurrentIndex(1);
+}
+
+void AddGameWidget::searchGames() {
+  ScanForGamesWidget* wid = new ScanForGamesWidget();
   layout->addWidget(wid);
   layout->setCurrentIndex(1);
 }
