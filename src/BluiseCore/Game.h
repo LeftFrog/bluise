@@ -34,7 +34,6 @@ public:
   void setRunner(const Runner& _runner) { runner = _runner; }
 
   Game();
-  Game(const QString& _name, const QString& _executable);
   Game(const QString &n, const QString &e, const QString &wd = "",
        const QString &sp = "", const QString &_coverName = "",
        bool _disabled = false);
@@ -46,7 +45,7 @@ public:
   bool operator==(const string &other) const;
   bool operator==(const QString &other) const;
 
-protected:
+private:
   QString name;
   QString workingDirectory;
   QString executable;

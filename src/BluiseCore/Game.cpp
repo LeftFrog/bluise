@@ -6,44 +6,45 @@
 #include <QFile>
 #include <filesystem>
 
+bool Game::isValidDirectory(const QString& path) {
+  return QDir(path).exists();
+} 
+
+bool Game::isValidExecutable(const QString& path) {
+#ifdef __APPLE__
+  return std::filesystem::exists(path.toStdString());
+#else
+  return std::filesystem::is_regular_file(path);
+#endif
+}
+
+
 void Game::setWorkingDirectory(const QString &wd) {
-    if (!QDir(wd).exists()) {
+    if (!isValidDirectory(wd)) {
         throw invalid_path("Invalid working directory!");
     }
-    if (wd[wd.size() - 1] != '/') {
-        workingDirectory = wd + '/';
-    } else {
-        workingDirectory = wd;
-    }
+    workingDirectory = wd.endsWith('/') || wd.isEmpty() ? wd : wd + '/';
 }
 
 void Game::setExecutable(const QString &e) {
-#ifdef __APPLE__
-  if (!std::filesystem::exists(e.toStdString())) {
+  if (!isValidExecutable(e)) {
     throw invalid_path("Invalid executable!");
   }
-#else
-  if (!std::filesystem::is_regular_file(e)) {
-    throw invalid_path("Invalid executable!");
-  }
-#endif
   executable = e;
 }
 
 void Game::setSavePath(QString sp) {
-  if (!QDir(sp).exists()) {
+  if (!isValidDirectory(sp)) {
     throw invalid_path("Invalid save path!");
   }
-  if (sp[sp.size() - 1] != '/') {
-    sp += '/';
-  }
-  savePath = sp;
+  savePath = sp.endsWith('/') || sp.isEmpty()? sp : sp + '/';
 }
 
 void Game::setCover(const QString &_coverName) {
   QString path = bluise_core::DOCS + "res/covers/";
-  if (QFile::exists(path + _coverName)) {
-    coverPath = path + _coverName;
+  QString fullPath = path + _coverName;
+  if (QFile::exists(fullPath)) {
+    coverPath = fullPath;
     cover = QPixmap(coverPath);
     coverName = _coverName;
   }
@@ -56,17 +57,10 @@ Game::Game() {
   savePath = "";
   headerPath = "";
   headerName = "";
+  coverPath = "";
+  coverName = "";
   releaseYear = 0;
-}
-
-Game::Game(const QString& _name, const QString& _executable) {
-  name = _name;
-  setExecutable(_executable);
-  workingDirectory = "";
-  savePath = "";
-  headerPath = "";
-  headerName = "";
-  releaseYear = 0;
+  disabled = true;
 }
 
 Game::Game(const QString &n, const QString &e, const QString &wd,
@@ -81,13 +75,8 @@ Game::Game(const QString &n, const QString &e, const QString &wd,
     setExecutable(e);
     setSavePath(sp);
   }
-  QString path = bluise_core::DOCS + "res/covers/";
-  if (QFile::exists(path + coverName)) {
-    coverPath = path + coverName;
-  }
+  setCover(_coverName);
   releaseYear = 0;
-  // header = QPixmap(headerPath).scaled(390, 234, Qt::KeepAspectRatio);
-  cover = QPixmap(coverPath);
   runner = Native;
 }
 
