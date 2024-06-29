@@ -59,4 +59,7 @@ private:
   Runner runner;
   int releaseYear;
   bool disabled;
+
+  bool isValidDirectory(const QString& path);
+  bool isValidExecutable(const QString& path);
 };
