@@ -1,19 +1,19 @@
-#include "GameAddWidget.h"
+#include "AddLocalInstalledGameWidget.h"
 #include "../BluiseCore/bluise.h"
 #include <QFile>
 #include <QMessageBox>
 #include <filesystem>
 
-GameAddWidget::GameAddWidget(QWidget *parent) : GameOptionsWidget(parent) {
+AddLocalInstalledGameWidget::AddLocalInstalledGameWidget(QWidget *parent) : GameOptionsWidget(parent) {
   applyButton->setText("Add");
 }
 
-void GameAddWidget::closeEvent(QCloseEvent* event) {
+void AddLocalInstalledGameWidget::closeEvent(QCloseEvent* event) {
   emit closed();
   GameOptionsWidget::closeEvent(event);
 }
 
-void GameAddWidget::changed() {
+void AddLocalInstalledGameWidget::changed() {
   if (options["name"]->isChanged() && options["exec"]->isChanged() &&
       runner->isChanged()) {
     applyButton->setEnabled(true);
@@ -22,7 +22,7 @@ void GameAddWidget::changed() {
   }
 }
 
-void GameAddWidget::apply() {
+void AddLocalInstalledGameWidget::apply() {
   try {
     Game g = Game(options["name"]->text(),
                                       options["exec"]->text(),

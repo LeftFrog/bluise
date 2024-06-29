@@ -1,5 +1,5 @@
 #include "AddGameWidget.h"
-#include "GameAddWidget.h"
+#include "AddLocalInstalledGameWidget.h"
 
 AddGameWidget::AddGameWidget(QWidget* parent) : QWidget(parent) {
   layout = new QStackedLayout();
@@ -20,8 +20,8 @@ AddGameWidget::AddGameWidget(QWidget* parent) : QWidget(parent) {
 }
 
 void AddGameWidget::addLocalGame() {
-  GameAddWidget* wid = new GameAddWidget();
-  connect(wid, &GameAddWidget::closed, this, &AddGameWidget::close);
+  AddLocalInstalledGameWidget* wid = new AddLocalInstalledGameWidget();
+  connect(wid, &AddLocalInstalledGameWidget::closed, this, &AddGameWidget::close);
   layout->addWidget(wid);
   layout->setCurrentIndex(1);
 }

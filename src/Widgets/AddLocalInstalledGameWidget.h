@@ -1,10 +1,10 @@
 #pragma once
 #include "GameOptionsWidget.h"
 
-class GameAddWidget : public GameOptionsWidget {
+class AddLocalInstalledGameWidget : public GameOptionsWidget {
   Q_OBJECT
 public:
-  GameAddWidget(QWidget *parent = nullptr);
+  AddLocalInstalledGameWidget(QWidget *parent = nullptr);
 signals:
   void added();
   void closed();

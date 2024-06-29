@@ -7,7 +7,7 @@
 #include <QTableView>
 #include <QStringListModel>
 #include <QMenuBar>
-#include "./Widgets/GameAddWidget.h"
+#include "./Widgets/AddLocalInstalledGameWidget.h"
 #include "./BluiseCore/bluise.h"
 #include <QToolBar>
 #include <QDockWidget>
@@ -88,7 +88,7 @@ void MainWindow::handleMenus(QAction* action) {
 
 void MainWindow::addGame() {
   AddGameWidget* add_widget = new AddGameWidget();
-  // GameAddWidget *add_widget = new GameAddWidget;
+  // AddLocalInstalledGameWidget *add_widget = new AddLocalInstalledGameWidget;
   // connect(add_widget, SIGNAL(added()), &model, SLOT(updateList()));
   add_widget->show();
 }

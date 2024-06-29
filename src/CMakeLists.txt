@@ -43,7 +43,7 @@ qt_add_executable(Bluise starter.cpp
     ./Widgets/ChoosePictureWidget.cpp 
     ./BluiseCore/FileValidator.cpp 
     ./Widgets/GameOptionWidget.cpp 
-    ./Widgets/GameAddWidget.cpp
+    ./Widgets/AddLocalInstalledGameWidget.cpp
     MainWindow.cpp
     ./Widgets/ToolBar.cpp
     ./ModelView/GameProxyModel.cpp
