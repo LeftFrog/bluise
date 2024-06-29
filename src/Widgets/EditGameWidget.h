@@ -1,11 +1,11 @@
 #pragma once
 #include "GameOptionsWidget.h"
 
-class GameEditWidget : public GameOptionsWidget {
+class EditGameWidget : public GameOptionsWidget {
   Q_OBJECT
 
 public:
-  GameEditWidget(Game *_game, QWidget *parent = nullptr);
+  EditGameWidget(Game *_game, QWidget *parent = nullptr);
 signals:
   void gameChanged();
 protected slots:

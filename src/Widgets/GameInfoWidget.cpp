@@ -1,7 +1,7 @@
 #include "GameInfoWidget.h"
 #include "./ui_GameInfoWidget.h"
 #include <QtWidgets>
-#include "GameEditWidget.h"
+#include "EditGameWidget.h"
 #include "../BluiseCore/bluise.h"
 
 GameInfoWidget::GameInfoWidget(QWidget *parent) : QWidget(parent), ui(new Ui::GameInfoWidget) {
@@ -67,7 +67,7 @@ void GameInfoWidget::play() {
 }
 
 void GameInfoWidget::settings() {
-  GameEditWidget *edit_widget = new GameEditWidget(game);
+  EditGameWidget *edit_widget = new EditGameWidget(game);
   edit_widget->show();
 }
 

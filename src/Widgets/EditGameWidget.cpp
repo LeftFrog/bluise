@@ -1,4 +1,4 @@
-#include "GameEditWidget.h"
+#include "EditGameWidget.h"
 #include "../BluiseCore/bluise_error.h"
 #include <QHBoxLayout>
 #include <QLabel>
@@ -6,12 +6,12 @@
 #include <QMessageBox>
 #include <QVBoxLayout>
 
-GameEditWidget::GameEditWidget(Game *_game, QWidget *parent)
+EditGameWidget::EditGameWidget(Game *_game, QWidget *parent)
     : GameOptionsWidget(*_game, parent), game(_game) {
 
 }
 
-void GameEditWidget::apply() {
+void EditGameWidget::apply() {
   try {
     game->setName(options["name"]->text());
     game->setWorkingDirectory(options["workingDirectory"]->text());
@@ -30,7 +30,7 @@ void GameEditWidget::apply() {
   close();
 }
 
-bool GameEditWidget::optionsHaveChanged() {
+bool EditGameWidget::optionsHaveChanged() {
     for(auto opt : options) {
       if(opt->isChanged()) {
         return true;
@@ -39,7 +39,7 @@ bool GameEditWidget::optionsHaveChanged() {
     return false;
 }
 
-void GameEditWidget::changed() {
+void EditGameWidget::changed() {
   if(optionsHaveChanged() || choose->isChanged() || runner->isChanged()) {
     applyButton->setEnabled(true);
   } else {

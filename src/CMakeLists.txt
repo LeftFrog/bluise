@@ -36,7 +36,7 @@ qt_add_executable(Bluise starter.cpp
     ./BluiseCore/bluise.cpp 
     ./BluiseCore/Game.cpp 
     ./Widgets/GameOptionsWidget.cpp 
-    ./Widgets/GameEditWidget.cpp 
+    ./Widgets/EditGameWidget.cpp 
     ./ModelView/GameListModel.cpp
     ./ModelView/CoverDelegate.cpp
     ./Widgets/GameInfoWidget.cpp
