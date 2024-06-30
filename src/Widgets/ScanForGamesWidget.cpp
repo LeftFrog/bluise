@@ -4,6 +4,7 @@
 #include <QDir>
 #include <QDirIterator>
 #include <QFileInfo>
+#include <QtConcurrent>
 
 ScanForGamesWidget::ScanForGamesWidget(QWidget* parent) : QWidget(parent) {
   QLabel* label = new QLabel("Scanning for games...");
@@ -16,19 +17,27 @@ ScanForGamesWidget::ScanForGamesWidget(QWidget* parent) : QWidget(parent) {
   QVBoxLayout* layout = new QVBoxLayout();
   layout->addWidget(label);
   layout->addWidget(progress);
-  setLayout(layout); 
+  setLayout(layout);
 }
 
 void ScanForGamesWidget::scan() {
   const QString path = "/Applications";
-  QDirIterator it(path, QStringList() << "*.app", QDir::Files | QDir::Dirs, QDirIterator::Subdirectories);
   progress->setRange(0, QDir(path).count());
 
-  while (it.hasNext()) {
-    QString file = it.next();
-    QFileInfo info(file);
-    if(info.fileName().endsWith(".app"))
-      qDebug() << file;
-    progress->setValue(progress->value() + 1);
-  }
+  QtConcurrent::run([this]{
+    QDirIterator it("/Applications", QStringList() << "*.app", QDir::Files | QDir::Dirs, QDirIterator::Subdirectories);
+
+    int count = 0;
+    while (it.hasNext()) {
+      QString file = it.next();
+      QFileInfo info(file);
+      if(info.fileName().endsWith(".app"))
+        qDebug() << file;
+
+      QMetaObject::invokeMethod(this, [this, count]{
+        progress->setValue(count);
+      }, Qt::QueuedConnection);
+      count++;
+    }
+  });
 }

@@ -10,8 +10,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_PREFIX_PATH /Users/Shared/Qt/6.7.2/macos/lib/cmake/)
 
-find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets Concurrent)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Concurrent)
 
 qt_standard_project_setup()
 
@@ -62,6 +62,7 @@ qt_add_executable(Bluise starter.cpp
 # )
 
 target_link_libraries(Bluise PRIVATE Qt6::Widgets)
+target_link_libraries(Bluise PRIVATE Qt6::Concurrent)
 target_link_libraries(Bluise PUBLIC QtAwesome)
 
 if(QT_VERSION_MAJOR EQUAL 6)
