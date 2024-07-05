@@ -5,6 +5,9 @@
 #include <QDirIterator>
 #include <QFileInfo>
 #include <QtConcurrent>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlRecord>
 
 ScanForGamesWidget::ScanForGamesWidget(QWidget* parent) : QWidget(parent) {
   QLabel* label = new QLabel("Scanning for games...");
@@ -29,13 +32,35 @@ void ScanForGamesWidget::scan() {
 
   QtConcurrent::run([this, path]{
     QDirIterator it(path, QStringList() << "*.app", QDir::Files | QDir::Dirs, QDirIterator::Subdirectories);
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("/Users/leftfrog/Projects/bluise/res/games.db");
+
+    if(!db.open()) {
+      qDebug() << "Failed to open database";
+    }
 
     int count = 0;
     while (it.hasNext()) {
+      QSqlQuery query(db);
+      query.prepare("SELECT count(*) FROM game_executables WHERE executable = :executable");
       QString file = it.next();
       QFileInfo info(file);
-      if(info.fileName().endsWith(".app"))
-        qDebug() << file;
+      if(info.fileName().endsWith(".app")) {
+        query.bindValue(":executable", info.fileName());
+        if(query.exec()) {
+          if(query.next()) {
+            int count = query.value(0).toInt();
+            if (count > 0) {
+                qDebug() << "Executable found in the database";
+            } else {
+                qDebug() << "Executable not found in the database";
+            }
+          }
+        }
+        // QSqlRecord record = query.record();
+        // qDebug() << record.count();
+        // qDebug() << record.value(0).toInt();
+      }
 
       QMetaObject::invokeMethod(this, [this, count]{
         progress->setValue(count);
