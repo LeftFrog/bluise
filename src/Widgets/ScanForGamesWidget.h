@@ -1,24 +1,23 @@
 #pragma once
-#include <QWidget>
+#include <QList>
 #include <QProgressBar>
 #include <QTextEdit>
+#include <QSqlDatabase>
 
-class ScanForGamesWidget : public QWidget
+class ScanForGamesWidget final : public QWidget
 {
 	Q_OBJECT
 
 public:
-  ScanForGamesWidget(QWidget* parent = nullptr);
-
-signals:
-  void finished();
+  explicit ScanForGamesWidget(QWidget* parent = nullptr);
 
 public slots:
   void scan();
   void foundGames();
 
 private:
-  int filesCount(const QString& path);
+  QList<int> game_ids{};
+  QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
   QProgressBar* progress;
   QTextEdit* text;
 };

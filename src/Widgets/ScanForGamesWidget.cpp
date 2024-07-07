@@ -5,91 +5,71 @@
 #include <QDirIterator>
 #include <QFileInfo>
 #include <QtConcurrent>
-#include <QSqlDatabase>
 #include <QSqlQuery>
-#include <QSqlRecord>
+#include <QFutureWatcher>
 
 ScanForGamesWidget::ScanForGamesWidget(QWidget* parent) : QWidget(parent) {
   QLabel* label = new QLabel("Scanning for games...");
   label->setAlignment(Qt::AlignCenter);
   progress = new QProgressBar();
   progress->setAlignment(Qt::AlignCenter);
-  progress->setRange(0, 100);
-  progress->setValue(0);
+
+  db.setDatabaseName("/Users/leftfrog/Projects/bluise/res/games.db");
+  if(!db.open()) {
+    qDebug() << "Failed to open database";
+  }
 
   QVBoxLayout* layout = new QVBoxLayout();
   layout->addWidget(label);
   layout->addWidget(progress);
   setLayout(layout);
-
-  connect(this, &ScanForGamesWidget::finished, this, &ScanForGamesWidget::foundGames);
 }
 
 void ScanForGamesWidget::scan() {
   const QString path = "/Applications";
-
   progress->setRange(0, 0);
+  QFutureWatcher<void> watcher;
 
-  QtConcurrent::run([this, path]{
+  connect(&watcher, &QFutureWatcher<void>::finished, this, &ScanForGamesWidget::foundGames);
+
+  QFuture<void> future = QtConcurrent::run([this, path] mutable{
     QDirIterator it(path, QStringList() << "*.app", QDir::Files | QDir::Dirs, QDirIterator::Subdirectories);
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("/Users/leftfrog/Projects/bluise/res/games.db");
-
-    if(!db.open()) {
-      qDebug() << "Failed to open database";
-    }
-
-    int count = 0;
     while (it.hasNext()) {
       QSqlQuery query(db);
-      query.prepare("SELECT count(*) FROM game_executables WHERE executable = :executable");
+      query.prepare("SELECT game_id FROM game_executables WHERE executable = :executable");
       QString file = it.next();
       QFileInfo info(file);
-      if(info.fileName().endsWith(".app")) {
-        query.bindValue(":executable", info.fileName());
-        if(query.exec()) {
-          if(query.next()) {
-            int count = query.value(0).toInt();
-            if (count > 0) {
-                qDebug() << "Executable found in the database";
-            } else {
-                qDebug() << "Executable not found in the database";
-            }
-          }
+      query.bindValue(":executable", info.fileName());
+      if(query.exec()) {
+        if(query.next()) {
+          game_ids.append(query.value(0).toInt());
+          qDebug() << "lol";
         }
-        // QSqlRecord record = query.record();
-        // qDebug() << record.count();
-        // qDebug() << record.value(0).toInt();
       }
-
-      QMetaObject::invokeMethod(this, [this, count]{
-        progress->setValue(count);
-      }, Qt::QueuedConnection);
-      count++;
     }
-    qDebug() << progress->value();
-    emit finished();
+    qDebug() << "hu";
   });
-}
-
-int ScanForGamesWidget::filesCount(const QString& path) {
-  int count = 0;
-  QtConcurrent::run([this, path, count] mutable {
-    QDirIterator it(path, QStringList() << "*.app", QDir::Files | QDir::Dirs, QDirIterator::Subdirectories);
-    while (it.hasNext()) {
-      it.next();
-      count++;
-    }
-  });
-  return count;
+  watcher.setFuture(future);
 }
 
 void ScanForGamesWidget::foundGames() {
   layout()->removeWidget(progress);
   delete progress;
   text = new QTextEdit();
-  text->setPlainText("No games found");
-  text->setAlignment(Qt::AlignCenter);
+  if(game_ids.empty()) {
+    text->setPlainText("No games found");
+    text->setAlignment(Qt::AlignCenter);
+  } else {
+    for (auto i : game_ids) {
+      text->setAlignment(Qt::AlignLeft);
+      QSqlQuery query(QString("SELECT name FROM games WHERE id = %1").arg(i), db);
+      if (query.exec()) {
+        if (query.next()) {
+          text->append(query.value(0).toString());
+        }
+      }
+    }
+  }
   text->setReadOnly(true);
   layout()->addWidget(text);
 }
