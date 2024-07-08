@@ -1,5 +1,4 @@
 #pragma once
-#include <QList>
 #include <QProgressBar>
 #include <QTextEdit>
 #include <QSqlDatabase>
@@ -14,10 +13,11 @@ public:
 
 public slots:
   void scan();
+
+private slots:
   void foundGames();
 
 private:
-  void doSomething();
   QFutureWatcher<void> watcher;
   QList<int> game_ids{};
   QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");

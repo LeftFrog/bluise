@@ -13,6 +13,8 @@ ScanForGamesWidget::ScanForGamesWidget(QWidget* parent) : QWidget(parent) {
   progress = new QProgressBar();
   progress->setAlignment(Qt::AlignCenter);
 
+  text = new QTextEdit();
+
   db.setDatabaseName("/Users/leftfrog/Projects/bluise/res/games.db");
   if(!db.open()) {
     qDebug() << "Failed to open database";
@@ -41,19 +43,16 @@ void ScanForGamesWidget::scan() {
       if(query.exec()) {
         if(query.next()) {
           game_ids.append(query.value(0).toInt());
-          qDebug() << "lol";
         }
       }
     }
   });
-  qDebug() << "hu";
   watcher.setFuture(future);
 }
 
 void ScanForGamesWidget::foundGames() {
   layout()->removeWidget(progress);
   delete progress;
-  text = new QTextEdit();
   if(game_ids.empty()) {
     text->setPlainText("No games found");
     text->setAlignment(Qt::AlignCenter);
@@ -70,8 +69,4 @@ void ScanForGamesWidget::foundGames() {
   }
   text->setReadOnly(true);
   layout()->addWidget(text);
-}
-
-void ScanForGamesWidget::doSomething() {
-  qDebug() << "lol";
 }
