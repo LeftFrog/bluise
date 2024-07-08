@@ -4,6 +4,7 @@
 #include <QDir>
 #include <QDirIterator>
 #include <QFileInfo>
+#include <QPushButton>
 #include <QtConcurrent>
 #include <QSqlQuery>
 
@@ -50,6 +51,11 @@ void ScanForGamesWidget::scan() {
   watcher.setFuture(future);
 }
 
+void ScanForGamesWidget::closeEvent(QCloseEvent* event) {
+  emit closed();
+  QWidget::closeEvent(event);
+}
+
 void ScanForGamesWidget::foundGames() {
   layout()->removeWidget(progress);
   delete progress;
@@ -69,4 +75,15 @@ void ScanForGamesWidget::foundGames() {
   }
   text->setReadOnly(true);
   layout()->addWidget(text);
+
+  auto* cancel = new QPushButton("Cancel");
+  auto* add = new QPushButton("Add");
+  add->setDefault(true);
+
+  connect(cancel, &QPushButton::clicked, this, &ScanForGamesWidget::close);
+
+  auto* HBL = new QHBoxLayout;
+  HBL->addWidget(cancel);
+  HBL->addWidget(add);
+  dynamic_cast<QVBoxLayout*>(layout())->addLayout(HBL);
 }

@@ -11,8 +11,14 @@ class ScanForGamesWidget final : public QWidget
 public:
   explicit ScanForGamesWidget(QWidget* parent = nullptr);
 
+signals:
+  void closed();
+
 public slots:
   void scan();
+
+protected:
+  void closeEvent(QCloseEvent* event) override;
 
 private slots:
   void foundGames();
