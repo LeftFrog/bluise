@@ -7,7 +7,7 @@ public:
   AddGameWidget(QWidget* parent = nullptr);
 public slots:
   void addLocalGame();
-  void searchGames();
+  void scanForGames();
 private:
   QStackedLayout* layout;
 };

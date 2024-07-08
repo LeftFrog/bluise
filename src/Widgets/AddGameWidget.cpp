@@ -9,7 +9,7 @@ AddGameWidget::AddGameWidget(QWidget* parent) : QWidget(parent) {
   QPushButton* addLocalInstalledGame = new QPushButton("Add a local installed game");
   connect(addLocalInstalledGame, &QPushButton::clicked, this, &AddGameWidget::addLocalGame);
   QPushButton* searchGames = new QPushButton("Scan for games on the hard drive");
-  connect(searchGames, &QPushButton::clicked, this, &AddGameWidget::searchGames);
+  connect(searchGames, &QPushButton::clicked, this, &AddGameWidget::scanForGames);
   QVBoxLayout* VBL = new QVBoxLayout();
   VBL->addWidget(addLocalInstalledGame);
   VBL->addWidget(searchGames);
@@ -29,12 +29,13 @@ void AddGameWidget::addLocalGame() {
   layout->setCurrentIndex(1);
 }
 
-void AddGameWidget::searchGames() {
+void AddGameWidget::scanForGames() {
   ScanForGamesWidget* wid = new ScanForGamesWidget();
+  connect(wid, &ScanForGamesWidget::closed, this, &AddGameWidget::close);
   layout->addWidget(wid);
   layout->setCurrentIndex(1);
   QTimer *timer = new QTimer(this);
   connect(timer, &QTimer::timeout, wid, &ScanForGamesWidget::scan);
   timer->setSingleShot(true); // Run only once
-  timer->start(100);
+  timer->start(10);
 }
