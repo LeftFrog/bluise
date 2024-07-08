@@ -3,6 +3,7 @@
 #include <QProgressBar>
 #include <QTextEdit>
 #include <QSqlDatabase>
+#include <QFutureWatcher>
 
 class ScanForGamesWidget final : public QWidget
 {
@@ -16,6 +17,8 @@ public slots:
   void foundGames();
 
 private:
+  void doSomething();
+  QFutureWatcher<void> watcher;
   QList<int> game_ids{};
   QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
   QProgressBar* progress;

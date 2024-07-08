@@ -6,7 +6,6 @@
 #include <QFileInfo>
 #include <QtConcurrent>
 #include <QSqlQuery>
-#include <QFutureWatcher>
 
 ScanForGamesWidget::ScanForGamesWidget(QWidget* parent) : QWidget(parent) {
   QLabel* label = new QLabel("Scanning for games...");
@@ -19,6 +18,8 @@ ScanForGamesWidget::ScanForGamesWidget(QWidget* parent) : QWidget(parent) {
     qDebug() << "Failed to open database";
   }
 
+  connect(&watcher, &QFutureWatcher<void>::finished, this, &ScanForGamesWidget::foundGames);
+
   QVBoxLayout* layout = new QVBoxLayout();
   layout->addWidget(label);
   layout->addWidget(progress);
@@ -28,9 +29,6 @@ ScanForGamesWidget::ScanForGamesWidget(QWidget* parent) : QWidget(parent) {
 void ScanForGamesWidget::scan() {
   const QString path = "/Applications";
   progress->setRange(0, 0);
-  QFutureWatcher<void> watcher;
-
-  connect(&watcher, &QFutureWatcher<void>::finished, this, &ScanForGamesWidget::foundGames);
 
   QFuture<void> future = QtConcurrent::run([this, path] mutable{
     QDirIterator it(path, QStringList() << "*.app", QDir::Files | QDir::Dirs, QDirIterator::Subdirectories);
@@ -47,8 +45,8 @@ void ScanForGamesWidget::scan() {
         }
       }
     }
-    qDebug() << "hu";
   });
+  qDebug() << "hu";
   watcher.setFuture(future);
 }
 
@@ -72,4 +70,8 @@ void ScanForGamesWidget::foundGames() {
   }
   text->setReadOnly(true);
   layout()->addWidget(text);
+}
+
+void ScanForGamesWidget::doSomething() {
+  qDebug() << "lol";
 }
