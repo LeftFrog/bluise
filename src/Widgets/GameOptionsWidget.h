@@ -21,7 +21,6 @@ protected:
   QString setCover();
   BoxOptionWidget* runner;
 protected slots:
-  void closeWin();
   virtual void apply() = 0;
   virtual void changed() = 0;
 };

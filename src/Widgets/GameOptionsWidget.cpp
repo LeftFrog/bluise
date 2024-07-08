@@ -72,8 +72,6 @@ void GameOptionsWidget::init(const Game &game) {
   resize(700, 500);
 }
 
-void GameOptionsWidget::closeWin() { close(); }
-
 QString GameOptionsWidget::setCover() {
   QString header = "";
   QString fileName = QString::fromStdString(
