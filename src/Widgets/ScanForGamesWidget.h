@@ -2,6 +2,7 @@
 #include <QProgressBar>
 #include <QTextEdit>
 #include <QSqlDatabase>
+#include <QLabel>
 #include <QFutureWatcher>
 
 class ScanForGamesWidget final : public QWidget
@@ -23,7 +24,9 @@ protected:
 private slots:
   void foundGames();
 
+
 private:
+  QLabel* label;
   QFutureWatcher<void> watcher;
   QList<int> game_ids{};
   QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");

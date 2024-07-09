@@ -1,5 +1,4 @@
 #include "ScanForGamesWidget.h"
-#include <QLabel>
 #include <QVBoxLayout>
 #include <QDir>
 #include <QDirIterator>
@@ -9,7 +8,7 @@
 #include <QSqlQuery>
 
 ScanForGamesWidget::ScanForGamesWidget(QWidget* parent) : QWidget(parent) {
-  QLabel* label = new QLabel("Scanning for games...");
+  label = new QLabel("Scanning for games...");
   label->setAlignment(Qt::AlignCenter);
   progress = new QProgressBar();
   progress->setAlignment(Qt::AlignCenter);
@@ -59,6 +58,7 @@ void ScanForGamesWidget::closeEvent(QCloseEvent* event) {
 void ScanForGamesWidget::foundGames() {
   layout()->removeWidget(progress);
   delete progress;
+  label->setText("Found games: ");
   if(game_ids.empty()) {
     text->setPlainText("No games found");
     text->setAlignment(Qt::AlignCenter);
