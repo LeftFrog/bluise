@@ -23,12 +23,14 @@ protected:
 
 private slots:
   void foundGames();
-
+  void addGames();
 
 private:
+  QVariant getValueFromDB(const QString& table, const QString& variable, const int& id);
+
   QLabel* label;
   QFutureWatcher<void> watcher;
-  QList<int> game_ids{};
+  QMap<int, QString> gameMap{};
   QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
   QProgressBar* progress;
   QTextEdit* text;

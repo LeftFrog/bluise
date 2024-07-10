@@ -6,6 +6,8 @@
 #include <QPushButton>
 #include <QtConcurrent>
 #include <QSqlQuery>
+#include <QVariant>
+#include <QSqlRecord>
 
 ScanForGamesWidget::ScanForGamesWidget(QWidget* parent) : QWidget(parent) {
   label = new QLabel("Scanning for games...");
@@ -42,7 +44,7 @@ void ScanForGamesWidget::scan() {
       query.bindValue(":executable", info.fileName());
       if(query.exec()) {
         if(query.next()) {
-          game_ids.append(query.value(0).toInt());
+          gameMap[query.value(0).toInt()] = info.filePath();
         }
       }
     }
@@ -59,18 +61,13 @@ void ScanForGamesWidget::foundGames() {
   layout()->removeWidget(progress);
   delete progress;
   label->setText("Found games: ");
-  if(game_ids.empty()) {
+  if(gameMap.empty()) {
     text->setPlainText("No games found");
     text->setAlignment(Qt::AlignCenter);
   } else {
-    for (auto i : game_ids) {
+    for (auto i : gameMap.values()) {
       text->setAlignment(Qt::AlignLeft);
-      QSqlQuery query(QString("SELECT name FROM games WHERE id = %1").arg(i), db);
-      if (query.exec()) {
-        if (query.next()) {
-          text->append(query.value(0).toString());
-        }
-      }
+      text->append(QFileInfo(i).fileName());
     }
   }
   text->setReadOnly(true);
@@ -78,6 +75,7 @@ void ScanForGamesWidget::foundGames() {
 
   auto* cancel = new QPushButton("Cancel");
   auto* add = new QPushButton("Add");
+  connect(add, &QPushButton::clicked, this, &ScanForGamesWidget::addGames);
   add->setDefault(true);
 
   connect(cancel, &QPushButton::clicked, this, &ScanForGamesWidget::close);
@@ -87,3 +85,41 @@ void ScanForGamesWidget::foundGames() {
   HBL->addWidget(add);
   dynamic_cast<QVBoxLayout*>(layout())->addLayout(HBL);
 }
+
+QVariant ScanForGamesWidget::getValueFromDB(const QString& table, const QString& variable, const int& id) {
+  QSqlQuery query(db);
+  QString idStr = table != "games" ? "game_id" : "id";
+  query.prepare(QString("SELECT %1 FROM %2 WHERE %3 = :id").arg(variable).arg(table).arg(idStr));
+  query.bindValue(":id", id);
+
+  if (query.exec()) {}
+    while (query.next()) {
+      QSqlRecord record = query.record();
+      QStringList list = variable.split(',');
+      qDebug() << list;
+      if(list.count()==1) {
+        return QVariant(record.value(variable));
+      }
+      QList<QVariant> values;
+      for (auto var : list) {
+        values.append(QVariant(record.value(var)));
+      }
+      return QVariant(values);
+    }
+  return QVariant();
+}
+
+void ScanForGamesWidget::addGames() {
+  for (auto id : gameMap.keys()) {
+    QString executable = gameMap[id];
+
+    QList<QVariant> values = getValueFromDB("games", "name,release_year", id).toList();
+    QString name = values[0].toString();
+    int releaseYear = values[1].toInt();
+
+    QString savePath = getValueFromDB("game_save_paths", "save_path", id).toString();
+
+    qDebug() << executable << "\n" << name << releaseYear << "\n" << savePath;
+  }
+}
+
