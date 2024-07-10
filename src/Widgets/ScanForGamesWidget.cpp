@@ -9,6 +9,9 @@
 #include <QVariant>
 #include <QSqlRecord>
 
+#include "../BluiseCore/bluise.h"
+#include "../BluiseCore/Game.h"
+
 ScanForGamesWidget::ScanForGamesWidget(QWidget* parent) : QWidget(parent) {
   label = new QLabel("Scanning for games...");
   label->setAlignment(Qt::AlignCenter);
@@ -118,8 +121,10 @@ void ScanForGamesWidget::addGames() {
     int releaseYear = values[1].toInt();
 
     QString savePath = getValueFromDB("game_save_paths", "save_path", id).toString();
-
-    qDebug() << executable << "\n" << name << releaseYear << "\n" << savePath;
+    savePath = QDir(savePath).absolutePath();
+    QString workingDirectory = executable + "/Contents/";
+    Game game{name, executable, workingDirectory, savePath};
+    bluise_core::gameManager.games.push_back(game);
   }
 }
 
