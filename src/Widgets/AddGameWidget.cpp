@@ -32,6 +32,7 @@ void AddGameWidget::addLocalGame() {
 void AddGameWidget::scanForGames() {
   ScanForGamesWidget* wid = new ScanForGamesWidget();
   connect(wid, &ScanForGamesWidget::closed, this, &AddGameWidget::close);
+  connect(wid, &ScanForGamesWidget::gameAdded, this, &AddGameWidget::gameAdded);
   layout->addWidget(wid);
   layout->setCurrentIndex(1);
   QTimer *timer = new QTimer(this);
@@ -41,6 +42,5 @@ void AddGameWidget::scanForGames() {
 }
 
 void AddGameWidget::closeEvent(QCloseEvent* event) {
-  emit gameAdded();
   QWidget::closeEvent(event);
 }

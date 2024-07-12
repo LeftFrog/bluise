@@ -14,6 +14,7 @@ public:
 
 signals:
   void closed();
+  void gameAdded();
 
 public slots:
   void scan();
