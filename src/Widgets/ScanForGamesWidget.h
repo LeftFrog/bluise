@@ -27,6 +27,7 @@ private slots:
 
 private:
   QVariant getValueFromDB(const QString& table, const QString& variable, const int& id);
+  QString getAbsolutePath(const QString& path);
 
   QLabel* label;
   QFutureWatcher<void> watcher;

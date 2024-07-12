@@ -11,6 +11,7 @@
 
 #include "../BluiseCore/bluise.h"
 #include "../BluiseCore/Game.h"
+#include "../BluiseCore/invalid_path.h"
 
 ScanForGamesWidget::ScanForGamesWidget(QWidget* parent) : QWidget(parent) {
   label = new QLabel("Scanning for games...");
@@ -99,7 +100,6 @@ QVariant ScanForGamesWidget::getValueFromDB(const QString& table, const QString&
     while (query.next()) {
       QSqlRecord record = query.record();
       QStringList list = variable.split(',');
-      qDebug() << list;
       if(list.count()==1) {
         return QVariant(record.value(variable));
       }
@@ -112,6 +112,14 @@ QVariant ScanForGamesWidget::getValueFromDB(const QString& table, const QString&
   return QVariant();
 }
 
+QString ScanForGamesWidget::getAbsolutePath(const QString& path) {
+  QString extendedPath = path;
+  if(path.startsWith("~")) {
+    extendedPath.replace("~", QDir::homePath());
+  }
+  return extendedPath;
+}
+
 void ScanForGamesWidget::addGames() {
   for (auto id : gameMap.keys()) {
     QString executable = gameMap[id];
@@ -121,10 +129,17 @@ void ScanForGamesWidget::addGames() {
     int releaseYear = values[1].toInt();
 
     QString savePath = getValueFromDB("game_save_paths", "save_path", id).toString();
-    savePath = QDir(savePath).absolutePath();
+    savePath = getAbsolutePath(savePath);
+
     QString workingDirectory = executable + "/Contents/";
-    Game game{name, executable, workingDirectory, savePath};
-    bluise_core::gameManager.games.push_back(game);
+
+    try {
+      Game game{name, executable, workingDirectory, savePath};
+      game.setReleaseYear(releaseYear);
+      bluise_core::gameManager.games.push_back(game);
+    } catch (invalid_path& err) {
+      qDebug() << err.what();
+    }
   }
 }
 
