@@ -14,10 +14,11 @@ public:
   bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
   bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
   QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole);
+
 public slots:
   void removeGame();
-private slots:
   void updateList();
+
 private:
   QList<Game> *games;
 };

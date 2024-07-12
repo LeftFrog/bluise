@@ -39,3 +39,8 @@ void AddGameWidget::scanForGames() {
   timer->setSingleShot(true); // Run only once
   timer->start(10);
 }
+
+void AddGameWidget::closeEvent(QCloseEvent* event) {
+  emit gameAdded();
+  QWidget::closeEvent(event);
+}

@@ -88,6 +88,7 @@ void MainWindow::handleMenus(QAction* action) {
 }
 
 void MainWindow::addGame() {
-  AddGameWidget* add_widget = new AddGameWidget();
-  add_widget->show();
+  AddGameWidget* addWidget = new AddGameWidget();
+  connect(addWidget, &AddGameWidget::gameAdded, &model, &GameListModel::updateList);
+  addWidget->show();
 }
