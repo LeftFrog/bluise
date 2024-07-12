@@ -141,5 +141,6 @@ void ScanForGamesWidget::addGames() {
       qDebug() << err.what();
     }
   }
+  close();
 }
 
