@@ -65,14 +65,17 @@ void ScanForGamesWidget::foundGames() {
   layout()->removeWidget(progress);
   delete progress;
   label->setText("Found games: ");
-  if(gameMap.empty()) {
-    text->setPlainText("No games found");
-    text->setAlignment(Qt::AlignCenter);
-  } else {
-    for (auto i : gameMap.values()) {
-      text->setAlignment(Qt::AlignLeft);
+  for (auto i : gameMap.values()) {
+    text->setAlignment(Qt::AlignLeft);
+    if(bluise_core::gameManager.gameExists(i)) {
+      gameMap.remove(gameMap.key(i));
+    } else {
       text->append(QFileInfo(i).fileName());
     }
+  }
+  if(text->toPlainText().isEmpty()) {
+    text->setPlainText("No new games were found");
+    text->setAlignment(Qt::AlignCenter);
   }
   text->setReadOnly(true);
   layout()->addWidget(text);
