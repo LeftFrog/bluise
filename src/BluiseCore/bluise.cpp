@@ -87,6 +87,15 @@ void GameManager::recover(const Game& game) {
            fs::copy_options::recursive | fs::copy_options::overwrite_existing);
 }
 
+bool GameManager::gameExists(const QString& exectuable) {
+  for (auto game : games) {
+    if (game.getExecutable() == exectuable) {
+      return true;
+    }
+  }
+  return false;
+}
+
 QJsonDocument GameManager::readGamesJSON(const QString& filename) {
   QString str;
   QFile file;

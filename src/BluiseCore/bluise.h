@@ -23,6 +23,8 @@ public:
   void makeBackup(const Game& game);
   void recover(const Game& game);
 
+  bool gameExists(const QString& exectuable);
+
 private: 
   QJsonDocument readGamesJSON(const QString& filename);
   void saveGamesJSON(const QString& filename, const QJsonArray& arr);
