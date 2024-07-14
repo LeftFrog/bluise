@@ -13,21 +13,26 @@ extern const QString BACKUP_PATH;
 
 
 
-class GameManager {
+class GameManager : QObject {
+    Q_OBJECT
+
 public:
-  QList<Game> games;
+    QList<Game> games;
 
-  void loadGames(const QString& filename);
-  void saveGames(const QString& filename);
+    void loadGames(const QString& filename);
+    void saveGames(const QString& filename);
 
-  void makeBackup(const Game& game);
-  void recover(const Game& game);
+    void makeBackup(const Game& game);
+    void recover(const Game& game);
 
-  bool gameExists(const QString& exectuable);
+    bool gameExists(const QString& exectuable);
+
+public slots:
+    void addGames(const QList<Game>& games);
 
 private: 
-  QJsonDocument readGamesJSON(const QString& filename);
-  void saveGamesJSON(const QString& filename, const QJsonArray& arr);
+    QJsonDocument readGamesJSON(const QString& filename);
+    void saveGamesJSON(const QString& filename, const QJsonArray& arr);
 };
 
 extern GameManager gameManager;

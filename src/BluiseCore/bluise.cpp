@@ -20,6 +20,11 @@ namespace fs = std::filesystem;
 const QString DOCS = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/Bluise/";
 const QString BACKUP_PATH = DOCS + "backs/";
 
+void GameManager::addGames(const QList<Game>& games) {
+  this->games += games;
+  std::sort(this->games.begin(), this->games.end());
+}
+
 void GameManager::loadGames(const QString& filename) {
   QJsonDocument doc = readGamesJSON(filename);
   QJsonArray arr = doc.array();
