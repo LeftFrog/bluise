@@ -8,7 +8,7 @@
 #include <QSqlRecord>
 #include "bluise.h"
 #include "Game.h"
-
+#include "QSqlError"
 
 GameScanner::GameScanner(QObject* parent) : QObject(parent) {
     db.setDatabaseName("games.db");
@@ -25,19 +25,26 @@ QVariant GameScanner::getValueFromDB(const QString& table, const QString& variab
     query.prepare(QString("SELECT %1 FROM %2 WHERE %3 = :id").arg(variable).arg(table).arg(idStr));
     query.bindValue(":id", id);
 
-    if (query.exec()) {}
-    while (query.next()) {
+    if (!query.exec()) {
+        qWarning() << "Database query failed:" << query.lastError().text();
+        return QVariant();
+    }
+
+    if (query.next()) {
         QSqlRecord record = query.record();
         QStringList list = variable.split(',');
+
         if(list.count()==1) {
             return QVariant(record.value(variable));
         }
+
         QList<QVariant> values;
         for (auto var : list) {
             values.append(QVariant(record.value(var)));
         }
         return QVariant(values);
     }
+
     return QVariant();
 }
 
