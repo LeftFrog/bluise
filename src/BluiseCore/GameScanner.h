@@ -17,7 +17,10 @@ private slots:
     void finishedScan();
 
 private:
+    QVariant getValueFromDB(const QString& table, const QString& variable, const int& id);
+    static QString getAbsolutePath(const QString& path);
+
     QFutureWatcher<void> watcher;
-    QMap<int, QString> gameMap{};
+    QMap<int, QString> gamesMap{};
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
 };
