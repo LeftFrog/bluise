@@ -13,8 +13,8 @@ public:
     explicit GameScanner(QObject* parent = nullptr);
     void scanDirectory(const QString& path);
 
-private:
-    void finished();
+private slots:
+    void finishedScan();
 
 private:
     QFutureWatcher<void> watcher;
