@@ -22,18 +22,11 @@ protected:
   void closeEvent(QCloseEvent* event) override;
 
 private slots:
-  void foundGames();
-  void addGames();
+  void gamesFound();
 
 private:
-  QVariant getValueFromDB(const QString& table, const QString& variable, const int& id);
-  QString getAbsolutePath(const QString& path);
-
   GameScanner* scanner;
   QLabel* label;
-  QFutureWatcher<void> watcher;
-  QMap<int, QString> gameMap{};
-  QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
   QProgressBar* progress;
   QTextEdit* text;
 };
