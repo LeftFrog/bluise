@@ -22,10 +22,6 @@ ScanForGamesWidget::ScanForGamesWidget(QWidget* parent) : QWidget(parent) {
 
     text = new QTextEdit();
 
-    db.setDatabaseName("/Users/leftfrog/Projects/bluise/res/games.db");
-    if(!db.open()) {
-      qDebug() << "Failed to open database";
-    }
 
     connect(&watcher, &QFutureWatcher<void>::finished, this, &ScanForGamesWidget::foundGames);
 
