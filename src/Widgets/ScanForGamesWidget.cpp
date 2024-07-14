@@ -50,6 +50,11 @@ void ScanForGamesWidget::gamesFound(const QList<Game>& games) {
     add->setDefault(true);
 
     connect(cancel, &QPushButton::clicked, this, &ScanForGamesWidget::close);
+    connect(add, &QPushButton::clicked, [this, games] {
+        emit addGames(games);
+        emit gameAdded();
+        close();
+    });
 
     auto* HBL = new QHBoxLayout;
     HBL->addWidget(cancel);

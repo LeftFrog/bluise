@@ -14,6 +14,7 @@ public:
 signals:
   void closed();
   void gameAdded();
+  void addGames(const QList<Game>& games);
 
 public slots:
   void scan();
