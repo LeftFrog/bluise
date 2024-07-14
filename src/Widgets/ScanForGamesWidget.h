@@ -1,9 +1,8 @@
 #pragma once
 #include <QProgressBar>
 #include <QTextEdit>
-#include <QSqlDatabase>
 #include <QLabel>
-#include <QFutureWatcher>
+#include "../BluiseCore/GameScanner.h"
 
 class ScanForGamesWidget final : public QWidget
 {
@@ -30,6 +29,7 @@ private:
   QVariant getValueFromDB(const QString& table, const QString& variable, const int& id);
   QString getAbsolutePath(const QString& path);
 
+  GameScanner* scanner;
   QLabel* label;
   QFutureWatcher<void> watcher;
   QMap<int, QString> gameMap{};

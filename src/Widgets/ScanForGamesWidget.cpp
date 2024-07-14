@@ -1,8 +1,5 @@
 #include "ScanForGamesWidget.h"
 #include <QVBoxLayout>
-#include <QDir>
-#include <QDirIterator>
-#include <QFileInfo>
 #include <QPushButton>
 #include <QtConcurrent>
 #include <QSqlQuery>
@@ -18,6 +15,7 @@ ScanForGamesWidget::ScanForGamesWidget(QWidget* parent) : QWidget(parent) {
   label->setAlignment(Qt::AlignCenter);
   progress = new QProgressBar();
   progress->setAlignment(Qt::AlignCenter);
+  scanner = new GameScanner(this);
 
   text = new QTextEdit();
 
@@ -35,25 +33,26 @@ ScanForGamesWidget::ScanForGamesWidget(QWidget* parent) : QWidget(parent) {
 }
 
 void ScanForGamesWidget::scan() {
-  const QString path = "/Applications";
-  progress->setRange(0, 0);
-
-  QFuture<void> future = QtConcurrent::run([this, path] mutable{
-    QDirIterator it(path, QStringList() << "*.app", QDir::Files | QDir::Dirs, QDirIterator::Subdirectories);
-    while (it.hasNext()) {
-      QSqlQuery query(db);
-      query.prepare("SELECT game_id FROM game_executables WHERE executable = :executable");
-      QString file = it.next();
-      QFileInfo info(file);
-      query.bindValue(":executable", info.fileName());
-      if(query.exec()) {
-        if(query.next()) {
-          gameMap[query.value(0).toInt()] = info.filePath();
-        }
-      }
-    }
-  });
-  watcher.setFuture(future);
+  scanner->scanDirectory("/Applications");
+  // const QString path = "/Applications";
+  // progress->setRange(0, 0);
+  //
+  // QFuture<void> future = QtConcurrent::run([this, path] mutable{
+  //   QDirIterator it(path, QStringList() << "*.app", QDir::Files | QDir::Dirs, QDirIterator::Subdirectories);
+  //   while (it.hasNext()) {
+  //     QSqlQuery query(db);
+  //     query.prepare("SELECT game_id FROM game_executables WHERE executable = :executable");
+  //     QString file = it.next();
+  //     QFileInfo info(file);
+  //     query.bindValue(":executable", info.fileName());
+  //     if(query.exec()) {
+  //       if(query.next()) {
+  //         gameMap[query.value(0).toInt()] = info.filePath();
+  //       }
+  //     }
+  //   }
+  // });
+  // watcher.setFuture(future);
 }
 
 void ScanForGamesWidget::closeEvent(QCloseEvent* event) {

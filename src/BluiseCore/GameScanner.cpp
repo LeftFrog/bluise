@@ -11,6 +11,8 @@ GameScanner::GameScanner(QObject* parent) : QObject(parent) {
     if (!db.open()) {
         qDebug() << "Failed to open database";
     }
+
+    connect(&watcher, &QFutureWatcher<void>::finished, this, &GameScanner::finished);
 }
 
 void GameScanner::scanDirectory(const QString& path) {
@@ -32,3 +34,6 @@ void GameScanner::scanDirectory(const QString& path) {
     watcher.setFuture(future);
 }
 
+void GameScanner::finished() {
+    qDebug() << "Finished scanning";
+}
