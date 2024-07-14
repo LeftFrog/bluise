@@ -54,6 +54,8 @@ qt_add_executable(Bluise starter.cpp
     ./Widgets/BoxOptionWidget.cpp
     ./Widgets/AddGameWidget.cpp
     ./Widgets/ScanForGamesWidget.cpp
+        BluiseCore/GameScanner.h
+        BluiseCore/GameScanner.cpp
 )
 
 # set_target_properties(Bluise PROPERTIES
