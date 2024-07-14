@@ -8,7 +8,6 @@
 #include <QVariant>
 #include <QSqlRecord>
 #include "bluise.h"
-#include "Game.h"
 #include "QSqlError"
 
 GameScanner::GameScanner(QObject* parent) : QObject(parent) {
@@ -96,4 +95,5 @@ void GameScanner::finishedScan() {
         }
     }
     qDebug() << "Found" << games.size() << "games";
+    emit gamesFound(games);
 }

@@ -5,6 +5,7 @@
 #pragma once
 #include <QFutureWatcher>
 #include <QSqlDatabase>
+#include "Game.h"
 
 class GameScanner : public QObject {
     Q_OBJECT
@@ -12,6 +13,9 @@ class GameScanner : public QObject {
 public:
     explicit GameScanner(QObject* parent = nullptr);
     void scanDirectory(const QString& path);
+
+signals:
+    void gamesFound(const QList<Game>& games);
 
 private slots:
     void finishedScan();
