@@ -1,14 +1,8 @@
 #include "ScanForGamesWidget.h"
 #include <QVBoxLayout>
 #include <QPushButton>
-#include <QtConcurrent>
-#include <QSqlQuery>
-#include <QVariant>
-#include <QSqlRecord>
-
 #include "../BluiseCore/bluise.h"
 #include "../BluiseCore/Game.h"
-#include "../BluiseCore/invalid_path.h"
 
 ScanForGamesWidget::ScanForGamesWidget(QWidget* parent) : QWidget(parent) {
     label = new QLabel("Scanning for games...");
@@ -19,6 +13,7 @@ ScanForGamesWidget::ScanForGamesWidget(QWidget* parent) : QWidget(parent) {
     progress->setAlignment(Qt::AlignCenter);
 
     scanner = new GameScanner(this);
+    connect(scanner, &GameScanner::gamesFound, this, &ScanForGamesWidget::gamesFound);
 
     text = new QTextEdit();
 
@@ -33,27 +28,32 @@ void ScanForGamesWidget::scan() {
 }
 
 void ScanForGamesWidget::closeEvent(QCloseEvent* event) {
-  emit closed();
-  QWidget::closeEvent(event);
+    emit closed();
+    QWidget::closeEvent(event);
 }
 
-void ScanForGamesWidget::gamesFound() {
-  layout()->removeWidget(progress);
-  delete progress;
-  label->setText("Found games: ");
+void ScanForGamesWidget::gamesFound(const QList<Game>& games) {
+    layout()->removeWidget(progress);
+    delete progress;
+    label->setText("Found games: ");
 
-  text->setReadOnly(true);
-  layout()->addWidget(text);
+    text->setReadOnly(true);
+    if (!games.empty()) {
+        for (const auto& game : games) {
+            text->append(game.getName());
+        }
+    }
+    layout()->addWidget(text);
 
-  auto* cancel = new QPushButton("Cancel");
-  auto* add = new QPushButton("Add");
-  add->setDefault(true);
+    auto* cancel = new QPushButton("Cancel");
+    auto* add = new QPushButton("Add");
+    add->setDefault(true);
 
-  connect(cancel, &QPushButton::clicked, this, &ScanForGamesWidget::close);
+    connect(cancel, &QPushButton::clicked, this, &ScanForGamesWidget::close);
 
-  auto* HBL = new QHBoxLayout;
-  HBL->addWidget(cancel);
-  HBL->addWidget(add);
-  dynamic_cast<QVBoxLayout*>(layout())->addLayout(HBL);
+    auto* HBL = new QHBoxLayout;
+    HBL->addWidget(cancel);
+    HBL->addWidget(add);
+    dynamic_cast<QVBoxLayout*>(layout())->addLayout(HBL);
 }
 

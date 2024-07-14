@@ -22,7 +22,7 @@ protected:
   void closeEvent(QCloseEvent* event) override;
 
 private slots:
-  void gamesFound();
+  void gamesFound(const QList<Game>& games);
 
 private:
   GameScanner* scanner;
