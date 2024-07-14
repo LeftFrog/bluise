@@ -1,6 +1,7 @@
 //
 // Created by Leonov Oleksandr on 2024-07-14.
 //
+
 #include "GameScanner.h"
 #include <QtConcurrent>
 #include <QSqlQuery>
@@ -11,7 +12,7 @@
 #include "QSqlError"
 
 GameScanner::GameScanner(QObject* parent) : QObject(parent) {
-    db.setDatabaseName("games.db");
+    db.setDatabaseName("/Users/leftfrog/Projects/bluise/res/games.db");
     if (!db.open()) {
         qDebug() << "Failed to open database";
     }
@@ -21,8 +22,8 @@ GameScanner::GameScanner(QObject* parent) : QObject(parent) {
 
 QVariant GameScanner::getValueFromDB(const QString& table, const QString& variable, const int& id) {
     QSqlQuery query(db);
-    QString idStr = table != "games" ? "game_id" : "id";
-    query.prepare(QString("SELECT %1 FROM %2 WHERE %3 = :id").arg(variable).arg(table).arg(idStr));
+    QString idColumn = table != "games" ? "game_id" : "id";
+    query.prepare(QString("SELECT %1 FROM %2 WHERE %3 = :id").arg(variable).arg(table).arg(idColumn));
     query.bindValue(":id", id);
 
     if (!query.exec()) {
@@ -76,5 +77,23 @@ void GameScanner::scanDirectory(const QString& path) {
 }
 
 void GameScanner::finishedScan() {
+    QList<Game> games;
+    for (auto id : gamesMap.keys()) {
+        if(!bluise_core::gameManager.gameExists(gamesMap[id])) {
+            QString executable = gamesMap[id];
+            QList<QVariant> values = getValueFromDB("games", "name,release_year", id).toList();
+            QString name = values[0].toString();
+            int releaseYear = values[1].toInt();
 
+            QString savePath = getValueFromDB("game_save_paths", "save_path", id).toString();
+            savePath = getAbsolutePath(savePath);
+
+            QString workingDirectory = executable + "/Contents/";
+
+            Game game{name, executable, workingDirectory, savePath};
+            game.setReleaseYear(releaseYear);
+            games.push_back(game);
+        }
+    }
+    qDebug() << "Found" << games.size() << "games";
 }
