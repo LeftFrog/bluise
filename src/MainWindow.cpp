@@ -19,7 +19,7 @@
 #include "Widgets/AddGameWidget.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-  bluise_core::gameManager.loadGames(bluise_core::DOCS+"games.json");
+  gameManager.loadGames(DOCS+"games.json");
   setUnifiedTitleAndToolBarOnMac(true);
   setWindowTitle("Bluise");
   resize(1900, 800);
@@ -78,7 +78,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 }
 
 MainWindow::~MainWindow() {
-  bluise_core::gameManager.saveGames(bluise_core::DOCS+"games.json");
+  gameManager.saveGames(DOCS+"games.json");
 }
 
 void MainWindow::handleMenus(QAction* action) {

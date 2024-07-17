@@ -62,6 +62,6 @@ void ScanForGamesWidget::gamesFound(const QList<Game>& games) {
 }
 
 void ScanForGamesWidget::addGames(const QList<Game>& games) {
-    bluise_core::gameManager.addGames(games);
+    gameManager.addGames(games);
 }
 

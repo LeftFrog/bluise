@@ -41,7 +41,7 @@ void Game::setSavePath(QString sp) {
 }
 
 void Game::setCover(const QString &_coverName) {
-  QString path = bluise_core::DOCS + "res/covers/";
+  QString path = DOCS + "res/covers/";
   QString fullPath = path + _coverName;
   if (QFile::exists(fullPath)) {
     coverPath = fullPath;

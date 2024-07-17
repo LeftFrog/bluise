@@ -84,7 +84,7 @@ void GameInfoWidget::setIcon(Qt::ColorScheme scheme) {
 }
 
 void GameInfoWidget::removeGame() {
-  bluise_core::gameManager.games.removeOne(*game);
+  gameManager.games.removeOne(*game);
   emit removeSignal();
   hide();
 }

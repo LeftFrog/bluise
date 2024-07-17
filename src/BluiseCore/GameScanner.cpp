@@ -78,7 +78,7 @@ void GameScanner::scanDirectory(const QString& path) {
 void GameScanner::finishedScan() {
     QList<Game> games;
     for (auto id : gamesMap.keys()) {
-        if(!bluise_core::gameManager.gameExists(gamesMap[id])) {
+        if(!gameManager.gameExists(gamesMap[id])) {
             QString executable = gamesMap[id];
             QList<QVariant> values = getValueFromDB("games", "name,release_year", id).toList();
             QString name = values[0].toString();

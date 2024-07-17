@@ -1,6 +1,6 @@
 #include "AddLocalInstalledGameWidget.h"
 #include "../BluiseCore/bluise.h"
-#include <QFile>
+#include "../BluiseCore/bluise_error.h"
 #include <QMessageBox>
 #include <filesystem>
 
@@ -29,7 +29,7 @@ void AddLocalInstalledGameWidget::apply() {
                                       options["workingDirectory"]->text(),
                                       options["savePath"]->text(), choose->path().isEmpty() ? "" : setCover());
     g.setRunner(static_cast<Game::Runner>(runner->currentIndex()));
-    bluise_core::gameManager.games.push_back(g);
+    gameManager.games.push_back(g);
   } catch (bluise_error &err) {
     QMessageBox::critical(this, "Error", QString::fromStdString(err.what()));
     return;

@@ -92,7 +92,7 @@ QString GameOptionsWidget::setCover() {
                       .string()
                       .size() -
                   4));
-  QString path = bluise_core::DOCS + "res/covers/";
+  QString path = DOCS + "res/covers/";
   if (QFile::exists(path + fileName + extension)) {
     int i = 1;
     while (QFile::exists(path + fileName + QString::number(i) + extension)) {
@@ -104,7 +104,7 @@ QString GameOptionsWidget::setCover() {
     header = fileName + QString::number(i) + extension;
   } else {
     std::filesystem::copy(choose->path().toStdString(),
-                          (bluise_core::DOCS + "res/covers").toStdString());
+                          (DOCS + "res/covers").toStdString());
     header = fileName + extension;
   }
   return header;
