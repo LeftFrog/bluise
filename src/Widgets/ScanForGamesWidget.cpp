@@ -14,7 +14,6 @@ ScanForGamesWidget::ScanForGamesWidget(QWidget* parent) : QWidget(parent) {
 
     scanner = new GameScanner(this);
     connect(scanner, &GameScanner::gamesFound, this, &ScanForGamesWidget::gamesFound);
-
     text = new QTextEdit();
 
     QVBoxLayout* layout = new QVBoxLayout();
@@ -51,7 +50,7 @@ void ScanForGamesWidget::gamesFound(const QList<Game>& games) {
 
     connect(cancel, &QPushButton::clicked, this, &ScanForGamesWidget::close);
     connect(add, &QPushButton::clicked, [this, games] {
-        emit addGames(games);
+        addGames(games);
         emit gameAdded();
         close();
     });
@@ -60,5 +59,9 @@ void ScanForGamesWidget::gamesFound(const QList<Game>& games) {
     HBL->addWidget(cancel);
     HBL->addWidget(add);
     dynamic_cast<QVBoxLayout*>(layout())->addLayout(HBL);
+}
+
+void ScanForGamesWidget::addGames(const QList<Game>& games) {
+    bluise_core::gameManager.addGames(games);
 }
 

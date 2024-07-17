@@ -14,7 +14,6 @@ public:
 signals:
   void closed();
   void gameAdded();
-  void addGames(const QList<Game>& games);
 
 public slots:
   void scan();
@@ -26,6 +25,8 @@ private slots:
   void gamesFound(const QList<Game>& games);
 
 private:
+  void addGames(const QList<Game>& games);
+
   GameScanner* scanner;
   QLabel* label;
   QProgressBar* progress;

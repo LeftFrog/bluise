@@ -12,7 +12,6 @@
 #include <iostream>
 #include <string>
 
-
 namespace bluise_core {
 
 namespace fs = std::filesystem;
@@ -21,8 +20,12 @@ const QString DOCS = QStandardPaths::writableLocation(QStandardPaths::DocumentsL
 const QString BACKUP_PATH = DOCS + "backs/";
 
 void GameManager::addGames(const QList<Game>& games) {
-  this->games += games;
-  std::sort(this->games.begin(), this->games.end());
+    this->games.append(games);
+    std::sort(this->games.begin(), this->games.end());
+}
+
+GameManager::GameManager(QObject* parent) {
+
 }
 
 void GameManager::loadGames(const QString& filename) {

@@ -17,6 +17,8 @@ class GameManager : QObject {
     Q_OBJECT
 
 public:
+    GameManager(QObject* parent = nullptr);
+
     QList<Game> games;
 
     void loadGames(const QString& filename);
