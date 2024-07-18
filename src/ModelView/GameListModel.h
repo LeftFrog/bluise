@@ -17,11 +17,14 @@ public:
 
     void addGame(const Game& game);
     void addGames(const QList<Game>& games);
+    void removeGame(const Game& game);
+
+    QList<Game> getGames() const { return games; }
 
 public slots:
     void removeGame();
     void updateList();
 
 private:
-    QList<Game>* games;
+    QList<Game> games;
 };

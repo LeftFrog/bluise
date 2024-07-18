@@ -29,7 +29,7 @@ private slots:
   void removeGame();
   void openWorkingDirectory();
 private:
-  Game *game;
+  const Game *game;
   QMenu *menu;
   fa::QtAwesome *awesome = new fa::QtAwesome;
   Ui::GameInfoWidget *ui;

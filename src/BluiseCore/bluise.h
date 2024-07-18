@@ -15,7 +15,6 @@ class GameManager : QObject {
 public:
     GameManager(QObject* parent = nullptr);
 
-    QList<Game> games;
     GameProxyModel* gameProxyModel;
 
     void loadGames(const QString& filename);
@@ -28,6 +27,8 @@ public:
 
 public slots:
     void addGames(const QList<Game>& games);
+    void addGame(const Game& game);
+    void removeGame(const Game& game);
 
 private:
     GameListModel gameListModel;

@@ -2,7 +2,6 @@
 #include <QMainWindow>
 #include <QListView>
 #include <QTableView>
-#include "./ModelView/GameListModel.h"
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
@@ -16,7 +15,6 @@ private slots:
   void addGame();
 
 private:
-  GameListModel model;
   QTableView *table;
   QListView *list;
   QMenuBar *menuBar;

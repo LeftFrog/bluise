@@ -49,8 +49,9 @@ GameInfoWidget::~GameInfoWidget() {
 }
 
 void GameInfoWidget::setGame(const QModelIndex& index) {
-  game = index.data(Qt::UserRole + 1).value<Game *>();
+  game = index.data(Qt::UserRole + 1).value<const Game* >();
   if(game == nullptr) {
+    qDebug() << "Game is null";
     return;
   }
   ui->label->setText(game->getName());
@@ -67,8 +68,8 @@ void GameInfoWidget::play() {
 }
 
 void GameInfoWidget::settings() {
-  EditGameWidget *edit_widget = new EditGameWidget(game);
-  edit_widget->show();
+  // EditGameWidget *edit_widget = new EditGameWidget(game);
+  // edit_widget->show();
 }
 
 
@@ -84,7 +85,7 @@ void GameInfoWidget::setIcon(Qt::ColorScheme scheme) {
 }
 
 void GameInfoWidget::removeGame() {
-  gameManager.games.removeOne(*game);
+  gameManager.removeGame(*game);
   emit removeSignal();
   hide();
 }

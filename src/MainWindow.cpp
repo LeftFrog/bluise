@@ -2,20 +2,11 @@
 #include "./ModelView/GameListModel.h"
 #include "./Widgets/GameInfoWidget.h"
 #include "./ModelView/CoverDelegate.h"
-#include <QSplitter>
 #include <QListView>
-#include <QTableView>
-#include <QStringListModel>
-#include <QMenuBar>
-#include "./Widgets/AddLocalInstalledGameWidget.h"
 #include "./BluiseCore/bluise.h"
-#include <QToolBar>
-#include <QDockWidget>
 #include "./Widgets/ToolBar.h"
 #include "./ModelView/GameProxyModel.h"
-#include "./BeautifulUI/BeautifulButton.h"
 #include "QtAwesome/QtAwesome/QtAwesome.h"
-#include <QToolButton>
 #include "Widgets/AddGameWidget.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
@@ -45,12 +36,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   splitter->setHandleWidth(2);
   splitter->setCollapsible(2, false);
 
-  GameProxyModel *proxy = new GameProxyModel(this);
-  proxy->setSourceModel(&model);
-  proxy->setFilterRole(Qt::UserRole + 3);
-  proxy->sort(0, Qt::AscendingOrder);
-
-  list->setModel(proxy);
+  list->setModel(gameManager.gameProxyModel);
   list->setViewMode(QListView::IconMode);
   list->setItemDelegate(new CoverDelegate(QSize(265/1.5, 376/1.5)));
   list->setResizeMode(QListView::Adjust);
@@ -63,13 +49,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   fa::QtAwesome *awesome = new fa::QtAwesome(this);
   awesome->initFontAwesome();
 
-  connect(info, &GameInfoWidget::removeSignal, &model, &GameListModel::removeGame);
-
   connect(list, &QListView::clicked, info, &GameInfoWidget::setGame);
 
-  connect(toolbar, &ToolBar::setFilter, proxy, &GameProxyModel::setFilterExp);
-  connect(toolbar, &ToolBar::setName, proxy, &GameProxyModel::setNameExp);
-  connect(toolbar, &ToolBar::setSort, proxy, &QSortFilterProxyModel::setSortRole);
+  connect(toolbar, &ToolBar::setFilter, gameManager.gameProxyModel, &GameProxyModel::setFilterExp);
+  connect(toolbar, &ToolBar::setName, gameManager.gameProxyModel, &GameProxyModel::setNameExp);
+  connect(toolbar, &ToolBar::setSort, gameManager.gameProxyModel, &QSortFilterProxyModel::setSortRole);
 
   setWindowIcon(QIcon("/Users/leftfrog/Projects/bluise/res/1024-mac.png"));
 
@@ -88,6 +72,5 @@ void MainWindow::handleMenus(QAction* action) {
 
 void MainWindow::addGame() {
   AddGameWidget* addWidget = new AddGameWidget();
-  connect(addWidget, &AddGameWidget::gameAdded, &model, &GameListModel::updateList);
   addWidget->show();
 }
