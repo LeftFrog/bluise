@@ -3,6 +3,9 @@
 #include <QList>
 #include <QJsonDocument>
 
+#include "../ModelView/GameListModel.h"
+#include "../ModelView/GameProxyModel.h"
+
 extern const QString DOCS;
 extern const QString BACKUP_PATH;
 
@@ -13,6 +16,8 @@ public:
     GameManager(QObject* parent = nullptr);
 
     QList<Game> games;
+    GameListModel gameListModel;
+    GameProxyModel gameProxyModel;
 
     void loadGames(const QString& filename);
     void saveGames(const QString& filename);
