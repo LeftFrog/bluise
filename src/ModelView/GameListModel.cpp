@@ -71,3 +71,11 @@ QVariant GameListModel::headerData(int section, Qt::Orientation orientation, int
     return QVariant();
   }
 }
+
+void GameListModel::addGame(const Game& game) {
+
+}
+
+void GameListModel::addGames(const QList<Game>& games) {
+
+}
