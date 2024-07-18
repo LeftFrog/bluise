@@ -22,7 +22,11 @@ void GameManager::addGames(const QList<Game>& games) {
     std::sort(this->games.begin(), this->games.end());
 }
 
-GameManager::GameManager(QObject* parent) : QObject(parent), gameListModel(), gameProxyModel() {
+GameManager::GameManager(QObject* parent) : QObject(parent), gameListModel(this) {
+  gameProxyModel = new GameProxyModel(this);
+  gameProxyModel->setSourceModel(&gameListModel);
+  gameProxyModel->setFilterRole(Qt::UserRole + 3);
+  gameProxyModel->sort(0, Qt::AscendingOrder);
 }
 
 void GameManager::loadGames(const QString& filename) {

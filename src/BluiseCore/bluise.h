@@ -16,8 +16,7 @@ public:
     GameManager(QObject* parent = nullptr);
 
     QList<Game> games;
-    GameListModel gameListModel;
-    GameProxyModel gameProxyModel;
+    GameProxyModel* gameProxyModel;
 
     void loadGames(const QString& filename);
     void saveGames(const QString& filename);
@@ -30,7 +29,8 @@ public:
 public slots:
     void addGames(const QList<Game>& games);
 
-private: 
+private:
+    GameListModel gameListModel;
     QJsonDocument readGamesJSON(const QString& filename);
     void saveGamesJSON(const QString& filename, const QJsonArray& arr);
 };

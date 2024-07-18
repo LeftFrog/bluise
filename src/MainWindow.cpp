@@ -41,7 +41,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   splitter->addWidget(list);
   GameInfoWidget *info = new GameInfoWidget(splitter);
   splitter->addWidget(info);
-  // list->setModel(&model);
   info->hide();
   splitter->setHandleWidth(2);
   splitter->setCollapsible(2, false);
