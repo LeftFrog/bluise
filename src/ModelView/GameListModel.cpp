@@ -19,7 +19,6 @@ QVariant GameListModel::data(const QModelIndex &index, int role) const {
     } else if(role == Qt::DecorationRole) {
         return games.at(index.row()).getCover();
     } else if(role == Qt::UserRole + 1) {
-        qDebug() << (&games[index.row()])->getName();
         return QVariant::fromValue((&games[index.row()]));
     } else if(role == ReleaseYearRole) {
         return games.at(index.row()).getReleaseYear();
@@ -27,6 +26,29 @@ QVariant GameListModel::data(const QModelIndex &index, int role) const {
         return games.at(index.row()).getName() + ":" + (games.at(index.row()).isDisabled() ? "t" : "f");
     } else {
         return QVariant();
+    }
+}
+
+bool GameListModel::setData(const QModelIndex& index, const QVariant& value, int role) {
+    if (!index.isValid()) return false;
+    if (index.row() >= games.size()) return false;
+    if (role==NameRole) {
+        games[index.row()].setName(value.toString());
+        return true;
+    } else if (role==ExecutableRole) {
+        games[index.row()].setExecutable(value.toString());
+    } else if (role==WorkingDirectoryRole) {
+        games[index.row()].setWorkingDirectory(value.toString());
+    } else if (role==SavePathRole) {
+        games[index.row()].setSavePath(value.toString());
+    } else if (role==CoverRole) {
+        games[index.row()].setCover(value.toString());
+    } else if (role==ReleaseYearRole) {
+        games[index.row()].setReleaseYear(value.toInt());
+    } else if (role==RunnerRole) {
+        games[index.row()].setRunner(static_cast<Game::Runner>(value.toInt()));
+    } else {
+        return false;
     }
 }
 
@@ -56,19 +78,19 @@ void GameListModel::removeGame() {
 }
 
 QVariant GameListModel::headerData(int section, Qt::Orientation orientation, int role) {
-  if (role != Qt::DisplayRole || orientation != Qt::Horizontal)
-    return QVariant();
+    if (role != Qt::DisplayRole || orientation != Qt::Horizontal)
+        return QVariant();
 
-  switch (section) {
-  case 0:
-    return QString("Name");
-  case 1:
-    return QString("Icon");
-  case 2:
-    return QString("Date");
-  default:
-    return QVariant();
-  }
+    switch (section) {
+        case 0:
+            return QString("Name");
+        case 1:
+            return QString("Icon");
+        case 2:
+            return QString("Date");
+        default:
+            return QVariant();
+    }
 }
 
 void GameListModel::addGame(const Game& game) {
