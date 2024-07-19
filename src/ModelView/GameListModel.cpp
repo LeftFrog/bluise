@@ -32,22 +32,27 @@ QVariant GameListModel::data(const QModelIndex &index, int role) const {
 bool GameListModel::setData(const QModelIndex& index, const QVariant& value, int role) {
     if (!index.isValid()) return false;
     if (index.row() >= games.size()) return false;
-    if (role==NameRole) {
-        games[index.row()].setName(value.toString());
-        return true;
-    } else if (role==ExecutableRole) {
-        games[index.row()].setExecutable(value.toString());
-    } else if (role==WorkingDirectoryRole) {
-        games[index.row()].setWorkingDirectory(value.toString());
-    } else if (role==SavePathRole) {
-        games[index.row()].setSavePath(value.toString());
-    } else if (role==CoverRole) {
-        games[index.row()].setCover(value.toString());
-    } else if (role==ReleaseYearRole) {
-        games[index.row()].setReleaseYear(value.toInt());
-    } else if (role==RunnerRole) {
-        games[index.row()].setRunner(static_cast<Game::Runner>(value.toInt()));
-    } else {
+    try {
+        if (role==NameRole) {
+            games[index.row()].setName(value.toString());
+            return true;
+        } else if (role==ExecutableRole) {
+            games[index.row()].setExecutable(value.toString());
+        } else if (role==WorkingDirectoryRole) {
+            games[index.row()].setWorkingDirectory(value.toString());
+        } else if (role==SavePathRole) {
+            games[index.row()].setSavePath(value.toString());
+        } else if (role==CoverRole) {
+            games[index.row()].setCover(value.toString());
+        } else if (role==ReleaseYearRole) {
+            games[index.row()].setReleaseYear(value.toInt());
+        } else if (role==RunnerRole) {
+            games[index.row()].setRunner(static_cast<Game::Runner>(value.toInt()));
+        } else {
+            return false;
+        }
+    } catch (...) {
+        qDebug() << "Error setting data";
         return false;
     }
 }
