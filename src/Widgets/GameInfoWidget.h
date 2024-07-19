@@ -12,15 +12,17 @@ QT_END_NAMESPACE
 
 class GameInfoWidget : public QWidget {
   Q_OBJECT
+
 public:
   explicit GameInfoWidget(QWidget *parent = nullptr);
   ~GameInfoWidget();
+
 signals:
   void removeSignal();
+
 public slots:
   void setGame(const QModelIndex& index);
-protected:
-  // void resizeEvent(QResizeEvent *event) override;
+
 private slots:
   void play();
   void settings();
@@ -28,6 +30,7 @@ private slots:
   void setIcon(Qt::ColorScheme scheme);
   void removeGame();
   void openWorkingDirectory();
+
 private:
   const Game *game;
   QMenu *menu;

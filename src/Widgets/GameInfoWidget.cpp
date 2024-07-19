@@ -68,8 +68,8 @@ void GameInfoWidget::play() {
 }
 
 void GameInfoWidget::settings() {
-  // EditGameWidget *edit_widget = new EditGameWidget(game);
-  // edit_widget->show();
+  EditGameWidget *edit_widget = new EditGameWidget(game);
+  edit_widget->show();
 }
 
 
