@@ -5,7 +5,7 @@ class EditGameWidget : public GameOptionsWidget {
   Q_OBJECT
 
 public:
-  EditGameWidget(const Game& game, QWidget *parent = nullptr);
+  EditGameWidget(const Game* game, QWidget *parent = nullptr);
 signals:
   void gameChanged();
 protected slots:
@@ -14,5 +14,5 @@ protected slots:
 
 private:
   bool optionsHaveChanged();
-  const Game game;
+  const Game* game;
 };
