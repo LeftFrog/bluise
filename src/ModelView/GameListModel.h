@@ -6,7 +6,7 @@ class GameListModel : public QAbstractListModel {
     Q_OBJECT
 public:
     enum {  CoverRole = Qt::UserRole,
-            GamePointerRole = Qt::UserRole + 1,
+            GameReferenceRole = Qt::UserRole + 1,
             ReleaseYearRole = Qt::UserRole + 2,
             InstalledRole = Qt::UserRole + 3,
             NameRole = Qt::DisplayRole,
