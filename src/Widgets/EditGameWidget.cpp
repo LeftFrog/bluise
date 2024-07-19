@@ -1,26 +1,24 @@
 #include "EditGameWidget.h"
 #include "../BluiseCore/bluise_error.h"
+#include "../BluiseCore/bluise.h"
 #include <QHBoxLayout>
-#include <QLabel>
-#include <QLineEdit>
 #include <QMessageBox>
-#include <QVBoxLayout>
 
-EditGameWidget::EditGameWidget(Game *_game, QWidget *parent)
-    : GameOptionsWidget(*_game, parent), game(_game) {
+EditGameWidget::EditGameWidget(const Game& game, QWidget *parent)
+    : GameOptionsWidget(game, parent), game(game) {
 
 }
 
 void EditGameWidget::apply() {
   try {
-    game->setName(options["name"]->text());
-    game->setWorkingDirectory(options["workingDirectory"]->text());
-    game->setExecutable(options["exec"]->text());
-    game->setSavePath(options["savePath"]->text());
-    game->setReleaseYear(options["releaseYear"]->text().toInt());
-    game->setRunner(static_cast<Game::Runner>(runner->currentIndex()));
+    gameManager.setData(game, options["name"]->text(), GameListModel::NameRole);
+    gameManager.setData(game, options["executable"]->text(), GameListModel::ExecutableRole);
+    gameManager.setData(game, options["workingDirectory"]->text(), GameListModel::WorkingDirectoryRole);
+    gameManager.setData(game, options["savePath"]->text(), GameListModel::SavePathRole);
+    gameManager.setData(game, options["releaseYear"]->text().toInt(), GameListModel::ReleaseYearRole);
+    gameManager.setData(game, runner->currentIndex(), GameListModel::RunnerRole);
     if(choose->isChanged()) {
-      game->setCover(setCover());
+      gameManager.setData(game, setCover(), GameListModel::InstalledRole);
     }
   } catch (bluise_error &err) {
     QMessageBox::critical(this, "Error", QString::fromStdString(err.what()));
