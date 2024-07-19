@@ -11,7 +11,7 @@ class GameOptionsWidget : public QWidget {
   Q_OBJECT
 public:
   GameOptionsWidget(QWidget *parent = nullptr);
-  GameOptionsWidget(const Game game, QWidget *parent = nullptr);
+  GameOptionsWidget(const Game& game, QWidget *parent = nullptr);
 
 protected:
   void init(const Game& game = Game());

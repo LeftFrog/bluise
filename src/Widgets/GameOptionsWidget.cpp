@@ -6,7 +6,7 @@ GameOptionsWidget::GameOptionsWidget(QWidget *parent) : QWidget(parent) {
   init();
 }
 
-GameOptionsWidget::GameOptionsWidget(const Game game, QWidget *parent)
+GameOptionsWidget::GameOptionsWidget(const Game& game, QWidget *parent)
     : QWidget(parent) {
   init(game);
 }
