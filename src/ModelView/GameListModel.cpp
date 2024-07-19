@@ -94,3 +94,7 @@ void GameListModel::removeGame(const Game& game) {
     games.removeOne(game);
     endRemoveRows();
 }
+
+QModelIndex GameListModel::indexOf(const Game& game) const {
+    return index(games.indexOf(game));
+}

@@ -19,6 +19,8 @@ public:
     void addGames(const QList<Game>& games);
     void removeGame(const Game& game);
 
+    QModelIndex indexOf(const Game& game) const;
+
     QList<Game> getGames() const { return games; }
 
 public slots:
