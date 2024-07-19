@@ -35,6 +35,10 @@ GameManager::GameManager(QObject* parent) : QObject(parent), gameListModel(this)
     gameProxyModel->sort(0, Qt::AscendingOrder);
 }
 
+bool GameManager::setData(const Game& game, const QVariant& value, int role) {
+    return gameListModel.setData(gameListModel.indexOf(game), value, role);
+}
+
 void GameManager::loadGames(const QString& filename) {
     QJsonDocument doc = readGamesJSON(filename);
     QJsonArray arr = doc.array();

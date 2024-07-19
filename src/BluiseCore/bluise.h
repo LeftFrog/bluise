@@ -17,6 +17,8 @@ public:
 
     GameProxyModel* gameProxyModel;
 
+    bool setData(const Game& game, const QVariant& value, int role);
+
     void loadGames(const QString& filename);
     void saveGames(const QString& filename);
 
