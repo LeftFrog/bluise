@@ -3,19 +3,20 @@
 #include <QListView>
 
 class MainWindow final : public QMainWindow {
-  Q_OBJECT
-  
+    Q_OBJECT
+
 public:
-  explicit MainWindow(QWidget *parent = nullptr);
-  ~MainWindow() override;
+    explicit MainWindow(QWidget* parent = nullptr);
+    ~MainWindow() override;
 
 private slots:
-  void handleMenus(QAction* action);
-  void addGame();
+    void handleMenus(QAction* action);
+    void addGame();
 
 private:
     void initMenuBar();
+    void initListView();
 
-    QListView *list;
-    QMenuBar *menuBar;
+    QListView* list;
+    QMenuBar* menuBar;
 };

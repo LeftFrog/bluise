@@ -24,7 +24,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     splitter->setCollapsible(0, false);
     connect(toolbar, &ToolBar::addGame, this, &MainWindow::addGame);
 
-    list = new QListView(splitter);
+    initListView();
+
     splitter->addWidget(list);
     GameInfoWidget* info = new GameInfoWidget(splitter);
     splitter->addWidget(info);
@@ -32,21 +33,10 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     splitter->setHandleWidth(2);
     splitter->setCollapsible(2, false);
 
-    list->setModel(gameManager.gameProxyModel);
-    list->setViewMode(QListView::IconMode);
-    list->setItemDelegate(new CoverDelegate(QSize(265 / 1.5, 376 / 1.5)));
-    list->setResizeMode(QListView::Adjust);
-    list->setUniformItemSizes(true);
-    list->setSizeAdjustPolicy(QListView::AdjustToContentsOnFirstShow);
-    list->setWrapping(true);
-    list->setSpacing(15);
-    list->setFlow(QListView::LeftToRight);
-
     fa::QtAwesome* awesome = new fa::QtAwesome(this);
     awesome->initFontAwesome();
 
     connect(list, &QListView::clicked, info, &GameInfoWidget::setGame);
-
     connect(toolbar, &ToolBar::setFilter, gameManager.gameProxyModel, &GameProxyModel::setFilterExp);
     connect(toolbar, &ToolBar::setName, gameManager.gameProxyModel, &GameProxyModel::setNameExp);
     connect(toolbar, &ToolBar::setSort, gameManager.gameProxyModel, &QSortFilterProxyModel::setSortRole);
@@ -77,4 +67,17 @@ void MainWindow::initMenuBar() {
     fileMenu->addAction("New Game");
     connect(fileMenu, &QMenu::triggered, this, &MainWindow::handleMenus);
     setMenuBar(menuBar);
+}
+
+void MainWindow::initListView() {
+    list = new QListView();
+    list->setModel(gameManager.gameProxyModel);
+    list->setViewMode(QListView::IconMode);
+    list->setItemDelegate(new CoverDelegate(QSize(265 / 1.5, 376 / 1.5)));
+    list->setResizeMode(QListView::Adjust);
+    list->setUniformItemSizes(true);
+    list->setSizeAdjustPolicy(QListView::AdjustToContentsOnFirstShow);
+    list->setWrapping(true);
+    list->setSpacing(15);
+    list->setFlow(QListView::LeftToRight);
 }
