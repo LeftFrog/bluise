@@ -94,17 +94,17 @@ void Game::execute() const {
 }
 
 bool Game::operator==(const Game &other) const {
-  return (this->name == other.name) ? true : false;
+  return this->name == other.name;
 }
 
 bool Game::operator==(const string &other) const {
-  return (this->name.toStdString() == other) ? true : false;
+  return this->name.toStdString() == other;
 }
 
 bool Game::operator==(const QString &other) const {
-  return (this->name == other) ? true : false;
+  return this->name == other;
 }
 
 bool Game::operator<(const Game &other) const {
-  return (this->name < other.name);
+  return this->name < other.name;
 }
