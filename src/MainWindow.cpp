@@ -15,22 +15,12 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     initToolBar();
     initListView();
 
-    QSplitter* splitter = new QSplitter(Qt::Vertical, this);
-    splitter->addWidget(toolbar);
-    splitter->setCollapsible(0, false);
-
-
-    splitter->addWidget(list);
-    splitter->addWidget(createGameInfoWidget());
-    splitter->setHandleWidth(2);
-    splitter->setCollapsible(2, false);
-
     fa::QtAwesome* awesome = new fa::QtAwesome(this);
     awesome->initFontAwesome();
 
     setWindowIcon(QIcon("/Users/leftfrog/Projects/bluise/res/1024-mac.png"));
 
-    setCentralWidget(splitter);
+    setCentralWidget(createSplitter());
 }
 
 MainWindow::~MainWindow() {
@@ -82,4 +72,15 @@ GameInfoWidget* MainWindow::createGameInfoWidget() {
     info->hide();
     connect(list, &QListView::clicked, info, &GameInfoWidget::setGame);
     return info;
+}
+
+QSplitter* MainWindow::createSplitter() {
+    QSplitter* splitter = new QSplitter(Qt::Vertical, this);
+    splitter->addWidget(toolbar);
+    splitter->setCollapsible(0, false);
+    splitter->addWidget(list);
+    splitter->addWidget(createGameInfoWidget());
+    splitter->setHandleWidth(2);
+    splitter->setCollapsible(2, false);
+    return  splitter;
 }
