@@ -24,7 +24,7 @@ protected:
     ChoosePictureWidget *choose;
     QPushButton *applyButton;
     QMap<QString, GameOptionWidget*> options;
-    QString setCover();
+    QString getCoverName();
     BoxOptionWidget* runner;
 
 protected slots:

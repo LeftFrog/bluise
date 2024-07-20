@@ -1,5 +1,6 @@
 #include "GameOptionsWidget.h"
 #include "../BluiseCore/bluise.h"
+#include <QFileInfo>
 
 GameOptionsWidget::GameOptionsWidget(QWidget *parent) : QWidget(parent) {
   init();
@@ -90,40 +91,25 @@ QWidget* GameOptionsWidget::createGameOptionsWidget() {
     return gameOptions;
 }
 
-QString GameOptionsWidget::setCover() {
-  QString header = "";
-  QString fileName = QString::fromStdString(
-      std::filesystem::path(choose->path().toStdString())
-          .filename()
-          .string()
-          .substr(0, std::filesystem::path(choose->path().toStdString())
-                              .filename()
-                              .string()
-                              .size() -
-                          4));
-  QString extension = QString::fromStdString(
-      std::filesystem::path(choose->path().toStdString())
-          .filename()
-          .string()
-          .substr(std::filesystem::path(choose->path().toStdString())
-                      .filename()
-                      .string()
-                      .size() -
-                  4));
-  QString path = DOCS + "res/covers/";
-  if (QFile::exists(path + fileName + extension)) {
-    int i = 1;
-    while (QFile::exists(path + fileName + QString::number(i) + extension)) {
-      ++i;
+QString GameOptionsWidget::getCoverName() {
+    QString cover = "";
+    QString newHeaderPath = "";
+    QString fileName = QFileInfo(choose->path()).baseName();
+    QString extension = QFileInfo(choose->path()).completeSuffix();
+    QString path = DOCS + "res/covers/";
+    if (QFile::exists(path + QString("%1.%2").arg(fileName).arg(extension))) {
+        int i = 1;
+        while (QFile::exists(QString("%1(%2).%3").arg(fileName).arg(i).arg(extension))) {
+            ++i;
+        }
+        std::filesystem::copy(choose->path().toStdString(),
+                              (DOCS + "res/covers/" + fileName + QString::number(i) + extension).toStdString());
+        newHeaderPath = DOCS + "res/covers/" + QString("%1(%2).%3").arg(fileName).arg(i).arg(extension);
+        cover = QString("%1(%2).%3").arg(fileName).arg(i).arg(extension);
+    } else {
+        newHeaderPath = DOCS + "res/covers/" + QString("%1.%2").arg(fileName).arg(extension);
+        cover = QString("%1.%2").arg(fileName).arg(extension);
     }
-    std::filesystem::copy(
-        choose->path().toStdString(),
-        (path + fileName + QString::number(i) + extension).toStdString());
-    header = fileName + QString::number(i) + extension;
-  } else {
-    std::filesystem::copy(choose->path().toStdString(),
-                          (DOCS + "res/covers").toStdString());
-    header = fileName + extension;
-  }
-  return header;
+    QFile::copy(choose->path(), newHeaderPath);
+    return cover;
 }
