@@ -4,6 +4,7 @@
 #include <qsplitter.h>
 
 #include "./Widgets/ToolBar.h"
+#include "Widgets/GameInfoWidget.h"
 
 class MainWindow final : public QMainWindow {
     Q_OBJECT
@@ -20,6 +21,7 @@ private:
     void initMenuBar();
     void initListView();
     void initToolBar();
+    GameInfoWidget* createGameInfoWidget();
 
     ToolBar* toolbar;
     QListView* list;

@@ -1,8 +1,5 @@
 #include "MainWindow.h"
-#include "./ModelView/GameListModel.h"
-#include "./Widgets/GameInfoWidget.h"
 #include "./ModelView/CoverDelegate.h"
-#include <QListView>
 #include "./BluiseCore/bluise.h"
 #include "./ModelView/GameProxyModel.h"
 #include "QtAwesome/QtAwesome/QtAwesome.h"
@@ -24,16 +21,12 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
 
     splitter->addWidget(list);
-    GameInfoWidget* info = new GameInfoWidget(splitter);
-    splitter->addWidget(info);
-    info->hide();
+    splitter->addWidget(createGameInfoWidget());
     splitter->setHandleWidth(2);
     splitter->setCollapsible(2, false);
 
     fa::QtAwesome* awesome = new fa::QtAwesome(this);
     awesome->initFontAwesome();
-
-    connect(list, &QListView::clicked, info, &GameInfoWidget::setGame);
 
     setWindowIcon(QIcon("/Users/leftfrog/Projects/bluise/res/1024-mac.png"));
 
@@ -84,5 +77,9 @@ void MainWindow::initToolBar() {
     connect(toolbar, &ToolBar::setSort, gameManager.gameProxyModel, &QSortFilterProxyModel::setSortRole);
 }
 
-QSplitter* MainWindow::createSplitter() {
+GameInfoWidget* MainWindow::createGameInfoWidget() {
+    GameInfoWidget* info = new GameInfoWidget();
+    info->hide();
+    connect(list, &QListView::clicked, info, &GameInfoWidget::setGame);
+    return info;
 }
