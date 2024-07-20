@@ -1,9 +1,8 @@
 #pragma once
 #include <QMainWindow>
 #include <QListView>
-#include <QTableView>
 
-class MainWindow : public QMainWindow {
+class MainWindow final : public QMainWindow {
   Q_OBJECT
   
 public:
@@ -15,8 +14,8 @@ private slots:
   void addGame();
 
 private:
-  QTableView *table;
-  QListView *list;
-  QMenuBar *menuBar;
-  QToolBar *toolBar;
+    void initMenuBar();
+
+    QListView *list;
+    QMenuBar *menuBar;
 };
