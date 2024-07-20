@@ -12,8 +12,6 @@ GameOptionsWidget::GameOptionsWidget(const Game& game, QWidget *parent)
 }
 
 void GameOptionsWidget::init(const Game &game) {
-  QWidget *gameInfo = new QWidget(this);
-  //options = QMap<QString, GameOptionWidget *>();
   options["name"] = new GameOptionWidget("Name: ", game.getName());
   options["exec"] = new GameOptionWidget("Executable: ", game.getExecutable(), true);
   options["workingDirectory"] = new GameOptionWidget(
@@ -36,14 +34,6 @@ void GameOptionsWidget::init(const Game &game) {
   HBL->addWidget(cancel);
   HBL->addWidget(applyButton);
 
-  QVBoxLayout *VBL = new QVBoxLayout;
-  QHBoxLayout *HBL1 = new QHBoxLayout;
-  HBL1->addWidget(choose, Qt::AlignHCenter);
-  VBL->addLayout(HBL1);
-  VBL->addWidget(options["name"]);
-  VBL->addWidget(runner);
-  VBL->addWidget(options["releaseYear"]);
-  gameInfo->setLayout(VBL);
   QVBoxLayout *VBL2 = new QVBoxLayout;
   QWidget *gameOptions = new QWidget(this);
   VBL2->addWidget(options["workingDirectory"]);
@@ -53,7 +43,7 @@ void GameOptionsWidget::init(const Game &game) {
 
   QTabWidget *tabWidget = new QTabWidget(this);
 
-  tabWidget->addTab(gameInfo, "Game info");
+  tabWidget->addTab(createGameInfoWidget(), "Game info");
   tabWidget->addTab(gameOptions, "Game options");
 
   QVBoxLayout *VBL3 = new QVBoxLayout;
@@ -70,6 +60,22 @@ void GameOptionsWidget::init(const Game &game) {
   setLayout(VBL3);
   setWindowModality(Qt::ApplicationModal);
   resize(700, 500);
+}
+
+QWidget* GameOptionsWidget::createGameInfoWidget() {
+    QWidget* gameInfo = new QWidget(this);
+
+    QVBoxLayout* VBL = new QVBoxLayout;
+    QHBoxLayout* HBL1 = new QHBoxLayout;
+
+    HBL1->addWidget(choose, Qt::AlignHCenter);
+    VBL->addLayout(HBL1);
+    VBL->addWidget(options["name"]);
+    VBL->addWidget(runner);
+    VBL->addWidget(options["releaseYear"]);
+    gameInfo->setLayout(VBL);
+
+    return gameInfo;
 }
 
 QString GameOptionsWidget::setCover() {
