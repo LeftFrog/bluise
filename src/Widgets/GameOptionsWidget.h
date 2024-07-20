@@ -15,6 +15,7 @@ public:
 protected:
     void init(const Game& game = Game());
     void initOptions(const Game& game);
+    void setupConnections();
     QLayout* createButtons();
     QTabWidget* createTabWidget();
     QWidget* createGameInfoWidget();

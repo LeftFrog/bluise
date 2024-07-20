@@ -12,20 +12,15 @@ GameOptionsWidget::GameOptionsWidget(const Game& game, QWidget *parent)
 
 void GameOptionsWidget::init(const Game& game) {
     initOptions(game);
+    setupConnections();
 
-  QVBoxLayout *layout = new QVBoxLayout;
-  layout->addWidget(createTabWidget());
-  layout->addLayout(createButtons());
+    QVBoxLayout *layout = new QVBoxLayout;
+    layout->addWidget(createTabWidget());
+    layout->addLayout(createButtons());
+    setLayout(layout);
 
-  for(auto &option : options) {
-    connect(option, &GameOptionWidget::gameChanged, this, &GameOptionsWidget::changed);
-  }
-  connect(choose, &ChoosePictureWidget::changed, this, &GameOptionsWidget::changed);
-  connect(runner, &BoxOptionWidget::changed, this, &GameOptionsWidget::changed);
-
-  setLayout(layout);
-  setWindowModality(Qt::ApplicationModal);
-  resize(700, 500);
+    setWindowModality(Qt::ApplicationModal);
+    resize(700, 500);
 }
 
 void GameOptionsWidget::initOptions(const Game& game) {
@@ -36,6 +31,14 @@ void GameOptionsWidget::initOptions(const Game& game) {
     options["releaseYear"] = new GameOptionWidget("Release year: ", game.getReleaseYear() == 0 ? "" : QString::number(game.getReleaseYear()));
     choose = new ChoosePictureWidget(game.getCoverPath());
     runner = new BoxOptionWidget("Runner: ", game.getRunner(), this);
+}
+
+void GameOptionsWidget::setupConnections() {
+    for(auto &option : options) {
+        connect(option, &GameOptionWidget::gameChanged, this, &GameOptionsWidget::changed);
+    }
+    connect(choose, &ChoosePictureWidget::changed, this, &GameOptionsWidget::changed);
+    connect(runner, &BoxOptionWidget::changed, this, &GameOptionsWidget::changed);
 }
 
 QLayout* GameOptionsWidget::createButtons() {
