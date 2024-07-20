@@ -13,18 +13,6 @@ GameOptionsWidget::GameOptionsWidget(const Game& game, QWidget *parent)
 void GameOptionsWidget::init(const Game& game) {
     initOptions(game);
 
-  applyButton = new QPushButton("Apply");
-  connect(applyButton, &QPushButton::clicked, this, &GameOptionsWidget::apply);
-  applyButton->setDefault(true);
-  applyButton->setDisabled(true);
-
-  QPushButton *cancel = new QPushButton("Cancel");
-  connect(cancel, &QPushButton::clicked, this, &GameOptionsWidget::close);
-
-  QHBoxLayout *HBL = new QHBoxLayout;
-  HBL->addWidget(cancel);
-  HBL->addWidget(applyButton);
-
   QTabWidget *tabWidget = new QTabWidget(this);
 
   tabWidget->addTab(createGameInfoWidget(), "Game info");
@@ -32,7 +20,7 @@ void GameOptionsWidget::init(const Game& game) {
 
   QVBoxLayout *VBL3 = new QVBoxLayout;
   VBL3->addWidget(tabWidget);
-  VBL3->addLayout(HBL);
+  VBL3->addLayout(createButtons());
 
   for(auto &option : options) {
     connect(option, &GameOptionWidget::gameChanged, this, &GameOptionsWidget::changed);
@@ -54,6 +42,22 @@ void GameOptionsWidget::initOptions(const Game& game) {
     options["releaseYear"] = new GameOptionWidget("Release year: ", game.getReleaseYear() == 0 ? "" : QString::number(game.getReleaseYear()));
     choose = new ChoosePictureWidget(game.getCoverPath());
     runner = new BoxOptionWidget("Runner: ", game.getRunner(), this);
+}
+
+QLayout* GameOptionsWidget::createButtons() {
+    applyButton = new QPushButton("Apply");
+    connect(applyButton, &QPushButton::clicked, this, &GameOptionsWidget::apply);
+    applyButton->setDefault(true);
+    applyButton->setDisabled(true);
+
+    QPushButton *cancel = new QPushButton("Cancel");
+    connect(cancel, &QPushButton::clicked, this, &GameOptionsWidget::close);
+
+    QHBoxLayout *HBL = new QHBoxLayout;
+    HBL->addWidget(cancel);
+    HBL->addWidget(applyButton);
+
+    return HBL;
 }
 
 QWidget* GameOptionsWidget::createGameInfoWidget() {
