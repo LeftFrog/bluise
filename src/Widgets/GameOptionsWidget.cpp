@@ -13,23 +13,17 @@ GameOptionsWidget::GameOptionsWidget(const Game& game, QWidget *parent)
 void GameOptionsWidget::init(const Game& game) {
     initOptions(game);
 
-  QTabWidget *tabWidget = new QTabWidget(this);
-
-  tabWidget->addTab(createGameInfoWidget(), "Game info");
-  tabWidget->addTab(createGameOptionsWidget(), "Game options");
-
-  QVBoxLayout *VBL3 = new QVBoxLayout;
-  VBL3->addWidget(tabWidget);
-  VBL3->addLayout(createButtons());
+  QVBoxLayout *layout = new QVBoxLayout;
+  layout->addWidget(createTabWidget());
+  layout->addLayout(createButtons());
 
   for(auto &option : options) {
     connect(option, &GameOptionWidget::gameChanged, this, &GameOptionsWidget::changed);
   }
-  connect(choose, &ChoosePictureWidget::changed, this,
-          &GameOptionsWidget::changed);
+  connect(choose, &ChoosePictureWidget::changed, this, &GameOptionsWidget::changed);
   connect(runner, &BoxOptionWidget::changed, this, &GameOptionsWidget::changed);
 
-  setLayout(VBL3);
+  setLayout(layout);
   setWindowModality(Qt::ApplicationModal);
   resize(700, 500);
 }
@@ -58,6 +52,13 @@ QLayout* GameOptionsWidget::createButtons() {
     HBL->addWidget(applyButton);
 
     return HBL;
+}
+
+QTabWidget* GameOptionsWidget::createTabWidget() {
+    QTabWidget *tabWidget = new QTabWidget(this);
+    tabWidget->addTab(createGameInfoWidget(), "Game info");
+    tabWidget->addTab(createGameOptionsWidget(), "Game options");
+    return tabWidget;
 }
 
 QWidget* GameOptionsWidget::createGameInfoWidget() {
