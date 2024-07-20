@@ -27,7 +27,7 @@ void AddLocalInstalledGameWidget::apply() {
     Game g = Game(options["name"]->text(),
                                       options["exec"]->text(),
                                       options["workingDirectory"]->text(),
-                                      options["savePath"]->text(), choose->path().isEmpty() ? "" : setCover());
+                                      options["savePath"]->text(), choose->path().isEmpty() ? "" : getCoverName());
     g.setRunner(static_cast<Game::Runner>(runner->currentIndex()));
     gameManager.addGame(g);
   } catch (bluise_error &err) {

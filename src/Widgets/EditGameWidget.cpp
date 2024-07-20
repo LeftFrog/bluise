@@ -18,7 +18,7 @@ void EditGameWidget::apply() {
     gameManager.setData(*game, options["releaseYear"]->text().toInt(), GameListModel::ReleaseYearRole);
     gameManager.setData(*game, runner->currentIndex(), GameListModel::RunnerRole);
     if(choose->isChanged()) {
-      // gameManager.setData(*game, setCover(), GameListModel::InstalledRole);
+      // gameManager.setData(*game, getCoverName(), GameListModel::InstalledRole);
     }
   } catch (bluise_error &err) {
     QMessageBox::critical(this, "Error", QString::fromStdString(err.what()));
