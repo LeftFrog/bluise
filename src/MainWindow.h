@@ -1,6 +1,9 @@
 #pragma once
 #include <QMainWindow>
 #include <QListView>
+#include <qsplitter.h>
+
+#include "./Widgets/ToolBar.h"
 
 class MainWindow final : public QMainWindow {
     Q_OBJECT
@@ -16,7 +19,9 @@ private slots:
 private:
     void initMenuBar();
     void initListView();
+    void initToolBar();
 
+    ToolBar* toolbar;
     QListView* list;
     QMenuBar* menuBar;
 };

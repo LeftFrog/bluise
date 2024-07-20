@@ -4,7 +4,6 @@
 #include "./ModelView/CoverDelegate.h"
 #include <QListView>
 #include "./BluiseCore/bluise.h"
-#include "./Widgets/ToolBar.h"
 #include "./ModelView/GameProxyModel.h"
 #include "QtAwesome/QtAwesome/QtAwesome.h"
 #include "Widgets/AddGameWidget.h"
@@ -16,15 +15,13 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     resize(1900, 800);
 
     initMenuBar();
+    initToolBar();
+    initListView();
 
     QSplitter* splitter = new QSplitter(Qt::Vertical, this);
-
-    ToolBar* toolbar = new ToolBar(this);
     splitter->addWidget(toolbar);
     splitter->setCollapsible(0, false);
-    connect(toolbar, &ToolBar::addGame, this, &MainWindow::addGame);
 
-    initListView();
 
     splitter->addWidget(list);
     GameInfoWidget* info = new GameInfoWidget(splitter);
@@ -37,9 +34,6 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     awesome->initFontAwesome();
 
     connect(list, &QListView::clicked, info, &GameInfoWidget::setGame);
-    connect(toolbar, &ToolBar::setFilter, gameManager.gameProxyModel, &GameProxyModel::setFilterExp);
-    connect(toolbar, &ToolBar::setName, gameManager.gameProxyModel, &GameProxyModel::setNameExp);
-    connect(toolbar, &ToolBar::setSort, gameManager.gameProxyModel, &QSortFilterProxyModel::setSortRole);
 
     setWindowIcon(QIcon("/Users/leftfrog/Projects/bluise/res/1024-mac.png"));
 
@@ -80,4 +74,15 @@ void MainWindow::initListView() {
     list->setWrapping(true);
     list->setSpacing(15);
     list->setFlow(QListView::LeftToRight);
+}
+
+void MainWindow::initToolBar() {
+    toolbar = new ToolBar(this);
+    connect(toolbar, &ToolBar::addGame, this, &MainWindow::addGame);
+    connect(toolbar, &ToolBar::setFilter, gameManager.gameProxyModel, &GameProxyModel::setFilterExp);
+    connect(toolbar, &ToolBar::setName, gameManager.gameProxyModel, &GameProxyModel::setNameExp);
+    connect(toolbar, &ToolBar::setSort, gameManager.gameProxyModel, &QSortFilterProxyModel::setSortRole);
+}
+
+QSplitter* MainWindow::createSplitter() {
 }
