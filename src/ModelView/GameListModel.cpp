@@ -1,8 +1,8 @@
 #include "GameListModel.h"
 #include <algorithm>
 
-GameListModel::GameListModel(QObject *parent) : QAbstractListModel(parent), games() {
-
+GameListModel::GameListModel(QObject *parent) : QAbstractListModel(parent) {
+    games = {};
 }
 
 int GameListModel::rowCount(const QModelIndex &parent) const {
@@ -94,18 +94,14 @@ void GameListModel::addGame(const Game& game) {
     beginInsertRows(QModelIndex(), games.size(), games.size());
     games.append(game);
     endInsertRows();
-    // std::sort(games.begin(), games.end(), [](const Game& a, const Game& b) {
-    //     return a.getName() < b.getName();
-    // });
+    std::sort(this->games.begin(), this->games.end());
 }
 
 void GameListModel::addGames(const QList<Game>& games) {
     beginInsertRows(QModelIndex(), this->games.size(), this->games.size()+games.size()-1);
     this->games.append(games);
     endInsertRows();
-    // std::sort(games.begin(), games.end(), [](const Game& a, const Game& b) {
-    //     return a.getName() < b.getName();
-    // });
+    std::sort(this->games.begin(), this->games.end());
 }
 
 void GameListModel::removeGame(const Game& game) {
