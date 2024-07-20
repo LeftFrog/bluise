@@ -74,14 +74,6 @@ bool GameListModel::removeRows(int row, int count, const QModelIndex &parent) {
     return true;
 }
 
-void GameListModel::updateList() {
-    insertRows(1, 1);
-}
-
-void GameListModel::removeGame() {
-    removeRows(1, 1);
-}
-
 QVariant GameListModel::headerData(int section, Qt::Orientation orientation, int role) {
     if (role != Qt::DisplayRole || orientation != Qt::Horizontal)
         return QVariant();
@@ -99,7 +91,7 @@ QVariant GameListModel::headerData(int section, Qt::Orientation orientation, int
 }
 
 void GameListModel::addGame(const Game& game) {
-    beginInsertRows(QModelIndex(), games.size(), games.size()+1);
+    beginInsertRows(QModelIndex(), games.size(), games.size());
     games.append(game);
     endInsertRows();
     // std::sort(games.begin(), games.end(), [](const Game& a, const Game& b) {

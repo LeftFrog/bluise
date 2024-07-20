@@ -34,10 +34,6 @@ public:
 
     QList<Game> getGames() const { return games; }
 
-public slots:
-    void removeGame();
-    void updateList();
-
 private:
     QList<Game> games;
 };
