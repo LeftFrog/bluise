@@ -3,3 +3,4 @@
 /.idea/
 /build_lib/
 .DS_Store
+/src/cmake-build-debug/
