@@ -15,6 +15,7 @@ public:
 protected:
     void init(const Game& game = Game());
     QWidget* createGameInfoWidget();
+    QWidget* createGameOptionsWidget();
 
     ChoosePictureWidget *choose;
     QPushButton *applyButton;
