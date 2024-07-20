@@ -1,5 +1,4 @@
 #include "GameOptionsWidget.h"
-#include <QTextEdit>
 #include "../BluiseCore/bluise.h"
 
 GameOptionsWidget::GameOptionsWidget(QWidget *parent) : QWidget(parent) {
@@ -11,14 +10,8 @@ GameOptionsWidget::GameOptionsWidget(const Game& game, QWidget *parent)
   init(game);
 }
 
-void GameOptionsWidget::init(const Game &game) {
-  options["name"] = new GameOptionWidget("Name: ", game.getName());
-  options["exec"] = new GameOptionWidget("Executable: ", game.getExecutable(), true);
-  options["workingDirectory"] = new GameOptionWidget("Working directory: ", game.getWorkingDirectory(), false);
-  options["savePath"] = new GameOptionWidget("Save path: ", game.getSavePath(), false);
-  options["releaseYear"] = new GameOptionWidget("Release year: ", game.getReleaseYear() == 0 ? "" : QString::number(game.getReleaseYear()));
-  choose = new ChoosePictureWidget(game.getCoverPath());
-  runner = new BoxOptionWidget("Runner: ", game.getRunner(), this);
+void GameOptionsWidget::init(const Game& game) {
+    initOptions(game);
 
   applyButton = new QPushButton("Apply");
   connect(applyButton, &QPushButton::clicked, this, &GameOptionsWidget::apply);
@@ -51,6 +44,16 @@ void GameOptionsWidget::init(const Game &game) {
   setLayout(VBL3);
   setWindowModality(Qt::ApplicationModal);
   resize(700, 500);
+}
+
+void GameOptionsWidget::initOptions(const Game& game) {
+    options["name"] = new GameOptionWidget("Name: ", game.getName());
+    options["exec"] = new GameOptionWidget("Executable: ", game.getExecutable(), true);
+    options["workingDirectory"] = new GameOptionWidget("Working directory: ", game.getWorkingDirectory(), false);
+    options["savePath"] = new GameOptionWidget("Save path: ", game.getSavePath(), false);
+    options["releaseYear"] = new GameOptionWidget("Release year: ", game.getReleaseYear() == 0 ? "" : QString::number(game.getReleaseYear()));
+    choose = new ChoosePictureWidget(game.getCoverPath());
+    runner = new BoxOptionWidget("Runner: ", game.getRunner(), this);
 }
 
 QWidget* GameOptionsWidget::createGameInfoWidget() {

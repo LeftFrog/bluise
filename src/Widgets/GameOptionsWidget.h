@@ -14,6 +14,7 @@ public:
 
 protected:
     void init(const Game& game = Game());
+    void initOptions(const Game& game);
     QWidget* createGameInfoWidget();
     QWidget* createGameOptionsWidget();
 
