@@ -64,4 +64,3 @@ void ScanForGamesWidget::gamesFound(const QList<Game>& games) {
 void ScanForGamesWidget::addGames(const QList<Game>& games) {
     gameManager.addGames(games);
 }
-

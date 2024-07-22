@@ -9,8 +9,8 @@ class GameOptionsWidget : public QWidget {
     Q_OBJECT
 
 public:
-    explicit GameOptionsWidget(QWidget *parent = nullptr);
-    explicit GameOptionsWidget(const Game& game, QWidget *parent = nullptr);
+    explicit GameOptionsWidget(QWidget* parent = nullptr);
+    explicit GameOptionsWidget(const Game& game, QWidget* parent = nullptr);
 
 protected:
     void init(const Game& game = Game());
@@ -21,8 +21,8 @@ protected:
     QWidget* createGameInfoWidget();
     QWidget* createGameOptionsWidget();
 
-    ChoosePictureWidget *choose;
-    QPushButton *applyButton;
+    ChoosePictureWidget* choose;
+    QPushButton* applyButton;
     QMap<QString, GameOptionWidget*> options;
     QString getCoverName();
     BoxOptionWidget* runner;

@@ -4,23 +4,28 @@
 #include "SearchBar.h"
 
 class ToolBar : public QWidget {
-  Q_OBJECT
+    Q_OBJECT
+
 public:
-  explicit ToolBar(QWidget *parent = nullptr);
+    explicit ToolBar(QWidget* parent = nullptr);
+
 signals:
-  void setSort(int role);
-  void addGame();
-  void setFilter(const QString& filer);
-  void setName(const QString& name);
+    void setSort(int role);
+    void addGame();
+    void setFilter(const QString& filer);
+    void setName(const QString& name);
+
 protected:
-  void resizeEvent(QResizeEvent *event) override;
+    void resizeEvent(QResizeEvent* event) override;
+
 private:
-  SearchBar *search;
-  // BeautifulUi::BeautifulButtonGroup *group;
-  BeautifulUi::BeautifulButton *optionsButton;
-  BeautifulUi::BeautifulButton *addButton;
-  BeautifulUi::BeautifulButton *sortButton;
+    SearchBar* search;
+    // BeautifulUi::BeautifulButtonGroup *group;
+    BeautifulUi::BeautifulButton* optionsButton;
+    BeautifulUi::BeautifulButton* addButton;
+    BeautifulUi::BeautifulButton* sortButton;
+
 private slots:
-  void filter(QAction* action);
-  void sort(QAction* action);
+    void filter(QAction* action);
+    void sort(QAction* action);
 };

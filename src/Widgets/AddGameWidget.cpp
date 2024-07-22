@@ -4,43 +4,43 @@
 #include <QTimer>
 
 AddGameWidget::AddGameWidget(QWidget* parent) : QWidget(parent) {
-  layout = new QStackedLayout();
+    layout = new QStackedLayout();
 
-  QPushButton* addLocalInstalledGame = new QPushButton("Add a local installed game");
-  connect(addLocalInstalledGame, &QPushButton::clicked, this, &AddGameWidget::addLocalGame);
-  QPushButton* searchGames = new QPushButton("Scan for games on the hard drive");
-  connect(searchGames, &QPushButton::clicked, this, &AddGameWidget::scanForGames);
-  QVBoxLayout* VBL = new QVBoxLayout();
-  VBL->addWidget(addLocalInstalledGame);
-  VBL->addWidget(searchGames);
+    QPushButton* addLocalInstalledGame = new QPushButton("Add a local installed game");
+    connect(addLocalInstalledGame, &QPushButton::clicked, this, &AddGameWidget::addLocalGame);
+    QPushButton* searchGames = new QPushButton("Scan for games on the hard drive");
+    connect(searchGames, &QPushButton::clicked, this, &AddGameWidget::scanForGames);
+    QVBoxLayout* VBL = new QVBoxLayout();
+    VBL->addWidget(addLocalInstalledGame);
+    VBL->addWidget(searchGames);
 
-  QWidget* options = new QWidget();
-  options->setLayout(VBL);
-  layout->addWidget(options);
+    QWidget* options = new QWidget();
+    options->setLayout(VBL);
+    layout->addWidget(options);
 
-  setLayout(layout);
+    setLayout(layout);
 }
 
 void AddGameWidget::addLocalGame() {
-  AddLocalInstalledGameWidget* wid = new AddLocalInstalledGameWidget();
-  resize(700, 689);
-  connect(wid, &AddLocalInstalledGameWidget::closed, this, &AddGameWidget::close);
-  layout->addWidget(wid);
-  layout->setCurrentIndex(1);
+    AddLocalInstalledGameWidget* wid = new AddLocalInstalledGameWidget();
+    resize(700, 689);
+    connect(wid, &AddLocalInstalledGameWidget::closed, this, &AddGameWidget::close);
+    layout->addWidget(wid);
+    layout->setCurrentIndex(1);
 }
 
 void AddGameWidget::scanForGames() {
-  ScanForGamesWidget* wid = new ScanForGamesWidget();
-  connect(wid, &ScanForGamesWidget::closed, this, &AddGameWidget::close);
-  connect(wid, &ScanForGamesWidget::gameAdded, this, &AddGameWidget::gameAdded);
-  layout->addWidget(wid);
-  layout->setCurrentIndex(1);
-  QTimer *timer = new QTimer(this);
-  connect(timer, &QTimer::timeout, wid, &ScanForGamesWidget::scan);
-  timer->setSingleShot(true); // Run only once
-  timer->start(10);
+    ScanForGamesWidget* wid = new ScanForGamesWidget();
+    connect(wid, &ScanForGamesWidget::closed, this, &AddGameWidget::close);
+    connect(wid, &ScanForGamesWidget::gameAdded, this, &AddGameWidget::gameAdded);
+    layout->addWidget(wid);
+    layout->setCurrentIndex(1);
+    QTimer* timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, wid, &ScanForGamesWidget::scan);
+    timer->setSingleShot(true); // Run only once
+    timer->start(10);
 }
 
 void AddGameWidget::closeEvent(QCloseEvent* event) {
-  QWidget::closeEvent(event);
+    QWidget::closeEvent(event);
 }

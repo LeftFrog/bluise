@@ -2,14 +2,21 @@
 #include <QComboBox>
 
 class BoxOptionWidget : public QWidget {
-  Q_OBJECT
+    Q_OBJECT
+
 public:
-  BoxOptionWidget(QString name, int runnerIndex = 0, QWidget* parent = nullptr);
-  bool isChanged() { return firstValue != runner->currentIndex(); }
-  int currentIndex() { qDebug() <<  runner->currentIndex(); return runner->currentIndex(); }
+    BoxOptionWidget(QString name, int runnerIndex = 0, QWidget* parent = nullptr);
+    bool isChanged() { return firstValue != runner->currentIndex(); }
+
+    int currentIndex() {
+        qDebug() << runner->currentIndex();
+        return runner->currentIndex();
+    }
+
 signals:
-  void changed();
+    void changed();
+
 private:
-  QComboBox* runner;
-  int firstValue;
+    QComboBox* runner;
+    int firstValue;
 };

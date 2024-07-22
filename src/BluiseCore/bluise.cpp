@@ -48,13 +48,13 @@ void GameManager::loadGames(const QString& filename) {
         Game g;
         try {
             g = Game(obj["name"].toString(), obj["executable"].toString(),
-                  obj["workingDirectory"].toString(), obj["savePath"].toString(),
-                    obj["coverName"].toString());
+                     obj["workingDirectory"].toString(), obj["savePath"].toString(),
+                     obj["coverName"].toString());
         } catch (const bluise_error& err) {
             std::cerr << err.what() << std::endl;
             g = Game(obj["name"].toString(), obj["executable"].toString(),
-                      obj["workingDirectory"].toString(), obj["savePath"].toString(),
-                      obj["coverName"].toString(), true);
+                     obj["workingDirectory"].toString(), obj["savePath"].toString(),
+                     obj["coverName"].toString(), true);
         }
         g.setRunner(static_cast<Game::Runner>(obj["runner"].toInt()));
         g.setReleaseYear(obj["releaseYear"].toInt());
@@ -66,15 +66,15 @@ void GameManager::loadGames(const QString& filename) {
 void GameManager::saveGames(const QString& filename) {
     QJsonArray arr;
     for (auto game : gameListModel.getGames()) {
-          QJsonObject obj;
-          obj["name"] = game.getName();
-          obj["workingDirectory"] = game.getWorkingDirectory();
-          obj["executable"] = game.getExecutable();
-          obj["savePath"] = game.getSavePath();
-          obj["coverName"] = game.getCoverName();
-          obj["releaseYear"] = game.getReleaseYear();
-          obj["runner"] = game.getRunner();
-          arr.append(obj);
+        QJsonObject obj;
+        obj["name"] = game.getName();
+        obj["workingDirectory"] = game.getWorkingDirectory();
+        obj["executable"] = game.getExecutable();
+        obj["savePath"] = game.getSavePath();
+        obj["coverName"] = game.getCoverName();
+        obj["releaseYear"] = game.getReleaseYear();
+        obj["runner"] = game.getRunner();
+        arr.append(obj);
     }
     saveGamesJSON(filename, arr);
 }
@@ -92,7 +92,7 @@ void GameManager::makeBackup(const Game& game) {
         }
     }
     fs::copy(game.getSavePath().toStdString(), (back_path + ".").toStdString(),
-           fs::copy_options::recursive);
+             fs::copy_options::recursive);
 }
 
 void GameManager::recover(const Game& game) {
@@ -102,7 +102,7 @@ void GameManager::recover(const Game& game) {
         throw bluise_error("There isn't backups of saves of your game");
     }
     fs::copy(back_path.toStdString(), game.getSavePath().toStdString(),
-           fs::copy_options::recursive | fs::copy_options::overwrite_existing);
+             fs::copy_options::recursive | fs::copy_options::overwrite_existing);
 }
 
 bool GameManager::gameExists(const QString& exectuable) {

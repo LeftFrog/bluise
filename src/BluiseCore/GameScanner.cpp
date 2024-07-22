@@ -34,7 +34,7 @@ QVariant GameScanner::getValueFromDB(const QString& table, const QString& variab
         QSqlRecord record = query.record();
         QStringList list = variable.split(',');
 
-        if(list.count()==1) {
+        if (list.count() == 1) {
             return QVariant(record.value(variable));
         }
 
@@ -50,14 +50,14 @@ QVariant GameScanner::getValueFromDB(const QString& table, const QString& variab
 
 QString GameScanner::getAbsolutePath(const QString& path) {
     QString extendedPath = path;
-    if(path.startsWith("~")) {
+    if (path.startsWith("~")) {
         extendedPath.replace("~", QDir::homePath());
     }
     return extendedPath;
 }
 
 void GameScanner::scanDirectory(const QString& path) {
-    QFuture<void> future = QtConcurrent::run([this, path] mutable{
+    QFuture<void> future = QtConcurrent::run([this, path] mutable {
         QDirIterator it(path, QStringList() << "*.app", QDir::Files | QDir::Dirs, QDirIterator::Subdirectories);
         while (it.hasNext()) {
             QSqlQuery query(db);
@@ -65,8 +65,8 @@ void GameScanner::scanDirectory(const QString& path) {
             QString file = it.next();
             QFileInfo info(file);
             query.bindValue(":executable", info.fileName());
-            if(query.exec()) {
-                if(query.next()) {
+            if (query.exec()) {
+                if (query.next()) {
                     gamesMap[query.value(0).toInt()] = info.filePath();
                 }
             }
@@ -78,7 +78,7 @@ void GameScanner::scanDirectory(const QString& path) {
 void GameScanner::finishedScan() {
     QList<Game> games;
     for (auto id : gamesMap.keys()) {
-        if(!gameManager.gameExists(gamesMap[id])) {
+        if (!gameManager.gameExists(gamesMap[id])) {
             QString executable = gamesMap[id];
             QList<QVariant> values = getValueFromDB("games", "name,release_year", id).toList();
             QString name = values[0].toString();

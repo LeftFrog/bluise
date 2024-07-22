@@ -4,9 +4,11 @@ using std::string;
 
 class bluise_error {
 private:
-  string msg;
+    string msg;
 
 public:
-  bluise_error(const string &_msg) : msg(_msg) {}
-  string what() const { return msg; }
+    bluise_error(const string& _msg) : msg(_msg) {
+    }
+
+    string what() const { return msg; }
 };

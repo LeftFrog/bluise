@@ -2,20 +2,21 @@
 #include <QtWidgets>
 
 class AddGameWidget : public QWidget {
-  Q_OBJECT
+    Q_OBJECT
+
 public:
-  AddGameWidget(QWidget* parent = nullptr);
+    AddGameWidget(QWidget* parent = nullptr);
 
 public slots:
-  void addLocalGame();
-  void scanForGames();
+    void addLocalGame();
+    void scanForGames();
 
 signals:
-  void gameAdded();
+    void gameAdded();
 
 protected:
-  void closeEvent(QCloseEvent* event) override;
+    void closeEvent(QCloseEvent* event) override;
 
 private:
-  QStackedLayout* layout;
+    QStackedLayout* layout;
 };

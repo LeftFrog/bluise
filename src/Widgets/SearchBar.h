@@ -2,8 +2,11 @@
 #include <QLineEdit>
 
 class SearchBar : public QLineEdit {
+    Q_OBJECT
+
 public:
-  SearchBar(QWidget *parent = nullptr);
+    SearchBar(QWidget* parent = nullptr);
+
 private slots:
-  void changeTheme(Qt::ColorScheme scheme);
+    void changeTheme(Qt::ColorScheme scheme);
 };

@@ -2,18 +2,19 @@
 #include "GameOptionsWidget.h"
 
 class AddLocalInstalledGameWidget : public GameOptionsWidget {
-  Q_OBJECT
+    Q_OBJECT
+
 public:
-  AddLocalInstalledGameWidget(QWidget *parent = nullptr);
+    AddLocalInstalledGameWidget(QWidget* parent = nullptr);
 
 signals:
-  void added();
-  void closed();
+    void added();
+    void closed();
 
 protected slots:
-  virtual void apply() override;
-  void changed() override;
+    void apply() override;
+    void changed() override;
 
 protected:
-  virtual void closeEvent(QCloseEvent* event) override;
+    void closeEvent(QCloseEvent* event) override;
 };

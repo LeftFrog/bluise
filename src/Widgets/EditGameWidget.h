@@ -2,17 +2,18 @@
 #include "GameOptionsWidget.h"
 
 class EditGameWidget : public GameOptionsWidget {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  EditGameWidget(const Game* game, QWidget *parent = nullptr);
+    EditGameWidget(const Game* game, QWidget* parent = nullptr);
 signals:
-  void gameChanged();
+    void gameChanged();
+
 protected slots:
-  virtual void apply() override;
-  void changed() override;
+    virtual void apply() override;
+    void changed() override;
 
 private:
-  bool optionsHaveChanged();
-  const Game* game;
+    bool optionsHaveChanged();
+    const Game* game;
 };

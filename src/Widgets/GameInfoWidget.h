@@ -5,35 +5,37 @@
 #include "../QtAwesome/QtAwesome/QtAwesome.h"
 
 QT_BEGIN_NAMESPACE
+
 namespace Ui {
-class GameInfoWidget;
+    class GameInfoWidget;
 }
+
 QT_END_NAMESPACE
 
 class GameInfoWidget : public QWidget {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit GameInfoWidget(QWidget *parent = nullptr);
-  ~GameInfoWidget();
+    explicit GameInfoWidget(QWidget* parent = nullptr);
+    ~GameInfoWidget();
 
 signals:
-  void removeSignal();
+    void removeSignal();
 
 public slots:
-  void setGame(const QModelIndex& index);
+    void setGame(const QModelIndex& index);
 
 private slots:
-  void play();
-  void settings();
-  void popupMenu();
-  void setIcon(Qt::ColorScheme scheme);
-  void removeGame();
-  void openWorkingDirectory();
+    void play();
+    void settings();
+    void popupMenu();
+    void setIcon(Qt::ColorScheme scheme);
+    void removeGame();
+    void openWorkingDirectory();
 
 private:
-  const Game *game;
-  QMenu *menu;
-  fa::QtAwesome *awesome = new fa::QtAwesome;
-  Ui::GameInfoWidget *ui;
+    const Game* game;
+    QMenu* menu;
+    fa::QtAwesome* awesome = new fa::QtAwesome;
+    Ui::GameInfoWidget* ui;
 };
