@@ -7,10 +7,16 @@ AddGameWidget::AddGameWidget(QWidget* parent) : QWidget(parent) {
     layout = new QStackedLayout();
 
     QPushButton* addLocalInstalledGame = new QPushButton("Add a local installed game");
+    addLocalInstalledGame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     connect(addLocalInstalledGame, &QPushButton::clicked, this, &AddGameWidget::addLocalGame);
+
     QPushButton* searchGames = new QPushButton("Scan for games on the hard drive");
+    searchGames->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     connect(searchGames, &QPushButton::clicked, this, &AddGameWidget::scanForGames);
+
     QVBoxLayout* VBL = new QVBoxLayout();
+    VBL->setContentsMargins(0, 0, 0, 0);
+    VBL->setSpacing(0);
     VBL->addWidget(addLocalInstalledGame);
     VBL->addWidget(searchGames);
 
