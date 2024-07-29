@@ -14,18 +14,7 @@ ToolBar::ToolBar(QWidget* parent) : QWidget(parent) {
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
     optionsButton = new BeautifulUi::BeautifulButton(fa::fa_ellipsis, this);
-    QMenu* optionsMenu = new QMenu();
-    optionsMenu->addAction("Options");
-    QAction* installed = new QAction("Show unistalled");
-    installed->setCheckable(true);
-    installed->setChecked(true);
-    QActionGroup* filters = new QActionGroup(optionsMenu);
-    filters->setExclusive(false);
-    filters->addAction(installed);
-    connect(filters, &QActionGroup::triggered, this, &ToolBar::filter);
-    optionsMenu->addAction(installed);
-
-    optionsButton->setMenu(optionsMenu);
+    optionsButton->setMenu(createOptionsMenu());
 
     sortButton = new BeautifulUi::BeautifulButton(fa::fa_sort, this);
     sortButton->setMenu(createSortMenu());
@@ -56,18 +45,38 @@ void ToolBar::resizeEvent(QResizeEvent* event) {
 QMenu* ToolBar::createSortMenu() {
     QMenu* sortMenu = new QMenu();
     QActionGroup* sortGroup = new QActionGroup(sortMenu);
+
     QAction* nameSort = new QAction("Name");
     nameSort->setCheckable(true);
     nameSort->setChecked(true);
     sortMenu->addAction(nameSort);
     sortGroup->addAction(nameSort);
+
     QAction* yearSort = new QAction("Release year");
     yearSort->setCheckable(true);
     sortMenu->addAction(yearSort);
     sortGroup->addAction(yearSort);
     sortGroup->setExclusive(true);
+
     connect(sortMenu, &QMenu::triggered, this, &ToolBar::sort);
     return sortMenu;
+}
+
+QMenu* ToolBar::createOptionsMenu() {
+    QMenu* optionsMenu = new QMenu();
+    optionsMenu->addAction("Options");
+
+    QAction* installed = new QAction("Show unistalled");
+    installed->setCheckable(true);
+    installed->setChecked(true);
+
+    QActionGroup* filters = new QActionGroup(optionsMenu);
+    filters->setExclusive(false);
+    filters->addAction(installed);
+
+    connect(filters, &QActionGroup::triggered, this, &ToolBar::filter);
+    optionsMenu->addAction(installed);
+    return optionsMenu;
 }
 
 void ToolBar::sort(QAction* action) {

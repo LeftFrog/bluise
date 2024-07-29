@@ -20,6 +20,8 @@ protected:
 
 private:
     QMenu* createSortMenu();
+    QMenu* createOptionsMenu();
+
     SearchBar* search;
     BeautifulUi::BeautifulButton* optionsButton;
     BeautifulUi::BeautifulButton* addButton;
