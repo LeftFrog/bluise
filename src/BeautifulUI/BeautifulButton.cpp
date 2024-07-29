@@ -5,11 +5,9 @@
 #include <QStyleHints>
 #include <QApplication>
 
-BeautifulUi::BeautifulButton::BeautifulButton(int _awesomeIcon, QWidget* parent) : QAbstractButton(parent),
+BeautifulUi::BeautifulButton::BeautifulButton(int _awesomeIcon, QWidget* parent) : AbstractBeautifulButton(parent),
     awesomeIcon(_awesomeIcon) {
     setCheckable(true);
-    setMouseTracking(true);
-    setAttribute(Qt::WA_Hover, true);
     awesome = new fa::QtAwesome(this);
     awesome->initFontAwesome();
     QAbstractButton::setIcon(awesome->icon(fa::fa_solid, awesomeIcon));
@@ -55,24 +53,6 @@ void BeautifulUi::BeautifulButton::paintMenuButton(QPainter& painter, const QRec
     icon.paint(&painter, rect, Qt::AlignCenter, QIcon::Normal);
 }
 
-void BeautifulUi::BeautifulButton::enterEvent(QEnterEvent* event) {
-    if (group()) {
-        QApplication::sendEvent(parent(), event);
-        return;
-    }
-    hovered = true;
-    update();
-    QAbstractButton::enterEvent(event);
-}
-
-void BeautifulUi::BeautifulButton::leaveEvent(QEvent* event) {
-    if (group()) {
-        return;
-    }
-    hovered = false;
-    update();
-    QAbstractButton::leaveEvent(event);
-}
 
 void BeautifulUi::BeautifulButton::mouseReleaseEvent(QMouseEvent* event) {
     if (menu && rect().contains(event->pos())) {

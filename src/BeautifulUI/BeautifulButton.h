@@ -1,9 +1,9 @@
 #pragma once
-#include <QAbstractButton>
+#include "AbstractBeautifulButton.h"
 #include "../QtAwesome/QtAwesome/QtAwesome.h"
 
 namespace BeautifulUi {
-    class BeautifulButton : public QAbstractButton {
+    class BeautifulButton : public AbstractBeautifulButton {
         Q_OBJECT
 
     public:
@@ -17,9 +17,6 @@ namespace BeautifulUi {
     protected:
         void paintEvent(QPaintEvent* event) override;
         void paintMenuButton(QPainter& painter, const QRect& rect);
-
-        void enterEvent(QEnterEvent* event) override;
-        void leaveEvent(QEvent* event) override;
         void mouseReleaseEvent(QMouseEvent* event) override;
 
     protected slots:
@@ -27,7 +24,6 @@ namespace BeautifulUi {
 
     private:
         int awesomeIcon;
-        bool hovered = false;
         QMenu* menu;
         fa::QtAwesome* awesome;
     };
