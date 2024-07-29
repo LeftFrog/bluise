@@ -55,6 +55,10 @@ qt_add_executable(Bluise main.cpp
         BluiseCore/GameScanner.h
         BluiseCore/GameScanner.cpp
         Widgets/ScanForGamesWidget.cpp
+        BeautifulUI/OptionButton.cpp
+        BeautifulUI/OptionButton.h
+        BeautifulUI/AbstractBeautifulButton.cpp
+        BeautifulUI/AbstractBeautifulButton.h
 )
 
 
