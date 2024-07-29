@@ -3,11 +3,11 @@
 //
 
 #pragma once
-#include <QAbstractButton>
+#include "AbstractBeautifulButton.h"
 #include <QLabel>
 
 namespace BeautifulUi {
-    class OptionButton : public QAbstractButton {
+    class OptionButton : public AbstractBeautifulButton {
         Q_OBJECT
 
     public:

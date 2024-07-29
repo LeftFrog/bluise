@@ -6,7 +6,7 @@
 #include <QHBoxLayout>
 #include <QPainter>
 
-BeautifulUi::OptionButton::OptionButton(const QString& text, QWidget* parent) : QAbstractButton(parent){
+BeautifulUi::OptionButton::OptionButton(const QString& text, QWidget* parent) : AbstractBeautifulButton(parent){
     this->text = new QLabel(text, this);
     this->text->setStyleSheet("font-weight=bold;");
 
