@@ -21,6 +21,7 @@ protected:
 private:
     QMenu* createSortMenu();
     QMenu* createOptionsMenu();
+    void setupButtons();
 
     SearchBar* search;
     BeautifulUi::BeautifulButton* optionsButton;

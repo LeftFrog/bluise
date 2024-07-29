@@ -13,18 +13,10 @@ ToolBar::ToolBar(QWidget* parent) : QWidget(parent) {
     QWidget* spacer = new QWidget;
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
-    optionsButton = new BeautifulUi::BeautifulButton(fa::fa_ellipsis, this);
-    optionsButton->setMenu(createOptionsMenu());
-
-    sortButton = new BeautifulUi::BeautifulButton(fa::fa_sort, this);
-    sortButton->setMenu(createSortMenu());
+    setupButtons();
 
     search = new SearchBar(this);
     search->setGeometry(width() / 5, 4, width() / 5 * 3, height() - 4);
-
-    addButton = new BeautifulUi::BeautifulButton(fa::fa_plus, this);
-    addButton->setCheckable(false);
-    connect(addButton, &BeautifulUi::BeautifulButton::clicked, this, &ToolBar::addGame);
 
     connect(search, &QLineEdit::textChanged, this, &ToolBar::setName);
 
@@ -77,6 +69,18 @@ QMenu* ToolBar::createOptionsMenu() {
     connect(filters, &QActionGroup::triggered, this, &ToolBar::filter);
     optionsMenu->addAction(installed);
     return optionsMenu;
+}
+
+void ToolBar::setupButtons() {
+    optionsButton = new BeautifulUi::BeautifulButton(fa::fa_ellipsis, this);
+    optionsButton->setMenu(createOptionsMenu());
+
+    sortButton = new BeautifulUi::BeautifulButton(fa::fa_sort, this);
+    sortButton->setMenu(createSortMenu());
+
+    addButton = new BeautifulUi::BeautifulButton(fa::fa_plus, this);
+    addButton->setCheckable(false);
+    connect(addButton, &BeautifulUi::BeautifulButton::clicked, this, &ToolBar::addGame);
 }
 
 void ToolBar::sort(QAction* action) {
