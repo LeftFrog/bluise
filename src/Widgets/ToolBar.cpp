@@ -14,11 +14,7 @@ ToolBar::ToolBar(QWidget* parent) : QWidget(parent) {
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
     setupButtons();
-
-    search = new SearchBar(this);
-    search->setGeometry(width() / 5, 4, width() / 5 * 3, height() - 4);
-
-    connect(search, &QLineEdit::textChanged, this, &ToolBar::setName);
+    setupSearchBar();
 
     setContentsMargins(10, 6, 6, 10);
 }
@@ -81,6 +77,12 @@ void ToolBar::setupButtons() {
     addButton = new BeautifulUi::BeautifulButton(fa::fa_plus, this);
     addButton->setCheckable(false);
     connect(addButton, &BeautifulUi::BeautifulButton::clicked, this, &ToolBar::addGame);
+}
+
+void ToolBar::setupSearchBar() {
+    search = new SearchBar(this);
+    search->setGeometry(width() / 5, 4, width() / 5 * 3, height() - 4);
+    connect(search, &QLineEdit::textChanged, this, &ToolBar::setName);
 }
 
 void ToolBar::sort(QAction* action) {
