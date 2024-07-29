@@ -25,7 +25,6 @@ void ToolBar::resizeEvent(QResizeEvent* event) {
                                optionsButton->height());
     sortButton->setGeometry(width() - sortButton->width() - contentsMargins().right() * 2 - optionsButton->width(),
                             (height() - sortButton->height()) / 2 + 1, sortButton->width(), sortButton->height());
-    // group->setGeometry(sortButton->x()-15-group->width(), (height() - group->height())/2+1, group->width(), group->height());
     addButton->setGeometry(contentsMargins().left(), (height() - addButton->height()) / 2 + 1, 30, addButton->height());
     search->setGeometry(width() / 12 * 3, contentsMargins().top(), width() / 12 * 6, height() - 9);
 }
