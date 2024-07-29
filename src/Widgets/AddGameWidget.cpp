@@ -1,24 +1,29 @@
 #include "AddGameWidget.h"
 #include "AddLocalInstalledGameWidget.h"
 #include "ScanForGamesWidget.h"
+#include "../BeautifulUI/OptionButton.h"
 #include <QTimer>
 
 AddGameWidget::AddGameWidget(QWidget* parent) : QWidget(parent) {
     layout = new QStackedLayout();
 
-    QPushButton* addLocalInstalledGame = new QPushButton("Add a local installed game");
+    BeautifulUi::OptionButton* addLocalInstalledGame = new BeautifulUi::OptionButton("Add a local installed game");
     addLocalInstalledGame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-    connect(addLocalInstalledGame, &QPushButton::clicked, this, &AddGameWidget::addLocalGame);
+    // QPushButton* addLocalInstalledGame = new QPushButton("Add a local installed game");
+    // addLocalInstalledGame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    // connect(addLocalInstalledGame, &QPushButton::clicked, this, &AddGameWidget::addLocalGame);
 
-    QPushButton* searchGames = new QPushButton("Scan for games on the hard drive");
-    searchGames->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-    connect(searchGames, &QPushButton::clicked, this, &AddGameWidget::scanForGames);
+    BeautifulUi::OptionButton* scanForGames = new BeautifulUi::OptionButton("Scan for games on the hard drive");
+    scanForGames->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    // QPushButton* searchGames = new QPushButton("Scan for games on the hard drive");
+    // searchGames->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    // connect(searchGames, &QPushButton::clicked, this, &AddGameWidget::scanForGames);
 
     QVBoxLayout* VBL = new QVBoxLayout();
-    VBL->setContentsMargins(0, 0, 0, 0);
+    VBL->setContentsMargins(5, 5, 5, 5);
     VBL->setSpacing(0);
     VBL->addWidget(addLocalInstalledGame);
-    VBL->addWidget(searchGames);
+    VBL->addWidget(scanForGames);
 
     QWidget* options = new QWidget();
     options->setLayout(VBL);
