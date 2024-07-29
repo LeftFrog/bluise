@@ -22,7 +22,9 @@ void BeautifulUi::OptionButton::paintEvent(QPaintEvent* event) {
     painter.setPen(Qt::NoPen);
 
     QColor color = palette().color(QPalette::Base);
-    if (hovered) {
+    if(isDown()) {
+        color = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? color.darker(40) : color.lighter(80);
+    } else if (hovered) {
         color = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? color.darker(55) : color.lighter(95);
     }
 
