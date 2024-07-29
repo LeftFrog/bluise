@@ -5,8 +5,6 @@
 #include <QActionGroup>
 
 ToolBar::ToolBar(QWidget* parent) : QWidget(parent) {
-    // setMovable(false);
-    // setFloatable(false);
     setFixedHeight(36);
 
     auto* awesome = new fa::QtAwesome;
@@ -14,11 +12,6 @@ ToolBar::ToolBar(QWidget* parent) : QWidget(parent) {
 
     QWidget* spacer = new QWidget;
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    // group = new BeautifulUi::BeautifulButtonGroup(this);
-    // BeautifulUi::BeautifulButton *listView = new BeautifulUi::BeautifulButton(fa::fa_table_cells_large, group);
-    // BeautifulUi::BeautifulButton *tableView = new BeautifulUi::BeautifulButton(fa::fa_list_ul, group);
-    // group->addButton(tableView);
-    // group->addButton(listView);
 
     optionsButton = new BeautifulUi::BeautifulButton(fa::fa_ellipsis, this);
     QMenu* optionsMenu = new QMenu();
@@ -35,20 +28,7 @@ ToolBar::ToolBar(QWidget* parent) : QWidget(parent) {
     optionsButton->setMenu(optionsMenu);
 
     sortButton = new BeautifulUi::BeautifulButton(fa::fa_sort, this);
-    QMenu* sortMenu = new QMenu();
-    QActionGroup* sortGroup = new QActionGroup(sortMenu);
-    QAction* nameSort = new QAction("Name");
-    nameSort->setCheckable(true);
-    nameSort->setChecked(true);
-    sortMenu->addAction(nameSort);
-    sortGroup->addAction(nameSort);
-    QAction* yearSort = new QAction("Release year");
-    yearSort->setCheckable(true);
-    sortMenu->addAction(yearSort);
-    sortGroup->addAction(yearSort);
-    sortGroup->setExclusive(true);
-    sortButton->setMenu(sortMenu);
-    connect(sortMenu, &QMenu::triggered, this, &ToolBar::sort);
+    sortButton->setMenu(createSortMenu());
 
     search = new SearchBar(this);
     search->setGeometry(width() / 5, 4, width() / 5 * 3, height() - 4);
@@ -71,6 +51,23 @@ void ToolBar::resizeEvent(QResizeEvent* event) {
     // group->setGeometry(sortButton->x()-15-group->width(), (height() - group->height())/2+1, group->width(), group->height());
     addButton->setGeometry(contentsMargins().left(), (height() - addButton->height()) / 2 + 1, 30, addButton->height());
     search->setGeometry(width() / 12 * 3, contentsMargins().top(), width() / 12 * 6, height() - 9);
+}
+
+QMenu* ToolBar::createSortMenu() {
+    QMenu* sortMenu = new QMenu();
+    QActionGroup* sortGroup = new QActionGroup(sortMenu);
+    QAction* nameSort = new QAction("Name");
+    nameSort->setCheckable(true);
+    nameSort->setChecked(true);
+    sortMenu->addAction(nameSort);
+    sortGroup->addAction(nameSort);
+    QAction* yearSort = new QAction("Release year");
+    yearSort->setCheckable(true);
+    sortMenu->addAction(yearSort);
+    sortGroup->addAction(yearSort);
+    sortGroup->setExclusive(true);
+    connect(sortMenu, &QMenu::triggered, this, &ToolBar::sort);
+    return sortMenu;
 }
 
 void ToolBar::sort(QAction* action) {

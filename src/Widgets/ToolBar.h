@@ -19,8 +19,8 @@ protected:
     void resizeEvent(QResizeEvent* event) override;
 
 private:
+    QMenu* createSortMenu();
     SearchBar* search;
-    // BeautifulUi::BeautifulButtonGroup *group;
     BeautifulUi::BeautifulButton* optionsButton;
     BeautifulUi::BeautifulButton* addButton;
     BeautifulUi::BeautifulButton* sortButton;
