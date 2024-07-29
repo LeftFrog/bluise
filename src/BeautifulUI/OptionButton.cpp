@@ -5,6 +5,8 @@
 #include "OptionButton.h"
 #include <QHBoxLayout>
 #include <QPainter>
+#include <QStyleHints>
+#include <QGuiApplication>
 
 BeautifulUi::OptionButton::OptionButton(const QString& text, QWidget* parent) : AbstractBeautifulButton(parent){
     this->text = new QLabel(text, this);
@@ -19,6 +21,11 @@ void BeautifulUi::OptionButton::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
     painter.setPen(Qt::NoPen);
 
-    painter.setBrush(QBrush(palette().color(QPalette::Base)));
+    QColor color = palette().color(QPalette::Base);
+    if (hovered) {
+        color = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? color.darker(55) : color.lighter(95);
+    }
+
+    painter.setBrush(QBrush(color));
     painter.drawRect(rect());
 }
