@@ -21,6 +21,7 @@ namespace BeautifulUi {
         QString text;
         QString description;
         int iconMargin = 10;
+        int chevronMargin = 20;
     };
 }
 
