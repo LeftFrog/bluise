@@ -30,4 +30,11 @@ void IconHandler::unregisterButton(QAbstractButton* button) {
 
 void IconHandler::changeColorScheme(Qt::ColorScheme) {
     initFontAwesome();
+    updateIcons();
+}
+
+void IconHandler::updateIcons() {
+    for(auto it = icons.begin(); it != icons.end(); ++it) {
+        it.key()->setIcon(getIcon(fa::fa_solid, it.value()));
+    }
 }

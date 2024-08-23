@@ -21,6 +21,8 @@ private slots:
     void changeColorScheme(Qt::ColorScheme);
 
 private:
+    void updateIcons();
+
     QHash<QAbstractButton*, int> icons;
     fa::QtAwesome* awesome;
 };
