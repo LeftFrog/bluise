@@ -3,18 +3,13 @@
 //
 
 #include "OptionButton.h"
-#include <QHBoxLayout>
 #include <QPainter>
 #include <QStyleHints>
 #include <QGuiApplication>
 
-BeautifulUi::OptionButton::OptionButton(const QString& text, QWidget* parent) : AbstractBeautifulButton(parent){
-    this->text = new QLabel(text, this);
-    this->text->setStyleSheet("font-weight=bold;");
-
-    QHBoxLayout* layout = new QHBoxLayout(this);
-    layout->addWidget(this->text);
-    setLayout(layout);
+BeautifulUi::OptionButton::OptionButton(const QString& text, QWidget* parent) : AbstractBeautifulButton(parent), text(text) {
+    setMinimumHeight(60);
+    setMinimumWidth(200);
 }
 
 void BeautifulUi::OptionButton::paintEvent(QPaintEvent* event) {
@@ -30,4 +25,6 @@ void BeautifulUi::OptionButton::paintEvent(QPaintEvent* event) {
 
     painter.setBrush(QBrush(color));
     painter.drawRect(rect());
+
+    icon().paint(&painter, QRect(iconMargin, iconMargin, height()-(iconMargin*2), height()-(iconMargin*2)), Qt::AlignCenter, isChecked() ? QIcon::Selected : QIcon::Normal);
 }

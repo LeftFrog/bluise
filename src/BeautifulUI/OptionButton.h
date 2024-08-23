@@ -17,7 +17,8 @@ namespace BeautifulUi {
         void paintEvent(QPaintEvent* event) override;
 
     private:
-        QLabel* text;
+        QString text;
+        int iconMargin = 10;
     };
 }
 
