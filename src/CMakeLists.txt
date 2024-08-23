@@ -59,6 +59,8 @@ qt_add_executable(Bluise main.cpp
         BeautifulUI/OptionButton.h
         BeautifulUI/AbstractBeautifulButton.cpp
         BeautifulUI/AbstractBeautifulButton.h
+        BluiseCore/IconHandler.cpp
+        BluiseCore/IconHandler.h
 )
 
 
