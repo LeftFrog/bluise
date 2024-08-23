@@ -29,6 +29,7 @@ void BeautifulUi::OptionButton::paintEvent(QPaintEvent* event) {
     painter.drawRect(rect());
 
     icon().paint(&painter, QRect(iconMargin, iconMargin, height()-(iconMargin*2), height()-(iconMargin*2)), Qt::AlignCenter, isChecked() ? QIcon::Selected : QIcon::Normal);
+    iconHandler.getIcon(fa::fa_solid, fa::fa_chevron_right).paint(&painter, QRect(width()-height()+iconMargin, iconMargin, height()-iconMargin, height()-(iconMargin*2)), Qt::AlignCenter, isChecked() ? QIcon::Selected : QIcon::Normal);
 
     painter.setPen(QPen(QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? Qt::white : Qt::black));
     painter.setBrush(Qt::NoBrush);
