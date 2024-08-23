@@ -17,9 +17,13 @@ namespace BeautifulUi {
         void paintEvent(QPaintEvent* event) override;
 
     private:
+        void paintText(QPainter& painter) const;
+
         QFont boldFont;
+
         QString text;
         QString description;
+
         int iconMargin = 10;
         int chevronMargin = 20;
     };

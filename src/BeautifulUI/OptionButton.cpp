@@ -35,6 +35,10 @@ void BeautifulUi::OptionButton::paintEvent(QPaintEvent* event) {
     icon().paint(&painter, QRect(iconMargin, iconMargin, height()-(iconMargin*2), height()-(iconMargin*2)), Qt::AlignCenter, isChecked() ? QIcon::Selected : QIcon::Normal);
     iconHandler.getIcon(fa::fa_solid, fa::fa_chevron_right).paint(&painter, QRect(width()-height()+chevronMargin, chevronMargin, height()-chevronMargin, height()-(chevronMargin*2)), Qt::AlignCenter, isChecked() ? QIcon::Selected : QIcon::Normal);
 
+    paintText(painter);
+}
+
+void BeautifulUi::OptionButton::paintText(QPainter& painter) const {
     painter.setPen(QPen(QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? Qt::white : Qt::black));
     painter.setBrush(Qt::NoBrush);
 
