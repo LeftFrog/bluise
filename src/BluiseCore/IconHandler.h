@@ -4,6 +4,7 @@
 
 #pragma once
 #include "QtAwesome.h"
+#include <QAbstractButton>
 
 class IconHandler final : public QObject {
     Q_OBJECT
@@ -17,5 +18,6 @@ private slots:
     void changeColorScheme(Qt::ColorScheme);
 
 private:
+    QHash<QAbstractButton*, int> icons;
     fa::QtAwesome* awesome;
 };
