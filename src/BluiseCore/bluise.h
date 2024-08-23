@@ -2,7 +2,7 @@
 #include "Game.h"
 #include <QList>
 #include <QJsonDocument>
-
+#include "IconHandler.h"
 #include "../ModelView/GameListModel.h"
 #include "../ModelView/GameProxyModel.h"
 
@@ -39,3 +39,4 @@ private:
 };
 
 extern GameManager gameManager;
+extern IconHandler iconHandler;

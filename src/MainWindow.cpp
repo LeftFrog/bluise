@@ -7,6 +7,7 @@
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     gameManager.loadGames(DOCS + "games.json");
+    iconHandler.initFontAwesome();
     setUnifiedTitleAndToolBarOnMac(true);
     setWindowTitle("Bluise");
     resize(1900, 800);
@@ -15,10 +16,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     initToolBar();
     initListView();
 
-    fa::QtAwesome* awesome = new fa::QtAwesome(this);
-    awesome->initFontAwesome();
-
     setWindowIcon(QIcon("/Users/leftfrog/Projects/bluise/res/1024-mac.png"));
+
 
     setCentralWidget(createSplitter());
 }

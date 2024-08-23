@@ -134,3 +134,4 @@ void GameManager::saveGamesJSON(const QString& filename, const QJsonArray& arr) 
 }
 
 GameManager gameManager = GameManager();
+IconHandler iconHandler = IconHandler();
