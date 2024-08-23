@@ -4,9 +4,11 @@
 
 #include "IconHandler.h"
 
+#include <QGuiApplication>
+#include <QStyleHints>
+
 IconHandler::IconHandler(QObject* parent) : QObject(parent) {
-    // awesome = new fa::QtAwesome(this);
-    // awesome->initFontAwesome();
+    connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged, this, &IconHandler::changeColorScheme);
 }
 
 QIcon IconHandler::getIcon(int style, int icon) {
@@ -16,4 +18,8 @@ QIcon IconHandler::getIcon(int style, int icon) {
 void IconHandler::initFontAwesome() {
     awesome = new fa::QtAwesome(this);
     awesome->initFontAwesome();
+}
+
+void IconHandler::changeColorScheme(Qt::ColorScheme) {
+    initFontAwesome();
 }

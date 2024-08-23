@@ -13,6 +13,9 @@ public:
     QIcon getIcon(int style, int icon);
     void initFontAwesome();
 
+private slots:
+    void changeColorScheme(Qt::ColorScheme);
+
 private:
     fa::QtAwesome* awesome;
 };
