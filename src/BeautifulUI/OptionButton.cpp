@@ -7,9 +7,11 @@
 #include <QStyleHints>
 #include <QGuiApplication>
 
-BeautifulUi::OptionButton::OptionButton(const QString& text, QWidget* parent) : AbstractBeautifulButton(parent), text(text) {
+#include "../BluiseCore/bluise.h"
+
+BeautifulUi::OptionButton::OptionButton(const QString& text, const QString& description, QWidget* parent) : AbstractBeautifulButton(parent), text(text), description(description) {
     setMinimumHeight(60);
-    setMinimumWidth(200);
+    setMinimumWidth(300);
 }
 
 void BeautifulUi::OptionButton::paintEvent(QPaintEvent* event) {
@@ -27,4 +29,15 @@ void BeautifulUi::OptionButton::paintEvent(QPaintEvent* event) {
     painter.drawRect(rect());
 
     icon().paint(&painter, QRect(iconMargin, iconMargin, height()-(iconMargin*2), height()-(iconMargin*2)), Qt::AlignCenter, isChecked() ? QIcon::Selected : QIcon::Normal);
+
+    painter.setPen(QPen(QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? Qt::white : Qt::black));
+    painter.setBrush(Qt::NoBrush);
+
+    QFont font = this->font();
+    font.setPixelSize(16);
+    font.setBold(true);
+    painter.setFont(font);
+    painter.drawText(QRect(height(), 0, width()-height(), height()/2), Qt::AlignBottom, text);
+    painter.setFont(this->font());
+    painter.drawText(QRect(height(), height()/2, width()-height(), height()/2), Qt::AlignTop, description);
 }

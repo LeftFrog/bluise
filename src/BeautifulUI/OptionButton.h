@@ -11,13 +11,14 @@ namespace BeautifulUi {
         Q_OBJECT
 
     public:
-        OptionButton(const QString& text, QWidget* parent = nullptr);
+        OptionButton(const QString& text, const QString& description = "", QWidget* parent = nullptr);
 
     protected:
         void paintEvent(QPaintEvent* event) override;
 
     private:
         QString text;
+        QString description;
         int iconMargin = 10;
     };
 }
