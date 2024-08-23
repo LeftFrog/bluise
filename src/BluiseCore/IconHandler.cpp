@@ -20,6 +20,14 @@ void IconHandler::initFontAwesome() {
     awesome->initFontAwesome();
 }
 
+void IconHandler::registerButton(QAbstractButton* button, int icon) {
+    icons[button] = icon;
+}
+
+void IconHandler::unregisterButton(QAbstractButton* button) {
+    icons.remove(button);
+}
+
 void IconHandler::changeColorScheme(Qt::ColorScheme) {
     initFontAwesome();
 }

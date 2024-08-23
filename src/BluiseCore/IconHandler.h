@@ -14,6 +14,9 @@ public:
     QIcon getIcon(int style, int icon);
     void initFontAwesome();
 
+    void registerButton(QAbstractButton* button, int icon);
+    void unregisterButton(QAbstractButton* button);
+
 private slots:
     void changeColorScheme(Qt::ColorScheme);
 
