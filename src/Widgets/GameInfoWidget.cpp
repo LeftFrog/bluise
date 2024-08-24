@@ -10,12 +10,9 @@ GameInfoWidget::GameInfoWidget(QWidget* parent) : QWidget(parent), ui(new Ui::Ga
 
     menu = new QMenu();
 
-    awesome = new fa::QtAwesome;
-    awesome->initFontAwesome();
-
-    QAction* play = new QAction(/*awesome->icon(fa::fa_solid, fa::fa_play),*/ "Play", menu);
+    QAction* play = new QAction("Play", menu);
     connect(play, &QAction::triggered, this, &GameInfoWidget::play);
-    QAction* settings = new QAction(/*awesome->icon(fa::fa_solid, fa::fa_gear),*/ "Settings", menu);
+    QAction* settings = new QAction("Settings", menu);
     connect(settings, &QAction::triggered, this, &GameInfoWidget::settings);
     QAction* remove = new QAction("Remove", menu);
     connect(remove, &QAction::triggered, this, &GameInfoWidget::removeGame);
@@ -28,18 +25,14 @@ GameInfoWidget::GameInfoWidget(QWidget* parent) : QWidget(parent), ui(new Ui::Ga
     menu->addAction(openWD);
     menu->addAction(remove);
 
-    connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged, this, &GameInfoWidget::setIcon);
     connect(ui->pushButton_2, &QPushButton::clicked, this, &GameInfoWidget::play);
     connect(ui->pushButton, &QPushButton::clicked, this, &GameInfoWidget::popupMenu);
 
-    ui->pushButton->setIcon(awesome->icon(fa::fa_solid, fa::fa_chevron_down));
-    setIcon(QApplication::styleHints()->colorScheme());
+    ui->pushButton->setIcon(iconHandler.getIcon(fa::fa_solid, fa::fa_chevron_down));
+    iconHandler.registerButton(ui->pushButton, fa::fa_chevron_down);
 
-    // QPalette palette = this->palette();
-    // palette.setColor(QPalette::Window, palette.color(QPalette::Midlight));
     setBackgroundRole(QPalette::Midlight);
     setAutoFillBackground(true);
-    // this->setPalette(palette);
 
     ui->label->setFont(QFont("Arial", 22));
 }
@@ -74,13 +67,6 @@ void GameInfoWidget::settings() {
 
 void GameInfoWidget::popupMenu() {
     menu->popup(QCursor::pos());
-}
-
-void GameInfoWidget::setIcon(Qt::ColorScheme scheme) {
-    delete awesome;
-    awesome = new fa::QtAwesome;
-    awesome->initFontAwesome();
-    ui->pushButton->setIcon(awesome->icon(fa::fa_solid, fa::fa_chevron_down));
 }
 
 void GameInfoWidget::removeGame() {
