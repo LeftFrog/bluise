@@ -81,6 +81,5 @@ void GameInfoWidget::openWorkingDirectory() {
         QDesktopServices::openUrl(QUrl::fromLocalFile(dir.absolutePath()));
     } else {
         QMessageBox::critical(this, "Error", "Game folder is not specified");
-        return;
     }
 }
