@@ -5,18 +5,14 @@
 #include <QStyleHints>
 #include <QApplication>
 
-BeautifulUi::BeautifulButton::BeautifulButton(int _awesomeIcon, QWidget* parent) : AbstractBeautifulButton(parent),
-    awesomeIcon(_awesomeIcon) {
+#include "../BluiseCore/bluise.h"
+
+BeautifulUi::BeautifulButton::BeautifulButton(QWidget* parent) : AbstractBeautifulButton(parent) {
     setCheckable(true);
-    awesome = new fa::QtAwesome(this);
-    awesome->initFontAwesome();
-    QAbstractButton::setIcon(awesome->icon(fa::fa_solid, awesomeIcon));
-    connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged, this, &BeautifulButton::setIcon);
 }
 
 BeautifulUi::BeautifulButton::~BeautifulButton() {
     delete menu;
-    delete awesome;
 }
 
 void BeautifulUi::BeautifulButton::setMenu(QMenu* menu) {
@@ -49,7 +45,7 @@ void BeautifulUi::BeautifulButton::paintEvent(QPaintEvent* event) {
 }
 
 void BeautifulUi::BeautifulButton::paintMenuButton(QPainter& painter, const QRect& rect) {
-    QIcon icon = awesome->icon(fa::fa_solid, fa::fa_chevron_down);
+    QIcon icon = iconHandler.getIcon(fa::fa_solid, fa::fa_chevron_down);
     icon.paint(&painter, rect, Qt::AlignCenter, QIcon::Normal);
 }
 
@@ -64,11 +60,4 @@ void BeautifulUi::BeautifulButton::mouseReleaseEvent(QMouseEvent* event) {
 
 QSize BeautifulUi::BeautifulButton::sizeHint() const {
     return QSize(45, 30);
-}
-
-void BeautifulUi::BeautifulButton::setIcon(Qt::ColorScheme scheme) {
-    delete awesome;
-    awesome = new fa::QtAwesome;
-    awesome->initFontAwesome();
-    QAbstractButton::setIcon(awesome->icon(fa::fa_solid, awesomeIcon));
 }

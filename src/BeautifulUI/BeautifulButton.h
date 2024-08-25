@@ -7,7 +7,7 @@ namespace BeautifulUi {
         Q_OBJECT
 
     public:
-        explicit BeautifulButton(int _awesomeIcon = 0, QWidget* parent = nullptr);
+        explicit BeautifulButton(QWidget* parent = nullptr);
         ~BeautifulButton();
 
         void setMenu(QMenu* menu);
@@ -19,12 +19,7 @@ namespace BeautifulUi {
         void paintMenuButton(QPainter& painter, const QRect& rect);
         void mouseReleaseEvent(QMouseEvent* event) override;
 
-    protected slots:
-        void setIcon(Qt::ColorScheme scheme);
-
     private:
-        int awesomeIcon;
         QMenu* menu;
-        fa::QtAwesome* awesome;
     };
 }
