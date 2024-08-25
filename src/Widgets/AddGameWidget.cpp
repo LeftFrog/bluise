@@ -17,6 +17,9 @@ AddGameWidget::AddGameWidget(QWidget* parent) : QWidget(parent) {
 
     AddGameOptionsWidget* optionsWidget = new AddGameOptionsWidget();
 
+    connect(optionsWidget, &AddGameOptionsWidget::addLocalGame, this, &AddGameWidget::addLocalGame);
+    connect(optionsWidget, &AddGameOptionsWidget::scanForGames, this, &AddGameWidget::scanForGames);
+
     QVBoxLayout* VBL = new QVBoxLayout();
     VBL->setContentsMargins(10, 10, 10, 10);
     VBL->setSpacing(0);

@@ -7,8 +7,13 @@
 
 class AddGameOptionsWidget : public QWidget {
     Q_OBJECT
+
 public:
     AddGameOptionsWidget(QWidget* parent = nullptr);
+
+signals:
+    void addLocalGame();
+    void scanForGames();
 
 protected:
     void paintEvent(QPaintEvent* event) override;
