@@ -2,7 +2,6 @@
 #include "./ModelView/CoverDelegate.h"
 #include "./BluiseCore/bluise.h"
 #include "./ModelView/GameProxyModel.h"
-#include "QtAwesome/QtAwesome/QtAwesome.h"
 #include "Widgets/AddGameWidget.h"
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {

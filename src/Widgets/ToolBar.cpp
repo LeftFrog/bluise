@@ -4,6 +4,8 @@
 #include "../QtAwesome/QtAwesome/QtAwesome.h"
 #include <QActionGroup>
 
+#include "../BluiseCore/bluise.h"
+
 ToolBar::ToolBar(QWidget* parent) : QWidget(parent) {
     setFixedHeight(36);
 
@@ -67,13 +69,19 @@ QMenu* ToolBar::createOptionsMenu() {
 }
 
 void ToolBar::setupButtons() {
-    optionsButton = new BeautifulUi::BeautifulButton(fa::fa_ellipsis, this);
+    optionsButton = new BeautifulUi::BeautifulButton(this);
+    optionsButton->setIcon(iconHandler.getIcon(fa::fa_solid, fa::fa_ellipsis));
+    iconHandler.registerButton(optionsButton, fa::fa_ellipsis);
     optionsButton->setMenu(createOptionsMenu());
 
-    sortButton = new BeautifulUi::BeautifulButton(fa::fa_sort, this);
+    sortButton = new BeautifulUi::BeautifulButton(this);
+    sortButton->setIcon(iconHandler.getIcon(fa::fa_solid, fa::fa_sort));
+    iconHandler.registerButton(sortButton, fa::fa_sort);
     sortButton->setMenu(createSortMenu());
 
-    addButton = new BeautifulUi::BeautifulButton(fa::fa_plus, this);
+    addButton = new BeautifulUi::BeautifulButton(this);
+    addButton->setIcon(iconHandler.getIcon(fa::fa_solid, fa::fa_plus));
+    iconHandler.registerButton(addButton, fa::fa_plus);
     addButton->setCheckable(false);
     connect(addButton, &BeautifulUi::BeautifulButton::clicked, this, &ToolBar::addGame);
 }
