@@ -11,13 +11,20 @@
 AddGameWidget::AddGameWidget(QWidget* parent) : QWidget(parent) {
     layout = new QStackedLayout();
 
+    QLabel* lbl = new QLabel("Add games to your library");
+    lbl->setStyleSheet("font-size: 16px; font-weight: bold;");
+    lbl->setAlignment(Qt::AlignCenter);
+
     AddGameOptionsWidget* optionsWidget = new AddGameOptionsWidget();
 
     QVBoxLayout* VBL = new QVBoxLayout();
     VBL->setContentsMargins(10, 10, 10, 10);
     VBL->setSpacing(0);
+    VBL->addSpacing(10);
+    VBL->addWidget(lbl, 0, Qt::AlignCenter);
+    VBL->addSpacing(20);
     VBL->addWidget(optionsWidget, 0, Qt::AlignTop);
-    // VBL->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
+    VBL->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
 
     QWidget* options = new QWidget();
     options->setLayout(VBL);
