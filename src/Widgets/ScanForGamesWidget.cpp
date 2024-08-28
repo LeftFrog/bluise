@@ -41,6 +41,9 @@ void ScanForGamesWidget::gamesFound(const QList<Game>& games) {
         for (const auto& game : games) {
             text->append(game.getName());
         }
+    } else {
+        text->setText("No games found.");
+        text->setAlignment(Qt::AlignCenter);
     }
     layout()->addWidget(text);
 
