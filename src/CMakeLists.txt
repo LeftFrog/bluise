@@ -63,6 +63,8 @@ qt_add_executable(Bluise main.cpp
         BluiseCore/IconHandler.h
         Widgets/AddGameOptionsWidget.cpp
         Widgets/AddGameOptionsWidget.h
+        BeautifulUI/MenuButton.cpp
+        BeautifulUI/MenuButton.h
 )
 
 
