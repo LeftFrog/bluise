@@ -3,6 +3,8 @@
 //
 
 #include "MenuButton.h"
+#include <QMenu>
+#include <QMouseEvent>
 #include <QPainter>
 
 MenuButton::MenuButton(QWidget* parent) : AbstractBeautifulButton(parent) {
@@ -20,8 +22,8 @@ void MenuButton::paintEvent(QPaintEvent* event) {
     painter.setBrush(QBrush(palette().color(QPalette::Light)));
     painter.drawRoundedRect(rect(), 4, 4);
 
-    QRect mainRect = QRect(0, 0, width()-height()-3, height());
-    QRect secondRect = QRect(width()-height(), 0, height(), height());
+    mainRect = QRect(0, 0, width()-height()-3, height());
+    menuRect = QRect(width()-height(), 0, height(), height());
 
     painter.setPen(QPen(palette().color(QPalette::Midlight), 1));
     painter.drawLine(width()-height()-1, 5, width()-height()-1, height()-5);
@@ -29,5 +31,5 @@ void MenuButton::paintEvent(QPaintEvent* event) {
     painter.setPen(QPen(palette().color(QPalette::Text), 1));
 
     painter.drawText(mainRect, Qt::AlignCenter, text());
-    painter.drawText(secondRect, Qt::AlignCenter, "▼");
+    painter.drawText(menuRect, Qt::AlignCenter, "▼");
 }

@@ -11,10 +11,13 @@ class MenuButton : public BeautifulUi::AbstractBeautifulButton {
 public:
     explicit MenuButton(QWidget* parent = nullptr);
     explicit MenuButton(QMenu* menu, QWidget* parent = nullptr);
+    explicit MenuButton(const QString& text, QMenu* menu, QWidget* parent = nullptr);
 
 protected:
     void paintEvent(QPaintEvent* event) override;
 
 private:
+    QRect mainRect;
+    QRect menuRect;
     QMenu* menu;
 };
