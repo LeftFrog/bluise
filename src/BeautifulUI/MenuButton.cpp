@@ -38,3 +38,13 @@ void MenuButton::paintEvent(QPaintEvent* event) {
     painter.drawText(mainRect, Qt::AlignCenter, text());
     painter.drawText(menuRect, Qt::AlignCenter, "▼");
 }
+
+void MenuButton::mousePressEvent(QMouseEvent* event) {
+    if (mainRect.contains(event->pos())) {
+        click();
+    }
+    else if (menuRect.contains(event->pos()) && menu) {
+        menu->exec(mapToGlobal(QPoint(0, height())));
+    }
+   AbstractBeautifulButton::mousePressEvent(event);
+}
