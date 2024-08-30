@@ -15,6 +15,11 @@ MenuButton::MenuButton(QMenu* menu, QWidget* parent) : AbstractBeautifulButton(p
 
 }
 
+MenuButton::MenuButton(const QString& text, QMenu* menu, QWidget* parent) : AbstractBeautifulButton(parent) {
+    setText(text);
+    this->menu = menu;
+}
+
 void MenuButton::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
