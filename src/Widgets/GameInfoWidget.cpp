@@ -1,11 +1,10 @@
 #include "GameInfoWidget.h"
-#include "./ui_GameInfoWidget.h"
 #include <QtWidgets>
 #include "EditGameWidget.h"
+#include "../BeautifulUI/MenuButton.h"
 #include "../BluiseCore/bluise.h"
 
-GameInfoWidget::GameInfoWidget(QWidget* parent) : QWidget(parent), ui(new Ui::GameInfoWidget) {
-    ui->setupUi(this);
+GameInfoWidget::GameInfoWidget(QWidget* parent) : QWidget(parent) {
     setFixedHeight(100);
 
     menu = new QMenu();
@@ -25,20 +24,35 @@ GameInfoWidget::GameInfoWidget(QWidget* parent) : QWidget(parent), ui(new Ui::Ga
     menu->addAction(openWD);
     menu->addAction(remove);
 
-    connect(ui->pushButton_2, &QPushButton::clicked, this, &GameInfoWidget::play);
-    connect(ui->pushButton, &QPushButton::clicked, this, &GameInfoWidget::popupMenu);
+    QVBoxLayout* VBL = new QVBoxLayout(this);
+    VBL->setContentsMargins(20, 20, 10, 20);
+    VBL->setSpacing(10);
 
-    ui->pushButton->setIcon(iconHandler.getIcon(fa::fa_solid, fa::fa_chevron_down));
-    iconHandler.registerButton(ui->pushButton, fa::fa_chevron_down);
+    label = new QLabel(this);
+    label->setWordWrap(true);
+    QFont f(font());
+    f.setPointSize(22);
+    label->setFont(f);
+    VBL->addWidget(label, 0, Qt::AlignTop);
+
+    MenuButton* button = new MenuButton(menu, this);
+    button->setText("Play");
+    button->setMenu(menu);
+    button->setFixedSize(100, 30);
+    button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    VBL->addWidget(button, 0, Qt::AlignBottom);
+    connect(button, &MenuButton::clicked, this, &GameInfoWidget::play);
+
+    QHBoxLayout* layout = new QHBoxLayout();
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
+    layout->addLayout(VBL);
+    QSpacerItem* spacer = new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum);
+    layout->addItem(spacer);
+    setLayout(layout);
 
     setBackgroundRole(QPalette::Midlight);
     setAutoFillBackground(true);
-
-    ui->label->setFont(QFont("Arial", 22));
-}
-
-GameInfoWidget::~GameInfoWidget() {
-    delete ui;
 }
 
 void GameInfoWidget::setGame(const QModelIndex& index) {
@@ -47,7 +61,7 @@ void GameInfoWidget::setGame(const QModelIndex& index) {
         qDebug() << "Game is null";
         return;
     }
-    ui->label->setText(game->getName());
+    label->setText(game->getName());
     this->show();
 }
 
