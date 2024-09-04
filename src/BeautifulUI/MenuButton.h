@@ -13,6 +13,8 @@ public:
     explicit MenuButton(QMenu* menu, QWidget* parent = nullptr);
     explicit MenuButton(const QString& text, QMenu* menu, QWidget* parent = nullptr);
 
+    void setMenu(QMenu* menu);
+
 protected:
     void paintEvent(QPaintEvent* event) override;
     void mousePressEvent(QMouseEvent* event) override;

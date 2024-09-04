@@ -22,6 +22,10 @@ MenuButton::MenuButton(const QString& text, QMenu* menu, QWidget* parent) : Abst
     this->menu = menu;
 }
 
+void MenuButton::setMenu(QMenu* menu) {
+    this->menu = menu;
+}
+
 void MenuButton::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
