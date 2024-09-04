@@ -6,6 +6,8 @@
 #include <QMenu>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QPainterPath>
+#include <QStyleHints>
 
 MenuButton::MenuButton(QWidget* parent) : AbstractBeautifulButton(parent) {
 
@@ -24,13 +26,29 @@ void MenuButton::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QBrush(palette().color(QPalette::Light)));
-    painter.drawRoundedRect(rect(), 4, 4);
 
-    mainRect = QRect(0, 0, width()-height()-3, height());
+    QPainterPath path;
+    path.addRoundedRect(rect(), 4, 4);
+    painter.setClipPath(path);
+
+    painter.setBrush(QBrush(palette().color(QPalette::Light)));
+    painter.drawRect(rect());
+
+    mainRect = QRect(0, 0, width()-height()-2, height());
     menuRect = QRect(width()-height(), 0, height(), height());
 
-    painter.setPen(QPen(palette().color(QPalette::Midlight), 1));
+    if (isDown()) {
+        QColor color = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? palette().color(QPalette::Light).darker(50) : palette().color(QPalette::Light).lighter(80);
+        painter.setBrush(color);
+        if(isMenuDown) {
+            painter.drawRect(menuRect);
+        } else {
+            painter.drawRect(mainRect);
+        }
+    }
+
+    QColor color = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? palette().color(QPalette::Midlight).darker(70) : palette().color(QPalette::Light).lighter(80);
+    painter.setPen(QPen(color, 1));
     painter.drawLine(width()-height()-1, 5, width()-height()-1, height()-5);
 
     painter.setPen(QPen(palette().color(QPalette::Text), 1));
@@ -42,9 +60,13 @@ void MenuButton::paintEvent(QPaintEvent* event) {
 void MenuButton::mousePressEvent(QMouseEvent* event) {
     if (mainRect.contains(event->pos())) {
         click();
+        isMenuDown = false;
     }
-    else if (menuRect.contains(event->pos()) && menu) {
-        menu->exec(mapToGlobal(QPoint(0, height())));
+    else if (menuRect.contains(event->pos())) {
+        isMenuDown = true;
+        if (menu) {
+            menu->exec(event->globalPos());
+        }
     }
    AbstractBeautifulButton::mousePressEvent(event);
 }

@@ -21,4 +21,5 @@ private:
     QRect mainRect;
     QRect menuRect;
     QMenu* menu;
+    bool isMenuDown = false;
 };
