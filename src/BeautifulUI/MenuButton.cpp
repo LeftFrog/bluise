@@ -35,8 +35,8 @@ void MenuButton::paintEvent(QPaintEvent* event) {
     path.addRoundedRect(rect(), 4, 4);
     painter.setClipPath(path);
 
-    painter.setBrush(QBrush(palette().color(QPalette::Light)));
-    painter.drawRect(rect());
+    // painter.setBrush(QBrush(palette().color(QPalette::Light)));
+    // painter.drawRect(rect());
 
     mainRect = QRect(0, 0, width()-height()-2, height());
     menuRect = QRect(width()-height(), 0, height(), height());
@@ -63,14 +63,16 @@ void MenuButton::paintEvent(QPaintEvent* event) {
 
 void MenuButton::mousePressEvent(QMouseEvent* event) {
     if (mainRect.contains(event->pos())) {
-        click();
         isMenuDown = false;
     }
-    else if (menuRect.contains(event->pos())) {
+    if (menuRect.contains(event->pos())) {
         isMenuDown = true;
-        if (menu) {
-            menu->exec(event->globalPos());
-        }
     }
    AbstractBeautifulButton::mousePressEvent(event);
+    if (menuRect.contains(event->pos())) {
+        if (menu) {
+            menu->exec(event->globalPos());
+            repaint();
+        }
+    }
 }

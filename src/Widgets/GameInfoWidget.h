@@ -4,20 +4,11 @@
 #include <QMenu>
 #include "../QtAwesome/QtAwesome/QtAwesome.h"
 
-QT_BEGIN_NAMESPACE
-
-namespace Ui {
-    class GameInfoWidget;
-}
-
-QT_END_NAMESPACE
-
 class GameInfoWidget : public QWidget {
     Q_OBJECT
 
 public:
     explicit GameInfoWidget(QWidget* parent = nullptr);
-    ~GameInfoWidget();
 
 signals:
     void removeSignal();
@@ -33,7 +24,7 @@ private slots:
     void openWorkingDirectory();
 
 private:
+    QLabel* label;
     const Game* game;
     QMenu* menu;
-    Ui::GameInfoWidget* ui;
 };
