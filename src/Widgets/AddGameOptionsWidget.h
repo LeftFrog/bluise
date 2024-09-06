@@ -3,7 +3,8 @@
 //
 
 #pragma once
-#include <QWidget>
+#include "../BeautifulUI/OptionButton.h"
+#include <QtAwesome.h>
 
 class AddGameOptionsWidget : public QWidget {
     Q_OBJECT
@@ -19,5 +20,5 @@ protected:
     void paintEvent(QPaintEvent* event) override;
 
 private:
-
+    BeautifulUi::OptionButton* createOptionButton(const QString& text, const QString& description, int icon, void (AddGameOptionsWidget::*slot) ());
 };
