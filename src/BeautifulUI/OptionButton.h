@@ -18,6 +18,7 @@ namespace BeautifulUi {
 
     private:
         void paintText(QPainter& painter) const;
+        void paintIcons(QPainter& painter);
 
         QFont boldFont;
 

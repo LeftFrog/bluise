@@ -18,6 +18,11 @@ BeautifulUi::OptionButton::OptionButton(const QString& text, const QString& desc
     setMinimumWidth(std::max(metrics.boundingRect(description).width(), metricsBold.boundingRect(text).width())+height()+40);
 }
 
+void BeautifulUi::OptionButton::paintIcons(QPainter& painter) {
+    icon().paint(&painter, QRect(iconMargin, iconMargin, height()-(iconMargin*2), height()-(iconMargin*2)), Qt::AlignCenter, isChecked() ? QIcon::Selected : QIcon::Normal);
+    iconHandler.getIcon(fa::fa_solid, fa::fa_chevron_right).paint(&painter, QRect(width()-height()+chevronMargin, chevronMargin, height()-chevronMargin, height()-(chevronMargin*2)), Qt::AlignCenter, isChecked() ? QIcon::Selected : QIcon::Normal);
+}
+
 void BeautifulUi::OptionButton::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
     painter.setPen(Qt::NoPen);
@@ -32,8 +37,7 @@ void BeautifulUi::OptionButton::paintEvent(QPaintEvent* event) {
     painter.setBrush(QBrush(color));
     painter.drawRect(rect());
 
-    icon().paint(&painter, QRect(iconMargin, iconMargin, height()-(iconMargin*2), height()-(iconMargin*2)), Qt::AlignCenter, isChecked() ? QIcon::Selected : QIcon::Normal);
-    iconHandler.getIcon(fa::fa_solid, fa::fa_chevron_right).paint(&painter, QRect(width()-height()+chevronMargin, chevronMargin, height()-chevronMargin, height()-(chevronMargin*2)), Qt::AlignCenter, isChecked() ? QIcon::Selected : QIcon::Normal);
+    paintIcons(painter);
 
     paintText(painter);
 }
