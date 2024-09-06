@@ -48,6 +48,13 @@ void MenuButton::drawDivider(QPainter& painter) {
     painter.drawLine(width()-height()-1, 5, width()-height()-1, height()-5);
 }
 
+void MenuButton::drawButtonElements(QPainter& painter) {
+    painter.setPen(QPen(palette().color(QPalette::Text), 1));
+
+    painter.drawText(mainRect, Qt::AlignCenter, text());
+    painter.drawText(menuRect, Qt::AlignCenter, "▼");
+}
+
 void MenuButton::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
@@ -68,10 +75,7 @@ void MenuButton::paintEvent(QPaintEvent* event) {
 
     drawDivider(painter);
 
-    painter.setPen(QPen(palette().color(QPalette::Text), 1));
-
-    painter.drawText(mainRect, Qt::AlignCenter, text());
-    painter.drawText(menuRect, Qt::AlignCenter, "▼");
+    drawButtonElements(painter);
 }
 
 void MenuButton::mousePressEvent(QMouseEvent* event) {

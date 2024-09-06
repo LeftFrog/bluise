@@ -17,6 +17,7 @@ public:
     void paintDownButtons(QPainter& painter);
     void calcutlateRects();
     void drawDivider(QPainter& painter);
+    void drawButtonElements(QPainter& painter);
 
 protected:
     void paintEvent(QPaintEvent* event) override;
