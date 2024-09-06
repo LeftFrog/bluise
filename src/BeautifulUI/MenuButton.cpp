@@ -14,18 +14,27 @@ MenuButton::MenuButton(QWidget* parent) : AbstractBeautifulButton(parent) {
 }
 
 MenuButton::MenuButton(QMenu* menu, QWidget* parent) : AbstractBeautifulButton(parent), menu(menu) {
-
+    setMenu(menu);
 }
 
 MenuButton::MenuButton(const QString& text, QMenu* menu, QWidget* parent) : AbstractBeautifulButton(parent) {
     setText(text);
-    this->menu = menu;
-    connect(menu, &QMenu::aboutToHide, this, &MenuButton::hideMenu);
+    setMenu(menu);
 }
 
 void MenuButton::setMenu(QMenu* menu) {
     this->menu = menu;
     connect(menu, &QMenu::aboutToHide, this, &MenuButton::hideMenu);
+}
+
+void MenuButton::paintDownButtons(QPainter& painter) {
+    QColor color = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? palette().color(QPalette::Light).darker(50) : palette().color(QPalette::Light).lighter(80);
+    painter.setBrush(color);
+    if(isMenuDown) {
+        painter.drawRect(menuRect);
+    } else {
+        painter.drawRect(mainRect);
+    }
 }
 
 void MenuButton::paintEvent(QPaintEvent* event) {
@@ -44,13 +53,7 @@ void MenuButton::paintEvent(QPaintEvent* event) {
     menuRect = QRect(width()-height(), 0, height(), height());
 
     if (isDown()) {
-        QColor color = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? palette().color(QPalette::Light).darker(50) : palette().color(QPalette::Light).lighter(80);
-        painter.setBrush(color);
-        if(isMenuDown) {
-            painter.drawRect(menuRect);
-        } else {
-            painter.drawRect(mainRect);
-        }
+        paintDownButtons(painter);
     }
 
     QColor color = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? palette().color(QPalette::Midlight).darker(70) : palette().color(QPalette::Light).lighter(80);
@@ -78,7 +81,6 @@ void MenuButton::mousePressEvent(QMouseEvent* event) {
     } else {
         setDown(false);
     }
-   // AbstractBeautifulButton::mousePressEvent(event);
 }
 
 void MenuButton::hideMenu() {
