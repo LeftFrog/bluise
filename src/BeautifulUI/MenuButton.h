@@ -19,6 +19,9 @@ protected:
     void paintEvent(QPaintEvent* event) override;
     void mousePressEvent(QMouseEvent* event) override;
 
+private slots:
+    void hideMenu();
+
 private:
     QRect mainRect;
     QRect menuRect;

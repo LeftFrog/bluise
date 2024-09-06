@@ -20,10 +20,12 @@ MenuButton::MenuButton(QMenu* menu, QWidget* parent) : AbstractBeautifulButton(p
 MenuButton::MenuButton(const QString& text, QMenu* menu, QWidget* parent) : AbstractBeautifulButton(parent) {
     setText(text);
     this->menu = menu;
+    connect(menu, &QMenu::aboutToHide, this, &MenuButton::hideMenu);
 }
 
 void MenuButton::setMenu(QMenu* menu) {
     this->menu = menu;
+    connect(menu, &QMenu::aboutToHide, this, &MenuButton::hideMenu);
 }
 
 void MenuButton::paintEvent(QPaintEvent* event) {
@@ -35,8 +37,8 @@ void MenuButton::paintEvent(QPaintEvent* event) {
     path.addRoundedRect(rect(), 4, 4);
     painter.setClipPath(path);
 
-    // painter.setBrush(QBrush(palette().color(QPalette::Light)));
-    // painter.drawRect(rect());
+    painter.setBrush(QBrush(palette().color(QPalette::Light)));
+    painter.drawRect(rect());
 
     mainRect = QRect(0, 0, width()-height()-2, height());
     menuRect = QRect(width()-height(), 0, height(), height());
@@ -64,15 +66,22 @@ void MenuButton::paintEvent(QPaintEvent* event) {
 void MenuButton::mousePressEvent(QMouseEvent* event) {
     if (mainRect.contains(event->pos())) {
         isMenuDown = false;
+        setDown(true);
+        repaint();
+        click();
     }
-    if (menuRect.contains(event->pos())) {
+    else if (menuRect.contains(event->pos())) {
         isMenuDown = true;
+        setDown(true);
+        repaint();
+        menu->exec(mapToGlobal(rect().bottomRight()));
+    } else {
+        setDown(false);
     }
-   AbstractBeautifulButton::mousePressEvent(event);
-    if (menuRect.contains(event->pos())) {
-        if (menu) {
-            menu->exec(event->globalPos());
-            repaint();
-        }
-    }
+   // AbstractBeautifulButton::mousePressEvent(event);
+}
+
+void MenuButton::hideMenu() {
+    setDown(false);
+    isMenuDown = false;
 }
