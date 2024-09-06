@@ -37,6 +37,11 @@ void MenuButton::paintDownButtons(QPainter& painter) {
     }
 }
 
+void MenuButton::calcutlateRects() {
+    mainRect = QRect(0, 0, width()-height()-2, height());
+    menuRect = QRect(width()-height(), 0, height(), height());
+}
+
 void MenuButton::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
@@ -49,8 +54,7 @@ void MenuButton::paintEvent(QPaintEvent* event) {
     painter.setBrush(QBrush(palette().color(QPalette::Light)));
     painter.drawRect(rect());
 
-    mainRect = QRect(0, 0, width()-height()-2, height());
-    menuRect = QRect(width()-height(), 0, height(), height());
+    calcutlateRects();
 
     if (isDown()) {
         paintDownButtons(painter);

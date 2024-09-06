@@ -14,6 +14,8 @@ public:
     explicit MenuButton(const QString& text, QMenu* menu, QWidget* parent = nullptr);
 
     void setMenu(QMenu* menu);
+    void paintDownButtons(QPainter& painter);
+    void calcutlateRects();
 
 protected:
     void paintEvent(QPaintEvent* event) override;
