@@ -42,6 +42,12 @@ void MenuButton::calcutlateRects() {
     menuRect = QRect(width()-height(), 0, height(), height());
 }
 
+void MenuButton::drawDivider(QPainter& painter) {
+    QColor color = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? palette().color(QPalette::Midlight).darker(70) : palette().color(QPalette::Light).lighter(80);
+    painter.setPen(QPen(color, 1));
+    painter.drawLine(width()-height()-1, 5, width()-height()-1, height()-5);
+}
+
 void MenuButton::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
@@ -60,9 +66,7 @@ void MenuButton::paintEvent(QPaintEvent* event) {
         paintDownButtons(painter);
     }
 
-    QColor color = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? palette().color(QPalette::Midlight).darker(70) : palette().color(QPalette::Light).lighter(80);
-    painter.setPen(QPen(color, 1));
-    painter.drawLine(width()-height()-1, 5, width()-height()-1, height()-5);
+    drawDivider(painter);
 
     painter.setPen(QPen(palette().color(QPalette::Text), 1));
 

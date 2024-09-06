@@ -16,6 +16,7 @@ public:
     void setMenu(QMenu* menu);
     void paintDownButtons(QPainter& painter);
     void calcutlateRects();
+    void drawDivider(QPainter& painter);
 
 protected:
     void paintEvent(QPaintEvent* event) override;
