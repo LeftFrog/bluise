@@ -10,7 +10,7 @@ class AddGameOptionsWidget : public QWidget {
     Q_OBJECT
 
 public:
-    AddGameOptionsWidget(QWidget* parent = nullptr);
+    explicit AddGameOptionsWidget(QWidget* parent = nullptr);
 
 signals:
     void addLocalGame();
