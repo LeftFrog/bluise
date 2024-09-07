@@ -2,7 +2,7 @@
 #include <QLabel>
 #include "../BluiseCore/Game.h"
 #include <QMenu>
-
+#include <QVBoxLayout>
 #include "../BeautifulUI/MenuButton.h"
 #include "../QtAwesome/QtAwesome/QtAwesome.h"
 
@@ -29,6 +29,7 @@ private:
     QMenu* createMenu();
     MenuButton* createMenuButton();
     QLabel* createLabel();
+    QHBoxLayout* createLayout();
 
     QLabel* label;
     const Game* game;

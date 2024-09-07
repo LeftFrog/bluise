@@ -42,27 +42,31 @@ QLabel* GameInfoWidget::createLabel() {
     return l;
 }
 
-GameInfoWidget::GameInfoWidget(QWidget* parent) : QWidget(parent) {
-    setFixedHeight(100);
-
-    menu = createMenu();
-
+QHBoxLayout* GameInfoWidget::createLayout() {
     QVBoxLayout* VBL = new QVBoxLayout(this);
     VBL->setContentsMargins(20, 20, 10, 20);
     VBL->setSpacing(10);
 
-    label = createLabel();
     VBL->addWidget(label, 0, Qt::AlignTop);
-
     VBL->addWidget(createMenuButton(), 0, Qt::AlignBottom);
 
     QHBoxLayout* layout = new QHBoxLayout();
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     layout->addLayout(VBL);
+
     QSpacerItem* spacer = new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum);
     layout->addItem(spacer);
-    setLayout(layout);
+    return layout;
+}
+
+GameInfoWidget::GameInfoWidget(QWidget* parent) : QWidget(parent) {
+    setFixedHeight(100);
+
+    menu = createMenu();
+    label = createLabel();
+
+    setLayout(createLayout());
 
     setBackgroundRole(QPalette::Midlight);
     setAutoFillBackground(true);
