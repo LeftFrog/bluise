@@ -23,6 +23,16 @@ QMenu* GameInfoWidget::createMenu() {
     return m;
 }
 
+MenuButton* GameInfoWidget::createMenuButton() {
+    auto* button = new MenuButton(menu, this);
+    button->setText("Play");
+    button->setMenu(menu);
+    button->setFixedSize(100, 30);
+    button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    connect(button, &MenuButton::clicked, this, &GameInfoWidget::play);
+    return button;
+}
+
 GameInfoWidget::GameInfoWidget(QWidget* parent) : QWidget(parent) {
     setFixedHeight(100);
 
@@ -39,13 +49,7 @@ GameInfoWidget::GameInfoWidget(QWidget* parent) : QWidget(parent) {
     label->setFont(f);
     VBL->addWidget(label, 0, Qt::AlignTop);
 
-    MenuButton* button = new MenuButton(menu, this);
-    button->setText("Play");
-    button->setMenu(menu);
-    button->setFixedSize(100, 30);
-    button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    VBL->addWidget(button, 0, Qt::AlignBottom);
-    connect(button, &MenuButton::clicked, this, &GameInfoWidget::play);
+    VBL->addWidget(createMenuButton(), 0, Qt::AlignBottom);
 
     QHBoxLayout* layout = new QHBoxLayout();
     layout->setContentsMargins(0, 0, 0, 0);

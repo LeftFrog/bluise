@@ -2,6 +2,8 @@
 #include <QLabel>
 #include "../BluiseCore/Game.h"
 #include <QMenu>
+
+#include "../BeautifulUI/MenuButton.h"
 #include "../QtAwesome/QtAwesome/QtAwesome.h"
 
 class GameInfoWidget : public QWidget {
@@ -25,6 +27,7 @@ private slots:
 
 private:
     QMenu* createMenu();
+    MenuButton* createMenuButton();
 
     QLabel* label;
     const Game* game;
