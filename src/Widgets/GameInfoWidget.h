@@ -28,6 +28,7 @@ private slots:
 private:
     QMenu* createMenu();
     MenuButton* createMenuButton();
+    QLabel* createLabel();
 
     QLabel* label;
     const Game* game;

@@ -33,6 +33,15 @@ MenuButton* GameInfoWidget::createMenuButton() {
     return button;
 }
 
+QLabel* GameInfoWidget::createLabel() {
+    auto* l = new QLabel(this);
+    l->setWordWrap(true);
+    QFont f(font());
+    f.setPointSize(22);
+    l->setFont(f);
+    return l;
+}
+
 GameInfoWidget::GameInfoWidget(QWidget* parent) : QWidget(parent) {
     setFixedHeight(100);
 
@@ -42,11 +51,7 @@ GameInfoWidget::GameInfoWidget(QWidget* parent) : QWidget(parent) {
     VBL->setContentsMargins(20, 20, 10, 20);
     VBL->setSpacing(10);
 
-    label = new QLabel(this);
-    label->setWordWrap(true);
-    QFont f(font());
-    f.setPointSize(22);
-    label->setFont(f);
+    label = createLabel();
     VBL->addWidget(label, 0, Qt::AlignTop);
 
     VBL->addWidget(createMenuButton(), 0, Qt::AlignBottom);
