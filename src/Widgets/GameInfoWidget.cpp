@@ -4,25 +4,29 @@
 #include "../BeautifulUI/MenuButton.h"
 #include "../BluiseCore/bluise.h"
 
+QMenu* GameInfoWidget::createMenu() {
+    QMenu* m = new QMenu();
+    QAction* play = new QAction("Play", m);
+    connect(play, &QAction::triggered, this, &GameInfoWidget::play);
+    QAction* settings = new QAction("Settings", m);
+    connect(settings, &QAction::triggered, this, &GameInfoWidget::settings);
+    QAction* remove = new QAction("Remove", m);
+    connect(remove, &QAction::triggered, this, &GameInfoWidget::removeGame);
+    QAction* openWD = new QAction("Open game folder", m);
+    connect(openWD, &QAction::triggered, this, &GameInfoWidget::openWorkingDirectory);
+
+    m->QWidget::addAction(play);
+    m->addSeparator();
+    m->QWidget::addAction(settings);
+    m->QWidget::addAction(openWD);
+    m->QWidget::addAction(remove);
+    return m;
+}
+
 GameInfoWidget::GameInfoWidget(QWidget* parent) : QWidget(parent) {
     setFixedHeight(100);
 
-    menu = new QMenu();
-
-    QAction* play = new QAction("Play", menu);
-    connect(play, &QAction::triggered, this, &GameInfoWidget::play);
-    QAction* settings = new QAction("Settings", menu);
-    connect(settings, &QAction::triggered, this, &GameInfoWidget::settings);
-    QAction* remove = new QAction("Remove", menu);
-    connect(remove, &QAction::triggered, this, &GameInfoWidget::removeGame);
-    QAction* openWD = new QAction("Open game folder", menu);
-    connect(openWD, &QAction::triggered, this, &GameInfoWidget::openWorkingDirectory);
-
-    menu->addAction(play);
-    menu->addSeparator();
-    menu->addAction(settings);
-    menu->addAction(openWD);
-    menu->addAction(remove);
+    menu = createMenu();
 
     QVBoxLayout* VBL = new QVBoxLayout(this);
     VBL->setContentsMargins(20, 20, 10, 20);

@@ -24,6 +24,8 @@ private slots:
     void openWorkingDirectory();
 
 private:
+    QMenu* createMenu();
+
     QLabel* label;
     const Game* game;
     QMenu* menu;
