@@ -97,7 +97,47 @@ void GoogleDriveManager::uploadFile(const QString& localFilePath) {
 }
 
 void GoogleDriveManager::uploadFileInChunks(QFile* file, const QUrl& sessionUrl) {
+    const qint64 chunkSize = 262144; // 256 KB
+    qint64 fileSize = file->size();
+    qint64 bytesSent = 0;
 
+    while (bytesSent < fileSize) {
+        qint64 remainingBytes = fileSize - bytesSent;
+        qint64 currentChunkSize = qMin(chunkSize, remainingBytes);
+        QByteArray chunkData = file->read(currentChunkSize);
+
+        QNetworkRequest chunkRequest(sessionUrl);
+
+        QString token = oauth.token();
+        if (token.isEmpty()) {
+            qDebug() << "Access token is empty.";
+            return;
+        }
+        chunkRequest.setRawHeader("Authorization", "Bearer " + token.toUtf8());
+
+        QString contentRange = QString("bytes %1-%2/%3")
+                                            .arg(bytesSent)
+                                            .arg(bytesSent + currentChunkSize - 1)
+                                            .arg(fileSize);
+        chunkRequest.setRawHeader("Content-Range", contentRange.toUtf8());
+
+        QNetworkReply* chunkReply = networkManager.put(chunkRequest, chunkData);
+        connect(chunkReply, &QNetworkReply::finished, [chunkReply, &bytesSent, currentChunkSize, file]() {
+            if (chunkReply->error() == QNetworkReply::NoError) {
+                qDebug() << "Chunk uploaded successfully.";
+                bytesSent += currentChunkSize;
+            } else {
+                qDebug() << "Error uploading chunk: " << chunkReply->errorString();
+            }
+            chunkReply->deleteLater();
+        });
+
+        if (remainingBytes == currentChunkSize) {
+            break;  // Upload complete
+        }
+    }
+
+    qDebug() << "File uploaded successfully!";
 }
 
 void GoogleDriveManager::authenticate() {
