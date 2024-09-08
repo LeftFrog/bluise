@@ -8,8 +8,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets Concurrent Sql)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Concurrent Sql)
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets Concurrent Sql Network NetworkAuth)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Concurrent Sql Network NetworkAuth)
 
 qt_standard_project_setup()
 
@@ -45,7 +45,6 @@ qt_add_executable(Bluise main.cpp
     MainWindow.cpp
     ./Widgets/ToolBar.cpp
     ./ModelView/GameProxyModel.cpp
-    ./Widgets/GameInfoWidget.ui
     ./BeautifulUI/BeautifulButton.cpp
     ./BeautifulUI/BeautifulButtonGroup.cpp
     ./Widgets/SearchBar.cpp
@@ -65,6 +64,8 @@ qt_add_executable(Bluise main.cpp
         Widgets/AddGameOptionsWidget.h
         BeautifulUI/MenuButton.cpp
         BeautifulUI/MenuButton.h
+        Sync/GoogleDriveManager.cpp
+        Sync/GoogleDriveManager.h
 )
 
 
@@ -72,6 +73,8 @@ target_link_libraries(Bluise PRIVATE Qt6::Widgets)
 target_link_libraries(Bluise PRIVATE Qt6::Concurrent)
 target_link_libraries(Bluise PRIVATE Qt6::Sql)
 target_link_libraries(Bluise PUBLIC QtAwesome)
+target_link_libraries(Bluise PRIVATE Qt6::Network)
+target_link_libraries(Bluise PRIVATE Qt6::NetworkAuth)
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(Bluise)
