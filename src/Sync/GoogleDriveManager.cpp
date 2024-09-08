@@ -4,8 +4,9 @@
 
 #include "GoogleDriveManager.h"
 #include <QDesktopServices>
-#include <QFile>
+#include <QFileInfo>
 #include <QHttpMultiPart>
+#include <QMimeDatabase>
 #include <QNetworkReply>
 #include <QOAuthHttpServerReplyHandler>
 
@@ -54,38 +55,49 @@ GoogleDriveManager::GoogleDriveManager(QObject* parent) : QObject(parent), oauth
     });
 }
 
-void GoogleDriveManager::uploadFile(const QString& localFilePath, const QString& remoteFilePath) {
+void GoogleDriveManager::uploadFile(const QString& localFilePath) {
     QFile* file = new QFile(localFilePath);
-
     if(!file->open(QIODevice::ReadOnly)) {
         qDebug() << "Failed to open file";
         return;
     }
+    QMimeType mimeType = QMimeDatabase().mimeTypeForFile(localFilePath);
 
-    QUrl url("https://www.googleapis.com/upload/drive/v3/files?uploadType=media");
+    QUrl url("https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable");
     QNetworkRequest request(url);
-    request.setRawHeader("Authorization", "Bearer " + oauth.token().toUtf8());
 
-    QHttpMultiPart* multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+    QString token = oauth.token();
+    if(token.isEmpty()) {
+        qDebug() << "Access token is empty.";
+        return;
+    }
 
-    QHttpPart filePart;
-    filePart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/octet-stream"));
-    filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"file\"; filename=\"" + remoteFilePath + "\""));
-    filePart.setBodyDevice(file);
-    file->setParent(multiPart);
-    multiPart->append(filePart);
+    request.setRawHeader("Authorization", "Bearer " + token.toUtf8());
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json; charset=UTF-8");
+    request.setRawHeader("X-Upload-Content-Type", mimeType.name().toUtf8());
+    request.setRawHeader("X-Upload-Content-Length", QByteArray::number(file->size()));
 
-    QNetworkReply* reply = networkManager.post(request, multiPart);
-    multiPart->setParent(reply);
+    QByteArray metaData = R"({
+        "name": ")" + QFileInfo(*file).fileName().toUtf8() + R"(",
+        "mimeType": ")" + mimeType.name().toUtf8() + R"("
+    })";
 
-    connect(reply, &QNetworkReply::finished, [reply, this]() {
-        if (reply->error() == QNetworkReply::NoError) {
-            qDebug() << "File uploaded";
-        } else {
-            qDebug() << "Error uploading file: " << reply->errorString();
-        }
-        reply->deleteLater();
-    });
+    QNetworkReply* reply = networkManager.post(request, metaData);
+    connect(reply, &QNetworkReply::finished, [reply, file, this]() {
+    if (reply->error() == QNetworkReply::NoError) {
+        // The resumable session URI is returned in the Location header
+        QUrl sessionUri = reply->header(QNetworkRequest::LocationHeader).toUrl();
+        qDebug() << "Resumable upload session started at: " << sessionUri.toString();
+        uploadFileInChunks(file, sessionUri);  // Start uploading in chunks
+    } else {
+        qDebug() << "Error initiating resumable upload: " << reply->errorString();
+    }
+    reply->deleteLater();
+});
+}
+
+void GoogleDriveManager::uploadFileInChunks(QFile* file, const QUrl& sessionUrl) {
+
 }
 
 void GoogleDriveManager::authenticate() {

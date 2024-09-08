@@ -5,6 +5,7 @@
 #pragma once
 #include <QNetworkAccessManager>
 #include <QOAuth2AuthorizationCodeFlow>
+#include <QFile>
 
 class GoogleDriveManager : public QObject {
     Q_OBJECT
@@ -14,7 +15,8 @@ public:
 
 public slots:
     void authenticate();
-    void uploadFile(const QString& localFilePath, const QString& remoteFilePath);
+    void uploadFile(const QString& localFilePath);
+    void uploadFileInChunks(QFile* file, const QUrl& sessionUrl);
 
 private:
     QString clientId;
