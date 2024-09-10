@@ -15,8 +15,12 @@ public:
 
 public slots:
     void authenticate();
+    void startUpload(const QString& localFilePath);
     void uploadFile(const QString& localFilePath);
     void uploadFileInChunks(QFile* file, const QUrl& sessionUrl);
+
+signals:
+    void uploadFinished();
 
 private:
     QString clientId;

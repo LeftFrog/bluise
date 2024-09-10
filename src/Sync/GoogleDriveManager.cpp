@@ -3,12 +3,15 @@
 //
 
 #include "GoogleDriveManager.h"
+
+#include <qcoreapplication.h>
 #include <QDesktopServices>
 #include <QFileInfo>
 #include <QHttpMultiPart>
 #include <QMimeDatabase>
 #include <QNetworkReply>
 #include <QOAuthHttpServerReplyHandler>
+#include <QThread>
 
 GoogleDriveManager::GoogleDriveManager(QObject* parent) : QObject(parent), oauth(), networkManager() {
     clientId = getenv("GOOGLE_CLIENT_ID");
@@ -63,8 +66,10 @@ void GoogleDriveManager::uploadFile(const QString& localFilePath) {
     }
     QMimeType mimeType = QMimeDatabase().mimeTypeForFile(localFilePath);
 
-    QUrl url("https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable");
-    QNetworkRequest request(url);
+    QNetworkRequest request(QUrl("https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable"));
+    request.setRawHeader("Authorization", "Bearer " + oauth.token().toUtf8());
+    request.setAttribute(QNetworkRequest::Http2AllowedAttribute, false);
+    request.setTransferTimeout(30000);
 
     QString token = oauth.token();
     if(token.isEmpty()) {
@@ -97,49 +102,102 @@ void GoogleDriveManager::uploadFile(const QString& localFilePath) {
 }
 
 void GoogleDriveManager::uploadFileInChunks(QFile* file, const QUrl& sessionUrl) {
-    const qint64 chunkSize = 262144; // 256 KB
+  const qint64 chunkSize = 256 * 1024;  // 256 KB (adjust this size as needed)
     qint64 fileSize = file->size();
     qint64 bytesSent = 0;
+
+    qDebug() << "Starting chunk upload. File size:" << fileSize << "Chunk size:" << chunkSize;
 
     while (bytesSent < fileSize) {
         qint64 remainingBytes = fileSize - bytesSent;
         qint64 currentChunkSize = qMin(chunkSize, remainingBytes);
+
+        file->seek(bytesSent);
         QByteArray chunkData = file->read(currentChunkSize);
-
-        QNetworkRequest chunkRequest(sessionUrl);
-
-        QString token = oauth.token();
-        if (token.isEmpty()) {
-            qDebug() << "Access token is empty.";
+        if (chunkData.size() != currentChunkSize) {
+            qDebug() << "Error reading chunk from file.";
             return;
         }
-        chunkRequest.setRawHeader("Authorization", "Bearer " + token.toUtf8());
 
-        QString contentRange = QString("bytes %1-%2/%3")
-                                            .arg(bytesSent)
-                                            .arg(bytesSent + currentChunkSize - 1)
-                                            .arg(fileSize);
+        qDebug() << "Uploading chunk. Bytes sent:" << bytesSent << "Chunk size:" << currentChunkSize;
+
+        // Prepare the chunk upload request
+        QNetworkRequest chunkRequest(sessionUrl);
+
+        QString accessToken = oauth.token();
+        if (accessToken.isEmpty()) {
+            qDebug() << "Access token is empty!";
+            return;
+        }
+        chunkRequest.setRawHeader("Authorization", "Bearer " + accessToken.toUtf8());
+        chunkRequest.setTransferTimeout(30000);
+
+        QString contentRange = QString("bytes %1-%2/%3").arg(bytesSent).arg(bytesSent + currentChunkSize - 1).arg(fileSize);
         chunkRequest.setRawHeader("Content-Range", contentRange.toUtf8());
 
-        QNetworkReply* chunkReply = networkManager.put(chunkRequest, chunkData);
-        connect(chunkReply, &QNetworkReply::finished, [chunkReply, &bytesSent, currentChunkSize, file]() {
-            if (chunkReply->error() == QNetworkReply::NoError) {
-                qDebug() << "Chunk uploaded successfully.";
+        qDebug() << "Content-Range:" << contentRange;
+
+        // Send the chunk
+        QNetworkReply* reply = networkManager.put(chunkRequest, chunkData);
+
+        connect(reply, &QNetworkReply::finished, [reply, &bytesSent, currentChunkSize, this]() {
+            if (reply->error() == QNetworkReply::NoError) {
+                qDebug() << "Chunk uploaded successfully. Bytes sent so far:" << bytesSent + currentChunkSize;
                 bytesSent += currentChunkSize;
             } else {
-                qDebug() << "Error uploading chunk: " << chunkReply->errorString();
+                qDebug() << "Error uploading chunk: " << reply->errorString();
+                reply->deleteLater();
+                return;  // Exit if there's an error
             }
-            chunkReply->deleteLater();
+
+            reply->deleteLater();
+        });
+        connect(reply, &QNetworkReply::finished, [reply]() {
+            if (reply->error() == QNetworkReply::NoError) {
+                qDebug() << "Chunk uploaded successfully.";
+            } else {
+                qDebug() << "Error uploading chunk: " << reply->errorString();
+                qDebug() << "Response code: " << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+                qDebug() << "Response body: " << reply->readAll();
+            }
+            reply->deleteLater();
         });
 
-        if (remainingBytes == currentChunkSize) {
-            break;  // Upload complete
+        // Wait for the reply to finish before sending the next chunk
+        while (!reply->isFinished()) {
+            QCoreApplication::processEvents();
         }
+
+        bytesSent += currentChunkSize;
+
+        // Add a small delay to avoid overwhelming the server (optional)
+        QThread::msleep(100);
     }
 
     qDebug() << "File uploaded successfully!";
+
+    emit uploadFinished();
 }
 
 void GoogleDriveManager::authenticate() {
     oauth.grant();
+}
+
+void GoogleDriveManager::startUpload(const QString& localFilePath) {
+    QThread* thread = new QThread;
+
+    // Move the GoogleDriveManager to the new thread
+    this->moveToThread(thread);
+
+    // Start the thread and initiate the upload in that thread
+    connect(thread, &QThread::started, this, [this, localFilePath]() {
+        uploadFile(localFilePath);
+    });
+
+    // When the upload is finished, clean up the thread
+    connect(this, &GoogleDriveManager::uploadFinished, thread, &QThread::quit);
+    connect(thread, &QThread::finished, thread, &QThread::deleteLater);
+
+    // Start the thread
+    thread->start();
 }
