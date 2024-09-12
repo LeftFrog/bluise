@@ -11,9 +11,13 @@
 #include <QMimeDatabase>
 #include <QNetworkReply>
 #include <QOAuthHttpServerReplyHandler>
+#include <qsettings.h>
 #include <QThread>
 
 GoogleDriveManager::GoogleDriveManager(QObject* parent) : QObject(parent), oauth(), networkManager() {
+    QSettings settings;
+    qDebug() << settings.value("access_token").toString();
+    qDebug() << settings.value("refresh_token").toString();
     clientId = getenv("GOOGLE_CLIENT_ID");
     clientSecret = getenv("GOOGLE_CLIENT_SECRET");
 
@@ -56,6 +60,13 @@ GoogleDriveManager::GoogleDriveManager(QObject* parent) : QObject(parent), oauth
             // You can now use the token to make Google Drive API requests
         }
     });
+}
+
+GoogleDriveManager::~GoogleDriveManager() {
+    QSettings settings;
+    settings.setValue("access_token", oauth.token());
+    settings.setValue("refresh_token", oauth.refreshToken());
+    QObject::~QObject();
 }
 
 void GoogleDriveManager::uploadFile(const QString& localFilePath) {

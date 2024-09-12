@@ -12,6 +12,7 @@ class GoogleDriveManager : public QObject {
 
 public:
     explicit GoogleDriveManager(QObject* parent = nullptr);
+    ~GoogleDriveManager() override;
 
 public slots:
     void authenticate();
