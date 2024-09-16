@@ -215,6 +215,33 @@ QString GoogleDriveManager::getFileName(const QString& fileId) {
     return fileName;
 }
 
+void GoogleDriveManager::listFiles() {
+    QNetworkRequest request(QUrl("https://www.googleapis.com/drive/v3/files"));
+    request.setRawHeader("Authorization", "Bearer " + oauth.token().toUtf8());
+
+    QNetworkReply* reply = networkManager.get(request);
+    connect(reply, &QNetworkReply::finished, [reply, this]() {
+        if (reply->error() == QNetworkReply::NoError) {
+            QJsonDocument jsonResponse = QJsonDocument::fromJson(reply->readAll());
+            QJsonObject jsonObject = jsonResponse.object();
+            QJsonArray filesArray = jsonObject["files"].toArray();
+
+            QStringList fileIds;
+            for (const QJsonValue& value : filesArray) {
+                QJsonObject fileObject = value.toObject();
+                QString fileId = fileObject["id"].toString();
+                fileIds.append(fileId);
+            }
+
+            emit fileListReceived(fileIds);
+        } else {
+            qDebug() << "Error listing files: " << reply->errorString();
+        }
+        reply->deleteLater();
+    });
+}
+
+
 void GoogleDriveManager::authenticate() {
     oauth.grant();
 }
