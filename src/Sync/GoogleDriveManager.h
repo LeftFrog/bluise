@@ -13,17 +13,22 @@ class GoogleDriveManager : public QObject {
 public:
     explicit GoogleDriveManager(QObject* parent = nullptr);
     ~GoogleDriveManager() override;
+    QString getFileName(const QString& fileId);
 
 public slots:
     void authenticate();
     void startUpload(const QString& localFilePath);
     void uploadFile(const QString& localFilePath);
     void uploadFileInChunks(QFile* file, const QUrl& sessionUrl);
+    void downloadFile(const QString& fileId);
+    void listFiles();
 
 signals:
     void uploadFinished();
+    void fileListReceived(QStringList);
 
 private:
+
     QString clientId;
     QString clientSecret;
     QOAuth2AuthorizationCodeFlow oauth;

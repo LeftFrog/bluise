@@ -3,7 +3,9 @@
 //
 
 #include "GoogleDriveManager.h"
-
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonDocument>
 #include <qcoreapplication.h>
 #include <QDesktopServices>
 #include <QFileInfo>
@@ -188,6 +190,29 @@ void GoogleDriveManager::uploadFileInChunks(QFile* file, const QUrl& sessionUrl)
     qDebug() << "File uploaded successfully!";
 
     emit uploadFinished();
+}
+
+QString GoogleDriveManager::getFileName(const QString& fileId) {
+    QNetworkRequest request(QUrl("https://www.googleapis.com/drive/v3/files/" + fileId + "?fields=name"));
+    request.setRawHeader("Authorization", "Bearer " + oauth.token().toUtf8());
+    QString name;
+
+    QNetworkReply* reply = networkManager.get(request);
+    QEventLoop eventLoop;
+    connect(reply, &QNetworkReply::finished, &eventLoop, &QEventLoop::quit);
+    eventLoop.exec();  // Wait for the network reply to finish
+
+    QString fileName;
+    if (reply->error() == QNetworkReply::NoError) {
+        QJsonDocument jsonResponse = QJsonDocument::fromJson(reply->readAll());
+        QJsonObject jsonObject = jsonResponse.object();
+        fileName = jsonObject["name"].toString();
+        qDebug() << "File name: " << fileName;
+    } else {
+        qDebug() << "Error getting file metadata: " << reply->errorString();
+    }
+    reply->deleteLater();
+    return fileName;
 }
 
 void GoogleDriveManager::authenticate() {
