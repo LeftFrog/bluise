@@ -215,6 +215,28 @@ QString GoogleDriveManager::getFileName(const QString& fileId) {
     return fileName;
 }
 
+void GoogleDriveManager::downloadFile(const QString& fileId) {
+    QNetworkRequest request(QUrl("https://www.googleapis.com/drive/v3/files/" + fileId + "?alt=media"));
+    request.setRawHeader("Authorization", "Bearer " + oauth.token().toUtf8());
+
+    QNetworkReply* reply = networkManager.get(request);
+    connect(reply, &QNetworkReply::finished, [fileId, this, reply]() {
+        if (reply->error() == QNetworkReply::NoError) {
+            QFile file(getFileName(fileId));
+            if (!file.open(QIODevice::WriteOnly)) {
+                qDebug() << "Failed to open file for writing.";
+                return;
+            }
+            file.write(reply->readAll());
+            file.close();
+            qDebug() << "File downloaded successfully.";
+        } else {
+            qDebug() << "Error downloading file: " << reply->errorString();
+        }
+        reply->deleteLater();
+    });
+}
+
 void GoogleDriveManager::listFiles() {
     QNetworkRequest request(QUrl("https://www.googleapis.com/drive/v3/files"));
     request.setRawHeader("Authorization", "Bearer " + oauth.token().toUtf8());
