@@ -3,7 +3,7 @@
 #include <QMenu>
 #include "../QtAwesome/QtAwesome/QtAwesome.h"
 #include <QActionGroup>
-
+#include "SettingsWidget.h"
 #include "../BluiseCore/bluise.h"
 
 ToolBar::ToolBar(QWidget* parent) : QWidget(parent) {
@@ -53,7 +53,9 @@ QMenu* ToolBar::createSortMenu() {
 
 QMenu* ToolBar::createOptionsMenu() {
     QMenu* optionsMenu = new QMenu();
-    optionsMenu->addAction("Options");
+    QAction* settings = new QAction("Settings");
+    optionsMenu->addAction(settings);
+    connect(settings, &QAction::triggered, this, &ToolBar::openSettings);
 
     QAction* installed = new QAction("Show unistalled");
     installed->setCheckable(true);
@@ -98,6 +100,11 @@ void ToolBar::sort(QAction* action) {
     } else if (action->text() == "Name") {
         emit setSort(Qt::DisplayRole);
     }
+}
+
+void ToolBar::openSettings() {
+    SettingsWidget* settings = new SettingsWidget();
+    settings->show();
 }
 
 void ToolBar::filter(QAction* action) {

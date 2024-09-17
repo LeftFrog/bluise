@@ -32,4 +32,5 @@ private:
 private slots:
     void filter(QAction* action);
     void sort(QAction* action);
+    void openSettings();
 };
