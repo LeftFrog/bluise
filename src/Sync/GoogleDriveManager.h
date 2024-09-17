@@ -17,6 +17,7 @@ public:
 
 public slots:
     void authenticate();
+    void refreshAccessToken();
     void startUpload(const QString& localFilePath);
     void uploadFile(const QString& localFilePath);
     void uploadFileInChunks(QFile* file, const QUrl& sessionUrl);
