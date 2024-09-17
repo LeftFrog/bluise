@@ -14,6 +14,7 @@ public:
     explicit GoogleDriveManager(QObject* parent = nullptr);
     ~GoogleDriveManager() override;
     QString getFileName(const QString& fileId);
+    bool isReady() const;
 
 public slots:
     void authenticate();

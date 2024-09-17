@@ -208,6 +208,10 @@ QString GoogleDriveManager::getFileName(const QString& fileId) {
     return fileName;
 }
 
+bool GoogleDriveManager::isReady() const {
+    return !oauth.token().isEmpty();
+}
+
 void GoogleDriveManager::downloadFile(const QString& fileId) {
     QNetworkRequest request(QUrl("https://www.googleapis.com/drive/v3/files/" + fileId + "?alt=media"));
     request.setRawHeader("Authorization", "Bearer " + oauth.token().toUtf8());
