@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Bluise VERSION 0.7 LANGUAGES CXX C)
+project(Bluise VERSION 0.7.1 LANGUAGES CXX C)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -66,6 +66,8 @@ qt_add_executable(Bluise main.cpp
         BeautifulUI/MenuButton.h
         Sync/GoogleDriveManager.cpp
         Sync/GoogleDriveManager.h
+        Widgets/SettingsWidget.cpp
+        Widgets/SettingsWidget.h
 )
 
 
