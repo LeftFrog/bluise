@@ -116,6 +116,23 @@ void GoogleDriveManager::uploadFile(const QString& localFilePath) {
 });
 }
 
+QNetworkRequest GoogleDriveManager::prepareChunkRequest(const QUrl& sessionUrl, qint64 fileSize, qint64 bytesSent, qint64 currentChunkSize) const {
+    QNetworkRequest chunkRequest(sessionUrl);
+
+    QString accessToken = oauth.token();
+    if (accessToken.isEmpty()) {
+        qDebug() << "Access token is empty!";
+        return {};
+    }
+    chunkRequest.setRawHeader("Authorization", "Bearer " + accessToken.toUtf8());
+    chunkRequest.setTransferTimeout(30000);
+
+    QString contentRange = QString("bytes %1-%2/%3").arg(bytesSent).arg(bytesSent + currentChunkSize - 1).arg(fileSize);
+    chunkRequest.setRawHeader("Content-Range", contentRange.toUtf8());
+
+    return chunkRequest;
+}
+
 void GoogleDriveManager::uploadFileInChunks(QFile* file, const QUrl& sessionUrl) {
   const qint64 chunkSize = 256 * 1024;  // 256 KB (adjust this size as needed)
     qint64 fileSize = file->size();
@@ -136,24 +153,8 @@ void GoogleDriveManager::uploadFileInChunks(QFile* file, const QUrl& sessionUrl)
 
         qDebug() << "Uploading chunk. Bytes sent:" << bytesSent << "Chunk size:" << currentChunkSize;
 
-        // Prepare the chunk upload request
-        QNetworkRequest chunkRequest(sessionUrl);
-
-        QString accessToken = oauth.token();
-        if (accessToken.isEmpty()) {
-            qDebug() << "Access token is empty!";
-            return;
-        }
-        chunkRequest.setRawHeader("Authorization", "Bearer " + accessToken.toUtf8());
-        chunkRequest.setTransferTimeout(30000);
-
-        QString contentRange = QString("bytes %1-%2/%3").arg(bytesSent).arg(bytesSent + currentChunkSize - 1).arg(fileSize);
-        chunkRequest.setRawHeader("Content-Range", contentRange.toUtf8());
-
-        qDebug() << "Content-Range:" << contentRange;
-
         // Send the chunk
-        QNetworkReply* reply = networkManager.put(chunkRequest, chunkData);
+        QNetworkReply* reply = networkManager.put(prepareChunkRequest(sessionUrl, fileSize, bytesSent, currentChunkSize), chunkData);
 
         connect(reply, &QNetworkReply::finished, [reply, &bytesSent, currentChunkSize, this]() {
             if (reply->error() == QNetworkReply::NoError) {
