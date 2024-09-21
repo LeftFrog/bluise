@@ -11,8 +11,7 @@ class GoogleDriveManager : public QObject {
     Q_OBJECT
 
 public:
-    explicit GoogleDriveManager(QObject* parent = nullptr);
-    ~GoogleDriveManager() override;
+    static GoogleDriveManager* getInstance(QObject* parent = nullptr);
     QString getFileName(const QString& fileId);
     bool isReady() const;
 
@@ -30,7 +29,10 @@ signals:
     void fileListReceived(QStringList);
 
 private:
+    explicit GoogleDriveManager(QObject* parent = nullptr);
+    ~GoogleDriveManager() override;
 
+    static GoogleDriveManager* instance;
     QString clientId;
     QString clientSecret;
     QOAuth2AuthorizationCodeFlow oauth;

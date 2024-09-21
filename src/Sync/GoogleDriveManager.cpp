@@ -16,6 +16,15 @@
 #include <qsettings.h>
 #include <QThread>
 
+GoogleDriveManager* GoogleDriveManager::instance = nullptr;
+
+GoogleDriveManager* GoogleDriveManager::getInstance(QObject* parent) {
+    if (!instance) {
+        instance = new GoogleDriveManager(parent);
+    }
+    return instance;
+}
+
 GoogleDriveManager::GoogleDriveManager(QObject* parent) : QObject(parent), oauth(), networkManager() {
     QSettings settings;
     clientId = getenv("GOOGLE_CLIENT_ID");
@@ -50,6 +59,8 @@ GoogleDriveManager::GoogleDriveManager(QObject* parent) : QObject(parent), oauth
     });
 
     // Handle successful token granting
+    qDebug() << "Access token loaded: " << oauth.token();
+    qDebug() << "Refresh token loaded: " << oauth.refreshToken();
     QString refreshToken = settings.value("refresh_token").toString();
     if (!refreshToken.isEmpty()) {
         oauth.setRefreshToken(refreshToken);
@@ -60,7 +71,9 @@ GoogleDriveManager::GoogleDriveManager(QObject* parent) : QObject(parent), oauth
 GoogleDriveManager::~GoogleDriveManager() {
     QSettings settings;
     settings.setValue("access_token", oauth.token());
+    qDebug() << "Access token saved: " << oauth.token();
     settings.setValue("refresh_token", oauth.refreshToken());
+    qDebug() << "Refresh token saved: " << oauth.refreshToken();
     QObject::~QObject();
 }
 
