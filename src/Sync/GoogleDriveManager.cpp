@@ -64,12 +64,16 @@ GoogleDriveManager::GoogleDriveManager(QObject* parent) : QObject(parent), oauth
     loadToken();
 }
 
-GoogleDriveManager::~GoogleDriveManager() {
+void GoogleDriveManager::saveTokens() const {
     QSettings settings;
     settings.setValue("access_token", oauth.token());
     qDebug() << "Access token saved: " << oauth.token();
     settings.setValue("refresh_token", oauth.refreshToken());
     qDebug() << "Refresh token saved: " << oauth.refreshToken();
+}
+
+GoogleDriveManager::~GoogleDriveManager() {
+    saveTokens();
     QObject::~QObject();
 }
 
@@ -198,7 +202,6 @@ void GoogleDriveManager::uploadFileInChunks(QFile* file, const QUrl& sessionUrl)
 QString GoogleDriveManager::getFileName(const QString& fileId) {
     QNetworkRequest request(QUrl("https://www.googleapis.com/drive/v3/files/" + fileId + "?fields=name"));
     request.setRawHeader("Authorization", "Bearer " + oauth.token().toUtf8());
-    QString name;
 
     QNetworkReply* reply = networkManager.get(request);
     QEventLoop eventLoop;

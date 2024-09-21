@@ -33,6 +33,7 @@ signals:
 
 private:
     explicit GoogleDriveManager(QObject* parent = nullptr);
+    void saveTokens() const;
     ~GoogleDriveManager() override;
 
     static GoogleDriveManager* instance;
