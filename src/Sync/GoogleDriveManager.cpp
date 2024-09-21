@@ -25,6 +25,22 @@ GoogleDriveManager* GoogleDriveManager::getInstance(QObject* parent) {
     return instance;
 }
 
+void GoogleDriveManager::initOAuth() {
+    oauth.setAuthorizationUrl(QUrl("https://accounts.google.com/o/oauth2/auth"));
+    oauth.setAccessTokenUrl(QUrl("https://oauth2.googleapis.com/token"));
+    oauth.setClientIdentifier(clientId);
+    oauth.setClientIdentifierSharedKey(clientSecret);
+    oauth.setScope("https://www.googleapis.com/auth/drive.file");
+
+    auto* replyHandler = new QOAuthHttpServerReplyHandler(8080, this);
+    oauth.setReplyHandler(replyHandler);
+
+    connect(&oauth, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, &QDesktopServices::openUrl);
+    connect(&oauth, &QOAuth2AuthorizationCodeFlow::error, this, [](const QString &error) {
+        qDebug() << "OAuth error occurred: " << error;
+    });
+}
+
 GoogleDriveManager::GoogleDriveManager(QObject* parent) : QObject(parent), oauth(), networkManager() {
     QSettings settings;
     clientId = getenv("GOOGLE_CLIENT_ID");
@@ -35,32 +51,9 @@ GoogleDriveManager::GoogleDriveManager(QObject* parent) : QObject(parent), oauth
         return;
     }
 
-    // Set up OAuth authorization and token URLs
-    oauth.setAuthorizationUrl(QUrl("https://accounts.google.com/o/oauth2/auth"));
-    oauth.setAccessTokenUrl(QUrl("https://oauth2.googleapis.com/token"));
-
-    // Set OAuth client credentials
-    oauth.setClientIdentifier(clientId);
-    oauth.setClientIdentifierSharedKey(clientSecret);
-
-    // Set redirect URI and scope
-    oauth.setScope("https://www.googleapis.com/auth/drive.file");
-
-    // Initialize the reply handler before connecting signals
-    QOAuthHttpServerReplyHandler* replyHandler = new QOAuthHttpServerReplyHandler(8080, this);
-    oauth.setReplyHandler(replyHandler);
-
-    // Connect OAuth to browser for authorization
-    connect(&oauth, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, &QDesktopServices::openUrl);
-
-    // Handle OAuth errors
-    connect(&oauth, &QOAuth2AuthorizationCodeFlow::error, this, [](const QString &error) {
-        qDebug() << "OAuth error occurred: " << error;
-    });
+    initOAuth();
 
     // Handle successful token granting
-    qDebug() << "Access token loaded: " << oauth.token();
-    qDebug() << "Refresh token loaded: " << oauth.refreshToken();
     QString refreshToken = settings.value("refresh_token").toString();
     if (!refreshToken.isEmpty()) {
         oauth.setRefreshToken(refreshToken);
