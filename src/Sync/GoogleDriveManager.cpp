@@ -41,8 +41,16 @@ void GoogleDriveManager::initOAuth() {
     });
 }
 
-GoogleDriveManager::GoogleDriveManager(QObject* parent) : QObject(parent), oauth(), networkManager() {
+void GoogleDriveManager::loadToken() {
     QSettings settings;
+    QString refreshToken = settings.value("refresh_token").toString();
+    if (!refreshToken.isEmpty()) {
+        oauth.setRefreshToken(refreshToken);
+        refreshAccessToken();
+    }
+}
+
+GoogleDriveManager::GoogleDriveManager(QObject* parent) : QObject(parent), oauth(), networkManager() {
     clientId = getenv("GOOGLE_CLIENT_ID");
     clientSecret = getenv("GOOGLE_CLIENT_SECRET");
 
@@ -53,12 +61,7 @@ GoogleDriveManager::GoogleDriveManager(QObject* parent) : QObject(parent), oauth
 
     initOAuth();
 
-    // Handle successful token granting
-    QString refreshToken = settings.value("refresh_token").toString();
-    if (!refreshToken.isEmpty()) {
-        oauth.setRefreshToken(refreshToken);
-        refreshAccessToken();
-    }
+    loadToken();
 }
 
 GoogleDriveManager::~GoogleDriveManager() {

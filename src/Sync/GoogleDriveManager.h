@@ -13,6 +13,7 @@ class GoogleDriveManager : public QObject {
 public:
     static GoogleDriveManager* getInstance(QObject* parent = nullptr);
     void initOAuth();
+    void loadToken();
     QString getFileName(const QString& fileId);
     bool isReady() const;
 
