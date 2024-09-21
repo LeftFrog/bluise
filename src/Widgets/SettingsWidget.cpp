@@ -22,7 +22,13 @@ SettingsWidget::SettingsWidget(QWidget* parent) : QTabWidget(parent) {
     auto* VBL = new QVBoxLayout();
     auto* HBL = new QHBoxLayout();
     QLabel* googledriveAccount = new QLabel("Google Drive account: ");
-    QPushButton* signin = new QPushButton("Sign in");
+    QPushButton* signin = new QPushButton();
+    if (GoogleDriveManager::getInstance()->isReady()) {
+        signin->setText("Sign out");
+    } else {
+        signin->setText("Sign in");
+        connect(signin, &QPushButton::clicked, GoogleDriveManager::getInstance(), &GoogleDriveManager::authenticate);
+    }
     HBL->addWidget(googledriveAccount);
     HBL->addWidget(signin);
     VBL->addLayout(HBL);

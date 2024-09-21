@@ -5,6 +5,8 @@
 #pragma once
 #include <QTabWidget>
 
+#include "../Sync/GoogleDriveManager.h"
+
 class SettingsWidget : public QTabWidget {
     Q_OBJECT
 
