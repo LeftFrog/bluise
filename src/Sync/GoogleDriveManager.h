@@ -33,8 +33,9 @@ signals:
 
 private:
     explicit GoogleDriveManager(QObject* parent = nullptr);
-    void saveTokens() const;
     ~GoogleDriveManager() override;
+    void saveTokens() const;
+    void createFolder(const QString& folderName, const QString& parentId = "");
 
     static GoogleDriveManager* instance;
     QString clientId;

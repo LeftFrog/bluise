@@ -72,6 +72,36 @@ void GoogleDriveManager::saveTokens() const {
     qDebug() << "Refresh token saved: " << oauth.refreshToken();
 }
 
+void GoogleDriveManager::createFolder(const QString& folderName, const QString& parentID) {
+    QNetworkRequest request(QUrl("https://www.googleapis.com/drive/v3/files"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", "Bearer " + oauth.token().toUtf8());
+
+    QJsonObject json;
+    json["name"] = folderName;
+    json["mimeType"] = "application/vnd.google-apps.folder";
+
+    if (!parentID.isEmpty()) {
+        json["parents"] = QJsonArray({parentID});
+    }
+
+    QByteArray data = QJsonDocument(json).toJson();
+
+    QNetworkReply* reply = networkManager.post(request, data);
+
+    connect(&networkManager, &QNetworkAccessManager::finished, [reply, this]() {
+        if (reply->error() == QNetworkReply::NoError) {
+            qDebug() << "Folder created successfully.";
+            QByteArray response = reply->readAll();
+            QJsonDocument jsonResponse = QJsonDocument::fromJson(response);
+            qDebug() << "Folder ID: " << jsonResponse.object()["id"].toString();
+        } else {
+            qDebug() << "Error creating folder: " << reply->errorString();
+        }
+        reply->deleteLater();
+    });
+}
+
 GoogleDriveManager::~GoogleDriveManager() {
     saveTokens();
     QObject::~QObject();
