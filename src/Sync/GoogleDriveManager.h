@@ -35,9 +35,10 @@ private:
     explicit GoogleDriveManager(QObject* parent = nullptr);
     ~GoogleDriveManager() override;
     void saveTokens() const;
-    void createFolder(const QString& folderName, const QString& parentId = "");
+    QString createFolder(const QString& folderName, const QString& parentId = "");
 
     static GoogleDriveManager* instance;
+    QString bluiseFolderId;
     QString clientId;
     QString clientSecret;
     QOAuth2AuthorizationCodeFlow oauth;

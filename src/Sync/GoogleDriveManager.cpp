@@ -72,7 +72,9 @@ void GoogleDriveManager::saveTokens() const {
     qDebug() << "Refresh token saved: " << oauth.refreshToken();
 }
 
-void GoogleDriveManager::createFolder(const QString& folderName, const QString& parentID) {
+QString GoogleDriveManager::createFolder(const QString& folderName, const QString& parentId) {
+    QString folderId = "";
+
     QNetworkRequest request(QUrl("https://www.googleapis.com/drive/v3/files"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", "Bearer " + oauth.token().toUtf8());
@@ -81,25 +83,30 @@ void GoogleDriveManager::createFolder(const QString& folderName, const QString& 
     json["name"] = folderName;
     json["mimeType"] = "application/vnd.google-apps.folder";
 
-    if (!parentID.isEmpty()) {
-        json["parents"] = QJsonArray({parentID});
+    if (!parentId.isEmpty()) {
+        json["parents"] = QJsonArray({parentId});
     }
 
     QByteArray data = QJsonDocument(json).toJson();
 
     QNetworkReply* reply = networkManager.post(request, data);
 
-    connect(&networkManager, &QNetworkAccessManager::finished, [reply, this]() {
-        if (reply->error() == QNetworkReply::NoError) {
-            qDebug() << "Folder created successfully.";
-            QByteArray response = reply->readAll();
-            QJsonDocument jsonResponse = QJsonDocument::fromJson(response);
-            qDebug() << "Folder ID: " << jsonResponse.object()["id"].toString();
-        } else {
-            qDebug() << "Error creating folder: " << reply->errorString();
-        }
-        reply->deleteLater();
-    });
+    QEventLoop eventLoop;
+    connect(reply, &QNetworkReply::finished, &eventLoop, &QEventLoop::quit);
+    eventLoop.exec();
+
+    if (reply->error() == QNetworkReply::NoError) {
+        qDebug() << "Folder created successfully.";
+        QByteArray response = reply->readAll();
+        QJsonDocument jsonResponse = QJsonDocument::fromJson(response);
+        qDebug() << "Folder ID: " << jsonResponse.object()["id"].toString();
+        folderId = jsonResponse.object()["id"].toString();
+    } else {
+        qDebug() << "Error creating folder: " << reply->errorString();
+    }
+    reply->deleteLater();
+
+    return folderId;
 }
 
 GoogleDriveManager::~GoogleDriveManager() {
