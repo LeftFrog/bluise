@@ -21,6 +21,14 @@ QString Settings::accessToken() const {
     return value("sync/googleDrive/accessToken").toString();
 }
 
+void Settings::setRefreshToken(const QString& token) {
+    setValue("sync/googleDrive/refreshToken", token);
+}
+
+QString Settings::refreshToken() const {
+    return value("sync/googleDrive/refreshToken").toString();
+}
+
 Settings::Settings(QObject* parent) : QSettings(parent) {
 
 }

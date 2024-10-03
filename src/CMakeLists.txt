@@ -68,6 +68,8 @@ qt_add_executable(Bluise main.cpp
         Sync/GoogleDriveManager.h
         Widgets/SettingsWidget.cpp
         Widgets/SettingsWidget.h
+        BluiseCore/Settings.cpp
+        BluiseCore/Settings.h
 )
 
 

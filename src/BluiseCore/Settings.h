@@ -12,6 +12,9 @@ public:
     void setAccessToken(const QString& token);
     QString accessToken() const;
 
+    void setRefreshToken(const QString& token);
+    QString refreshToken() const;
+
 private:
     static Settings* instance;
     explicit Settings(QObject* parent = nullptr);
