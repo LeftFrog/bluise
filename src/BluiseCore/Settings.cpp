@@ -13,6 +13,14 @@ Settings* Settings::getInstance() {
     return instance;
 }
 
+void Settings::setAccessToken(const QString& token) {
+    setValue("sync/googleDrive/accessToken", token);
+}
+
+QString Settings::accessToken() const {
+    return value("sync/googleDrive/accessToken").toString();
+}
+
 Settings::Settings(QObject* parent) : QSettings(parent) {
 
 }

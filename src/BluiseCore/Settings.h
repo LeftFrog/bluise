@@ -9,6 +9,9 @@ class Settings : public QSettings {
 public:
     static Settings* getInstance();
 
+    void setAccessToken(const QString& token);
+    QString accessToken() const;
+
 private:
     static Settings* instance;
     explicit Settings(QObject* parent = nullptr);
