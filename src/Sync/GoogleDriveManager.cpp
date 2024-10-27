@@ -13,8 +13,8 @@
 #include <QMimeDatabase>
 #include <QNetworkReply>
 #include <QOAuthHttpServerReplyHandler>
-#include <qsettings.h>
 #include <QThread>
+#include "../BluiseCore/Settings.h"
 
 GoogleDriveManager* GoogleDriveManager::instance = nullptr;
 
@@ -42,8 +42,7 @@ void GoogleDriveManager::initOAuth() {
 }
 
 void GoogleDriveManager::loadToken() {
-    QSettings settings;
-    QString refreshToken = settings.value("refresh_token").toString();
+    QString refreshToken = Settings::getInstance()->refreshToken();
     if (!refreshToken.isEmpty()) {
         oauth.setRefreshToken(refreshToken);
         refreshAccessToken();
@@ -65,10 +64,9 @@ GoogleDriveManager::GoogleDriveManager(QObject* parent) : QObject(parent), oauth
 }
 
 void GoogleDriveManager::saveTokens() const {
-    QSettings settings;
-    settings.setValue("access_token", oauth.token());
+    Settings::getInstance()->setAccessToken(oauth.token());
     qDebug() << "Access token saved: " << oauth.token();
-    settings.setValue("refresh_token", oauth.refreshToken());
+    Settings::getInstance()->setRefreshToken(oauth.refreshToken());
     qDebug() << "Refresh token saved: " << oauth.refreshToken();
 }
 
@@ -111,7 +109,6 @@ QString GoogleDriveManager::createFolder(const QString& folderName, const QStrin
 
 GoogleDriveManager::~GoogleDriveManager() {
     saveTokens();
-    QObject::~QObject();
 }
 
 void GoogleDriveManager::uploadFile(const QString& localFilePath) {

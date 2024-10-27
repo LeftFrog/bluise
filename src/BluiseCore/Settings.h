@@ -7,7 +7,7 @@
 
 class Settings : public QSettings {
 public:
-    static Settings* getInstance();
+    static Settings* getInstance(QObject* parent = nullptr);
 
     void setAccessToken(const QString& token);
     QString accessToken() const;

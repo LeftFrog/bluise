@@ -6,9 +6,9 @@
 
 Settings* Settings::instance = nullptr;
 
-Settings* Settings::getInstance() {
+Settings* Settings::getInstance(QObject* parent) {
     if(!instance) {
-        instance = new Settings();
+        instance = new Settings(parent);
     }
     return instance;
 }

@@ -12,6 +12,8 @@ class GoogleDriveManager : public QObject {
 
 public:
     static GoogleDriveManager* getInstance(QObject* parent = nullptr);
+    static void destroyInstance();
+    ~GoogleDriveManager() override;
     void initOAuth();
     void loadToken();
     QString getFileName(const QString& fileId);
@@ -33,7 +35,6 @@ signals:
 
 private:
     explicit GoogleDriveManager(QObject* parent = nullptr);
-    ~GoogleDriveManager() override;
     void saveTokens() const;
     QString createFolder(const QString& folderName, const QString& parentId = "");
 
