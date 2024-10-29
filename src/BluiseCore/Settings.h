@@ -15,6 +15,9 @@ public:
     void setRefreshToken(const QString& token);
     QString refreshToken() const;
 
+    void setBluiseFolderId(const QString& folderId);
+    QString bluiseFolderId() const;
+
 private:
     static Settings* instance;
     explicit Settings(QObject* parent = nullptr);

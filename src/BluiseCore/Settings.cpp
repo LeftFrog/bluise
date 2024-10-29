@@ -29,6 +29,14 @@ QString Settings::refreshToken() const {
     return value("sync/googleDrive/refreshToken").toString();
 }
 
+void Settings::setBluiseFolderId(const QString& folderId) {
+    setValue("sync/googleDrive/bluiseFolderId", folderId);
+}
+
+QString Settings::bluiseFolderId() const {
+    return value("sync/googleDrive/bluiseFolderId").toString();
+}
+
 Settings::Settings(QObject* parent) : QSettings(parent) {
 
 }
