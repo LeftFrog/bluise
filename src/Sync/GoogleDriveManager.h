@@ -12,10 +12,10 @@ class GoogleDriveManager : public QObject {
 
 public:
     static GoogleDriveManager* getInstance(QObject* parent = nullptr);
-    static void destroyInstance();
     ~GoogleDriveManager() override;
     void initOAuth();
     void loadToken();
+
     QString getFileName(const QString& fileId);
     bool isReady() const;
 
@@ -32,10 +32,16 @@ public slots:
 signals:
     void uploadFinished();
     void fileListReceived(QStringList);
+    void authorized();
+
+private slots:
+    void initializeBluiseFolderId();
 
 private:
     explicit GoogleDriveManager(QObject* parent = nullptr);
     void saveTokens() const;
+    void loadBluiseFolderId();
+    void saveBluiseFolderId(const QString& folderId);
     QString createFolder(const QString& folderName, const QString& parentId = "");
 
     static GoogleDriveManager* instance;

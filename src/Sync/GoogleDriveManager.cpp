@@ -49,6 +49,15 @@ void GoogleDriveManager::loadToken() {
     }
 }
 
+void GoogleDriveManager::initializeBluiseFolderId() {
+    loadBluiseFolderId();
+    if(bluiseFolderId.isEmpty()) {
+        qDebug() << "Bluise folder ID is empty. Creating a new folder.";
+        bluiseFolderId = createFolder("Bluise");
+        saveBluiseFolderId(bluiseFolderId);
+    }
+}
+
 GoogleDriveManager::GoogleDriveManager(QObject* parent) : QObject(parent), oauth(), networkManager() {
     clientId = getenv("GOOGLE_CLIENT_ID");
     clientSecret = getenv("GOOGLE_CLIENT_SECRET");
@@ -61,6 +70,8 @@ GoogleDriveManager::GoogleDriveManager(QObject* parent) : QObject(parent), oauth
     initOAuth();
 
     loadToken();
+
+    connect(this, &GoogleDriveManager::authorized, &GoogleDriveManager::initializeBluiseFolderId);
 }
 
 void GoogleDriveManager::saveTokens() const {
@@ -68,6 +79,14 @@ void GoogleDriveManager::saveTokens() const {
     qDebug() << "Access token saved: " << oauth.token();
     Settings::getInstance()->setRefreshToken(oauth.refreshToken());
     qDebug() << "Refresh token saved: " << oauth.refreshToken();
+}
+
+void GoogleDriveManager::loadBluiseFolderId() {
+    bluiseFolderId = Settings::getInstance()->bluiseFolderId();
+}
+
+void GoogleDriveManager::saveBluiseFolderId(const QString& folderId) {
+    Settings::getInstance()->setBluiseFolderId(folderId);
 }
 
 QString GoogleDriveManager::createFolder(const QString& folderName, const QString& parentId) {
@@ -109,6 +128,7 @@ QString GoogleDriveManager::createFolder(const QString& folderName, const QStrin
 
 GoogleDriveManager::~GoogleDriveManager() {
     saveTokens();
+    saveBluiseFolderId(bluiseFolderId);
 }
 
 void GoogleDriveManager::uploadFile(const QString& localFilePath) {
@@ -336,6 +356,7 @@ void GoogleDriveManager::refreshAccessToken() {
             }
 
             qDebug() << "Access token refreshed.";
+            emit authorized();
         } else {
             qDebug() << "Error refreshing access token: " << reply->errorString();
         }
