@@ -118,6 +118,10 @@ bool GoogleDriveManager::isReady() const {
 
 void GoogleDriveManager::authenticate() {
     oauth.grant();
+    connect(&oauth, &QOAuth2AuthorizationCodeFlow::granted, this, [this]() {
+        qDebug() << "OAuth granted.";
+        emit authorized();
+    });
 }
 
 /* Folder Management */
