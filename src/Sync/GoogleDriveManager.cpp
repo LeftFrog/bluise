@@ -112,6 +112,14 @@ void GoogleDriveManager::refreshAccessToken() {
     });
 }
 
+bool GoogleDriveManager::isReady() const {
+    return !oauth.token().isEmpty();
+}
+
+void GoogleDriveManager::authenticate() {
+    oauth.grant();
+}
+
 /* Folder Management */
 QString GoogleDriveManager::createFolder(const QString& folderName, const QString& parentId) {
     QString folderId = "";
@@ -377,12 +385,4 @@ void GoogleDriveManager::listFiles() {
         }
         reply->deleteLater();
     });
-}
-
-bool GoogleDriveManager::isReady() const {
-    return !oauth.token().isEmpty();
-}
-
-void GoogleDriveManager::authenticate() {
-    oauth.grant();
 }
