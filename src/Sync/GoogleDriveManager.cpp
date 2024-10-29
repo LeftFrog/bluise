@@ -167,6 +167,7 @@ void GoogleDriveManager::saveBluiseFolderId(const QString& folderId) {
     Settings::getInstance()->setBluiseFolderId(folderId);
 }
 
+/* File Management */
 void GoogleDriveManager::uploadFile(const QString& localFilePath) {
     QFile* file = new QFile(localFilePath);
     if(!file->open(QIODevice::ReadOnly)) {
@@ -208,6 +209,25 @@ void GoogleDriveManager::uploadFile(const QString& localFilePath) {
     }
     reply->deleteLater();
 });
+}
+
+void GoogleDriveManager::startUpload(const QString& localFilePath) {
+    QThread* thread = new QThread;
+
+    // Move the GoogleDriveManager to the new thread
+    this->moveToThread(thread);
+
+    // Start the thread and initiate the upload in that thread
+    connect(thread, &QThread::started, this, [this, localFilePath]() {
+        uploadFile(localFilePath);
+    });
+
+    // When the upload is finished, clean up the thread
+    connect(this, &GoogleDriveManager::uploadFinished, thread, &QThread::quit);
+    connect(thread, &QThread::finished, thread, &QThread::deleteLater);
+
+    // Start the thread
+    thread->start();
 }
 
 QNetworkRequest GoogleDriveManager::prepareChunkRequest(const QUrl& sessionUrl, qint64 fileSize, qint64 bytesSent, qint64 currentChunkSize) const {
@@ -311,10 +331,6 @@ QString GoogleDriveManager::getFileName(const QString& fileId) {
     return fileName;
 }
 
-bool GoogleDriveManager::isReady() const {
-    return !oauth.token().isEmpty();
-}
-
 void GoogleDriveManager::downloadFile(const QString& fileId) {
     QNetworkRequest request(QUrl("https://www.googleapis.com/drive/v3/files/" + fileId + "?alt=media"));
     request.setRawHeader("Authorization", "Bearer " + oauth.token().toUtf8());
@@ -363,26 +379,10 @@ void GoogleDriveManager::listFiles() {
     });
 }
 
+bool GoogleDriveManager::isReady() const {
+    return !oauth.token().isEmpty();
+}
 
 void GoogleDriveManager::authenticate() {
     oauth.grant();
-}
-
-void GoogleDriveManager::startUpload(const QString& localFilePath) {
-    QThread* thread = new QThread;
-
-    // Move the GoogleDriveManager to the new thread
-    this->moveToThread(thread);
-
-    // Start the thread and initiate the upload in that thread
-    connect(thread, &QThread::started, this, [this, localFilePath]() {
-        uploadFile(localFilePath);
-    });
-
-    // When the upload is finished, clean up the thread
-    connect(this, &GoogleDriveManager::uploadFinished, thread, &QThread::quit);
-    connect(thread, &QThread::finished, thread, &QThread::deleteLater);
-
-    // Start the thread
-    thread->start();
 }
