@@ -256,7 +256,7 @@ QNetworkRequest GoogleDriveManager::prepareChunkRequest(const QUrl& sessionUrl, 
 }
 
 void GoogleDriveManager::uploadFileInChunks(QFile* file, const QUrl& sessionUrl) {
-  const qint64 chunkSize = 256 * 1024;  // 256 KB (adjust this size as needed)
+  constexpr qint64 chunkSize = 256 * 1024;  // 256 KB (adjust this size as needed)
     qint64 fileSize = file->size();
     qint64 bytesSent = 0;
 
