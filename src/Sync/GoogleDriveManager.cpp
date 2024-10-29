@@ -112,23 +112,7 @@ void GoogleDriveManager::refreshAccessToken() {
     });
 }
 
-void GoogleDriveManager::initializeBluiseFolderId() {
-    loadBluiseFolderId();
-    if(bluiseFolderId.isEmpty()) {
-        qDebug() << "Bluise folder ID is empty. Creating a new folder.";
-        bluiseFolderId = createFolder("Bluise");
-        saveBluiseFolderId(bluiseFolderId);
-    }
-}
-
-void GoogleDriveManager::loadBluiseFolderId() {
-    bluiseFolderId = Settings::getInstance()->bluiseFolderId();
-}
-
-void GoogleDriveManager::saveBluiseFolderId(const QString& folderId) {
-    Settings::getInstance()->setBluiseFolderId(folderId);
-}
-
+/* Folder Management */
 QString GoogleDriveManager::createFolder(const QString& folderName, const QString& parentId) {
     QString folderId = "";
 
@@ -164,6 +148,23 @@ QString GoogleDriveManager::createFolder(const QString& folderName, const QStrin
     reply->deleteLater();
 
     return folderId;
+}
+
+void GoogleDriveManager::initializeBluiseFolderId() {
+    loadBluiseFolderId();
+    if(bluiseFolderId.isEmpty()) {
+        qDebug() << "Bluise folder ID is empty. Creating a new folder.";
+        bluiseFolderId = createFolder("Bluise");
+        saveBluiseFolderId(bluiseFolderId);
+    }
+}
+
+void GoogleDriveManager::loadBluiseFolderId() {
+    bluiseFolderId = Settings::getInstance()->bluiseFolderId();
+}
+
+void GoogleDriveManager::saveBluiseFolderId(const QString& folderId) {
+    Settings::getInstance()->setBluiseFolderId(folderId);
 }
 
 void GoogleDriveManager::uploadFile(const QString& localFilePath) {
