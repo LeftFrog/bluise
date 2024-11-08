@@ -26,7 +26,10 @@ SettingsWidget::SettingsWidget(QWidget* parent) : QTabWidget(parent) {
     if (GoogleDriveManager::getInstance()->isReady()) {
         signin->setText("Sign out");
         connect(signin, &QPushButton::clicked, GoogleDriveManager::getInstance(), &GoogleDriveManager::singOut);
-
+        connect(GoogleDriveManager::getInstance(), &GoogleDriveManager::singedOut, this, [signin] {
+            signin->setText("Sign in");
+            connect(signin, &QPushButton::clicked, GoogleDriveManager::getInstance(), &GoogleDriveManager::authenticate);
+        });
     } else {
         signin->setText("Sign in");
         connect(signin, &QPushButton::clicked, GoogleDriveManager::getInstance(), &GoogleDriveManager::authenticate);
