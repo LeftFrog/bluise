@@ -33,6 +33,10 @@ SettingsWidget::SettingsWidget(QWidget* parent) : QTabWidget(parent) {
     } else {
         signin->setText("Sign in");
         connect(signin, &QPushButton::clicked, GoogleDriveManager::getInstance(), &GoogleDriveManager::authenticate);
+        connect(GoogleDriveManager::getInstance(), &GoogleDriveManager::authorized, this, [signin] {
+            signin->setText("Sign out");
+            connect(signin, &QPushButton::clicked, GoogleDriveManager::getInstance(), &GoogleDriveManager::singedOut);
+        });
     }
     HBL->addWidget(googledriveAccount);
     HBL->addWidget(signin);
