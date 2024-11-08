@@ -124,6 +124,12 @@ void GoogleDriveManager::authenticate() {
     });
 }
 
+void GoogleDriveManager::singOut() {
+    oauth.setToken("");
+    oauth.setRefreshToken("");
+    saveTokens();
+}
+
 /* Folder Management */
 QString GoogleDriveManager::createFolder(const QString& folderName, const QString& parentId) {
     QString folderId = "";

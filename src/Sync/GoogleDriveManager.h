@@ -28,6 +28,7 @@ public slots:
     void uploadFileInChunks(QFile* file, const QUrl& sessionUrl);
     void downloadFile(const QString& fileId);
     void listFiles();
+    void singOut();
 
 signals:
     void uploadFinished();

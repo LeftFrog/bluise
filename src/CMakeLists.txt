@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Bluise VERSION 0.7.1 LANGUAGES CXX C)
+project(Bluise VERSION 0.7.2 LANGUAGES CXX C)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -79,7 +79,3 @@ target_link_libraries(Bluise PRIVATE Qt6::Sql)
 target_link_libraries(Bluise PUBLIC QtAwesome)
 target_link_libraries(Bluise PRIVATE Qt6::Network)
 target_link_libraries(Bluise PRIVATE Qt6::NetworkAuth)
-
-if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(Bluise)
-endif()
