@@ -34,6 +34,7 @@ signals:
     void uploadFinished();
     void fileListReceived(QStringList);
     void authorized();
+    void singedOut();
 
 private slots:
     void initializeBluiseFolderId();

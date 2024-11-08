@@ -128,6 +128,7 @@ void GoogleDriveManager::singOut() {
     oauth.setToken("");
     oauth.setRefreshToken("");
     saveTokens();
+    emit singedOut();
 }
 
 /* Folder Management */
