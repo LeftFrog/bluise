@@ -15,9 +15,9 @@ SettingsWidget::SettingsWidget(QWidget* parent) : QTabWidget(parent) {
     QWidget* general = new QWidget(this);
     QWidget* appearance = new QWidget(this);
 
-    addTab(general, "General");
+    //addTab(general, "General");
     addTab(sync, "Sync");
-    addTab(appearance, "Appearance");
+    //addTab(appearance, "Appearance");
 
     auto* VBL = new QVBoxLayout();
     auto* HBL = new QHBoxLayout();
