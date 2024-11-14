@@ -23,9 +23,9 @@ public:
     inline QPixmap getHeader() const { return header; }
     inline QPixmap getCover() const { return cover; }
     inline int getRunner() const { return runner; }
-
+    inline bool isSynchronized() const { return synchronized; }
     inline int getReleaseYear() const { return releaseYear; }
-    bool isDisabled() const { return disabled; }
+    inline bool isDisabled() const { return disabled; }
 
     void setName(const QString& n) { name = n; };
     void setWorkingDirectory(const QString& wd);
@@ -34,6 +34,7 @@ public:
     void setReleaseYear(int year) { releaseYear = year; }
     void setCover(const QString& _coverName);
     void setRunner(const Runner& _runner) { runner = _runner; }
+    void setSynchornized(const bool synchronized) { this->synchronized = synchronized; }
 
     Game();
     Game(const QString& n, const QString& e, const QString& wd = "",
@@ -61,6 +62,7 @@ private:
     Runner runner;
     int releaseYear;
     bool disabled;
+    bool synchronized;
 
     bool isValidDirectory(const QString& path);
     bool isValidExecutable(const QString& path);
