@@ -62,7 +62,7 @@ private:
     Runner runner;
     int releaseYear;
     bool disabled;
-    bool synchronized;
+    bool synchronized = true;
 
     bool isValidDirectory(const QString& path);
     bool isValidExecutable(const QString& path);

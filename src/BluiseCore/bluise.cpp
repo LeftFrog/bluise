@@ -58,6 +58,7 @@ void GameManager::loadGames(const QString& filename) {
         }
         g.setRunner(static_cast<Game::Runner>(obj["runner"].toInt()));
         g.setReleaseYear(obj["releaseYear"].toInt());
+        g.setSynchornized(obj["synchronized"].toBool());
         games.push_back(g);
     }
     addGames(games);
@@ -74,6 +75,7 @@ void GameManager::saveGames(const QString& filename) {
         obj["coverName"] = game.getCoverName();
         obj["releaseYear"] = game.getReleaseYear();
         obj["runner"] = game.getRunner();
+        obj["synchronized"] = game.isSynchronized();
         arr.append(obj);
     }
     saveGamesJSON(filename, arr);
