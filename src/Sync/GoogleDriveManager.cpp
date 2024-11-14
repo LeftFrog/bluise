@@ -178,6 +178,38 @@ void GoogleDriveManager::initializeBluiseFolderId() {
     }
 }
 
+QString GoogleDriveManager::findFolder(const QString& folderName) {
+    QString folderId;
+
+    QNetworkRequest request(QUrl("https://www.googleapis.com/drive/v3/files?q=name='" + folderName + "' and mimeType='application/vnd.google-apps.folder'"));
+    request.setRawHeader("Authorization", "Bearer " + oauth.token().toUtf8());
+
+    QNetworkReply* reply = networkManager.get(request);
+    QEventLoop eventLoop;
+
+    connect(reply, &QNetworkReply::finished, &eventLoop, &QEventLoop::quit);
+    eventLoop.exec();
+
+    if (reply->error() == QNetworkReply::NoError) {
+        QByteArray response = reply->readAll();
+        QJsonDocument jsonResponse = QJsonDocument::fromJson(response);
+        QJsonObject jsonObject = jsonResponse.object();
+        QJsonArray filesArray = jsonObject["files"].toArray();
+
+        if(!filesArray.isEmpty()) {
+            folderId = filesArray[0].toObject()["id"].toString();
+            qDebug() << "Folder ID " << folderId;
+        } else {
+            qDebug() << "Folder not found.";
+        }
+    } else {
+        qDebug() << "Error finding error: " << reply->errorString();
+    }
+    reply->deleteLater();
+
+    return folderId;
+}
+
 void GoogleDriveManager::loadBluiseFolderId() {
     bluiseFolderId = Settings::getInstance()->bluiseFolderId();
 }

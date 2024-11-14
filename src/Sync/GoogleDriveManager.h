@@ -29,6 +29,7 @@ public slots:
     void downloadFile(const QString& fileId);
     void listFiles();
     void singOut();
+    QString findFolder(const QString& folderName);
 
 signals:
     void uploadFinished();
