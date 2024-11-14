@@ -22,24 +22,24 @@ SettingsWidget::SettingsWidget(QWidget* parent) : QTabWidget(parent) {
     auto* VBL = new QVBoxLayout();
     auto* HBL = new QHBoxLayout();
     QLabel* googledriveAccount = new QLabel("Google Drive account: ");
-    QPushButton* signin = new QPushButton();
-    if (GoogleDriveManager::getInstance()->isReady()) {
-        signin->setText("Sign out");
-        connect(signin, &QPushButton::clicked, GoogleDriveManager::getInstance(), &GoogleDriveManager::singOut);
-        connect(GoogleDriveManager::getInstance(), &GoogleDriveManager::singedOut, this, [signin] {
-            signin->setText("Sign in");
-            connect(signin, &QPushButton::clicked, GoogleDriveManager::getInstance(), &GoogleDriveManager::authenticate);
-        });
-    } else {
-        signin->setText("Sign in");
-        connect(signin, &QPushButton::clicked, GoogleDriveManager::getInstance(), &GoogleDriveManager::authenticate);
-        connect(GoogleDriveManager::getInstance(), &GoogleDriveManager::authorized, this, [signin] {
-            signin->setText("Sign out");
-            connect(signin, &QPushButton::clicked, GoogleDriveManager::getInstance(), &GoogleDriveManager::singedOut);
-        });
-    }
+    signin = new QPushButton();
+    connect(GoogleDriveManager::getInstance(), &GoogleDriveManager::authorized, this, &SettingsWidget::updateGoogleDriveAccount);
+    connect(GoogleDriveManager::getInstance(), &GoogleDriveManager::singedOut, this, &SettingsWidget::updateGoogleDriveAccount);
+    updateGoogleDriveAccount();
+
     HBL->addWidget(googledriveAccount);
     HBL->addWidget(signin);
     VBL->addLayout(HBL);
     sync->setLayout(VBL);
+}
+
+void SettingsWidget::updateGoogleDriveAccount() {
+    if (!GoogleDriveManager::getInstance()->isReady()) {
+        signin->setText("Sing in");
+        connect(signin, &QPushButton::clicked, GoogleDriveManager::getInstance(), &GoogleDriveManager::authenticate);
+    }
+    else {
+        signin->setText("Sign out");
+        connect(signin, &QPushButton::clicked, GoogleDriveManager::getInstance(), &GoogleDriveManager::singOut);
+    }
 }

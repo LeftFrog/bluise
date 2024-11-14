@@ -4,7 +4,7 @@
 
 #pragma once
 #include <QTabWidget>
-
+#include <QPushButton>
 #include "../Sync/GoogleDriveManager.h"
 
 class SettingsWidget : public QTabWidget {
@@ -13,7 +13,11 @@ class SettingsWidget : public QTabWidget {
 public:
     explicit SettingsWidget(QWidget* parent = nullptr);
 
+private slots:
+    void updateGoogleDriveAccount();
+
 private:
+    QPushButton* signin = new QPushButton();
     void saveSettings();
     void loadSettings();
 };
