@@ -172,14 +172,18 @@ QString GoogleDriveManager::createFolder(const QString& folderName, const QStrin
 void GoogleDriveManager::initializeBluiseFolderId() {
     loadBluiseFolderId();
     if(bluiseFolderId.isEmpty()) {
-        qDebug() << "Bluise folder ID is empty. Creating a new folder.";
-        bluiseFolderId = createFolder("Bluise");
+        qDebug() << "Bluise folder ID is empty. Trying to find it.";
+        bluiseFolderId = findFolder("Bluise");
+        if(bluiseFolderId.isEmpty()) {
+            qDebug() << "Bluise folder not found. Creating it.";
+            bluiseFolderId = createFolder("Bluise");
+        }
         saveBluiseFolderId(bluiseFolderId);
     }
 }
 
 QString GoogleDriveManager::findFolder(const QString& folderName) {
-    QString folderId;
+    QString folderId= "";
 
     QNetworkRequest request(QUrl("https://www.googleapis.com/drive/v3/files?q=name='" + folderName + "' and mimeType='application/vnd.google-apps.folder'"));
     request.setRawHeader("Authorization", "Bearer " + oauth.token().toUtf8());
