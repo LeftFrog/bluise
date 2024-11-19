@@ -223,7 +223,7 @@ void GoogleDriveManager::saveBluiseFolderId(const QString& folderId) {
 }
 
 /* File Management */
-void GoogleDriveManager::uploadFile(const QString& localFilePath) {
+void GoogleDriveManager::uploadFile(const QString& localFilePath, const QString& folderId) {
     QFile* file = new QFile(localFilePath);
     if(!file->open(QIODevice::ReadOnly)) {
         qDebug() << "Failed to open file";
@@ -249,7 +249,8 @@ void GoogleDriveManager::uploadFile(const QString& localFilePath) {
 
     QByteArray metaData = R"({
         "name": ")" + QFileInfo(*file).fileName().toUtf8() + R"(",
-        "mimeType": ")" + mimeType.name().toUtf8() + R"("
+        "mimeType": ")" + mimeType.name().toUtf8() + R"(",
+        "parents": [")" + folderId.toUtf8() + R"("]
     })";
 
     QNetworkReply* reply = networkManager.post(request, metaData);
@@ -266,15 +267,15 @@ void GoogleDriveManager::uploadFile(const QString& localFilePath) {
 });
 }
 
-void GoogleDriveManager::startUpload(const QString& localFilePath) {
+void GoogleDriveManager::startUpload(const QString& localFilePath, const QString& folderId) {
     QThread* thread = new QThread;
 
     // Move the GoogleDriveManager to the new thread
     this->moveToThread(thread);
 
     // Start the thread and initiate the upload in that thread
-    connect(thread, &QThread::started, this, [this, localFilePath]() {
-        uploadFile(localFilePath);
+    connect(thread, &QThread::started, this, [this, localFilePath, folderId]() {
+        uploadFile(localFilePath, folderId);
     });
 
     // When the upload is finished, clean up the thread

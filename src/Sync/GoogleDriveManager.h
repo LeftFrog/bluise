@@ -22,8 +22,8 @@ public:
 public slots:
     void authenticate();
     void refreshAccessToken();
-    void startUpload(const QString& localFilePath);
-    void uploadFile(const QString& localFilePath);
+    void startUpload(const QString& localFilePat, const QString& folderId = "");
+    void uploadFile(const QString& localFilePath, const QString& folderId);
     QNetworkRequest prepareChunkRequest(const QUrl& sessionUrl, qint64 fileSize, qint64 bytesSent, qint64 currentChunkSize) const;
     void uploadFileInChunks(QFile* file, const QUrl& sessionUrl);
     void downloadFile(const QString& fileId);
