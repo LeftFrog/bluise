@@ -2,8 +2,9 @@
 #include "../BeautifulUI/BeautifulButton.h"
 #include "../BeautifulUI/BeautifulButtonGroup.h"
 #include "SearchBar.h"
+#include <QToolBar>
 
-class ToolBar : public QWidget {
+class ToolBar : public QToolBar {
     Q_OBJECT
 
 public:

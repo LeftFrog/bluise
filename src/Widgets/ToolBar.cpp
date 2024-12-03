@@ -1,16 +1,18 @@
 #include "ToolBar.h"
-#include <QPushButton>
 #include <QMenu>
 #include "../QtAwesome/QtAwesome/QtAwesome.h"
 #include <QActionGroup>
 #include "SettingsWidget.h"
 #include "../BluiseCore/bluise.h"
 
-ToolBar::ToolBar(QWidget* parent) : QWidget(parent) {
+ToolBar::ToolBar(QWidget* parent) : QToolBar(parent) {
     setFixedHeight(36);
 
     auto* awesome = new fa::QtAwesome;
     awesome->initFontAwesome();
+
+    QWidget* container = new QWidget(this);
+    QHBoxLayout* layout = new QHBoxLayout(container);
 
     QWidget* spacer = new QWidget;
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -20,7 +22,6 @@ ToolBar::ToolBar(QWidget* parent) : QWidget(parent) {
     setupButtons();
     setupSearchBar();
 
-    QHBoxLayout* layout = new QHBoxLayout(this);
     layout->addWidget(addButton);
     layout->addWidget(spacer);
     layout->addWidget(search);
@@ -30,9 +31,11 @@ ToolBar::ToolBar(QWidget* parent) : QWidget(parent) {
     layout->setContentsMargins(0, 0, 0, 0);
     //layout->setSizeConstraint(QLayout::SetMaximumSize);
 
-    setContentsMargins(10, 6, 6, 10);
+    container->setContentsMargins(10, 6, 6, 10);
+    setContentsMargins(0, 0, 0, 0);
 
-    setLayout(layout);
+    container->setLayout(layout);
+    addWidget(container);
 }
 
 QMenu* ToolBar::createSortMenu() {
