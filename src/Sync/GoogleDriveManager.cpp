@@ -3,11 +3,13 @@
 //
 
 #include "GoogleDriveManager.h"
+#include <QApplication>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <qcoreapplication.h>
 #include <QDesktopServices>
+#include <QDir>
 #include <QFileInfo>
 #include <QHttpMultiPart>
 #include <QMimeDatabase>
@@ -15,14 +17,12 @@
 #include <QOAuthHttpServerReplyHandler>
 #include <QThread>
 #include "../BluiseCore/Settings.h"
+#include <QtConcurrent>
+#include <QEventLoop>
 
-/* Singleton */
-GoogleDriveManager* GoogleDriveManager::instance = nullptr;
 
-GoogleDriveManager* GoogleDriveManager::getInstance(QObject* parent) {
-    if (!instance) {
-        instance = new GoogleDriveManager(parent);
-    }
+GoogleDriveManager& GoogleDriveManager::instance(QObject* parent) {
+    static GoogleDriveManager instance(parent);
     return instance;
 }
 
@@ -41,6 +41,7 @@ GoogleDriveManager::GoogleDriveManager(QObject* parent) : QObject(parent), oauth
     loadToken();
 
     connect(this, &GoogleDriveManager::authorized, &GoogleDriveManager::initializeBluiseFolderId);
+    connect(QApplication::instance(), &QApplication::aboutToQuit, this, &GoogleDriveManager::cleanup);
 }
 
 GoogleDriveManager::~GoogleDriveManager() {
@@ -182,6 +183,11 @@ void GoogleDriveManager::initializeBluiseFolderId() {
     }
 }
 
+void GoogleDriveManager::cleanup() {
+    qDebug() << "Cleaning up...";
+    delete this;
+}
+
 QString GoogleDriveManager::findFolder(const QString& folderName) {
     QString folderId= "";
 
@@ -282,7 +288,6 @@ void GoogleDriveManager::startUpload(const QString& localFilePath, const QString
     connect(this, &GoogleDriveManager::uploadFinished, thread, &QThread::quit);
     connect(thread, &QThread::finished, thread, &QThread::deleteLater);
 
-    // Start the thread
     thread->start();
 }
 
@@ -363,6 +368,44 @@ void GoogleDriveManager::uploadFileInChunks(QFile* file, const QUrl& sessionUrl)
     qDebug() << "File uploaded successfully!";
 
     emit uploadFinished();
+}
+
+void GoogleDriveManager::uploadFolder(const QString& folderPath, const QString& parentId) {
+    // Ensure folderPath is valid
+    QDir folderDir(folderPath);
+    if (!folderDir.exists()) {
+        qWarning() << "Folder path does not exist:" << folderPath;
+        return;
+    }
+
+    // Start uploading in a worker thread
+    QThread* thread = new QThread;
+    QObject* worker = new QObject; // Worker context
+    worker->moveToThread(thread);
+
+    connect(thread, &QThread::started, this, [this, folderDir, parentId, worker]() {
+        try {
+            // Iterate through files in the folder
+            foreach (QString fileName, folderDir.entryList(QDir::Files)) {
+                QString filePath = folderDir.absoluteFilePath(fileName);
+                uploadFile(filePath, parentId); // Signal to upload file
+            }
+            foreach (QString subFolderName, folderDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+                QString subFolderPath = folderDir.absoluteFilePath(subFolderName);
+                uploadFolder(subFolderPath, parentId); // Recursive call
+            }
+
+            // Clean up
+            emit uploadFinished(); // Signal upload completion
+        } catch (const std::exception& e) {
+        }
+    });
+
+    connect(this, &GoogleDriveManager::uploadFinished, thread, &QThread::quit);
+    connect(thread, &QThread::finished, thread, &QThread::deleteLater);
+    connect(thread, &QThread::finished, worker, &QObject::deleteLater);
+
+    thread->start();
 }
 
 QString GoogleDriveManager::getFileName(const QString& fileId) {

@@ -23,8 +23,8 @@ SettingsWidget::SettingsWidget(QWidget* parent) : QTabWidget(parent) {
     auto* HBL = new QHBoxLayout();
     QLabel* googledriveAccount = new QLabel("Google Drive account: ");
     signin = new QPushButton();
-    connect(GoogleDriveManager::getInstance(), &GoogleDriveManager::authorized, this, &SettingsWidget::updateGoogleDriveAccount);
-    connect(GoogleDriveManager::getInstance(), &GoogleDriveManager::singedOut, this, &SettingsWidget::updateGoogleDriveAccount);
+    connect(&GoogleDriveManager::instance(), &GoogleDriveManager::authorized, this, &SettingsWidget::updateGoogleDriveAccount);
+    connect(&GoogleDriveManager::instance(), &GoogleDriveManager::singedOut, this, &SettingsWidget::updateGoogleDriveAccount);
     updateGoogleDriveAccount();
 
     HBL->addWidget(googledriveAccount);
@@ -34,12 +34,12 @@ SettingsWidget::SettingsWidget(QWidget* parent) : QTabWidget(parent) {
 }
 
 void SettingsWidget::updateGoogleDriveAccount() {
-    if (!GoogleDriveManager::getInstance()->isReady()) {
+    if (!GoogleDriveManager::instance().isReady()) {
         signin->setText("Sing in");
-        connect(signin, &QPushButton::clicked, GoogleDriveManager::getInstance(), &GoogleDriveManager::authenticate);
+        connect(signin, &QPushButton::clicked, &GoogleDriveManager::instance(), &GoogleDriveManager::authenticate);
     }
     else {
         signin->setText("Sign out");
-        connect(signin, &QPushButton::clicked, GoogleDriveManager::getInstance(), &GoogleDriveManager::singOut);
+        connect(signin, &QPushButton::clicked, &GoogleDriveManager::instance(), &GoogleDriveManager::singOut);
     }
 }

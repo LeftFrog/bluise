@@ -9,7 +9,7 @@ class UploadWorker : public QObject {
     Q_OBJECT
 
 public:
-    explicit UploadWorker(QObject* parent = nullptr);
+    explicit UploadWorker(const QString localFilePath, const QString folderId, QObject* parent = nullptr);
     ~UploadWorker() override = default;
 
 public slots:
