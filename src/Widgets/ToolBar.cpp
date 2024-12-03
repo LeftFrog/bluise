@@ -14,21 +14,25 @@ ToolBar::ToolBar(QWidget* parent) : QWidget(parent) {
 
     QWidget* spacer = new QWidget;
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    QWidget* spacer2 = new QWidget;
+    spacer2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
     setupButtons();
     setupSearchBar();
 
-    setContentsMargins(10, 6, 6, 10);
-}
+    QHBoxLayout* layout = new QHBoxLayout(this);
+    layout->addWidget(addButton);
+    layout->addWidget(spacer);
+    layout->addWidget(search);
+    layout->addWidget(spacer2);
+    layout->addWidget(sortButton);
+    layout->addWidget(optionsButton);
+    layout->setContentsMargins(0, 0, 0, 0);
+    //layout->setSizeConstraint(QLayout::SetMaximumSize);
 
-void ToolBar::resizeEvent(QResizeEvent* event) {
-    optionsButton->setGeometry(width() - optionsButton->width() - contentsMargins().right(),
-                               (height() - optionsButton->height()) / 2 + 1, optionsButton->width(),
-                               optionsButton->height());
-    sortButton->setGeometry(width() - sortButton->width() - contentsMargins().right() * 2 - optionsButton->width(),
-                            (height() - sortButton->height()) / 2 + 1, sortButton->width(), sortButton->height());
-    addButton->setGeometry(contentsMargins().left(), (height() - addButton->height()) / 2 + 1, 30, addButton->height());
-    search->setGeometry(width() / 12 * 3, contentsMargins().top(), width() / 12 * 6, height() - 9);
+    setContentsMargins(10, 6, 6, 10);
+
+    setLayout(layout);
 }
 
 QMenu* ToolBar::createSortMenu() {
@@ -75,22 +79,27 @@ void ToolBar::setupButtons() {
     optionsButton->setIcon(iconHandler.getIcon(fa::fa_solid, fa::fa_ellipsis));
     iconHandler.registerButton(optionsButton, fa::fa_ellipsis);
     optionsButton->setMenu(createOptionsMenu());
+    optionsButton->setFixedSize(50, 30);
 
     sortButton = new BeautifulUi::BeautifulButton(this);
     sortButton->setIcon(iconHandler.getIcon(fa::fa_solid, fa::fa_sort));
     iconHandler.registerButton(sortButton, fa::fa_sort);
     sortButton->setMenu(createSortMenu());
+    sortButton->setFixedSize(50, 30);
 
     addButton = new BeautifulUi::BeautifulButton(this);
     addButton->setIcon(iconHandler.getIcon(fa::fa_solid, fa::fa_plus));
     iconHandler.registerButton(addButton, fa::fa_plus);
     addButton->setCheckable(false);
     connect(addButton, &BeautifulUi::BeautifulButton::clicked, this, &ToolBar::addGame);
+    addButton->setFixedSize(30, 30);
+    addButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 }
 
 void ToolBar::setupSearchBar() {
     search = new SearchBar(this);
-    search->setGeometry(width() / 5, 4, width() / 5 * 3, height() - 4);
+    search->setFixedHeight(25);
+    search->setAlignment(Qt::AlignCenter);
     connect(search, &QLineEdit::textChanged, this, &ToolBar::setName);
 }
 

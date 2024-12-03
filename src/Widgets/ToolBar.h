@@ -15,9 +15,6 @@ signals:
     void setFilter(const QString& filer);
     void setName(const QString& name);
 
-protected:
-    void resizeEvent(QResizeEvent* event) override;
-
 private:
     QMenu* createSortMenu();
     QMenu* createOptionsMenu();
