@@ -35,6 +35,7 @@ void MainWindow::handleMenus(QAction* action) {
 void MainWindow::addGame() {
     AddGameWidget* addWidget = new AddGameWidget();
     addWidget->show();
+    connect(addWidget, &AddGameWidget::closed, addWidget, &AddGameWidget::deleteLater);
 }
 
 void MainWindow::initMenuBar() {
@@ -78,6 +79,6 @@ QSplitter* MainWindow::createSplitter() {
     splitter->addWidget(list);
     splitter->addWidget(createGameInfoWidget());
     splitter->setHandleWidth(2);
-    splitter->setCollapsible(2, false);
+    splitter->setCollapsible(1, false);
     return  splitter;
 }
