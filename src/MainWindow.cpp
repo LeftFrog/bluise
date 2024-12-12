@@ -75,8 +75,6 @@ GameInfoWidget* MainWindow::createGameInfoWidget() {
 
 QSplitter* MainWindow::createSplitter() {
     QSplitter* splitter = new QSplitter(Qt::Vertical, this);
-    splitter->addWidget(toolbar);
-    splitter->setCollapsible(0, false);
     splitter->addWidget(list);
     splitter->addWidget(createGameInfoWidget());
     splitter->setHandleWidth(2);
