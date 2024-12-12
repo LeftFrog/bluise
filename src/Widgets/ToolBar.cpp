@@ -8,9 +8,6 @@
 ToolBar::ToolBar(QWidget* parent) : QToolBar(parent) {
     setFixedHeight(43);
 
-    auto* awesome = new fa::QtAwesome;
-    awesome->initFontAwesome();
-
     QWidget* container = new QWidget(this);
     QHBoxLayout* layout = new QHBoxLayout(container);
 
