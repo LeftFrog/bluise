@@ -13,6 +13,7 @@ public slots:
 
 signals:
     void gameAdded();
+    void closed();
 
 protected:
     void closeEvent(QCloseEvent* event) override;

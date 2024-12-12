@@ -57,5 +57,6 @@ void AddGameWidget::scanForGames() {
 }
 
 void AddGameWidget::closeEvent(QCloseEvent* event) {
+    emit closed();
     QWidget::closeEvent(event);
 }
