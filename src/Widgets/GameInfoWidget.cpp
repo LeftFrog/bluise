@@ -15,11 +15,11 @@ QMenu* GameInfoWidget::createMenu() {
     QAction* openWD = new QAction("Open game folder", m);
     connect(openWD, &QAction::triggered, this, &GameInfoWidget::openWorkingDirectory);
 
-    m->QWidget::addAction(play);
+    m->addAction(play);
     m->addSeparator();
-    m->QWidget::addAction(settings);
-    m->QWidget::addAction(openWD);
-    m->QWidget::addAction(remove);
+    m->addAction(settings);
+    m->addAction(openWD);
+    m->addAction(remove);
     return m;
 }
 
