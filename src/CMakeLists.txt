@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Bluise VERSION 0.7.2 LANGUAGES CXX C)
+project(Bluise VERSION 0.7.3 LANGUAGES CXX C)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)

@@ -64,7 +64,7 @@ QMenu* ToolBar::createOptionsMenu() {
     optionsMenu->addAction(settings);
     connect(settings, &QAction::triggered, this, &ToolBar::openSettings);
 
-    QAction* installed = new QAction("Show unistalled");
+    QAction* installed = new QAction("Show uninstalled");
     installed->setCheckable(true);
     installed->setChecked(true);
 
