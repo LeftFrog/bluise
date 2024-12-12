@@ -6,7 +6,7 @@
 #include "../BluiseCore/bluise.h"
 
 ToolBar::ToolBar(QWidget* parent) : QToolBar(parent) {
-    setFixedHeight(36);
+    setFixedHeight(43);
 
     auto* awesome = new fa::QtAwesome;
     awesome->initFontAwesome();
