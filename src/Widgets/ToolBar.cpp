@@ -117,7 +117,7 @@ void ToolBar::openSettings() {
 }
 
 void ToolBar::filter(QAction* action) {
-    if (action->text() == "Show unistalled") {
+    if (action->text() == "Show uninstalled") {
         emit setFilter(action->isChecked() ? "" : "f");
     }
 }
