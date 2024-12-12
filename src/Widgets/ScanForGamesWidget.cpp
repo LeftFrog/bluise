@@ -33,7 +33,7 @@ void ScanForGamesWidget::closeEvent(QCloseEvent* event) {
 
 void ScanForGamesWidget::gamesFound(const QList<Game>& games) {
     layout()->removeWidget(progress);
-    delete progress;
+    progress->deleteLater();
     label->setText("Found games: ");
 
     text->setReadOnly(true);
