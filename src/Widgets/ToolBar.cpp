@@ -19,12 +19,20 @@ ToolBar::ToolBar(QWidget* parent) : QToolBar(parent) {
     setupButtons();
     setupSearchBar();
 
+#ifdef Q_OS_MACOS
+    QWidget* rightSpacer = new QWidget;
+    rightSpacer->setFixedWidth(70);  // Space for window controls
+    layout->addWidget(rightSpacer);
+#endif
+
     layout->addWidget(addButton);
     layout->addWidget(spacer);
     layout->addWidget(search);
     layout->addWidget(spacer2);
     layout->addWidget(sortButton);
     layout->addWidget(optionsButton);
+
+
     layout->setContentsMargins(0, 0, 0, 0);
     //layout->setSizeConstraint(QLayout::SetMaximumSize);
 
