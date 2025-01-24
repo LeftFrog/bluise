@@ -4,10 +4,21 @@
 #include "./ModelView/GameProxyModel.h"
 #include "Widgets/AddGameWidget.h"
 
+#ifdef Q_OS_MAC
+extern void configureMacWindow(QWidget* qtWindow);
+#endif
+
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     gameManager.loadGames(DOCS + "games.json");
     iconHandler.initFontAwesome();
-    setUnifiedTitleAndToolBarOnMac(true);
+
+#ifdef Q_OS_MACOS
+    QTimer::singleShot(500, [this]() {
+        configureMacWindow(this);
+        setUnifiedTitleAndToolBarOnMac(true);
+    });
+#endif
+
     // setWindowTitle("Bluise");
     resize(1900, 800);
 
