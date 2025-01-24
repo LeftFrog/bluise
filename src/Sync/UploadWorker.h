@@ -28,7 +28,7 @@ private:
     QString accessToken;
     QFile* file;
     QUrl sessionUrl;
-    QNetworkAccessManager networkManager;
+    QNetworkAccessManager* networkManager;
     qint64 bytesSent = 0;
     const qint64 chunkSize = 256 * 1024;  // 256 KB
 

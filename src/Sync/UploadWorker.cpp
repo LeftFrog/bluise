@@ -12,9 +12,11 @@
 #include <QJsonObject>
 
 UploadWorker::UploadWorker(const QString localFilePath, const QString folderId, const QString& accessToken)
-    : localFilePath(localFilePath), folderId(folderId), accessToken(accessToken), file(localFilePath) { }
+    : localFilePath(localFilePath), folderId(folderId), accessToken(accessToken) { }
 
 void UploadWorker::startUpload() {
+    networkManager = new QNetworkAccessManager(this);
+
     file = new QFile(localFilePath);
     if (!file->open(QIODevice::ReadOnly)) {
         emit error("Failed to open file");
@@ -36,7 +38,7 @@ void UploadWorker::initiateResumableSession() {
     QByteArray metaData = QJsonDocument(metaJson).toJson();
 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json; charset=UTF-8");
-    QNetworkReply* reply = networkManager.post(request, metaData);
+    QNetworkReply* reply = networkManager->post(request, metaData);
     connect(reply, &QNetworkReply::finished, [this, reply]() {
         handleSessionReply(reply);
     });
@@ -71,7 +73,7 @@ void UploadWorker::uploadNextChunk() {
         .arg(bytesSent + chunkSize - 1)
         .arg(file->size()).toUtf8());
 
-    QNetworkReply* reply = networkManager.put(request, chunkData);
+    QNetworkReply* reply = networkManager->put(request, chunkData);
     connect(reply, &QNetworkReply::finished, this, [this, reply]() { handleChunkReply(reply); });
 }
 
