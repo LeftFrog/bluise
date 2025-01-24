@@ -14,6 +14,7 @@ class GoogleDriveManager : public QObject {
 
 public:
     static GoogleDriveManager* getInstance(QObject* parent = nullptr);
+    static void deleteInstance();
     ~GoogleDriveManager() override;
 
     QString getFileName(const QString& fileId);

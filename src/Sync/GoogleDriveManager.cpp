@@ -30,6 +30,13 @@ GoogleDriveManager* GoogleDriveManager::getInstance(QObject* parent) {
     return instance;
 }
 
+void GoogleDriveManager::deleteInstance() {
+    if (instance) {
+        delete instance;
+        instance = nullptr;
+    }
+}
+
 /* Constructor & destructor */
 GoogleDriveManager::GoogleDriveManager(QObject* parent) : QObject(parent), oauth(), networkManager() {
     clientId = getenv("GOOGLE_CLIENT_ID");
