@@ -75,6 +75,7 @@ qt_add_executable(Bluise main.cpp
     BluiseCore/Settings.h
     Sync/UploadWorker.h
     Sync/UploadWorker.cpp
+    MacWindowHandler.mm
 )
 
 
@@ -84,3 +85,4 @@ target_link_libraries(Bluise PRIVATE Qt6::Sql)
 target_link_libraries(Bluise PUBLIC QtAwesome)
 target_link_libraries(Bluise PRIVATE Qt6::Network)
 target_link_libraries(Bluise PRIVATE Qt6::NetworkAuth)
+target_link_libraries(Bluise PRIVATE "-framework Cocoa")
