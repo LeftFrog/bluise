@@ -27,6 +27,7 @@ public slots:
     void downloadFile(const QString& fileId);
     void listFiles();
     void singOut();
+    QString findFolder(const QString& folderName);
 
 signals:
     void uploadFinished();
@@ -46,7 +47,6 @@ private:
     void loadBluiseFolderId();
     void saveBluiseFolderId(const QString& folderId);
     QString createFolder(const QString& folderName, const QString& parentId = "");
-    QString findFolder(const QString& folderName);
 
     static GoogleDriveManager* instance;
     QString bluiseFolderId;
