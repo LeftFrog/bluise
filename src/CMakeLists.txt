@@ -8,6 +8,9 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
+
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets Concurrent Sql Network NetworkAuth)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Concurrent Sql Network NetworkAuth)
 
@@ -51,25 +54,27 @@ qt_add_executable(Bluise main.cpp
     ./Widgets/BoxOptionWidget.cpp
     ./Widgets/AddGameWidget.cpp
     ./Widgets/ScanForGamesWidget.cpp
-        BluiseCore/GameScanner.h
-        BluiseCore/GameScanner.cpp
-        Widgets/ScanForGamesWidget.cpp
-        BeautifulUI/OptionButton.cpp
-        BeautifulUI/OptionButton.h
-        BeautifulUI/AbstractBeautifulButton.cpp
-        BeautifulUI/AbstractBeautifulButton.h
-        BluiseCore/IconHandler.cpp
-        BluiseCore/IconHandler.h
-        Widgets/AddGameOptionsWidget.cpp
-        Widgets/AddGameOptionsWidget.h
-        BeautifulUI/MenuButton.cpp
-        BeautifulUI/MenuButton.h
-        Sync/GoogleDriveManager.cpp
-        Sync/GoogleDriveManager.h
-        Widgets/SettingsWidget.cpp
-        Widgets/SettingsWidget.h
-        BluiseCore/Settings.cpp
-        BluiseCore/Settings.h
+    BluiseCore/GameScanner.h
+    BluiseCore/GameScanner.cpp
+    Widgets/ScanForGamesWidget.cpp
+    BeautifulUI/OptionButton.cpp
+    BeautifulUI/OptionButton.h
+    BeautifulUI/AbstractBeautifulButton.cpp
+    BeautifulUI/AbstractBeautifulButton.h
+    BluiseCore/IconHandler.cpp
+    BluiseCore/IconHandler.h
+    Widgets/AddGameOptionsWidget.cpp
+    Widgets/AddGameOptionsWidget.h
+    BeautifulUI/MenuButton.cpp
+    BeautifulUI/MenuButton.h
+    Sync/GoogleDriveManager.cpp
+    Sync/GoogleDriveManager.h
+    Widgets/SettingsWidget.cpp
+    Widgets/SettingsWidget.h
+    BluiseCore/Settings.cpp
+    BluiseCore/Settings.h
+    Sync/UploadWorker.h
+    Sync/UploadWorker.cpp
 )
 
 
